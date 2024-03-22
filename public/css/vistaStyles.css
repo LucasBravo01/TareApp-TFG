@@ -1,0 +1,34 @@
+body {
+  background-color: #ffff;
+  font-family: NeutraText, Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.cba-header {
+  display: flex;
+  margin: 0 auto;
+}
+
+.cba-header__title {
+  font-weight: 400;
+  font-size: 46px;
+  padding: 38px 0 0 10px;
+  margin: 0;
+}
+
+.cba-header__logo {
+  height: 106px;
+}
+
+#contenedorLogin{
+  border: 4px solid #000000;
+  border-radius: 10px;
+  background-color: #758BFD ;
+}
+
+#contenedorLogin h1{
+  text-align: center;
+  margin-top: 20px;
+}
+
