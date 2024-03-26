@@ -8,13 +8,11 @@ const express = require("express");
 const RouterPrototipo = express.Router();
 
 // Obtener pool
-function routerConfig(conPro) {
+function routerConfig(conCat) {
 
     // --- Peticiones GET ---
-    RouterPrototipo.get('/obtener-tareas', conPro.getAllTareas);
     
     // --- Peticiones POST ---
-    RouterPrototipo.post('/guardar-tarea', conPro.createTarea);
 }
 
 module.exports = {

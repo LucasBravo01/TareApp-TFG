@@ -14,9 +14,8 @@ const cron = require('node-cron');
 
 // Fichero
 const connection = require("./daos/connection");
-const DAOTareas = require("./daos/DAOTareas");
-const DAOSuscripción = require("./daos/DAOSuscripción");
-const ControllerPrototipo = require("./controllers/controllerPrototipo");
+const DAOCategoria = require("./daos/DAOCategoria");
+const ControllerCategoria = require("./controllers/controllerCategoria");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -74,107 +73,87 @@ const pool = mysql.createPool(connection.mysqlConfig);
 
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
-const daoTar = new DAOTareas(pool);
-const daoSus = new DAOSuscripción(pool);
+const daoCat = new DAOCategoria(pool);
 // Crear instancias de los Controllers
-const conPro = new ControllerPrototipo(daoTar, daoSus);
+const conCat = new ControllerCategoria(daoCat);
 
 // --- Routers ---
-routerPrototipo.routerConfig(conPro);
+routerPrototipo.routerConfig(conCat);
 
 app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
+// --- Middlewares ---
+// Comprobar que el usuario ha iniciado sesión
+function userLogged(request, response, next) {
+  if (request.session.currentUser) {
+      next();
+  }
+  else {
+      response.redirect("/login");
+  }
+};
+
+// Comprobar que el usuario no había iniciado sesión
+function userAlreadyLogged(request, response, next) {
+  if (request.session.currentUser) {
+      response.redirect("/inicio");
+  }
+  else {
+      next();
+  }
+};
+
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get(['/', '/vistaView'], (req, res) => {
-  res.render('vistaView');
-});
+app.get(['/', '/categorias'], conCat.getCategorias);
 
-app.get('/listarTareasView', (req, res) => {
-  res.render('listarTareasView');
-});
-
-// --- POSTS ---
-
-// Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/guardar-suscripcion', (req, res) => {
-  const subscription = req.body.subscription;
-  console.log('Ha peido enviar notificaciones')
-  daoSus.guardarSuscripcion(subscription, (err) => {
-    if (err) {
-      console.error('Error al guardar la suscripción:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-    res.status(200).json({ message: 'Suscripción guardada correctamente' });
-  });
-});
-
-// Ruta para enviar notificaciones push
-app.post('/enviar-notificacion', (req, res) => {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: 'path_to_icon.png' // Ruta al icono de la notificación
-    }
-  };
-
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-
-    Promise.all(subscriptions.map(sub => webpush.sendNotification(sub, JSON.stringify(notificationPayload))))
-      .then(() => {
-        console.log('Notificaciones enviadas con éxito');
-        res.status(200).json({ message: 'Notificaciones enviadas con éxito' });
-      })
-      .catch(err => {
-        console.error('Error al enviar notificaciones:', err);
-        res.status(500).json({ error: 'Error interno del servidor' });
-      });
-  });
-});
-
+// --- Peticiones POST ---
 
 // --- Otras funciones ---
 
-// Función para enviar notificaciones cada 5 segundos
-function enviarNotificacionAutomatica() {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: '/images/icon-192x192.png' // Ruta al icono de la notificación
-    }
-  };
-
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      return;
-    }
-
-    subscriptions.forEach(subscription => {
-      webpush.sendNotification(subscription, JSON.stringify(notificationPayload))
-        .then(() => console.log('Notificación enviada con éxito a', subscription.endpoint))
-        .catch(err => console.error('Error al enviar notificación a', subscription.endpoint, ':', err));
-    });
-  });
-}
-
-// Programar la tarea para enviar notificaciones cada 9 segundos
-cron.schedule('*/9 * * * * *', () => {
-  console.log('Enviando notificaciones...');
-  enviarNotificacionAutomatica();
+// --- Middlewares de respuestas y errores ---
+// Error 404
+app.use((request, response, next) => {
+  next({
+      ajax: false,
+      status: 404,
+      redirect: "error",
+      data: {
+          code: 404,
+          title: "Oops! Página no encontrada :(",
+          message: "La página a la que intentas acceder no existe."
+      }
+  }); 
 });
 
-// --- Arrancar el servidor ---
-app.listen(connection.port, function (err) {
-  if (err) {
-    console.log("ERROR al iniciar el servidor"); //Error al iniciar el servidor
-  } else { console.log(`Servidor arrancado en el puerto localhost:${connection.port}`); } //Exito al iniciar el servidor
+// Manejador de respuestas 
+app.use((responseData, request, response, next) => {
+  // Respuestas AJAX
+  if (responseData.ajax) {
+      if (responseData.error) {
+          response.status(responseData.status).send(responseData.error);
+          response.end();
+      }
+      else if (responseData.img) {
+          response.end(responseData.img);
+      }
+      else {
+          response.json(responseData.data);
+      }
+  }
+  // Respuestas no AJAX
+  else {
+    response.status(responseData.status);
+    response.render(responseData.redirect, responseData.data);
+  }
+});
+
+// --- Iniciar el servidor ---
+app.listen(connection.port, (error) => {
+  if (error) {
+      console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
+  }
+  else {
+      console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
+  }
 });
