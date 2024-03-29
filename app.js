@@ -77,6 +77,9 @@ const daoCat = new DAOCategoria(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 
+//ESTO NO SE COMO FUNCIONA
+//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
+
 // --- Routers ---
 routerPrototipo.routerConfig(conCat);
 
@@ -107,7 +110,31 @@ function userAlreadyLogged(request, response, next) {
 // - Enrutamientos -
 app.get(['/', '/categorias'], conCat.getCategorias);
 
+// Login
+app.get("/login", (request, response, next) => {
+  response.render("login", { mail:"", response: undefined });
+});
+
+/*//Inicio
+app.get(["/", "/inicio"], userLogged, useController.userBanned, (request, response, next) => {
+  if (request.session.currentUser.rol) { // Admin
+      response.redirect("/admin/inicio");
+  }
+  else { // User
+      response.redirect("/usuario/inicio");
+  }
+});*/
+
 // --- Peticiones POST ---
+// Login
+/*app.post(
+  "/login",
+  // Ninguno de los campos vacíos 
+  check("mail", "1").notEmpty(),
+  check("password", "1").notEmpty(),
+  // Correo es uno de los disponibles
+  check("mail", "2")
+);*/
 
 // --- Otras funciones ---
 
