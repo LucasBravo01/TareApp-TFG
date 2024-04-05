@@ -33,10 +33,10 @@ body {
   }
 
   .circle {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: url('ruta/a/imagen1.jpg') no-repeat center center;
+    background: url('/images/default/profile.png') no-repeat center center;
     background-size: cover;
     display: inline-block;
 }

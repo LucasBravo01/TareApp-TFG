@@ -16,6 +16,9 @@ const cron = require('node-cron');
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
 const ControllerCategoria = require("./controllers/controllerCategoria");
+const DAOTarea = require("./daos/DAOTarea");
+const ControllerTarea = require("./controllers/controllerTarea");
+const DAOActividad = require("./daos/DAOActividad");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -74,11 +77,15 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
+const daoTarea = new DAOTarea(pool);
+const daoActividad = new DAOActividad(pool);
+
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
+const conTarea = new ControllerTarea(daoTarea, daoActividad );
 
 // --- Routers ---
-routerPrototipo.routerConfig(conCat);
+routerPrototipo.routerConfig(conCat,conTarea);
 
 app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
@@ -107,9 +114,21 @@ function userAlreadyLogged(request, response, next) {
 // - Enrutamientos -
 app.get(['/', '/categorias'], conCat.getCategorias);
 
-// --- Peticiones POST ---
+app.get("/crearTarea", (request, response, next) => {
+  next({
+    ajax: false,
+    status: 200,
+    redirect: "crearTarea",
+    data: {
+        response: undefined,
+        generalInfo: {}
+    }
+  });
+});
 
-// --- Otras funciones ---
+// --- Peticiones POST ---
+app.post("/crearTareaForm", conTarea.crearTarea);
+// --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
