@@ -196,10 +196,10 @@ INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, 
 
 -- Categoría
 INSERT INTO categoria (nombre, icono) VALUES
-('Escolar', '/images/categories/escolar.png'),
-('Ocio', '/images/categories/ocio.png'),
-('Extraescolar', '/images/categories/extraEscolar.png'),
-('Casa', '/images/categories/casa.png');
+('Escolar', 'escolar.png'),
+('Ocio', 'ocio.png'),
+('Extraescolar', 'extraEscolar.png'),
+('Casa', 'casa.png');
 
 -- Actividad
 

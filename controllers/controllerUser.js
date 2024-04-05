@@ -23,43 +23,48 @@ class ControllerUser {
                     errorHandler.manageError(error, { user: req.body.user }, "login", next);
                 }
                 else {
-                    // Comprobar contraseña con bcrypt
-                    bcrypt.compare(req.body.password, user.password, (err, result) => {
-                        if (error) {
-                            errorHandler.manageError(error, { user: req.body.user }, "login", next);
-                        }
-                        else if (!result) {
-                            errorHandler.manageError(5, { user: req.body.user }, "login", next);
-                        }
-                        else {
-                            // Quitar contraseña, no se guarda en la sesión
-                            delete (user.password);
-                            // Iniciar sesión
-                            req.session.currentUser = user;
+                    if (!user) {
+                        errorHandler.manageError(3, { user: req.body.user }, "login", next);
+                    }
+                    else {
+                        // Comprobar contraseña con bcrypt
+                        bcrypt.compare(req.body.password, user.password, (err, result) => {
+                            if (error) {
+                                errorHandler.manageError(error, { user: req.body.user }, "login", next);
+                            }
+                            else if (!result) {
+                                errorHandler.manageError(5, { user: req.body.user }, "login", next);
+                            }
+                            else {
+                                // Quitar contraseña, no se guarda en la sesión
+                                delete (user.password);
+                                // Iniciar sesión
+                                req.session.currentUser = user;
 
-                            // Construir data
-                            let data = {
-                                response: undefined,
-                                generalInfo: {}
-                            };
-                            // TODO (Cambiar cuando sepamos que se necesita en inicio)
-                            // Obtener tipos de instalaciones de la universidad
-                            this.daoCat.readAll((error, categorias) => {
-                                if (error) {
-                                    errorHandler.manageError(error, { user: req.body.user }, "login", next);
-                                }
-                                else {
-                                    data.categorias = categorias;
-                                    next({
-                                        ajax: false,
-                                        status: 200,
-                                        redirect: "categorias",
-                                        data: data
-                                    });
-                                }
-                            });
-                        }
-                    });            
+                                // Construir data
+                                let data = {
+                                    response: undefined,
+                                    generalInfo: {}
+                                };
+                                // TODO (Cambiar cuando sepamos que se necesita en inicio)
+                                // Obtener tipos de instalaciones de la universidad
+                                this.daoCat.readAll((error, categorias) => {
+                                    if (error) {
+                                        errorHandler.manageError(error, { user: req.body.user }, "login", next);
+                                    }
+                                    else {
+                                        data.categorias = categorias;
+                                        next({
+                                            ajax: false,
+                                            status: 200,
+                                            redirect: "categorias",
+                                            data: data
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }            
                 }
             });
         }

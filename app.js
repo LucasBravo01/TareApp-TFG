@@ -155,8 +155,6 @@ app.use((request, response, next) => {
 
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
-  console.log("Ajax", responseData.ajax);
-  console.log("Data", responseData.data);
   // Respuestas AJAX
   if (responseData.ajax) {
       if (responseData.error) {
