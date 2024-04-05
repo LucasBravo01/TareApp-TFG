@@ -1,43 +1,48 @@
 "use strict"
 
-class DAOUsers {
+class DAOUser {
     // Constructor
     constructor(pool) {
         this.pool = pool;
 
-        this.read = this.read.bind(this);
+        this.readByUser = this.readByUser.bind(this);
     }
 
      // Obtener usuario
-     read(idUser, callback) {
+     readByUser(username, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "";
-                connection.query(querySQL, [idUser], (error, rows) => {
+                let querySQL = "SELECT * FROM usuario WHERE activo = 1 AND usuario_acceso = ?";
+                connection.query(querySQL, [username], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
                     }
                     else {
-                        if (rows.length != 1) {
+                        if (rows.length > 1) {
                             callback(-1);
+                        }
+                        else if (rows.length === 0) {
+                            callback(null, null);
                         }
                         else {
                             // Construir objeto
                             let user = {
                                 id: rows[0].id,
+                                enabled: rows[0].activo,
+                                username: rows[0].usuario_acceso,
                                 name: rows[0].nombre,
                                 lastname1: rows[0].apellido1,
                                 lastname2: rows[0].apellido2,
-                                mail: rows[0].correo,
                                 password: rows[0].contraseña,
                                 hasProfilePic: (rows[0].foto ? true : false),
-                                rol: rows[0].rol,
+                                rol: rows[0].tipoUsuario,
+                                idParent: rows[0].id_padre
                             }
-                            callback(null, user);
+                            callback(null, user);                          
                         }
                     }
                 });
@@ -46,3 +51,5 @@ class DAOUsers {
     }
 
 }
+
+module.exports = DAOUser;

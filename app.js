@@ -10,12 +10,15 @@ const mysql = require("mysql");
 const session = require("express-session");
 const sessionMySql = require("express-mysql-session");
 const morgan = require("morgan");
+const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
+const DAOUser = require("./daos/DAOUser");
 const ControllerCategoria = require("./controllers/controllerCategoria");
+const ControllerUser = require("./controllers/controllerUser");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -74,8 +77,10 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
+const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
+const conUse = new ControllerUser(daoUse, daoCat);
 
 //ESTO NO SE COMO FUNCIONA
 //const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
@@ -108,33 +113,28 @@ function userAlreadyLogged(request, response, next) {
 
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get(['/', '/categorias'], conCat.getCategorias);
+app.get('/categorias', userLogged, conCat.getCategorias);
 
 // Login
 app.get("/login", (request, response, next) => {
-  response.render("login", { mail:"", response: undefined });
+  response.render("login", { user: "", response: undefined });
 });
 
-/*//Inicio
-app.get(["/", "/inicio"], userLogged, useController.userBanned, (request, response, next) => {
-  if (request.session.currentUser.rol) { // Admin
-      response.redirect("/admin/inicio");
-  }
-  else { // User
-      response.redirect("/usuario/inicio");
-  }
-});*/
+//Inicio
+app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
 // --- Peticiones POST ---
 // Login
-/*app.post(
+app.post(
   "/login",
   // Ninguno de los campos vacíos 
-  check("mail", "1").notEmpty(),
+  check("user", "1").notEmpty(),
   check("password", "1").notEmpty(),
-  // Correo es uno de los disponibles
-  check("mail", "2")
-);*/
+  conUse.login
+);
+
+// Logout
+app.post("/logout", conUse.logout);
 
 // --- Otras funciones ---
 
@@ -155,6 +155,8 @@ app.use((request, response, next) => {
 
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
+  console.log("Ajax", responseData.ajax);
+  console.log("Data", responseData.data);
   // Respuestas AJAX
   if (responseData.ajax) {
       if (responseData.error) {

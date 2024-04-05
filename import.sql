@@ -174,11 +174,11 @@ CREATE TABLE recompensa (
 
 -- Usuario
 INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, tipoUsuario) VALUES
-('clarar05', 'Clara', 'Rodríguez', 'Prieto', '1234567a', 'alumno'),
-('anamam20', 'Ana', 'Martínez', 'Valdés', '1234567a', 'alumno'),
-('cacalv04', 'Carlos', 'Calvo', 'Martínez', '1234567a', 'alumno'),
-('jorsie01', 'Jorge', 'Sierra', 'Alonso', '1234567a', 'alumno'),
-('lucbravo', 'Lucas', 'Bravo', 'Fairen', '1234567a', 'alumno');
+('clarar05', 'Clara', 'Rodríguez', 'Prieto', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('anamam20', 'Ana', 'Martínez', 'Valdés', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('cacalv04', 'Carlos', 'Calvo', 'Martínez', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('jorsie01', 'Jorge', 'Sierra', 'Alonso', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('lucbravo', 'Lucas', 'Bravo', 'Fairen', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno');
 
 -- Configuración
 
