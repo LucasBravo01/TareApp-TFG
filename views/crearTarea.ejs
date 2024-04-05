@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="css/vistaStyles.css"/>
+    <!-- Importar JS específicos -->
+
+</head>
+
+<body > <!-- data-response="<%= JSON.stringify(response) %>"> -->
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %> 
+    <!-- Importar nav -->
+    <%- include("nav", { generalInfo: generalInfo }) %>
+    <div class="container mx-auto">
+        <h1 style="text-align: center;" class="mb-3">Crear Tarea</h1>
+        <form action="/crearTareaForm" method="POST">
+            <div class="form-row mb-1">
+                <div class="form-group col-5 me-3">
+                    <label for="titulo">Título:</label>
+                    <input type="text" class="form-control mt-1" id="titulo" name="titulo">
+                </div>
+                <div class="form-group me-4">
+                    <div class="circle">
+                        <button id="button-nav-profile" title="Desplegable del perfil" style="border-radius: 80px;">
+                            <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
+                        </button>
+                        <p>Recursos</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="circle">
+                        <button id="button-nav-profile" title="Desplegable del perfil">
+                            <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
+                        </button>
+                        <p>Añadir Foto</p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group me-3">
+                    <p>Propietario</p>
+                    <div class="circle ms-2">
+                        <button id="button-nav-profile" title="Desplegable del perfil" style="border-radius: 80px;">
+                            <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group col-5 me-2">
+                    <label for="fecha">Fecha de entrega:</label>
+                    <input type="date" class="form-control" id="fecha" name="fecha">
+                </div>
+                <div class="form-group me-3">
+                    <p>Recordatorios</p>
+                    <div class="circle ms-3">
+                        <button id="button-nav-profile" title="Desplegable del perfil" style="border-radius: 80px;">
+                            <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-4 me-4">
+                    <label for="tipo">Tipo:</label>
+                    <select class="form-control" id="tipo" name="tipo">
+                        <option value="tipo1">Tipo 1</option>
+                        <option value="tipo2">Tipo 2</option>
+                        <option value="tipo3">Tipo 3</option>
+                    </select>
+                </div>
+                <div class="form-group col-6">
+                    <label for="asignatura">Asignatura:</label>
+                    <select class="form-control" id="asignatura" name="asignatura">
+                        <option value="asignatura1">Asignatura 1</option>
+                        <option value="asignatura2">Asignatura 2</option>
+                        <option value="asignatura3">Asignatura 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" id="descripcion" name="descripcion" rows="4"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-5 me-4">
+                    <label for="recompensa">Recompensa:</label>
+                    <select class="form-control" id="recompensa" name="recompensa">
+                        <option value="recompensa1">Recompensa 1</option>
+                        <option value="recompensa2">Recompensa 2</option>
+                        <option value="recompensa3">Recompensa 3</option>
+                    </select>
+                </div>
+                <div class="form-group col-5">
+                    <label for="tiempo">Tiempo estimado:</label>
+                    <input type="number" class="form-control mt-1" id="tiempo" name="tiempo">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block p-2">Crear Tarea</button>
+        </form>
+    </div>
+</body>
+
+</html>
