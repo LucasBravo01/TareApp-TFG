@@ -10,12 +10,15 @@ const mysql = require("mysql");
 const session = require("express-session");
 const sessionMySql = require("express-mysql-session");
 const morgan = require("morgan");
+const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
+const DAOUser = require("./daos/DAOUser");
 const ControllerCategoria = require("./controllers/controllerCategoria");
+const ControllerUser = require("./controllers/controllerUser");
 const DAOTarea = require("./daos/DAOTarea");
 const ControllerTarea = require("./controllers/controllerTarea");
 const DAOActividad = require("./daos/DAOActividad");
@@ -77,11 +80,16 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
+const daoUse = new DAOUser(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
 
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
+const conUse = new ControllerUser(daoUse, daoCat);
+
+//ESTO NO SE COMO FUNCIONA
+//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
 const conTarea = new ControllerTarea(daoTarea, daoActividad );
 
 // --- Routers ---
@@ -112,7 +120,15 @@ function userAlreadyLogged(request, response, next) {
 
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get(['/', '/categorias'], conCat.getCategorias);
+app.get('/categorias', userLogged, conCat.getCategorias);
+
+// Login
+app.get("/login", (request, response, next) => {
+  response.render("login", { user: "", response: undefined });
+});
+
+//Inicio
+app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
 app.get("/crearTarea", (request, response, next) => {
   next({
@@ -127,6 +143,17 @@ app.get("/crearTarea", (request, response, next) => {
 });
 
 // --- Peticiones POST ---
+// Login
+app.post(
+  "/login",
+  // Ninguno de los campos vacíos 
+  check("user", "1").notEmpty(),
+  check("password", "1").notEmpty(),
+  conUse.login
+);
+
+// Logout
+app.post("/logout", conUse.logout);
 app.post("/crearTareaForm", conTarea.crearTarea);
 // --- Otras funcionesF ---
 

@@ -128,9 +128,9 @@ CREATE TABLE actividad (
   hora TIME NOT NULL,
   descripción VARCHAR(255),
   foto BLOB,
+    recordatorio ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   categoría VARCHAR(255) NOT NULL,
   id_asignatura INT,
-
 
   FOREIGN KEY (id_creador) REFERENCES usuario(id),
   FOREIGN KEY (id_destinatario) REFERENCES usuario(id),
@@ -152,7 +152,7 @@ CREATE TABLE tarea (
   id_actividad INT NOT NULL PRIMARY KEY,
   terminada INT NOT NULL DEFAULT 0,
   duración ENUM('corta', 'media', 'larga', 'no lo sé') NOT NULL,
-  id_evento INT NOT NULL,
+  id_evento INT,
 
   FOREIGN KEY (id_actividad) REFERENCES actividad(id),
   FOREIGN KEY (id_evento) REFERENCES evento(id_actividad)
@@ -173,6 +173,12 @@ CREATE TABLE recompensa (
 -- ------ Insertar datos de prueba ------
 
 -- Usuario
+INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, tipoUsuario) VALUES
+('clarar05', 'Clara', 'Rodríguez', 'Prieto', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('anamam20', 'Ana', 'Martínez', 'Valdés', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('cacalv04', 'Carlos', 'Calvo', 'Martínez', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('jorsie01', 'Jorge', 'Sierra', 'Alonso', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('lucbravo', 'Lucas', 'Bravo', 'Fairen', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno');
 
 -- Configuración
 
@@ -189,6 +195,11 @@ CREATE TABLE recompensa (
 -- Cursa
 
 -- Categoría
+INSERT INTO categoria (nombre, icono) VALUES
+('Escolar', 'escolar.png'),
+('Ocio', 'ocio.png'),
+('Extraescolar', 'extraEscolar.png'),
+('Casa', 'casa.png');
 
 -- Actividad
 
