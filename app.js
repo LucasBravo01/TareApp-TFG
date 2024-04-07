@@ -17,8 +17,10 @@ const cron = require('node-cron');
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
 const DAOUser = require("./daos/DAOUser");
+const DAOTask = require("./daos/DAOTask");
 const ControllerCategoria = require("./controllers/controllerCategoria");
 const ControllerUser = require("./controllers/controllerUser");
+const ControllerTask = require("./controllers/controllerTask");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -63,8 +65,6 @@ const webpush = require('web-push'); // Importar web-push
 // Configuración de web-push (debes configurar tus propias claves)
 // Configura tus propias claves VAPID
 // const vapidKeys = webpush.generateVAPIDKeys();
-// console.log("Clave pública VAPID:", vapidKeys.publicKey);
-// console.log("Clave privada VAPID:", vapidKeys.privateKey);
 const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9KyIRopraMi5mhaXqEMXitX22g-4kJNs7g';
 const privateVapidKey = 'RQL25CNQAqpZHFJuCVKmP2kpDpeuRKZhNbK-N1Ijouc';
 webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, privateVapidKey);
@@ -78,9 +78,11 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
+const daoTas = new DAOTask(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
+const conTas = new ControllerTask(daoTas, daoUse);
 
 //ESTO NO SE COMO FUNCIONA
 //const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
@@ -122,6 +124,12 @@ app.get("/login", (request, response, next) => {
 
 //Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
+
+app.get(
+  "/tarea/:id", 
+  userLogged,
+  check("id", "-2").isNumeric(),
+  conTas.getTask)
 
 // --- Peticiones POST ---
 // Login

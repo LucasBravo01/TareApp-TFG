@@ -128,7 +128,7 @@ CREATE TABLE actividad (
   hora TIME NOT NULL,
   descripción VARCHAR(255),
   foto BLOB,
-    recordatorio ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
+  recordatorio ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   categoría VARCHAR(255) NOT NULL,
   id_asignatura INT,
 
@@ -196,15 +196,18 @@ INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, 
 
 -- Categoría
 INSERT INTO categoria (nombre, icono) VALUES
-('Escolar', 'escolar.png'),
-('Ocio', 'ocio.png'),
-('Extraescolar', 'extraEscolar.png'),
-('Casa', 'casa.png');
+('Escolar', 'escolar'),
+('Ocio', 'ocio'),
+('Extraescolar', 'extraEscolar'),
+('Casa', 'casa');
 
 -- Actividad
-
+INSERT INTO actividad (id_creador, id_destinatario, título, fecha, hora, descripción, recordatorio, categoría) VALUES
+(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio');
 -- Evento
 
 -- Tarea
+INSERT INTO tarea (id_actividad, duración) VALUES
+(1, 'no lo sé');
 
 -- Recompensa
