@@ -10,14 +10,14 @@ class DAORecompensa {
     readAllRecompensas (callback) {
         this.pool.getConnection(function(err, connection) {
             if (err) {
-                callback(new Error("Error de conexión con la Base de Datos"));
+                callback(-1);
             }
             else {
                 connection.query("SELECT * FROM recompensa", function(err, rows) {
                     connection.release();
 
                     if (err) {
-                        callback(new Error("Error de acceso a la Base de Datos"));
+                        callback(-1);
                     }
                     else {
                         let recompensas =  [];
