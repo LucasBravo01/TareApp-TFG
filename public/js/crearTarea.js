@@ -1,37 +1,21 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
 
-  document.getElementById('crearBtn').addEventListener('click', async (event) => {
-    event.preventDefault();
-    const formData = new FormData(document.getElementById('formTarea'));
+  // Habilitar asignatura solo si esta selecionado Escolar en Categoria
+const categoriaSelect = document.getElementById("categoria");
+const asignaturaSelect = document.getElementById("asignatura");
 
-    try {
-      const response = await fetch('/crearTareaForm', {
-        method: 'POST',
-        body: JSON.stringify({
-          titulo: formData.get('titulo'),
-          horaInicio: formData.get('horaInicio'),
-          fecha: formData.get('fecha'),
-          descripcion: formData.get('descripcion'),
-          categoria:formData.get('categoria'),
-          asignatura:formData.get('asignatura'),
-          recordatorios:formData.get('recordatorios'),
-          duracion: formData.get('duracion')
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        alert('Tarea creada exitosamente!!');
-        window.location.href = '/crearTarea';// Refrescar ventana
-      } else {
-        throw new Error('Error al crear la tarea');
-      }
-    } catch (error) {
-      alert('Ocurrió un error al crear la tarea');
+// Añadimos un event listener al cambio de la opción seleccionada en el select de categoría
+categoriaSelect.addEventListener("change", function() {
+    // Si la opción seleccionada es "Escolar", habilitamos el select de asignatura
+    if (categoriaSelect.value === "Escolar") {
+        asignaturaSelect.disabled = false;
+    } else {
+        // Si no, deshabilitamos el select de asignatura y lo reseteamos
+        asignaturaSelect.disabled = true;
+        asignaturaSelect.selectedIndex = 0; // Esto establece la opción por defecto
     }
-  });
 });
+});
+
 

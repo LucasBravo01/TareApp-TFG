@@ -12,7 +12,7 @@ class DAOTarea {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos."));// error de conexion
             } else { 
-                connection.query("INSERT into tarea (id_actividad, terminada, duracion, id_evento) VALUES(?,?,?,?) ",
+                connection.query("INSERT INTO tarea (id_actividad, terminada, duración, id_evento) VALUES(?,?,?,?) ",
                     [ actividad.id, 0, actividad.duracion, undefined],  // Actualiza esta línea
                     function (err) {
                         connection.release();

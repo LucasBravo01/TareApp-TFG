@@ -87,10 +87,7 @@ const daoActividad = new DAOActividad(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
-
-//ESTO NO SE COMO FUNCIONA
-//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
-const conTarea = new ControllerTarea(daoTarea, daoActividad );
+const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat );
 
 // --- Routers ---
 routerPrototipo.routerConfig(conCat,conTarea);
@@ -121,7 +118,6 @@ function userAlreadyLogged(request, response, next) {
 // --- Peticiones GET ---
 // - Enrutamientos -
 app.get('/categorias', userLogged, conCat.getCategorias);
-
 // Login
 app.get("/login", (request, response, next) => {
   response.render("login", { user: "", response: undefined });
@@ -130,19 +126,30 @@ app.get("/login", (request, response, next) => {
 //Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
-app.get("/crearTarea", (request, response, next) => {
-  next({
-    ajax: false,
-    status: 200,
-    redirect: "crearTarea",
-    data: {
-        response: undefined,
-        generalInfo: {}
-    }
-  });
-});
+//Crear Tarea
+app.get("/crearTarea",conTarea.datosForm);
 
 // --- Peticiones POST ---
+// Crear Tarea 
+app.post("/crearTareaForm", 
+  // Ninguno de los campos vacíos 
+  check("titulo", "1").notEmpty(),
+  check("id", "1").notEmpty(),
+  check("fecha", "1").notEmpty(),
+  check("hora", "1").notEmpty(),
+  check("categoria", "1").notEmpty(),
+  check("recordatorios", "1").notEmpty(),
+  check("recompensa", "1").notEmpty(),
+  check("descripcion", "1").notEmpty(),
+  check("duracion", "1").notEmpty(),
+  check("recordatorios","32").custom((recType) => {
+    return (recType === "1 día antes" || recType === "Desde 2 días antes"|| recType === "Desde 1 semana antes"|| recType === "No recordarmelo")
+  }),
+  check("duracion","32").custom((durType) => {
+    return (durType === "no lo sé" || durType === "corta"|| durType === "media"|| durType === "larga")
+  }),
+  conTarea.crearTarea);
+
 // Login
 app.post(
   "/login",
@@ -154,7 +161,7 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-app.post("/crearTareaForm", conTarea.crearTarea);
+
 // --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
@@ -175,6 +182,7 @@ app.use((request, response, next) => {
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
   // Respuestas AJAX
+  console.log("Manejador de respuestas", responseData);
   if (responseData.ajax) {
       if (responseData.error) {
           response.status(responseData.status).send(responseData.error);

@@ -24,11 +24,8 @@ class DAOCategoria {
                         let categorias = new Array();
                         rows.forEach(row => {
                             let facility = {
-                                id: row.id,
                                 nombre: row.nombre,
-                                icono: row.icono,
-                                autor: row.autor,
-                                curso: row.curso,
+                                icono: row.icono
                             }
                             categorias.push(facility);
                         });
