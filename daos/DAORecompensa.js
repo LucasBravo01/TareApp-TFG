@@ -21,15 +21,15 @@ class DAORecompensa {
                     }
                     else {
                         let recompensas =  [];
-                        let id; let titulo; let imagen; let mensaje;
+                        let id; let titulo; let icono; let mensaje;
 
                         rows.forEach(element => {
                             id = element.id;
                             titulo = element.titulo;
-                            imagen = element.imagen;
+                            icono = element.icono;
                             mensaje = element.mensaje;
 
-                            recompensas.push({id, titulo, imagen, mensaje});
+                            recompensas.push({id, titulo, icono, mensaje});
                         });
 
                         callback(null, recompensas);
