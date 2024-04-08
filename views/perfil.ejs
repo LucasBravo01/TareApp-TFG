@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <%- include("../public/utils/head.html") %>
+        <!-- Importar CSS específicos -->
+        <link rel="stylesheet" href="css/perfilStyle.css"> 
+
+        <!-- Importar JS específicos -->
+
+    </head>
+
+    <body>
+        <%- include("nav") %>
+    
+        <div class="container">
+            <div class="row justify-content-center mt-5 mb-3">
+                <div class="col-12 text-end">
+                    <button id="botonEditar" class="botonEditar">Editar perfil</button>
+                </div>
+    
+                <div class="col-6 text-center mt-5">
+                    <img src="../images/default/profile.png" alt="imagen perfil" width="100em" height="100em">
+                </div>
+    
+                <div class="col-6 text-center mt-5">
+                    <label for="nombreUsuario" class="form-label">Nombre completo</label>
+                    <input id="input-user" name="nombreUsuario" type="text" class="form-control" value="<%= user %>" disabled>
+                </div>
+    
+                <div class="col-4 text-center mt-5">
+                    <label for="usuario" class="form-label">Usuario</label>
+                    <input id="input-user" name="usuario" type="text" class="form-control" value="<%= user %>" disabled>
+                </div>
+    
+                <div class="col-4 text-center mt-5">
+                    <label for="rol" class="form-label">Rol</label>
+                    <input id="input-user" name="rol" type="text" class="form-control" value="<%= user %>" disabled>
+                </div>
+    
+                <div class="col-4 text-center mt-5">
+                    <label for="curso" class="form-label">Curso</label>
+                    <input id="input-user" name="curso" type="text" class="form-control" value="<%= user %>" disabled>
+                </div>
+    
+                <div class="col-12 text-center mt-5">
+                    <p class="text-start">Recompensas</p>
+                    <hr class="barraSeparador"/>
+                    <!--meter el listar recompensas aqui con js -->
+                </div>
+    
+                <div class="col-12 text-center mt-5">
+                    <button id="botonRanking" class="botonRanking">Ver ranking</button>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+            document.getElementById("botonEditar").addEventListener("click", function() {
+                // Obtener todos los inputs del formulario
+                var inputs = document.querySelectorAll(".form-control");
+    
+                // Iterar sobre los inputs y habilitarlos
+                inputs.forEach(function(input) {
+                    input.disabled = false;
+                });
+    
+                // Deshabilitar el botón de editar después de hacer clic
+                this.disabled = true;
+            });
+        </script>
+    </body>        
+</html>

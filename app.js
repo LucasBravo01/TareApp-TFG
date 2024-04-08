@@ -123,6 +123,12 @@ app.get("/login", (request, response, next) => {
 //Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
+//Perfil
+app.get("/perfil", (request, response, next) => {
+  response.render("perfil", { user: "", response: undefined });
+});
+
+
 // --- Peticiones POST ---
 // Login
 app.post(

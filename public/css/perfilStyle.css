@@ -1,0 +1,19 @@
+.barraSeparador {
+    border-color: grey;
+}
+
+.botonRanking{
+    background-color: #213ADE;
+    border-radius: 3px;
+    border-color: beige;
+    padding: 10px;
+    color:white;
+}
+
+.botonEditar{
+    background-color: #213ADE;
+    border-radius: 3px;
+    border-color: beige;
+    padding: 10px;
+    color:white;
+}
