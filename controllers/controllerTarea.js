@@ -9,6 +9,7 @@ class ControllerTarea {
         this.daoActividad = daoActividad;
 
         this.crearTarea = this.crearTarea.bind(this);
+        this.getTareas = this.getTareas.bind(this);
     }
 
     crearTarea(req, res, next) {
@@ -37,6 +38,46 @@ class ControllerTarea {
                 }   
             }
         }) ;
+    }
+
+    getTareas(req, res, next) {
+        this.daoTarea.readAll((error, tareas) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "tareas",
+                    data: {
+                        response: undefined,
+                        generalInfo: {},
+                        tareas: tareas
+                    }
+                });
+            }
+        });
+    }
+
+    getTareas(req, res, next) {
+        this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                        next({
+                            ajax: false,
+                            status: 200,
+                            redirect: "tareas",
+                            data: {
+                                response: undefined,
+                                generalInfo: {},
+                                tareas: tareas
+                            }
+                        });
+            }
+        });
     }
 }
 

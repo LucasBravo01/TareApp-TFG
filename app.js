@@ -142,6 +142,8 @@ app.get("/crearTarea", (request, response, next) => {
   });
 });
 
+app.get('/tareas', userLogged, conTarea.getTareas);
+
 // --- Peticiones POST ---
 // Login
 app.post(

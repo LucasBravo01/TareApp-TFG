@@ -128,7 +128,7 @@ CREATE TABLE actividad (
   hora TIME NOT NULL,
   descripción VARCHAR(255),
   foto BLOB,
-    recordatorio ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
+  recordatorio ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   categoría VARCHAR(255) NOT NULL,
   id_asignatura INT,
 
