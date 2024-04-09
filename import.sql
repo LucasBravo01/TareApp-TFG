@@ -163,7 +163,7 @@ CREATE TABLE recompensa (
   id INT AUTO_INCREMENT PRIMARY KEY,
   título VARCHAR(255) NOT NULL,
   mensaje VARCHAR(255),
-  icono VARCHAR(255) NOT NULL,
+  icono VARCHAR(255) NOT NULL
 );
 
 
@@ -205,7 +205,7 @@ INSERT INTO categoria (nombre, icono) VALUES
 -- Tarea
 
 -- Recompensa
-INSERT INTO recompensa (titulo, mensaje, icono) VALUES
+INSERT INTO recompensa (título, mensaje, icono) VALUES
 ('¡Ánimo!', null, 'lets-go.png'),
 ('¡Genial!', null, 'awesome.png'),
 ('¡Increíble!', 'Este supergato te felicita', 'supercat.png'),
