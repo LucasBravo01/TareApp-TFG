@@ -160,13 +160,10 @@ CREATE TABLE tarea (
 
 -- Recompensa
 CREATE TABLE recompensa (
-  id_tarea INT NOT NULL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   título VARCHAR(255) NOT NULL,
   mensaje VARCHAR(255),
   icono VARCHAR(255) NOT NULL,
-
-  CONSTRAINT UC_recompensa UNIQUE(título),
-  FOREIGN KEY (id_tarea) REFERENCES tarea(id_actividad)
 );
 
 
@@ -208,3 +205,9 @@ INSERT INTO categoria (nombre, icono) VALUES
 -- Tarea
 
 -- Recompensa
+INSERT INTO recompensa (titulo, mensaje, icono) VALUES
+('¡Ánimo!', null, 'lets-go.png'),
+('¡Genial!', null, 'awesome.png'),
+('¡Increíble!', 'Este supergato te felicita', 'supercat.png'),
+('¡Buen trabajo!', 'Vas por buen camino', 'good-job.png'),
+('¡Enhorabuena!', 'Has ganado una medalla espacial', 'lets-go.png');
