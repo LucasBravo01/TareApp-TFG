@@ -26,39 +26,6 @@ class DAOTarea {
             }
         });
     }
-
-    readAll(callback) {
-        this.pool.getConnection((error, connection) => {
-            if (error) {
-                callback(-1);
-            }
-            else {
-                let querySQL = "SELECT * FROM tarea";
-                connection.query(querySQL, (error, rows) => {
-                    connection.release();
-                    if (error) {
-                        callback(-1);
-                    }
-                    else {
-                        // Construir objeto
-                        let tareas = new Array();
-                        rows.forEach(row => {
-                            let facility = {
-                                id: row.id,
-                                id_actividad: id_actividad,
-                                terminada: row.terminada,
-                                duracion: row.duracion,
-                                id_evento: row.id_evento,
-                            }
-                            tareas.push(facility);
-                        });
-                        callback(null, tareas);
-                    }
-                });
-            }
-        });
-    }
-
 }
 
 module.exports = DAOTarea;

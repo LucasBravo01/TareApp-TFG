@@ -202,9 +202,16 @@ INSERT INTO categoria (nombre, icono) VALUES
 ('Casa', 'casa.png');
 
 -- Actividad
-
+INSERT INTO actividad (id_creador, id_destinatario, título, fecha, hora, descripción, recordatorio, categoría) VALUES
+(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio'),
+(5, 5, 'Tarea 2', '2024-04-07', '13:20:00', 'Segunda tarea de prueba', 'No recordarmelo', 'Ocio'),
+(5, 5, 'Tarea 3', '2024-04-07', '13:20:00', 'Tercera tarea de prueba', 'No recordarmelo', 'Ocio');
 -- Evento
 
 -- Tarea
+INSERT INTO tarea (id_actividad, duración) VALUES
+(1, 'no lo sé'),
+(2, 'media'),
+(3, 'larga');
 
 -- Recompensa

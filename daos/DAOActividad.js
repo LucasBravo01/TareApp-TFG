@@ -3,7 +3,9 @@
 class DAOActividad {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
+
         this.pushActividad = this.pushActividad.bind(this);
+        this.readAllByUser = this.readAllByUser.bind(this);
     }
 
     pushActividad(formulario, callback){
@@ -30,15 +32,15 @@ class DAOActividad {
         });
     }
 
-    readAllByUser(id, callback) {
+    readAllByUser(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
                 // Construir objeto 
-                    let querySQL = "SELECT * FROM `actividad` JOIN `tarea` on actividad.id = tarea.id_actividad where id_destinatario =?;";
-                    connection.query(querySQL,[id], (error, rows) => {
+                    let querySQL = "SELECT * FROM actividad AS ACT JOIN tarea AS TAR ON ACT.id = TAR.id_actividad where id_destinatario =?;";
+                    connection.query(querySQL,[idUser], (error, rows) => {
                         connection.release();
                         if (error) {
                             
