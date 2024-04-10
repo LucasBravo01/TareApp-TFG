@@ -20,6 +20,9 @@ const DAOUser = require("./daos/DAOUser");
 const DAORecompensa = require("./daos/DAORecompensa");
 const ControllerCategoria = require("./controllers/controllerCategoria");
 const ControllerUser = require("./controllers/controllerUser");
+const DAOTarea = require("./daos/DAOTarea");
+const ControllerTarea = require("./controllers/controllerTarea");
+const DAOActividad = require("./daos/DAOActividad");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -80,15 +83,19 @@ const pool = mysql.createPool(connection.mysqlConfig);
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
 const datoRec = new DAORecompensa(pool);
+const daoTarea = new DAOTarea(pool);
+const daoActividad = new DAOActividad(pool);
+
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
 
 //ESTO NO SE COMO FUNCIONA
 //const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
+const conTarea = new ControllerTarea(daoTarea, daoActividad );
 
 // --- Routers ---
-routerPrototipo.routerConfig(conCat);
+routerPrototipo.routerConfig(conCat,conTarea);
 
 app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
@@ -125,6 +132,20 @@ app.get("/login", (request, response, next) => {
 //Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
+app.get("/crearTarea", (request, response, next) => {
+  next({
+    ajax: false,
+    status: 200,
+    redirect: "crearTarea",
+    data: {
+        response: undefined,
+        generalInfo: {}
+    }
+  });
+});
+
+app.get('/tareas', userLogged, conTarea.getTareas);
+
 // --- Peticiones POST ---
 // Login
 app.post(
@@ -137,8 +158,8 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-
-// --- Otras funciones ---
+app.post("/crearTareaForm", conTarea.crearTarea);
+// --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
