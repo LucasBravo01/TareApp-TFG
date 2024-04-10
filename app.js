@@ -83,14 +83,14 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
-const datoRec = new DAORecompensa(pool);
+const daoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
 const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
-const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat, daoAsignatura);
+const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat, daoAsignatura, daoRec);
 
 // --- Routers ---
 routerPrototipo.routerConfig(conCat,conTarea);

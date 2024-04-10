@@ -7,13 +7,13 @@ class DAOTarea {
         this.pushTarea = this.pushTarea.bind(this);
     }
 
-    pushTarea(actividad , callback){        
+    pushTarea(tarea , callback){        
         this.pool.getConnection(function (err, connection) { // coger la conexion
             if (err) {
                 callback(new Error("Error de conexión a la base de datos."));// error de conexion
             } else { 
-                connection.query("INSERT INTO tarea (id_actividad, terminada, duración, id_evento) VALUES(?,?,?,?) ",
-                    [ actividad.id, 0, actividad.duracion, undefined],  // Actualiza esta línea
+                connection.query("INSERT INTO tarea (id_actividad, terminada, duración, id_evento, id_recompensa) VALUES(?,?,?,?,?);",
+                    [ tarea.id, 0, tarea.duracion, undefined, tarea.recompensa],  // Actualiza esta línea
                     function (err) {
                         connection.release();
                         if (err) {

@@ -7,7 +7,6 @@ class DAOActividad {
     }
 
     pushActividad(formulario, callback){
-        console.log(formulario.id);
         this.pool.getConnection(function (err, connection) { // coger la conexion
             if (err) {
                 console.log('Error de conexión a la base de datos.');
@@ -21,11 +20,12 @@ class DAOActividad {
                             console.log('Error de acceso a la base de datos.');
                             callback(new Error("Error de acceso a la base de datos.")); // Error en la sentencia
                         } else {
-                            let actividad = {
+                            let tarea = {
                                 id : result.insertId, // Aquí obtenemos el ID generado automáticamente
-                                duracion : formulario.duracion
+                                duracion : formulario.duracion,
+                                recompensa: formulario.recompensa
                             };
-                            callback(null, actividad);  //Devolver el usuario registrado
+                            callback(null, tarea);  //Devolver el usuario registrado
                         }
                     }
                 );
