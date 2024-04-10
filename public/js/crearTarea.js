@@ -1,5 +1,10 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // Obtener la fecha y hora actual
+    var currentDate = new Date();
+    var currentDateString = currentDate.toISOString().split('T')[0]; // Formato para input type="date"
+    // Establecer la fecha y hora actual como el valor mínimo para los campos de entrada
+    document.getElementById("fecha").setAttribute("min", currentDateString);
 
   // Habilitar asignatura solo si esta selecionado Escolar en Categoria
 const categoriaSelect = document.getElementById("categoria");

@@ -22,6 +22,7 @@ const ControllerUser = require("./controllers/controllerUser");
 const DAOTarea = require("./daos/DAOTarea");
 const ControllerTarea = require("./controllers/controllerTarea");
 const DAOActividad = require("./daos/DAOActividad");
+const DAOAsignatura = require("./daos/DAOAsignatura");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -83,11 +84,11 @@ const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
-
+const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
-const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat );
+const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat, daoAsignatura);
 
 // --- Routers ---
 routerPrototipo.routerConfig(conCat,conTarea);
@@ -127,7 +128,7 @@ app.get("/login", (request, response, next) => {
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
 //Crear Tarea
-app.get("/crearTarea",conTarea.datosForm);
+app.get("/crearTarea", conTarea.datosForm,conTarea.getFormTask);
 
 // --- Peticiones POST ---
 // Crear Tarea 
@@ -148,6 +149,7 @@ app.post("/crearTareaForm",
   check("duracion","32").custom((durType) => {
     return (durType === "no lo sé" || durType === "corta"|| durType === "media"|| durType === "larga")
   }),
+  conTarea.datosForm,
   conTarea.crearTarea);
 
 // Login
@@ -182,7 +184,6 @@ app.use((request, response, next) => {
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
   // Respuestas AJAX
-  console.log("Manejador de respuestas", responseData);
   if (responseData.ajax) {
       if (responseData.error) {
           response.status(responseData.status).send(responseData.error);
