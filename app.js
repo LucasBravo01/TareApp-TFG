@@ -17,6 +17,7 @@ const cron = require('node-cron');
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
 const DAOUser = require("./daos/DAOUser");
+const DAORecompensa = require("./daos/DAORecompensa");
 const ControllerCategoria = require("./controllers/controllerCategoria");
 const ControllerUser = require("./controllers/controllerUser");
 const DAOTarea = require("./daos/DAOTarea");
@@ -81,6 +82,7 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
+const datoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
 
