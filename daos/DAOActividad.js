@@ -4,6 +4,7 @@ class DAOActividad {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
         this.pushActividad = this.pushActividad.bind(this);
+        this.checkActividadExists = this.checkActividadExists.bind(this);
     }
 
     pushActividad(formulario, callback){
@@ -29,6 +30,31 @@ class DAOActividad {
                         }
                     }
                 );
+            }
+        });
+    }
+
+    checkActividadExists(formulario, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "SELECT COUNT(*) AS count FROM actividad WHERE título = ? and fecha = ? and hora = ? and id_destinatario = ?;";
+                connection.query(querySQL, [formulario.titulo, formulario.fecha, formulario.hora, formulario.id], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        if (rows[0].count > 0) {
+                            callback(null, false); // La actividad ya existe
+                        }
+                        else {
+                            callback(null, true); // La actividad no existe
+                        }
+                    }
+                });
             }
         });
     }

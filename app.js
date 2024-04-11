@@ -143,7 +143,6 @@ app.post("/crearTareaForm",
   check("categoria", "1").notEmpty(),
   check("recordatorios", "1").notEmpty(),
   check("recompensa", "1").notEmpty(),
-  check("descripcion", "1").notEmpty(),
   check("duracion", "1").notEmpty(),
   check("recordatorios","32").custom((recType) => {
     return (recType === "1 día antes" || recType === "Desde 2 días antes"|| recType === "Desde 1 semana antes"|| recType === "No recordarmelo")

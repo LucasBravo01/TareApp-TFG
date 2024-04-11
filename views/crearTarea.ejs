@@ -16,9 +16,12 @@
     <%- include("../public/utils/modal.html") %> 
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-    <div id="div-crear" class="container mx-auto">
-        <h1 style="text-align: center;" class="mb-3">Crear Tarea</h1>
-        <form id="formTarea" action="/crearTareaForm" method="post"> 
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center mt-3 mb-4">Crear Tarea</h1>
+                <form id="formTarea" action="/crearTareaForm" method="post">
+
             <input type="hidden" id="id" name="id" value="<%= session.currentUser.id %>">
             <div class="form-row mb-1">
                 <div class="form-group col-5 me-3">
@@ -53,11 +56,11 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-6 me-2">
+                <div class="form-group col-6 me-3">
                     <label for="input-date">Fecha de entrega:</label>
                     <input type="date" class="form-control" id="input-date" name="fecha">
                 </div>
-                <div class="form-group col-5 me-3">
+                <div class="form-group col-5 ">
                     <label for="input-hour">Hora:</label>
                     <input type="time" class="form-control" id="input-hour" name="hora">
                 </div>
@@ -104,7 +107,7 @@
                 <textarea class="form-control" id="input-description" name="descripcion" rows="4"></textarea>
             </div>
             <div class="form-row">
-                <div class="form-group col-5 me-4">
+                <div class="form-group col-6 me-4">
                     <label for="input-reward">Recompensa:</label>
                     <select class="form-control" id="input-reward" name="recompensa">
                         <option value="">...</option>
@@ -124,8 +127,10 @@
                 </div>
             </div>
             <button type="submit" id="input-sb-createTask" class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Crear Tarea</button>
-        </form>
+         </form>
+        </div>
     </div>
+</div>
 </body>
 
 </html>

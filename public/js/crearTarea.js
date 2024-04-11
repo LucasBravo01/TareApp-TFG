@@ -5,14 +5,17 @@ function validateParams(params, currentDate) {
     let error = {};
     let selectedDate = params.date + params.hour;
     // Campos no vacíos
-    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.subject === "" || params.reward === "") {
+    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
         return error;
     }
-    else if (selectedDate) {
-
+    else if (params.category === "Escolar" && params.subject === "" ) {
+        error.code = 400;
+        error.title = "Asignatura vacía";
+        error.message = "Asegúrate de rellenar para una tarea escolar la asignatura.";
+        return error;
     }
     else {
         return null;
