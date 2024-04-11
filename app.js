@@ -10,13 +10,20 @@ const mysql = require("mysql");
 const session = require("express-session");
 const sessionMySql = require("express-mysql-session");
 const morgan = require("morgan");
+const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
 const connection = require("./daos/connection");
-const DAOTareas = require("./daos/DAOTareas");
-const DAOSuscripción = require("./daos/DAOSuscripción");
-const ControllerPrototipo = require("./controllers/controllerPrototipo");
+const DAOCategoria = require("./daos/DAOCategoria");
+const DAOUser = require("./daos/DAOUser");
+const DAORecompensa = require("./daos/DAORecompensa");
+const ControllerCategoria = require("./controllers/controllerCategoria");
+const ControllerUser = require("./controllers/controllerUser");
+const DAOTarea = require("./daos/DAOTarea");
+const ControllerTarea = require("./controllers/controllerTarea");
+const DAOActividad = require("./daos/DAOActividad");
+const DAOAsignatura = require("./daos/DAOAsignatura");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -74,107 +81,156 @@ const pool = mysql.createPool(connection.mysqlConfig);
 
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
-const daoTar = new DAOTareas(pool);
-const daoSus = new DAOSuscripción(pool);
+const daoCat = new DAOCategoria(pool);
+const daoUse = new DAOUser(pool);
+const daoRec = new DAORecompensa(pool);
+const daoTarea = new DAOTarea(pool);
+const daoActividad = new DAOActividad(pool);
+const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
-const conPro = new ControllerPrototipo(daoTar, daoSus);
+const conCat = new ControllerCategoria(daoCat);
+const conUse = new ControllerUser(daoUse, daoCat);
+const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat, daoAsignatura, daoRec);
 
 // --- Routers ---
-routerPrototipo.routerConfig(conPro);
+routerPrototipo.routerConfig(conCat,conTarea);
 
 app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
+// --- Middlewares ---
+// Comprobar que el usuario ha iniciado sesión
+function userLogged(request, response, next) {
+  if (request.session.currentUser) {
+      next();
+  }
+  else {
+      response.redirect("/login");
+  }
+};
+
+// Comprobar que el usuario no había iniciado sesión
+function userAlreadyLogged(request, response, next) {
+  if (request.session.currentUser) {
+      response.redirect("/inicio");
+  }
+  else {
+      next();
+  }
+};
+
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get(['/', '/vistaView'], (req, res) => {
-  res.render('vistaView');
+app.get('/categorias', userLogged, conCat.getCategorias);
+// Login
+app.get("/login", (request, response, next) => {
+  response.render("login", { user: "", response: undefined });
 });
 
-app.get('/listarTareasView', (req, res) => {
-  res.render('listarTareasView');
-});
+//Inicio
+app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
-// --- POSTS ---
+//Crear Tarea
+app.get("/crearTarea", conTarea.datosForm,conTarea.getFormTask);
 
-// Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/guardar-suscripcion', (req, res) => {
-  const subscription = req.body.subscription;
-  console.log('Ha peido enviar notificaciones')
-  daoSus.guardarSuscripcion(subscription, (err) => {
-    if (err) {
-      console.error('Error al guardar la suscripción:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
+app.get('/tareas', userLogged, conTarea.getTareas);
+
+//Perfil
+// En app.js u otro archivo de enrutamiento
+app.get("/perfil", (request, response, next) => {
+  // Obtener el usuario de la sesión
+  const currentUser = request.session.currentUser;
+  // Renderizar la vista perfil.ejs y pasar el usuario como dato
+  daoRec.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+    if (error) {
+        // Manejar el error si ocurre
+        next(error);
+    } else {
+        // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
+        response.render("perfil", { user: currentUser, recompensas: recompensas });
     }
-    res.status(200).json({ message: 'Suscripción guardada correctamente' });
-  });
-});
-
-// Ruta para enviar notificaciones push
-app.post('/enviar-notificacion', (req, res) => {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: 'path_to_icon.png' // Ruta al icono de la notificación
-    }
-  };
-
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
-
-    Promise.all(subscriptions.map(sub => webpush.sendNotification(sub, JSON.stringify(notificationPayload))))
-      .then(() => {
-        console.log('Notificaciones enviadas con éxito');
-        res.status(200).json({ message: 'Notificaciones enviadas con éxito' });
-      })
-      .catch(err => {
-        console.error('Error al enviar notificaciones:', err);
-        res.status(500).json({ error: 'Error interno del servidor' });
-      });
   });
 });
 
 
-// --- Otras funciones ---
 
-// Función para enviar notificaciones cada 5 segundos
-function enviarNotificacionAutomatica() {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: '/images/icon-192x192.png' // Ruta al icono de la notificación
-    }
-  };
+// --- Peticiones POST ---
+// Crear Tarea 
+app.post("/crearTareaForm", 
+  // Ninguno de los campos vacíos 
+  check("titulo", "1").notEmpty(),
+  check("id", "1").notEmpty(),
+  check("fecha", "1").notEmpty(),
+  check("hora", "1").notEmpty(),
+  check("categoria", "1").notEmpty(),
+  check("recordatorios", "1").notEmpty(),
+  check("recompensa", "1").notEmpty(),
+  check("duracion", "1").notEmpty(),
+  check("recordatorios","32").custom((recType) => {
+    return (recType === "1 día antes" || recType === "Desde 2 días antes"|| recType === "Desde 1 semana antes"|| recType === "No recordarmelo")
+  }),
+  check("duracion","32").custom((durType) => {
+    return (durType === "no lo sé" || durType === "corta"|| durType === "media"|| durType === "larga")
+  }),
+  conTarea.datosForm,
+  conTarea.crearTarea);
 
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      return;
-    }
+// Login
+app.post(
+  "/login",
+  // Ninguno de los campos vacíos 
+  check("user", "1").notEmpty(),
+  check("password", "1").notEmpty(),
+  conUse.login
+);
 
-    subscriptions.forEach(subscription => {
-      webpush.sendNotification(subscription, JSON.stringify(notificationPayload))
-        .then(() => console.log('Notificación enviada con éxito a', subscription.endpoint))
-        .catch(err => console.error('Error al enviar notificación a', subscription.endpoint, ':', err));
-    });
-  });
-}
+// Logout
+app.post("/logout", conUse.logout);
 
-// Programar la tarea para enviar notificaciones cada 9 segundos
-cron.schedule('*/9 * * * * *', () => {
-  console.log('Enviando notificaciones...');
-  enviarNotificacionAutomatica();
+// --- Otras funcionesF ---
+
+// --- Middlewares de respuestas y errores ---
+// Error 404
+app.use((request, response, next) => {
+  next({
+      ajax: false,
+      status: 404,
+      redirect: "error",
+      data: {
+          code: 404,
+          title: "Oops! Página no encontrada :(",
+          message: "La página a la que intentas acceder no existe."
+      }
+  }); 
 });
 
-// --- Arrancar el servidor ---
-app.listen(connection.port, function (err) {
-  if (err) {
-    console.log("ERROR al iniciar el servidor"); //Error al iniciar el servidor
-  } else { console.log(`Servidor arrancado en el puerto localhost:${connection.port}`); } //Exito al iniciar el servidor
+// Manejador de respuestas 
+app.use((responseData, request, response, next) => {
+  // Respuestas AJAX
+  if (responseData.ajax) {
+      if (responseData.error) {
+          response.status(responseData.status).send(responseData.error);
+          response.end();
+      }
+      else if (responseData.img) {
+          response.end(responseData.img);
+      }
+      else {
+          response.json(responseData.data);
+      }
+  }
+  // Respuestas no AJAX
+  else {
+    response.status(responseData.status);
+    response.render(responseData.redirect, responseData.data);
+  }
+});
+
+// --- Iniciar el servidor ---
+app.listen(connection.port, (error) => {
+  if (error) {
+      console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
+  }
+  else {
+      console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
+  }
 });

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+
+    <!-- Importar JS específicos -->
+
+</head>
+
+<body data-response="<%= JSON.stringify(response) %>">
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %>
+    
+    <!-- Importar nav -->
+    <%- include("nav", { generalInfo: generalInfo }) %>
+
+        <h1>CATEGORÍAS</h1>
+        <div>
+            <% categorias.forEach( c=> { %>
+                <div class="border border-dark mx-2 my-3">
+                    <div class="d-flex">
+                        <img src="/images/categorias/<%= c.icono %>.png" alt="Icono de la categoría <%= c.nombre %>" width="100">
+                        <p>
+                            <%= c.nombre %>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <%= c.autor %>
+                        </p>
+                        <% if (c.curso) { %>
+                            <p>
+                                <%= c.curso %>
+                            </p>
+                            <% } %>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+
+        <!-- text to voice button -->
+</body>
+
+</html>
