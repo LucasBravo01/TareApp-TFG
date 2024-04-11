@@ -160,13 +160,10 @@ CREATE TABLE tarea (
 
 -- Recompensa
 CREATE TABLE recompensa (
-  id_tarea INT NOT NULL PRIMARY KEY,
+  id INT AUTO_INCREMENT PRIMARY KEY,
   título VARCHAR(255) NOT NULL,
   mensaje VARCHAR(255),
-  icono VARCHAR(255) NOT NULL,
-
-  CONSTRAINT UC_recompensa UNIQUE(título),
-  FOREIGN KEY (id_tarea) REFERENCES tarea(id_actividad)
+  icono VARCHAR(255) NOT NULL
 );
 
 
@@ -203,11 +200,21 @@ INSERT INTO categoria (nombre, icono) VALUES
 
 -- Actividad
 INSERT INTO actividad (id_creador, id_destinatario, título, fecha, hora, descripción, recordatorio, categoría) VALUES
-(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio');
+(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio'),
+(5, 5, 'Tarea 2', '2024-04-07', '13:20:00', 'Segunda tarea de prueba', 'No recordarmelo', 'Ocio'),
+(5, 5, 'Tarea 3', '2024-04-07', '13:20:00', 'Tercera tarea de prueba', 'No recordarmelo', 'Ocio');
 -- Evento
 
 -- Tarea
 INSERT INTO tarea (id_actividad, duración) VALUES
-(1, 'no lo sé');
+(1, 'no lo sé'),
+(2, 'media'),
+(3, 'larga');
 
 -- Recompensa
+INSERT INTO recompensa (título, mensaje, icono) VALUES
+('¡Ánimo!', null, 'lets-go.png'),
+('¡Genial!', null, 'awesome.png'),
+('¡Increíble!', 'Este supergato te felicita', 'supercat.png'),
+('¡Buen trabajo!', 'Vas por buen camino', 'good-job.png'),
+('¡Enhorabuena!', 'Has ganado una medalla espacial', 'lets-go.png');
