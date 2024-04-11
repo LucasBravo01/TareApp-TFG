@@ -14,9 +14,10 @@ class ControllerTarea {
         this.daoAsignatura = daoAsignatura;
         this.daoRec = daoRec;
 
-        this.crearTarea = this.crearTarea.bind(this);
         this.datosForm = this.datosForm.bind(this);
         this.getFormTask = this.getFormTask.bind(this);
+        this.crearTarea = this.crearTarea.bind(this);
+        this.getTareas = this.getTareas.bind(this);
     }
 
     datosForm(req, res, next) {
@@ -169,6 +170,26 @@ class ControllerTarea {
             console.log("Campos vacios");
             errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
         }
+    }
+
+    getTareas(req, res, next) {
+        this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "tareas",
+                    data: {
+                        response: undefined,
+                        generalInfo: {},
+                        tareas: tareas
+                    }
+                });
+            }
+        });
     }
 }
 

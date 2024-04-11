@@ -3,7 +3,9 @@
 class DAOActividad {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
+
         this.pushActividad = this.pushActividad.bind(this);
+        this.readAllByUser = this.readAllByUser.bind(this);
         this.checkActividadExists = this.checkActividadExists.bind(this);
     }
 
@@ -30,6 +32,53 @@ class DAOActividad {
                         }
                     }
                 );
+            }
+        });
+    }
+
+    readAllByUser(idUser, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                // Construir objeto 
+                    let querySQL = "SELECT * FROM actividad AS ACT JOIN tarea AS TAR ON ACT.id = TAR.id_actividad where id_destinatario =?;";
+                    connection.query(querySQL,[idUser], (error, rows) => {
+                        connection.release();
+                        if (error) {
+                            
+                            callback(-1);
+                        }
+                        else {
+                            
+                            let actividades = new Array();
+                            rows.forEach(row => {
+                                let facility = {
+                                    id: row.id,
+                                    activo: row.activo,
+                                    id_creador: row.id_creador,
+                                    id_destinatario: row.id_destinatario,
+                                    título: row.título,
+                                    fecha: row.fecha,
+                                    hora: row.hora,
+                                    descripción: row.descripción,
+                                    foto: (row.foto ? true : false),
+                                    recordatorio: row.recordatorio,
+                                    categoría: row.categoría,
+                                    id_asignatura: row.id_asignatura,
+
+                                    id_actividad: row.id_actividad,
+                                    terminada: row.terminada,
+                                    duracion: row.duracion,
+                                    id_evento: row.id_evento,
+                                }
+                                actividades.push(facility);
+                            });
+                            callback(null, actividades);
+                        }
+                    });
+                
             }
         });
     }

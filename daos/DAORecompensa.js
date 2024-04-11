@@ -5,6 +5,8 @@ class DAORecompensa {
     constructor (pool) {
         this.pool = pool;
 
+       
+        this.getRecompensasUsuario = this.getRecompensasUsuario.bind(this);
         this.readAllRecompensas = this.readAllRecompensas.bind(this);
         this.readAllRecompensasCrearTarea = this.readAllRecompensasCrearTarea.bind(this);
         this.checkRecompensaExists = this.checkRecompensaExists.bind(this);
@@ -65,6 +67,41 @@ class DAORecompensa {
 
                             recompensas.push({id, titulo});
                         });
+
+                        callback(null, recompensas);
+                    }
+                });
+            }
+        });
+    }
+
+    // Obtener las recompensas de un usuario tras haber completado una tarea
+    // Obtener las recompensas de un usuario tras haber completado una tarea
+    getRecompensasUsuario(idUser, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) {
+                callback(-1);
+            } else {
+                let querySQL = "SELECT REC.* FROM recompensa AS REC JOIN tarea AS TAR ON TAR.id_recompensa = REC.id JOIN actividad AS ACT ON ACT.id = TAR.id_actividad WHERE TAR.terminada = 1 AND ACT.id_creador = ?;";
+                
+                connection.query(querySQL, [idUser], (err, rows) => {
+                    connection.release();
+    
+                    if (err) {
+                        callback(-1);
+                    } else {
+                        let recompensas = [];
+                        let id, titulo, icono, mensaje;
+    
+                        rows.forEach(element => {
+                            id = element.id;
+                            titulo = element.titulo;
+                            icono = element.icono;
+                            mensaje = element.mensaje;
+    
+                            recompensas.push({ id, titulo, icono, mensaje });
+                        });
+    
                         callback(null, recompensas);
                     }
                 });
