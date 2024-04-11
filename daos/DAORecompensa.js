@@ -73,33 +73,32 @@ class DAORecompensa {
     }
 
     // Obtener las recompensas de un usuario tras haber completado una tarea
-    getRecompensasUsuario (callback) {
-        this.pool.getConnection(function(err, connection) {
+    // Obtener las recompensas de un usuario tras haber completado una tarea
+    getRecompensasUsuario(idUser, callback) {
+        this.pool.getConnection((err, connection) => {
             if (err) {
                 callback(-1);
-            }
-            else {
+            } else {
                 let querySQL = "SELECT REC.* FROM recompensa AS REC JOIN tarea AS TAR ON TAR.id_recompensa = REC.id JOIN actividad AS ACT ON ACT.id = TAR.id_actividad WHERE TAR.terminada = 1 AND ACT.id_creador = ?;";
                 
-                connection.query(querySQL, [idUser], function(err, rows) {
+                connection.query(querySQL, [idUser], (err, rows) => {
                     connection.release();
-
-                    if(err) {
+    
+                    if (err) {
                         callback(-1);
-                    }
-                    else {
+                    } else {
                         let recompensas = [];
-                        let id; let titulo; let icono; let mensaje;
-
+                        let id, titulo, icono, mensaje;
+    
                         rows.forEach(element => {
                             id = element.id;
                             titulo = element.titulo;
                             icono = element.icono;
                             mensaje = element.mensaje;
-
-                            recompensas.push({id, titulo, icono, mensaje});
+    
+                            recompensas.push({ id, titulo, icono, mensaje });
                         });
-
+    
                         callback(null, recompensas);
                     }
                 });

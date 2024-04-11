@@ -3,14 +3,33 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const errorHandler = require("../errorHandler");
+const DAORecompensa = require("../daos/DAORecompensa");
 
 class ControllerUser {
     // Constructor
     constructor(daoUse, daoCat) { // TODO daoCat es provisional hasta que se rediriga a inicio y no ha cetegorias
         this.daoUse = daoUse;
         this.daoCat = daoCat;
+        this.daoRecompensa = DAORecompensa;
 
         this.login = this.login.bind(this);
+    }
+
+    //Metodo para traerme las recompensas del usuario
+    perfil(req, res, next) {
+        // Obtener el usuario actual de la sesión
+        const currentUser = req.session.currentUser;
+
+        // Obtener las recompensas del usuario utilizando el DAO de recompensas
+        this.daoRecompensa.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+            if (error) {
+                // Manejar el error, redirigir o mostrar un mensaje de error
+                next(error);
+            } else {
+                // Renderizar la vista del perfil del usuario y pasar los datos del usuario y las recompensas
+                res.render("perfil", { user: currentUser, recompensas: recompensas });
+            }
+        });
     }
 
     // Iniciar sesión

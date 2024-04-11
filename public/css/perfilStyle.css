@@ -4,16 +4,35 @@
 
 .botonRanking{
     background-color: #213ADE;
-    border-radius: 3px;
+    border-radius: 1em;
     border-color: beige;
     padding: 10px;
     color:white;
 }
 
-.botonEditar{
-    background-color: #213ADE;
-    border-radius: 3px;
-    border-color: beige;
+.mensajeRecompensa {
+    font-size: 16px;
+    color: #333;
+    background-color: #f0f0f0;
     padding: 10px;
-    color:white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.tituloRecompensa {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333; 
+}
+
+.recompensaTarjeta {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.tituloRecompensa{
+    margin-right: 3em;
 }

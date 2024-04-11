@@ -85,6 +85,7 @@ const daoUse = new DAOUser(pool);
 const datoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
+const daoRecompensa = new DAORecompensa(pool);
 
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
@@ -147,9 +148,22 @@ app.get("/crearTarea", (request, response, next) => {
 app.get('/tareas', userLogged, conTarea.getTareas);
 
 //Perfil
+// En app.js u otro archivo de enrutamiento
 app.get("/perfil", (request, response, next) => {
-  response.render("perfil", { user: "", response: undefined });
+  // Obtener el usuario de la sesión
+  const currentUser = request.session.currentUser;
+  // Renderizar la vista perfil.ejs y pasar el usuario como dato
+  daoRecompensa.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+    if (error) {
+        // Manejar el error si ocurre
+        next(error);
+    } else {
+        // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
+        response.render("perfil", { user: currentUser, recompensas: recompensas });
+    }
+  });
 });
+
 
 
 // --- Peticiones POST ---
