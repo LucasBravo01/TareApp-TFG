@@ -117,6 +117,14 @@ CREATE TABLE categoria (
   icono VARCHAR(255) NOT NULL
 );
 
+-- Recompensa
+CREATE TABLE recompensa (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  título VARCHAR(255) NOT NULL,
+  mensaje VARCHAR(255),
+  icono VARCHAR(255) NOT NULL
+);
+
 -- Actividad
 CREATE TABLE actividad (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -153,19 +161,12 @@ CREATE TABLE tarea (
   terminada INT NOT NULL DEFAULT 0,
   duración ENUM('corta', 'media', 'larga', 'no lo sé') NOT NULL,
   id_evento INT,
+  id_recompensa INT NOT NULL,
 
   FOREIGN KEY (id_actividad) REFERENCES actividad(id),
-  FOREIGN KEY (id_evento) REFERENCES evento(id_actividad)
+  FOREIGN KEY (id_evento) REFERENCES evento(id_actividad),
+  FOREIGN KEY (id_recompensa) REFERENCES recompensa(id)
 );
-
--- Recompensa
-CREATE TABLE recompensa (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  título VARCHAR(255) NOT NULL,
-  mensaje VARCHAR(255),
-  icono VARCHAR(255) NOT NULL
-);
-
 
 -- ------ Insertar datos de prueba ------
 
@@ -175,7 +176,8 @@ INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, 
 ('anamam20', 'Ana', 'Martínez', 'Valdés', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('cacalv04', 'Carlos', 'Calvo', 'Martínez', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('jorsie01', 'Jorge', 'Sierra', 'Alonso', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
-('lucbravo', 'Lucas', 'Bravo', 'Fairen', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno');
+('lucbravo', 'Lucas', 'Bravo', 'Fairen', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('virginia', 'Virginia', 'Francisco', 'Gilmarín', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'profesor');
 
 -- Configuración
 
@@ -184,6 +186,11 @@ INSERT INTO usuario (usuario_acceso, nombre, apellido1, apellido2, contraseña, 
 -- SesiónEstudio
 
 -- Asignatura
+INSERT INTO asignatura (id_profesor, nombre, curso, foto, color) VALUES 
+(6, 'Matemáticas', '1 ESO', NULL, 'Blue'),
+(6, 'Literatura', '1 ESO', NULL, 'Red'),
+(6, 'Historia', '1 ESO', NULL, 'Green'),
+(6, 'Ciencias', '1 ESO', NULL, 'Yellow');
 
 -- Recordatorio
 
@@ -198,19 +205,6 @@ INSERT INTO categoria (nombre, icono) VALUES
 ('Extraescolar', 'extraEscolar.png'),
 ('Casa', 'casa.png');
 
--- Actividad
-INSERT INTO actividad (id_creador, id_destinatario, título, fecha, hora, descripción, recordatorio, categoría) VALUES
-(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio'),
-(5, 5, 'Tarea 2', '2024-04-07', '13:20:00', 'Segunda tarea de prueba', 'No recordarmelo', 'Ocio'),
-(5, 5, 'Tarea 3', '2024-04-07', '13:20:00', 'Tercera tarea de prueba', 'No recordarmelo', 'Ocio');
--- Evento
-
--- Tarea
-INSERT INTO tarea (id_actividad, duración) VALUES
-(1, 'no lo sé'),
-(2, 'media'),
-(3, 'larga');
-
 -- Recompensa
 INSERT INTO recompensa (título, mensaje, icono) VALUES
 ('¡Ánimo!', null, 'lets-go.png'),
@@ -218,3 +212,13 @@ INSERT INTO recompensa (título, mensaje, icono) VALUES
 ('¡Increíble!', 'Este supergato te felicita', 'supercat.png'),
 ('¡Buen trabajo!', 'Vas por buen camino', 'good-job.png'),
 ('¡Enhorabuena!', 'Has ganado una medalla espacial', 'lets-go.png');
+
+-- Actividad
+
+-- Evento
+
+-- Tarea
+INSERT INTO tarea (id_actividad, duración, id_recompensa, terminada) VALUES
+  (1, 'no lo sé', 1, false),
+  (2, 'media', 1, true),
+  (3, 'larga', 4, true);
