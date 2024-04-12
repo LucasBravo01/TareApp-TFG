@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+
+    <!-- Importar JS específicos -->
+
+</head>
+
+<body data-response="<%= JSON.stringify(response) %>">
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %>
+    
+    <!-- Importar nav -->
+    <%- include("nav", { generalInfo: generalInfo }) %>
+
+        <h1>MODIFICAR TAREA</h1>
+        <div>
+            <!-- TODO hablar tema fotos -->
+            <p> Foto: <%= task.taskHasPic %></p>
+            
+            <!-- TODO gestionar por JS -->
+            <p> Recordatorio: <%= task.reminder %></p>
+            <p> Categoria: <%= task.category %></p>
+            <p> idAsignatura: <%= task.idSubject %></p>
+            <p> Duración: <%= task.duration %></p>
+                <!-- TODO Flata idrecompensa -->
+
+            <!-- TODO todavía no implementado -->
+            <p> idEvento: <%= task.idEvent %></p>
+            <p> Terminado: <%= task.done %></p>
+        </div>
+
+        <!-- text to voice button -->
+</body>
+
+</html>

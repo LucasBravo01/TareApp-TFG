@@ -30,8 +30,37 @@ $(() => {
     const inputHour = $("#input-hour");
     const inputCategory = $("#input-category");
     const inputSubject = $("#input-subject");
+    const inputReminder = $("#input-reminder");
+    const inputDescription = $("#input-description");
     const inputReward = $("#input-reward");
+    const inputDuration = $("#input-duration");
     const submitButton = $("#input-sb-createTask");
+
+    // Comprobar si hay tarea que mostrar
+    const task = $("body").data("task");
+
+    console.log(task);
+    // Ajustar datos tarea
+    if (task.id) {
+        // Rellenar campos faltantes
+        inputCategory.val(task.category);
+        inputSubject.val(task.idSubject);
+        inputReminder.val(task.reminder);
+        inputReward.val(task.idReward);
+        inputDuration.val(task.duration);
+
+        // Deshabilitar campos
+        inputTitle.attr("disabled", "true");
+        inputDate.attr("disabled", "true");
+        inputHour.attr("disabled", "true");
+        inputCategory.attr("disabled", "true");
+        inputSubject.attr("disabled", "true");
+        inputReminder.attr("disabled", "true");
+        inputDescription.attr("disabled", "true");
+        inputReward.attr("disabled", "true");
+        inputDuration.attr("disabled", "true");
+        
+    }
 
     // Obtener la fecha y hora actual
     let currentDate = new Date();
