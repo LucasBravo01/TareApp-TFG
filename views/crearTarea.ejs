@@ -26,7 +26,7 @@
                             Crear Tarea
                         <% } %>
                     </h1>
-                    <form id="formTarea" action="/crearTareaForm" method="post">
+                    <form id="formTarea" action="/tareas/crearTareaForm" method="post">
                         <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
                         <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
                         <div class="form-row mb-1">

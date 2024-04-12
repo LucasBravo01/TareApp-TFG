@@ -7,12 +7,14 @@ const DAORecompensa = require("../daos/DAORecompensa");
 
 class ControllerUser {
     // Constructor
-    constructor(daoUse, daoCat) { // TODO daoCat es provisional hasta que se rediriga a inicio y no ha cetegorias
+    constructor(daoUse, daoActividad, daoRecompensa) {
         this.daoUse = daoUse;
-        this.daoCat = daoCat;
-        this.daoRecompensa = DAORecompensa;
+        this.daoActividad = daoActividad;
+        this.daoRecompensa = daoRecompensa;
 
+        this.perfil = this.perfil.bind(this);
         this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     //Metodo para traerme las recompensas del usuario
@@ -59,25 +61,20 @@ class ControllerUser {
                                 delete (user.password);
                                 // Iniciar sesión
                                 req.session.currentUser = user;
-
-                                // Construir data
-                                let data = {
-                                    response: undefined,
-                                    generalInfo: {}
-                                };
-                                // TODO (Cambiar cuando sepamos que se necesita en inicio)
-                                // Obtener tipos de instalaciones de la universidad
-                                this.daoCat.readAll((error, categorias) => {
+                                this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
                                     if (error) {
                                         errorHandler.manageError(error, { user: req.body.user }, "login", next);
                                     }
                                     else {
-                                        data.categorias = categorias;
                                         next({
                                             ajax: false,
                                             status: 200,
-                                            redirect: "categorias",
-                                            data: data
+                                            redirect: "tareas",
+                                            data: {
+                                                response: undefined,
+                                                generalInfo: {},
+                                                tareas: tareas
+                                            }
                                         });
                                     }
                                 });

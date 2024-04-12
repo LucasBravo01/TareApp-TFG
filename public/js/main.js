@@ -1,6 +1,6 @@
 // JS General
 
-// TODO Descomentar cuando se enecesite
+// TODO Descomentar cuando se necesite
 //Configurar SW
 // let swLocation = "sw.js";
 
