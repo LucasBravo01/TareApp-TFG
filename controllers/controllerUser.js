@@ -6,29 +6,29 @@ const errorHandler = require("../errorHandler");
 
 class ControllerUser {
     // Constructor
-    constructor(daoUse, daoActividad, daoRecompensa) {
+    constructor(daoUse, daoAct, daoRew) {
         this.daoUse = daoUse;
-        this.daoActividad = daoActividad;
-        this.daoRecompensa = daoRecompensa;
+        this.daoAct = daoAct;
+        this.daoRew = daoRew;
 
-        this.perfil = this.perfil.bind(this);
+        this.profile = this.profile.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
     }
 
     //Metodo para traerme las recompensas del usuario
-    perfil(req, res, next) {
+    profile(req, res, next) {
         // Obtener el usuario actual de la sesión
         const currentUser = req.session.currentUser;
 
         // Obtener las recompensas del usuario utilizando el DAO de recompensas
-        this.daoRecompensa.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+        this.daoRew.getRewardsUser(currentUser.id, (error, rewards) => {
             if (error) {
                 // Manejar el error, redirigir o mostrar un mensaje de error
                 next(error);
             } else {
                 // Renderizar la vista del perfil del usuario y pasar los datos del usuario y las recompensas
-                res.render("perfil", { user: currentUser, recompensas: recompensas });
+                res.render("profile", { user: currentUser, rewards: rewards });
             }
         });
     }
@@ -60,7 +60,7 @@ class ControllerUser {
                                 delete (user.password);
                                 // Iniciar sesión
                                 req.session.currentUser = user;
-                                this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
+                                this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
                                     if (error) {
                                         errorHandler.manageError(error, { user: req.body.user }, "login", next);
                                     }
@@ -68,11 +68,11 @@ class ControllerUser {
                                         next({
                                             ajax: false,
                                             status: 200,
-                                            redirect: "tareas",
+                                            redirect: "tasks",
                                             data: {
                                                 response: undefined,
                                                 generalInfo: {},
-                                                tareas: tareas
+                                                tasks: tasks
                                             }
                                         });
                                     }

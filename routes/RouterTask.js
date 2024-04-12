@@ -13,11 +13,11 @@ function routerConfig(conTask) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/crearTarea", conTask.dataForm, conTask.getFormTask);
+    RouterTask.get("/createTask", conTask.dataForm, conTask.getFormTask);
 
     // Mostrar una tarea
     RouterTask.get(
-        "/tarea/:id",
+        "/task/:id",
         check("id", "-2").isNumeric(),
         conTask.dataForm,
         conTask.getTask);
@@ -41,8 +41,8 @@ function routerConfig(conTask) {
         check("duration", "32").custom((durType) => {
         return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
-        conTask.datosForm,
-        conTask.crearTarea);
+        conTask.dataForm,
+        conTask.createTask);
 }
 
 module.exports = {

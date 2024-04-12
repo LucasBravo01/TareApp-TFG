@@ -24,7 +24,7 @@ const DAOActivity = require("./daos/DAOActivity");
 const DAOSubject = require("./daos/DAOSubject");
 // Controllers
 const ControllerUser = require("./controllers/controllerUser");
-const ControllerTarea = require("./controllers/controllerTarea");
+const ControllerTask = require("./controllers/controllerTask");
 // Routers
 const routerTask = require("./routes/RouterTask");
 
@@ -82,12 +82,12 @@ const pool = mysql.createPool(connection.mysqlConfig);
 const daoCat = new DAOCategory(pool);
 const daoUse = new DAOUser(pool);
 const daoRew = new DAOReward(pool);
-const daoTarea = new DAOTask(pool);
+const daoTask = new DAOTask(pool);
 const daoAct = new DAOActivity(pool);
 const daoSub = new DAOSubject(pool);
 // Crear instancias de los Controllers
 const conUse = new ControllerUser(daoUse, daoAct, daoRew);
-const conTask = new ControllerTarea(daoTarea, daoAct, daoCat, daoSub, daoRew, daoUse);
+const conTask = new ControllerTask(daoTask, daoAct, daoCat, daoSub, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -103,7 +103,7 @@ function userLogged(request, response, next) {
 // Comprobar que el usuario no había iniciado sesión
 function userAlreadyLogged(request, response, next) {
   if (request.session.currentUser) {
-    response.redirect("/index");
+    response.redirect("/inicio");
   }
   else {
     next();
@@ -123,7 +123,7 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/index"], userLogged, conTask.getTareas);
+app.get(["/", "/inicio"], userLogged, conTask.getTasks);
 
 // TODO RouterUser y rehacer
 // Perfil usuario
