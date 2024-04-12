@@ -3,16 +3,16 @@ console.log("Gestor tareas!!");
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-      const response = await fetch('/prototipo/obtener-tareas');
+      const response = await fetch('/prototipe/get-tasks');
       if (response.ok) {
         const data = await response.json();
-        const asignaturas = data.resultado;
-        console.log('Asignaturas obtenidas:', asignaturas);
+        const subjects = data.resultado;
+        console.log('Asignaturas obtenidas:', subjects);
         // Aquí puedes manejar los datos de las asignaturas, como mostrarlos en la página
-        const tareasList = document.getElementById('tareas-list');
-        tareasList.innerHTML = ''; // Vaciar el contenido existente
+        const tasksList = document.getElementById('tasks-list');
+        tasksList.innerHTML = ''; // Vaciar el contenido existente
        // Construir la tabla HTML con Bootstrap
-        var tablaHTML = `
+        var tableHTML = `
         <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="thead-dark">
@@ -25,25 +25,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             <tbody>`;
 
         // Iterar sobre cada asignatura y agregar una fila de tabla para cada una
-        asignaturas.forEach(asignatura => {
-          var fechaFormateada = new Date(asignatura.fecha).toLocaleDateString('es-ES');
+        subjects.forEach(subject => {
+          var formattedDate = new Date(subject.date).toLocaleDateString('es-ES');
 
-            tablaHTML += `
+            tableHTML += `
                 <tr>
-                    <td style="background-color: white;">${asignatura.id}</td>
-                    <td style="background-color: white;">${asignatura.nombre}</td>
-                    <td style="background-color: white;">${fechaFormateada}</td>
+                    <td style="background-color: white;">${subject.id}</td>
+                    <td style="background-color: white;">${subject.name}</td>
+                    <td style="background-color: white;">${formattedDate}</td>
                 </tr>
             `;
         });
 
-        tablaHTML += `
+        tableHTML += `
         </tbody>
         </table>
     </div>`;
 
         // Asignar la tabla HTML a tareasList.innerHTML
-        tareasList.innerHTML = tablaHTML;
+        tasksList.innerHTML = tableHTML;
 
       } else {
         throw new Error('Error al obtener las asignaturas');

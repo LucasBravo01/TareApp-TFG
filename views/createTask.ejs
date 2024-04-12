@@ -5,10 +5,10 @@
     <%- include("../public/utils/head.html") %>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- Importar CSS específicos -->
-        <link rel="stylesheet" href="/css/vistaStyles.css" />
+        <link rel="stylesheet" href="/css/viewStyles.css" />
         <!-- Importar JS específicos -->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="/js/crearTarea.js"></script>
+        <script src="/js/createTask.js"></script>
 </head>
 
 <body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>">
@@ -26,7 +26,7 @@
                             Crear Tarea
                         <% } %>
                     </h1>
-                    <form id="formTarea" action="/tareas/crearTareaForm" method="post">
+                    <form id="formTask" action="/tasks/createTasksForm" method="post">
                         <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
                         <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
                         <div class="form-row mb-1">
@@ -72,39 +72,39 @@
                         <div class="form-row">
                             <div class="form-group col-6 me-3">
                                 <label for="input-date">Fecha de entrega:</label>
-                                <input type="date" class="form-control" id="input-date" name="fecha" value="<%= task.date %>">
+                                <input type="date" class="form-control" id="input-date" name="date" value="<%= task.date %>">
                             </div>
                             <div class="form-group col-5 ">
                                 <label for="input-hour">Hora:</label>
-                                <input type="time" class="form-control" id="input-hour" name="hora" value="<%= task.time %>">
+                                <input type="time" class="form-control" id="input-hour" name="time" value="<%= task.time %>">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-3 me-2">
                                 <label for="input-category">Categoria:</label>
-                                <select class="form-control" id="input-category" name="categoria">
+                                <select class="form-control" id="input-category" name="category">
                                     <option value="">...</option>
-                                    <% data.categorias.forEach( c=> { %>
-                                        <option value="<%= c.nombre %>">
-                                            <%= c.nombre %>
+                                    <% data.categories.forEach( c=> { %>
+                                        <option value="<%= c.name %>">
+                                            <%= c.name %>
                                         </option>
                                     <% }); %>
                                 </select>
                             </div>
                             <div class="form-group col-4 me-2">
                                 <label for="input-subject">Asignatura:</label>
-                                <select class="form-control" id="input-subject" name="asignatura" disabled>
+                                <select class="form-control" id="input-subject" name="subject" disabled>
                                     <option value="">...</option>
-                                    <% data.asignaturas.forEach( a=> { %>
-                                        <option value="<%= a.id %>">
-                                            <%= a.nombre %>
+                                    <% data.subjects.forEach( s=> { %>
+                                        <option value="<%= s.id %>">
+                                            <%= s.name %>
                                         </option>
                                     <% }); %>
                                 </select>
                             </div>
                             <div class="form-group col-4 me-2">
                                 <label for="input-reminder">Recordatorios:</label>
-                                <select class="form-control" id="input-reminder" name="recordatorios">
+                                <select class="form-control" id="input-reminder" name="reminders">
                                     <option value="1 día antes">1 día antes</option>
                                     <option value="Desde 2 días antes">Desde 2 días antes</option>
                                     <option value="Desde 1 semana antes">Desde 1 semana antes</option>
@@ -114,24 +114,24 @@
                         </div>
                         <div class="form-group">
                             <label for="input-description">Descripción:</label>
-                            <textarea class="form-control" id="input-description" name="descripcion"
+                            <textarea class="form-control" id="input-description" name="description"
                                 rows="4"><%= task.description %></textarea>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-6 me-4">
                                 <label for="input-reward">Recompensa:</label>
-                                <select class="form-control" id="input-reward" name="recompensa">
+                                <select class="form-control" id="input-reward" name="reward">
                                     <option value="">...</option>
-                                    <% data.recompensas.forEach( r=> { %>
+                                    <% data.rewards.forEach( r=> { %>
                                         <option value="<%= r.id %>">
-                                            <%= r.titulo %>
+                                            <%= r.title %>
                                         </option>
                                     <% }); %>
                                 </select>
                             </div>
                             <div class="form-group col-5">
                                 <label for="input-duration">Duracion estimada:</label>
-                                <select class="form-control" id="input-duration" name="duracion">
+                                <select class="form-control" id="input-duration" name="duration">
                                     <option value="no lo sé">No lo sé</option>
                                     <option value="corta">Corta</option>
                                     <option value="media">Media</option>

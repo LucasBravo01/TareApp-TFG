@@ -19,7 +19,7 @@ async function subscribeToNotifications() {
 async function sendSubscriptionToServer(subscription) {
   // Envía la suscripción al servidor
   try {
-    const response = await fetch('/guardar-suscripcion', {
+    const response = await fetch('/save-suscription', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -39,19 +39,19 @@ document.getElementById('subscribeButton').addEventListener('click', subscribeTo
 ////////////////////////
 document.addEventListener('DOMContentLoaded', () => {
 
-  document.getElementById('crearTarea-button').addEventListener('click', async (event) => {
+  document.getElementById('createTask-button').addEventListener('click', async (event) => {
     event.preventDefault();
     
-    const formData = new FormData(document.getElementById('formTarea'));
+    const formData = new FormData(document.getElementById('formTask'));
     console.log('En el main');
-    console.log(`Tema: ${formData.get('tema')}`);
-    console.log(`Fecha: ${formData.get('fecha')}`);
+    console.log(`Tema: ${formData.get('theme')}`);
+    console.log(`Fecha: ${formData.get('date')}`);
     try {
-      const response = await fetch('/prototipo/guardar-tarea', {
+      const response = await fetch('/prototipe/save-task', {
         method: 'POST',
         body: JSON.stringify({
-          tema: formData.get('tema'),
-          fecha: formData.get('fecha')
+          theme: formData.get('theme'),
+          date: formData.get('date')
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (response.ok) {
         alert('Tarea creada exitosamente!!');
-        document.getElementById('fecha').value = ''; // Limpiar el campo de fecha
+        document.getElementById('date').value = ''; // Limpiar el campo de fecha
       } else {
         throw new Error('Error al crear la tarea');
       }

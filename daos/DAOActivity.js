@@ -1,34 +1,32 @@
 "use strict"
 
-class DAOActividad {
+class DAOActivity {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.pushActividad = this.pushActividad.bind(this);
+        this.pushActivity = this.pushActivity.bind(this);
         this.readAllByUser = this.readAllByUser.bind(this);
-        this.checkActividadExists = this.checkActividadExists.bind(this);
+        this.checkActivityExists = this.checkActivityExists.bind(this);
     }
 
-    pushActividad(formulario, callback){
+    pushActivity(form, callback){
         this.pool.getConnection(function (err, connection) { // coger la conexion
             if (err) {
-                console.log('Error de conexión a la base de datos.');
-                callback(new Error("Error de conexión a la base de datos."));// error de conexion
+                callback(-1);
             } else { 
                 connection.query("INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES(?,?,?,?,?,?,?,?,?,?,?) ",
-                [formulario.id, formulario.id, formulario.titulo, formulario.fecha, formulario.hora, formulario.descripcion, formulario.recordatorios,formulario.categoria, formulario.asignatura], // Actualiza esta línea
+                [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders,form.category, form.subject], // Actualiza esta línea
                     function (err, result) {
                         connection.release();
                         if (err) {
-                            console.log('Error de acceso a la base de datos.');
-                            callback(new Error("Error de acceso a la base de datos.")); // Error en la sentencia
+                            callback(-1); // Error en la sentencia
                         } else {
-                            let tarea = {
+                            let task = {
                                 id : result.insertId, // Aquí obtenemos el ID generado automáticamente
-                                duracion : formulario.duracion,
-                                recompensa: formulario.recompensa
+                                duration : form.duration,
+                                reward: form.reward
                             };
-                            callback(null, tarea);  //Devolver el usuario registrado
+                            callback(null, task);  //Devolver el usuario registrado
                         }
                     }
                 );
@@ -47,35 +45,34 @@ class DAOActividad {
                     connection.query(querySQL,[idUser], (error, rows) => {
                         connection.release();
                         if (error) {
-                            
                             callback(-1);
                         }
                         else {
                             
-                            let actividades = new Array();
+                            let activities = new Array();
                             rows.forEach(row => {
                                 let facility = {
                                     id: row.id,
-                                    activo: row.enabled,
-                                    id_creador: row.id_creator,
-                                    id_destinatario: row.id_receiver,
-                                    título: row.title,
-                                    fecha: row.date,
-                                    hora: row.time,
-                                    descripción: row.description,
-                                    foto: (row.photo ? true : false),
-                                    recordatorio: row.reminder,
-                                    categoría: row.category,
-                                    id_asignatura: row.id_subject,
+                                    enabled: row.enabled,
+                                    id_creator: row.id_creator,
+                                    id_receiver: row.id_receiver,
+                                    title: row.title,
+                                    date: row.date,
+                                    time: row.time,
+                                    description: row.description,
+                                    photo: (row.photo ? true : false),
+                                    reminder: row.reminder,
+                                    category: row.category,
+                                    id_subject: row.id_subject,
 
-                                    id_actividad: row.id_activity,
-                                    terminada: row.completed,
-                                    duracion: row.duration,
-                                    id_evento: row.id_event,
+                                    id_activity: row.id_activity,
+                                    completed: row.completed,
+                                    duration: row.duration,
+                                    id_event: row.id_event,
                                 }
-                                actividades.push(facility);
+                                activities.push(facility);
                             });
-                            callback(null, actividades);
+                            callback(null, activities);
                         }
                     });
                 
@@ -83,14 +80,14 @@ class DAOActividad {
         });
     }
 
-    checkActividadExists(formulario, callback) {
+    checkActivityExists(form, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
                 let querySQL = "SELECT COUNT(*) AS count FROM activity WHERE title = ? and date = ? and time = ? and id_receiver = ?;";
-                connection.query(querySQL, [formulario.titulo, formulario.fecha, formulario.hora, formulario.id], (error, rows) => {
+                connection.query(querySQL, [form.title, form.date, form.time, form.id], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -109,4 +106,4 @@ class DAOActividad {
     }
 }
 
-module.exports = DAOActividad;
+module.exports = DAOActivity;

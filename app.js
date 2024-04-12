@@ -20,7 +20,7 @@ const DAOCategory = require("./daos/DAOCategory");
 const DAOUser = require("./daos/DAOUser");
 const DAOReward = require("./daos/DAOReward");
 const DAOTask = require("./daos/DAOTask");
-const DAOActividad = require("./daos/DAOActividad");
+const DAOActivity = require("./daos/DAOActivity");
 const DAOSubject = require("./daos/DAOSubject");
 // Controllers
 const ControllerUser = require("./controllers/controllerUser");
@@ -83,11 +83,11 @@ const daoCat = new DAOCategory(pool);
 const daoUse = new DAOUser(pool);
 const daoRew = new DAOReward(pool);
 const daoTarea = new DAOTask(pool);
-const daoActividad = new DAOActividad(pool);
+const daoAct = new DAOActivity(pool);
 const daoSub = new DAOSubject(pool);
 // Crear instancias de los Controllers
-const conUse = new ControllerUser(daoUse, daoActividad, daoRew);
-const conTarea = new ControllerTarea(daoTarea, daoActividad, daoCat, daoSub, daoRew, daoUse);
+const conUse = new ControllerUser(daoUse, daoAct, daoRew);
+const conTask = new ControllerTarea(daoTarea, daoAct, daoCat, daoSub, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -103,7 +103,7 @@ function userLogged(request, response, next) {
 // Comprobar que el usuario no había iniciado sesión
 function userAlreadyLogged(request, response, next) {
   if (request.session.currentUser) {
-    response.redirect("/inicio");
+    response.redirect("/index");
   }
   else {
     next();
@@ -111,9 +111,9 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTarea);
+routerTask.routerConfig(conTask);
 
-app.use("/tareas", userLogged, routerTask.RouterTask);
+app.use("/tasks", userLogged, routerTask.RouterTask);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
@@ -123,21 +123,21 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conTarea.getTareas);
+app.get(["/", "/index"], userLogged, conTask.getTareas);
 
 // TODO RouterUser y rehacer
 // Perfil usuario
-app.get("/perfil", userLogged, (request, response, next) => {
+app.get("/profile", userLogged, (request, response, next) => {
   // Obtener el usuario de la sesión
   const currentUser = request.session.currentUser;
   // Renderizar la vista perfil.ejs y pasar el usuario como dato
-  daoRew.getRewardsUser(currentUser.id, (error, recompensas) => {
+  daoRew.getRewardsUser(currentUser.id, (error, rewards) => {
     if (error) {
       // Manejar el error si ocurre
       next(error);
     } else {
       // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
-      response.render("perfil", { user: currentUser, recompensas: recompensas });
+      response.render("profile", { user: currentUser, rewards: rewards });
     }
   });
 });

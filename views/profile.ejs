@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="css/perfilStyle.css">
+    <link rel="stylesheet" href="css/profileStyle.css">
 
     <!-- Importar JS específicos -->
 
@@ -20,14 +20,14 @@
             </div>
 
             <div class="col-6 text-center mt-5">
-                <label for="nombreUsuario" class="form-label" style="font-weight: bold";>Nombre completo</label>
-                <input id="input-user" name="nombreUsuario" type="text" class="form-control" value="<%= user.name %>"
+                <label for="nameUser" class="form-label" style="font-weight: bold";>Nombre completo</label>
+                <input id="input-user" name="nameUser" type="text" class="form-control" value="<%= user.name %>"
                     disabled>
             </div>
             
             <div class="col-4 text-center mt-5">
-                <label for="usuario" class="form-label" style="font-weight: bold";>Usuario</label>
-                <input id="input-user" name="usuario" type="text" class="form-control" value="<%= user.username %>"
+                <label for="user" class="form-label" style="font-weight: bold";>Usuario</label>
+                <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
                     disabled>
             </div>
             
@@ -37,30 +37,30 @@
             </div>
             
             <div class="col-4 text-center mt-5">
-                <label for="curso" class="form-label" style="font-weight: bold";>Curso</label>
-                <input id="input-user" name="curso" type="text" class="form-control" value="<%= user.curso %>" disabled>
+                <label for="grade" class="form-label" style="font-weight: bold";>Curso</label>
+                <input id="input-user" name="grade" type="text" class="form-control" value="<%= user.grade %>" disabled>
             </div>            
 
             <div class="col-12 text-center mt-5">
                 <p class="text-start" style="font-weight: bold; color:#976E07">Recompensas</p>
                 <hr class="barraSeparador" />
                 <div class="row justify-content-center">
-                    <% for (let i = 0; i < recompensas.length; i++) { %> <!-- Iterar sobre todas las recompensas -->
+                    <% for (let i = 0; i < rewards.length; i++) { %> <!-- Iterar sobre todas las recompensas -->
                         <% if (i % 2 === 0) { %> <!-- Si el índice es par, abrir una nueva fila -->
                             <div class="row justify-content-center mt-3">
                         <% } %>
                         <div class="col-6 mt-3"> <!-- Dividir la fila en dos columnas -->
                             <div class="recompensaTarjeta">
-                                <label for="curso" class="form-label tituloRecompensa"><%= recompensas[i].titulo %></label>
-                                <img src="../images/recompensas/<%= recompensas[i].icono %>.png" alt="Icono de la recompensa">
-                                <% if (recompensas[i].mensaje) { %>
+                                <label for="grade" class="form-label tituloRecompensa"><%= rewards[i].title %></label>
+                                <img src="../images/rewards/<%= rewards[i].icono %>.png" alt="Icono de la recompensa">
+                                <% if (rewards[i].message) { %>
                                     <div class="mensajeRecompensa">
-                                        <p><%= recompensas[i].mensaje %></p>
+                                        <p><%= rewards[i].message %></p>
                                     </div>
                                 <% } %>
                             </div>
                         </div>
-                        <% if (i % 2 !== 0 || i === recompensas.length - 1) { %> <!-- Si el índice es impar o es la última recompensa, cerrar la fila -->
+                        <% if (i % 2 !== 0 || i === rewards.length - 1) { %> <!-- Si el índice es impar o es la última recompensa, cerrar la fila -->
                             </div>
                         <% } %>
                     <% } %> 
@@ -68,7 +68,7 @@
             </div>
 
             <div class="col-12 text-center mt-5">
-                <button id="botonRanking" class="botonRanking">Ver ranking</button>
+                <button id="rankingButton" class="botonRanking">Ver ranking</button>
             </div>
         </div>
     </div>
