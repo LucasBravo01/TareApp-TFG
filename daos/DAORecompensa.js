@@ -5,8 +5,11 @@ class DAORecompensa {
     constructor (pool) {
         this.pool = pool;
 
-        this.readAllRecompensasCrearTarea = this.readAllRecompensasCrearTarea.bind(this);
+       
         this.getRecompensasUsuario = this.getRecompensasUsuario.bind(this);
+        this.readAllRecompensas = this.readAllRecompensas.bind(this);
+        this.readAllRecompensasCrearTarea = this.readAllRecompensasCrearTarea.bind(this);
+        this.checkRecompensaExists = this.checkRecompensaExists.bind(this);
     }
 
     readAllRecompensas (callback) {
@@ -27,7 +30,7 @@ class DAORecompensa {
 
                         rows.forEach(element => {
                             id = element.id;
-                            titulo = element.titulo;
+                            titulo = element.título;
                             icono = element.icono;
                             mensaje = element.mensaje;
 
@@ -48,7 +51,7 @@ class DAORecompensa {
                 callback(-1);
             }
             else {
-                connection.query("SELECT id, titulo FROM recompensa", function(err, rows) {
+                connection.query("SELECT id, título FROM recompensa", function(err, rows) {
                     connection.release();
 
                     if (err) {
@@ -60,7 +63,7 @@ class DAORecompensa {
 
                         rows.forEach(element => {
                             id = element.id;
-                            titulo = element.titulo;
+                            titulo = element.título;
 
                             recompensas.push({id, titulo});
                         });
@@ -100,6 +103,32 @@ class DAORecompensa {
                         });
     
                         callback(null, recompensas);
+                    }
+                });
+            }
+        });
+    }
+
+    //Verificar que una recompensa existe en la BBDD
+    checkRecompensaExists(idRecompensa, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "SELECT COUNT(*) AS count FROM recompensa WHERE id = ?";
+                connection.query(querySQL, [idRecompensa], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        if (rows[0].count > 0) {
+                            callback(null, true); // La asignatura existe
+                        }
+                        else {
+                            callback(null, false); // La asignatura no existe
+                        }
                     }
                 });
             }

@@ -1,11 +1,11 @@
 "use strict"
 
-class DAOCategoria {
+class DAOAsignatura {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
         this.readAll = this.readAll.bind(this);
-        this.checkCategoriaExists = this.checkCategoriaExists.bind(this);
+        this.checkAsignaturaExists = this.checkAsignaturaExists.bind(this);
     }
 
     readAll(callback) {
@@ -14,7 +14,7 @@ class DAOCategoria {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM categoria AS CAT";
+                let querySQL = "SELECT * FROM asignatura AS CAT";
                 connection.query(querySQL, (error, rows) => {
                     connection.release();
                     if (error) {
@@ -22,39 +22,44 @@ class DAOCategoria {
                     }
                     else {
                         // Construir objeto
-                        let categorias = new Array();
+                        let asignaturas = new Array();
                         rows.forEach(row => {
                             let facility = {
+                                id: row.id,
+                                activo: row.activo,
+                                id_profesor: row.id_profesor,
                                 nombre: row.nombre,
-                                icono: row.icono
+                                curso: row.curso,
+                                color: row.color, 
+                                hasProfilePic: (row.foto ? true : false),
                             }
-                            categorias.push(facility);
+                            asignaturas.push(facility);
                         });
-                        callback(null, categorias);
+                        callback(null, asignaturas);
                     }
                 });
             }
         });
     }
 
-    checkCategoriaExists(nombreCategoria, callback) {
+    checkAsignaturaExists(idAsignatura, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM categoria WHERE nombre = ?";
-                connection.query(querySQL, [nombreCategoria], (error, rows) => {
+                let querySQL = "SELECT COUNT(*) AS count FROM asignatura WHERE id = ?";
+                connection.query(querySQL, [idAsignatura], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
                     }
                     else {
                         if (rows[0].count > 0) {
-                            callback(null, true); // La categoría existe
+                            callback(null, true); // La asignatura existe
                         }
                         else {
-                            callback(null, false); // La categoría no existe
+                            callback(null, false); // La asignatura no existe
                         }
                     }
                 });
@@ -63,4 +68,4 @@ class DAOCategoria {
     }
 }
 
-module.exports = DAOCategoria;
+module.exports = DAOAsignatura;

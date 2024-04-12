@@ -23,6 +23,7 @@ const ControllerUser = require("./controllers/controllerUser");
 const DAOTarea = require("./daos/DAOTarea");
 const ControllerTarea = require("./controllers/controllerTarea");
 const DAOActividad = require("./daos/DAOActividad");
+const DAOAsignatura = require("./daos/DAOAsignatura");
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -82,18 +83,14 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
-const datoRec = new DAORecompensa(pool);
+const daoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
-const daoRecompensa = new DAORecompensa(pool);
-
+const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
-
-//ESTO NO SE COMO FUNCIONA
-//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
-const conTarea = new ControllerTarea(daoTarea, daoActividad );
+const conTarea = new ControllerTarea(daoTarea, daoActividad,daoCat, daoAsignatura, daoRec);
 
 // --- Routers ---
 routerPrototipo.routerConfig(conCat,conTarea);
@@ -124,7 +121,6 @@ function userAlreadyLogged(request, response, next) {
 // --- Peticiones GET ---
 // - Enrutamientos -
 app.get('/categorias', userLogged, conCat.getCategorias);
-
 // Login
 app.get("/login", (request, response, next) => {
   response.render("login", { user: "", response: undefined });
@@ -133,17 +129,8 @@ app.get("/login", (request, response, next) => {
 //Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
-app.get("/crearTarea", (request, response, next) => {
-  next({
-    ajax: false,
-    status: 200,
-    redirect: "crearTarea",
-    data: {
-        response: undefined,
-        generalInfo: {}
-    }
-  });
-});
+//Crear Tarea
+app.get("/crearTarea", conTarea.datosForm,conTarea.getFormTask);
 
 app.get('/tareas', userLogged, conTarea.getTareas);
 
@@ -153,7 +140,7 @@ app.get("/perfil", (request, response, next) => {
   // Obtener el usuario de la sesión
   const currentUser = request.session.currentUser;
   // Renderizar la vista perfil.ejs y pasar el usuario como dato
-  daoRecompensa.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+  daoRec.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
     if (error) {
         // Manejar el error si ocurre
         next(error);
@@ -167,6 +154,26 @@ app.get("/perfil", (request, response, next) => {
 
 
 // --- Peticiones POST ---
+// Crear Tarea 
+app.post("/crearTareaForm", 
+  // Ninguno de los campos vacíos 
+  check("titulo", "1").notEmpty(),
+  check("id", "1").notEmpty(),
+  check("fecha", "1").notEmpty(),
+  check("hora", "1").notEmpty(),
+  check("categoria", "1").notEmpty(),
+  check("recordatorios", "1").notEmpty(),
+  check("recompensa", "1").notEmpty(),
+  check("duracion", "1").notEmpty(),
+  check("recordatorios","32").custom((recType) => {
+    return (recType === "1 día antes" || recType === "Desde 2 días antes"|| recType === "Desde 1 semana antes"|| recType === "No recordarmelo")
+  }),
+  check("duracion","32").custom((durType) => {
+    return (durType === "no lo sé" || durType === "corta"|| durType === "media"|| durType === "larga")
+  }),
+  conTarea.datosForm,
+  conTarea.crearTarea);
+
 // Login
 app.post(
   "/login",
@@ -178,7 +185,7 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-app.post("/crearTareaForm", conTarea.crearTarea);
+
 // --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
