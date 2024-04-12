@@ -14,16 +14,19 @@ const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
+// DAOS
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
 const DAOUser = require("./daos/DAOUser");
 const DAORecompensa = require("./daos/DAORecompensa");
-const ControllerCategoria = require("./controllers/controllerCategoria");
-const ControllerUser = require("./controllers/controllerUser");
 const DAOTarea = require("./daos/DAOTarea");
-const ControllerTarea = require("./controllers/controllerTarea");
 const DAOActividad = require("./daos/DAOActividad");
-const routerPrototipo = require("./routes/RouterPrototipo");
+const DAOAsignatura = require("./daos/DAOAsignatura");
+// Controllers
+const ControllerUser = require("./controllers/controllerUser");
+const ControllerTarea = require("./controllers/controllerTarea");
+// Routers
+const routerTask = require("./routes/RouterTask");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -67,13 +70,9 @@ const webpush = require('web-push'); // Importar web-push
 // Configuración de web-push (debes configurar tus propias claves)
 // Configura tus propias claves VAPID
 // const vapidKeys = webpush.generateVAPIDKeys();
-// console.log("Clave pública VAPID:", vapidKeys.publicKey);
-// console.log("Clave privada VAPID:", vapidKeys.privateKey);
 const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9KyIRopraMi5mhaXqEMXitX22g-4kJNs7g';
 const privateVapidKey = 'RQL25CNQAqpZHFJuCVKmP2kpDpeuRKZhNbK-N1Ijouc';
 webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, privateVapidKey);
-
-
 
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
@@ -82,69 +81,70 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
-const datoRec = new DAORecompensa(pool);
+const daoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
-
+const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
-const conCat = new ControllerCategoria(daoCat);
-const conUse = new ControllerUser(daoUse, daoCat);
-
-//ESTO NO SE COMO FUNCIONA
-//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
-const conTarea = new ControllerTarea(daoTarea, daoActividad );
-
-// --- Routers ---
-routerPrototipo.routerConfig(conCat,conTarea);
-
-app.use("/prototipo", routerPrototipo.RouterPrototipo);
+const conUse = new ControllerUser(daoUse, daoActividad, daoRec);
+const conTarea = new ControllerTarea(daoTarea, daoActividad, daoCat, daoAsignatura, daoRec, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
 function userLogged(request, response, next) {
   if (request.session.currentUser) {
-      next();
+    next();
   }
   else {
-      response.redirect("/login");
+    response.redirect("/login");
   }
 };
 
 // Comprobar que el usuario no había iniciado sesión
 function userAlreadyLogged(request, response, next) {
   if (request.session.currentUser) {
-      response.redirect("/inicio");
+    response.redirect("/inicio");
   }
   else {
-      next();
+    next();
   }
 };
 
+// --- Routers ---
+routerTask.routerConfig(conTarea);
+
+app.use("/tareas", userLogged, routerTask.RouterTask);
+
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get('/categorias', userLogged, conCat.getCategorias);
-
 // Login
-app.get("/login", (request, response, next) => {
+app.get("/login", userAlreadyLogged, (request, response, next) => {
   response.render("login", { user: "", response: undefined });
 });
 
-//Inicio
-app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
+// Inicio
+app.get(["/", "/inicio"], userLogged, conTarea.getTareas);
 
-app.get("/crearTarea", (request, response, next) => {
-  next({
-    ajax: false,
-    status: 200,
-    redirect: "crearTarea",
-    data: {
-        response: undefined,
-        generalInfo: {}
+// TODO RouterUser y rehacer
+// Perfil usuario
+app.get("/perfil", userLogged, (request, response, next) => {
+  // Obtener el usuario de la sesión
+  const currentUser = request.session.currentUser;
+  // Renderizar la vista perfil.ejs y pasar el usuario como dato
+  daoRec.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+    if (error) {
+      // Manejar el error si ocurre
+      next(error);
+    } else {
+      // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
+      response.render("perfil", { user: currentUser, recompensas: recompensas });
     }
   });
 });
 
-app.get('/tareas', userLogged, conTarea.getTareas);
+
+// --- Otras peticiones GET ---
+
 
 // --- Peticiones POST ---
 // Login
@@ -158,38 +158,36 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-app.post("/crearTareaForm", conTarea.crearTarea);
-// --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
 app.use((request, response, next) => {
   next({
-      ajax: false,
-      status: 404,
-      redirect: "error",
-      data: {
-          code: 404,
-          title: "Oops! Página no encontrada :(",
-          message: "La página a la que intentas acceder no existe."
-      }
-  }); 
+    ajax: false,
+    status: 404,
+    redirect: "error",
+    data: {
+      code: 404,
+      title: "Oops! Página no encontrada :(",
+      message: "La página a la que intentas acceder no existe."
+    }
+  });
 });
 
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
   // Respuestas AJAX
   if (responseData.ajax) {
-      if (responseData.error) {
-          response.status(responseData.status).send(responseData.error);
-          response.end();
-      }
-      else if (responseData.img) {
-          response.end(responseData.img);
-      }
-      else {
-          response.json(responseData.data);
-      }
+    if (responseData.error) {
+      response.status(responseData.status).send(responseData.error);
+      response.end();
+    }
+    else if (responseData.img) {
+      response.end(responseData.img);
+    }
+    else {
+      response.json(responseData.data);
+    }
   }
   // Respuestas no AJAX
   else {
@@ -201,9 +199,9 @@ app.use((responseData, request, response, next) => {
 // --- Iniciar el servidor ---
 app.listen(connection.port, (error) => {
   if (error) {
-      console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
+    console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
   }
   else {
-      console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
+    console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
   }
 });

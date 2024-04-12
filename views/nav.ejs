@@ -15,9 +15,7 @@
             </div>
             <div class="offcanvas-body bg-ta-primary">
                 <ul>
-                    <li><a href="/categorias">Categoria</a></li>
-                    <li><a href="/crearTarea">Crear Tarea</a></li>
-                    <li><a href="/tareas">Tareas</a></li>
+                    <li><a href="/tareas/crearTarea">Crear Tarea</a></li>
                 </ul>
                 <form id="form-logout" method="POST" action="/logout">
                     <a id="a-logout"><button class="m-0 p-0">Cerrar sesión</button></a>
@@ -29,9 +27,9 @@
             <img src="/images/logos/logoTareApp.png" alt="Logo TareApp" width="100">
         </a>
         <!-- Botón de perfil normal -->
-        <button id="button-nav-profile" title="Desplegable del perfil">
+        <a href="/perfil" title="Ir al perfil">
             <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
-        </button>
+        </a>
     </nav>
 </body>
 
