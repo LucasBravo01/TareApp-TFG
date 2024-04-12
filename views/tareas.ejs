@@ -19,22 +19,18 @@
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
     <div class="row">
-        <div class="col-md-4 headContainer">
-            <h1>TAREAS</h1>
+        <div class="centrado">
+            <h1 class="titulo">TAREAS</h1>
         </div>
         <div class="contenedorTareas">
             <% tareas.forEach( t=> { %>
                 <a href="/tarea/<%= t.id %>">
-                    <div class="border border-dark mx-2 my-3" style="display: flex;">
-                        <div class="d-flex">
-                            <p>
-                               <!-- <%= t.foto %>-->
-                            </p>
+                    <div class="tareaCard">
+                        <div class="centrado">
+                            <img src="/images/default/profile.png" height="50px">
                         </div>
                         <div>
-                            <p>
-                                <%= t.título %>
-                            </p>
+                            <label class="labelText"> <%= t.título %></label>
                         </div>
                     </div>
                 </a>
