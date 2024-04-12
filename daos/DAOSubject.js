@@ -1,20 +1,20 @@
 "use strict"
 
-class DAOAsignatura {
+class DAOSubject {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.readAll = this.readAll.bind(this);
-        this.checkAsignaturaExists = this.checkAsignaturaExists.bind(this);
+        this.readAllSubjects = this.readAllSubjects.bind(this);
+        this.checkSubjectExists = this.checkSubjectExists.bind(this);
     }
 
-    readAll(callback) {
+    readAllSubjects(callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM asignatura AS CAT";
+                let querySQL = "SELECT * FROM subject AS SUB";
                 connection.query(querySQL, (error, rows) => {
                     connection.release();
                     if (error) {
@@ -22,33 +22,33 @@ class DAOAsignatura {
                     }
                     else {
                         // Construir objeto
-                        let asignaturas = new Array();
+                        let subjects = new Array();
                         rows.forEach(row => {
                             let facility = {
                                 id: row.id,
-                                activo: row.activo,
-                                id_profesor: row.id_profesor,
-                                nombre: row.nombre,
-                                curso: row.curso,
+                                enable: row.enabled,
+                                id_teacher: row.id_teacher,
+                                name: row.name,
+                                grade: row.grade,
                                 color: row.color, 
-                                hasProfilePic: (row.foto ? true : false),
+                                hasProfilePic: (row.photo ? true : false),
                             }
-                            asignaturas.push(facility);
+                            subjects.push(facility);
                         });
-                        callback(null, asignaturas);
+                        callback(null, subjects);
                     }
                 });
             }
         });
     }
 
-    checkAsignaturaExists(idAsignatura, callback) {
+    checkSubjectExists(idAsignatura, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM asignatura WHERE id = ?";
+                let querySQL = "SELECT COUNT(*) AS count FROM subject WHERE id = ?";
                 connection.query(querySQL, [idAsignatura], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -68,4 +68,4 @@ class DAOAsignatura {
     }
 }
 
-module.exports = DAOAsignatura;
+module.exports = DAOSubject;

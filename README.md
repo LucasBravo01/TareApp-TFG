@@ -17,7 +17,7 @@
 
 - En HTML, los IDs comienzan siempre por el tipo de elemento (div, button, img...) → <elem>-... 
 - Idioma 
-    - Tablas y atributos BBDD: [ES] 
+    - Tablas y atributos BBDD: [EN] 
     - Variables y funciones JS: [EN] 
     - IDs y clases HTML: [EN] 
     - Texto de la página web: [ES] 

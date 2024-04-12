@@ -1,20 +1,20 @@
 "use strict"
 
-class DAOCategoria {
+class DAOCategory {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.readAll = this.readAll.bind(this);
-        this.checkCategoriaExists = this.checkCategoriaExists.bind(this);
+        this.readAllCategories = this.readAllCategories.bind(this);
+        this.checkCategoriaExists = this.checkCategoryExists.bind(this);
     }
 
-    readAll(callback) {
+    readAllCategories(callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM categoria AS CAT";
+                let querySQL = "SELECT * FROM category";
                 connection.query(querySQL, (error, rows) => {
                     connection.release();
                     if (error) {
@@ -22,29 +22,29 @@ class DAOCategoria {
                     }
                     else {
                         // Construir objeto
-                        let categorias = new Array();
+                        let categories = new Array();
                         rows.forEach(row => {
-                            let facility = {
-                                nombre: row.nombre,
-                                icono: row.icono
+                            let category = {
+                                name: row.name,
+                                icon: row.icon
                             }
-                            categorias.push(facility);
+                            categories.push(category);
                         });
-                        callback(null, categorias);
+                        callback(null, categories);
                     }
                 });
             }
         });
     }
 
-    checkCategoriaExists(nombreCategoria, callback) {
+    checkCategoryExists(nameCategory, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM categoria WHERE nombre = ?";
-                connection.query(querySQL, [nombreCategoria], (error, rows) => {
+                let querySQL = "SELECT COUNT(*) AS count FROM category WHERE name = ?";
+                connection.query(querySQL, [nameCategory], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -63,4 +63,4 @@ class DAOCategoria {
     }
 }
 
-module.exports = DAOCategoria;
+module.exports = DAOCategory;

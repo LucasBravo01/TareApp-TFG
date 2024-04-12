@@ -3,7 +3,6 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const errorHandler = require("../errorHandler");
-const DAORecompensa = require("../daos/DAORecompensa");
 
 class ControllerUser {
     // Constructor

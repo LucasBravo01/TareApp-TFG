@@ -7,12 +7,12 @@ const moment = require('moment');
 
 class ControllerTarea {
     // Constructor
-    constructor(daoTarea, daoActividad, daoCat, daoAsignatura, daoRec, daoUse) {
-        this.daoTarea = daoTarea;
-        this.daoActividad = daoActividad;
+    constructor(daoTas, daoAct, daoCat, daoSub, daoRew, daoUse) {
+        this.daoTas = daoTas;
+        this.daoAct = daoAct;
         this.daoCat = daoCat;
-        this.daoAsignatura = daoAsignatura;
-        this.daoRec = daoRec;
+        this.daoSub = daoSub;
+        this.daoRew = daoRew;
         this.daoUse = daoUse;
 
         this.datosForm = this.datosForm.bind(this);
@@ -23,27 +23,28 @@ class ControllerTarea {
     }
 
     datosForm(req, res, next) {
-        this.daoCat.readAll((error, categorias) => {
+        this.daoCat.readAllCategories((error, categories) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
             else {
-                this.daoAsignatura.readAll((error, asignaturas) => {
+                this.daoSub.readAllSubjects((error, subject) => {
                     if (error) {
                         errorHandler.manageError(error, {}, "error", next);
                     }
                     else {
-                        this.daoRec.readAllRecompensasCrearTarea((error, recompensas) => {
+                        this.daoRew.readAllRewards((error, reward) => {
                             if (error) {
                                 errorHandler.manageError(error, {}, "error", next);
                             }
                             else {
                                 let datosCT = {
-                                    categorias: categorias,
-                                    recompensas: recompensas,
-                                    asignaturas: asignaturas
+                                    categorias: categories,
+                                    recompensas: reward,
+                                    asignaturas: subject
                                 }
                                 req.datosCT = datosCT;
+                                console.log(datosCT);
                                 next();
                             }
                         });
@@ -70,7 +71,7 @@ class ControllerTarea {
     crearTarea(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoActividad.checkActividadExists(req.body, (error, result) => {
+            this.daoAct.checkActividadExists(req.body, (error, result) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
@@ -98,14 +99,14 @@ class ControllerTarea {
                                     console.log('No existe categoria');
                                     errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                                 } else {
-                                    this.daoRec.checkRecompensaExists(req.body.recompensa, (error, result) => {
+                                    this.daoRew.checkRecompensaExists(req.body.recompensa, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result) {
                                             console.log('No existe recompensa');
                                             errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                                         } else {
-                                            this.daoAsignatura.checkAsignaturaExists(req.body.asignatura, (error, result) => {
+                                            this.daoSub.checkAsignaturaExists(req.body.asignatura, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
                                                 } else if (!result && req.body.categoria === "Escolar") {
@@ -125,19 +126,19 @@ class ControllerTarea {
                                                         duracion: req.body.duracion
                                                     }
 
-                                                    this.daoActividad.pushActividad(form, (error, tarea) => {
+                                                    this.daoAct.pushActividad(form, (error, tarea) => {
                                                         if (error) {
                                                             errorHandler.manageError(error, {}, "error", next);
                                                         }
                                                         else {
                                                             console.log('Actividad Añadida');
-                                                            this.daoTarea.pushTarea(tarea, (error) => {
+                                                            this.daoTas.pushTarea(tarea, (error) => {
                                                                 if (error) {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
                                                                     console.log('Tarea Añadida');
-                                                                    this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
+                                                                    this.daoAct.readAllByUser(req.session.currentUser.id, (error, tareas) => {
                                                                         if (error) {
                                                                             errorHandler.manageError(error, {}, "error", next);
                                                                         }
@@ -176,7 +177,7 @@ class ControllerTarea {
     }
 
     getTareas(req, res, next) {
-        this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
+        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tareas) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
@@ -199,7 +200,7 @@ class ControllerTarea {
     getTask(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoTarea.getTaskById(req.params.id, (error, task) => {
+            this.daoTas.getTaskById(req.params.id, (error, task) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }

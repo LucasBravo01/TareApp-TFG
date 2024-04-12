@@ -2,7 +2,7 @@
 
 const utils = require("../utils");
 
-class DAOTarea {
+class DAOTask {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
@@ -15,7 +15,7 @@ class DAOTarea {
             if (err) {
                 callback(new Error("Error de conexión a la base de datos."));// error de conexion
             } else { 
-                connection.query("INSERT INTO tarea (id_actividad, terminada, duración, id_evento, id_recompensa) VALUES(?,?,?,?,?);",
+                connection.query("INSERT INTO task (id_activity, completed, duration, id_event, id_reward) VALUES(?,?,?,?,?);",
                     [ tarea.id, 0, tarea.duracion, undefined, tarea.recompensa],  // Actualiza esta línea
                     function (err) {
                         connection.release();
@@ -36,7 +36,7 @@ class DAOTarea {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM tarea AS TAR JOIN actividad AS ACT ON TAR.id_actividad=ACT.id WHERE ACT.id = ?";
+                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ?";
                 connection.query(querySQL, [idTask], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -50,21 +50,21 @@ class DAOTarea {
                             // Construir objeto
                             let task = {
                                 id: rows[0].id,
-                                enabled: rows[0].activo,
-                                idCreator: rows[0].id_creador,
-                                idDestination: rows[0].id_destinatario,
-                                title: rows[0].título,
-                                date: utils.formatDate(rows[0].fecha),
-                                time: utils.formatHour(rows[0].hora),
-                                description: rows[0].descripción,
-                                taskHasPic: rows[0].foto ? true : false,
-                                reminder: rows[0].recordatorio,
-                                category: rows[0].categoría,
-                                idSubject: rows[0].id_asignatura,
-                                done: rows[0].terminada,
-                                duration: rows[0].duración,
-                                idEvent: rows[0].id_evento,
-                                idReward: rows[0].id_recompensa
+                                enabled: rows[0].enabled,
+                                idCreator: rows[0].id_creator,
+                                idDestination: rows[0].id_receiver,
+                                title: rows[0].title,
+                                date: utils.formatDate(rows[0].date),
+                                time: utils.formatHour(rows[0].time),
+                                description: rows[0].description,
+                                taskHasPic: rows[0].photo ? true : false,
+                                reminder: rows[0].reminder,
+                                category: rows[0].category,
+                                idSubject: rows[0].id_subject,
+                                done: rows[0].completed,
+                                duration: rows[0].duration,
+                                idEvent: rows[0].id_event,
+                                idReward: rows[0].id_reward
                             }
                             callback(null, task);
                         }
@@ -75,4 +75,4 @@ class DAOTarea {
     }
 }
 
-module.exports = DAOTarea;
+module.exports = DAOTask;
