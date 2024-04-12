@@ -22,12 +22,11 @@ const DAORecompensa = require("./daos/DAORecompensa");
 const DAOTarea = require("./daos/DAOTarea");
 const DAOActividad = require("./daos/DAOActividad");
 const DAOAsignatura = require("./daos/DAOAsignatura");
-// Ccntrollers
-const ControllerCategoria = require("./controllers/controllerCategoria");
+// Controllers
 const ControllerUser = require("./controllers/controllerUser");
 const ControllerTarea = require("./controllers/controllerTarea");
-
-const routerPrototipo = require("./routes/RouterPrototipo");
+// Routers
+const routerTask = require("./routes/RouterTask");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -75,8 +74,6 @@ const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9Ky
 const privateVapidKey = 'RQL25CNQAqpZHFJuCVKmP2kpDpeuRKZhNbK-N1Ijouc';
 webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, privateVapidKey);
 
-
-
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
 
@@ -89,14 +86,8 @@ const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
 const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
-const conCat = new ControllerCategoria(daoCat);
-const conUse = new ControllerUser(daoUse, daoCat);
+const conUse = new ControllerUser(daoUse, daoActividad, daoRec);
 const conTarea = new ControllerTarea(daoTarea, daoActividad, daoCat, daoAsignatura, daoRec, daoUse);
-
-// --- Routers ---
-routerPrototipo.routerConfig(conCat, conTarea);
-
-app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -119,32 +110,24 @@ function userAlreadyLogged(request, response, next) {
   }
 };
 
+// --- Routers ---
+routerTask.routerConfig(conTarea);
+
+app.use("/tareas", userLogged, routerTask.RouterTask);
+
 // --- Peticiones GET ---
 // - Enrutamientos -
-
-// TODO borrar
-// Listar Categorias
-app.get('/categorias', userLogged, conCat.getCategorias);
-
 // Login
-app.get("/login", (request, response, next) => {
+app.get("/login", userAlreadyLogged, (request, response, next) => {
   response.render("login", { user: "", response: undefined });
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
+app.get(["/", "/inicio"], userLogged, conTarea.getTareas);
 
-// TODO RouterTask?
-// Crear Tarea
-app.get("/crearTarea", conTarea.datosForm, conTarea.getFormTask);
-
-// TODO RouterTask?
-// Listar Tarea
-app.get('/tareas', userLogged, conTarea.getTareas);
-
-// TODO RouterUser?
+// TODO RouterUser y rehacer
 // Perfil usuario
-app.get("/perfil", (request, response, next) => {
+app.get("/perfil", userLogged, (request, response, next) => {
   // Obtener el usuario de la sesión
   const currentUser = request.session.currentUser;
   // Renderizar la vista perfil.ejs y pasar el usuario como dato
@@ -159,38 +142,11 @@ app.get("/perfil", (request, response, next) => {
   });
 });
 
-// TODO RouterTask?
-// Mostrar una tarea
-app.get(
-  "/tarea/:id",
-  userLogged,
-  check("id", "-2").isNumeric(),
-  conTarea.datosForm,
-  conTarea.getTask);
+
+// --- Otras peticiones GET ---
+
 
 // --- Peticiones POST ---
-// TODO RouterTask?
-// Crear Tarea 
-app.post("/crearTareaForm",
-  // Ninguno de los campos vacíos 
-  check("titulo", "1").notEmpty(),
-  check("id", "1").notEmpty(),
-  check("fecha", "1").notEmpty(),
-  check("hora", "1").notEmpty(),
-  check("categoria", "1").notEmpty(),
-  check("recordatorios", "1").notEmpty(),
-  check("recompensa", "1").notEmpty(),
-  check("duracion", "1").notEmpty(),
-  // Campos de enums válidos
-  check("recordatorios", "32").custom((recType) => {
-    return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
-  }),
-  check("duracion", "32").custom((durType) => {
-    return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
-  }),
-  conTarea.datosForm,
-  conTarea.crearTarea);
-
 // Login
 app.post(
   "/login",
@@ -202,8 +158,6 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-
-// --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
 // Error 404

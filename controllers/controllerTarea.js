@@ -75,11 +75,11 @@ class ControllerTarea {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
                     console.log('Ya existe actividad');
-                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
+                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                 } else {
                     if (req.body.categoria !== "Escolar" && req.body.asignatura !== undefined) {
                         console.log('Escolar y no asignatura');
-                        errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero ponerr
+                        errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                     } else {
                         // Comprobar que el día y la hora son posteriores a hoy
                         let currentDate = moment(); // Momento actual
@@ -89,28 +89,28 @@ class ControllerTarea {
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (momentRes.isBefore(currentDate)) {
                             console.log('Horas y fecha mas definidas');
-                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next);//TODO 
+                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next);//TODO Mirar que numero poner
                         } else {
                             this.daoCat.checkCategoriaExists(req.body.categoria, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
                                     console.log('No existe categoria');
-                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
+                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                                 } else {
                                     this.daoRec.checkRecompensaExists(req.body.recompensa, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result) {
                                             console.log('No existe recompensa');
-                                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
+                                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                                         } else {
                                             this.daoAsignatura.checkAsignaturaExists(req.body.asignatura, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
                                                 } else if (!result && req.body.categoria === "Escolar") {
                                                     console.log('No existe asignatura');
-                                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
+                                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
                                                 } else {
                                                     let form = {
                                                         id: req.body.id,
@@ -136,8 +136,8 @@ class ControllerTarea {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
-                                                                    console.log('Tarea Añadida'); // TODO cambiar para redirigir a tareas
-                                                                    this.daoCat.readAll((error, categorias) => {
+                                                                    console.log('Tarea Añadida');
+                                                                    this.daoActividad.readAllByUser(req.session.currentUser.id, (error, tareas) => {
                                                                         if (error) {
                                                                             errorHandler.manageError(error, {}, "error", next);
                                                                         }
@@ -145,11 +145,11 @@ class ControllerTarea {
                                                                             next({
                                                                                 ajax: false,
                                                                                 status: 200,
-                                                                                redirect: "categorias",
+                                                                                redirect: "tareas",
                                                                                 data: {
                                                                                     response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
                                                                                     generalInfo: {},
-                                                                                    categorias: categorias
+                                                                                    tareas: tareas
                                                                                 }
                                                                             });
                                                                         }
@@ -171,7 +171,7 @@ class ControllerTarea {
         }
         else {
             console.log("Campos vacios");
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.datosCT }, "crearTarea", next); //TODO Mirar que numero poner
         }
     }
 
@@ -205,7 +205,7 @@ class ControllerTarea {
                 }
                 else {
                     if (task.idCreator !== req.session.currentUser.id ) {
-                        errorHandler.manageError(-3, {}, "error", next); //TODO cambiar número
+                        errorHandler.manageError(-3, {}, "error", next); //TODO Mirar que numero poner
                     }
                     else {
                         this.daoUse.readById(req.session.currentUser.id, (error, user) => {
