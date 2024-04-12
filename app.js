@@ -14,17 +14,19 @@ const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
+// DAOS
 const connection = require("./daos/connection");
 const DAOCategoria = require("./daos/DAOCategoria");
 const DAOUser = require("./daos/DAOUser");
 const DAORecompensa = require("./daos/DAORecompensa");
-const DAOTask = require("./daos/DAOTask");
+const DAOTarea = require("./daos/DAOTarea");
+const DAOActividad = require("./daos/DAOActividad");
+const DAOAsignatura = require("./daos/DAOAsignatura");
+// Ccntrollers
 const ControllerCategoria = require("./controllers/controllerCategoria");
 const ControllerUser = require("./controllers/controllerUser");
-const DAOTarea = require("./daos/DAOTarea");
 const ControllerTarea = require("./controllers/controllerTarea");
-const DAOActividad = require("./daos/DAOActividad");
-const ControllerTask = require("./controllers/controllerTask");
+
 const routerPrototipo = require("./routes/RouterPrototipo");
 
 // --- Crear aplicación Express ---
@@ -82,22 +84,17 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoCat = new DAOCategoria(pool);
 const daoUse = new DAOUser(pool);
-const datoRec = new DAORecompensa(pool);
+const daoRec = new DAORecompensa(pool);
 const daoTarea = new DAOTarea(pool);
 const daoActividad = new DAOActividad(pool);
-
-const daoTas = new DAOTask(pool);
+const daoAsignatura = new DAOAsignatura(pool);
 // Crear instancias de los Controllers
 const conCat = new ControllerCategoria(daoCat);
 const conUse = new ControllerUser(daoUse, daoCat);
-const conTas = new ControllerTask(daoTas, daoUse);
-
-//ESTO NO SE COMO FUNCIONA
-//const useController = new UserController(daoUse, daoUni, daoFac, daoMes);
-const conTarea = new ControllerTarea(daoTarea, daoActividad );
+const conTarea = new ControllerTarea(daoTarea, daoActividad, daoCat, daoAsignatura, daoRec, daoUse);
 
 // --- Routers ---
-routerPrototipo.routerConfig(conCat,conTarea);
+routerPrototipo.routerConfig(conCat, conTarea);
 
 app.use("/prototipo", routerPrototipo.RouterPrototipo);
 
@@ -105,25 +102,28 @@ app.use("/prototipo", routerPrototipo.RouterPrototipo);
 // Comprobar que el usuario ha iniciado sesión
 function userLogged(request, response, next) {
   if (request.session.currentUser) {
-      next();
+    next();
   }
   else {
-      response.redirect("/login");
+    response.redirect("/login");
   }
 };
 
 // Comprobar que el usuario no había iniciado sesión
 function userAlreadyLogged(request, response, next) {
   if (request.session.currentUser) {
-      response.redirect("/inicio");
+    response.redirect("/inicio");
   }
   else {
-      next();
+    next();
   }
 };
 
 // --- Peticiones GET ---
 // - Enrutamientos -
+
+// TODO borrar
+// Listar Categorias
 app.get('/categorias', userLogged, conCat.getCategorias);
 
 // Login
@@ -131,44 +131,66 @@ app.get("/login", (request, response, next) => {
   response.render("login", { user: "", response: undefined });
 });
 
-//Inicio
+// Inicio
 app.get(["/", "/inicio"], userLogged, conCat.getCategorias);
 
-app.get("/crearTarea", (request, response, next) => {
-  next({
-    ajax: false,
-    status: 200,
-    redirect: "crearTarea",
-    data: {
-        response: undefined,
-        generalInfo: {}
-    }
-  });
-});
+// TODO RouterTask?
+// Crear Tarea
+app.get("/crearTarea", conTarea.datosForm, conTarea.getFormTask);
 
+// TODO RouterTask?
+// Listar Tarea
 app.get('/tareas', userLogged, conTarea.getTareas);
 
-app.get("/crearTarea", (request, response, next) => {
-  next({
-    ajax: false,
-    status: 200,
-    redirect: "crearTarea",
-    data: {
-        response: undefined,
-        generalInfo: {}
+// TODO RouterUser?
+// Perfil usuario
+app.get("/perfil", (request, response, next) => {
+  // Obtener el usuario de la sesión
+  const currentUser = request.session.currentUser;
+  // Renderizar la vista perfil.ejs y pasar el usuario como dato
+  daoRec.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
+    if (error) {
+      // Manejar el error si ocurre
+      next(error);
+    } else {
+      // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
+      response.render("perfil", { user: currentUser, recompensas: recompensas });
     }
   });
 });
 
-
-
+// TODO RouterTask?
+// Mostrar una tarea
 app.get(
-  "/tarea/:id", 
+  "/tarea/:id",
   userLogged,
   check("id", "-2").isNumeric(),
-  conTas.getTask)
+  conTarea.datosForm,
+  conTarea.getTask);
 
 // --- Peticiones POST ---
+// TODO RouterTask?
+// Crear Tarea 
+app.post("/crearTareaForm",
+  // Ninguno de los campos vacíos 
+  check("titulo", "1").notEmpty(),
+  check("id", "1").notEmpty(),
+  check("fecha", "1").notEmpty(),
+  check("hora", "1").notEmpty(),
+  check("categoria", "1").notEmpty(),
+  check("recordatorios", "1").notEmpty(),
+  check("recompensa", "1").notEmpty(),
+  check("duracion", "1").notEmpty(),
+  // Campos de enums válidos
+  check("recordatorios", "32").custom((recType) => {
+    return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+  }),
+  check("duracion", "32").custom((durType) => {
+    return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
+  }),
+  conTarea.datosForm,
+  conTarea.crearTarea);
+
 // Login
 app.post(
   "/login",
@@ -180,38 +202,38 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-app.post("/crearTareaForm", conTarea.crearTarea);
+
 // --- Otras funcionesF ---
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
 app.use((request, response, next) => {
   next({
-      ajax: false,
-      status: 404,
-      redirect: "error",
-      data: {
-          code: 404,
-          title: "Oops! Página no encontrada :(",
-          message: "La página a la que intentas acceder no existe."
-      }
-  }); 
+    ajax: false,
+    status: 404,
+    redirect: "error",
+    data: {
+      code: 404,
+      title: "Oops! Página no encontrada :(",
+      message: "La página a la que intentas acceder no existe."
+    }
+  });
 });
 
 // Manejador de respuestas 
 app.use((responseData, request, response, next) => {
   // Respuestas AJAX
   if (responseData.ajax) {
-      if (responseData.error) {
-          response.status(responseData.status).send(responseData.error);
-          response.end();
-      }
-      else if (responseData.img) {
-          response.end(responseData.img);
-      }
-      else {
-          response.json(responseData.data);
-      }
+    if (responseData.error) {
+      response.status(responseData.status).send(responseData.error);
+      response.end();
+    }
+    else if (responseData.img) {
+      response.end(responseData.img);
+    }
+    else {
+      response.json(responseData.data);
+    }
   }
   // Respuestas no AJAX
   else {
@@ -223,9 +245,9 @@ app.use((responseData, request, response, next) => {
 // --- Iniciar el servidor ---
 app.listen(connection.port, (error) => {
   if (error) {
-      console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
+    console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
   }
   else {
-      console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
+    console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
   }
 });

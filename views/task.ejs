@@ -18,20 +18,19 @@
 
         <h1>MODIFICAR TAREA</h1>
         <div>
-            <p> Id: <%= task.id %></p>
-            <p> Activo: <%= task.enabled %></p>
-            <p> Creador: <%= task.user.username %></p>
-            <p> Título: <%= task.title %></p>
-            <p> Fecha: <%= task.date %></p>
-            <p> Hora: <%= task.time %></p>
-            <p> Descripción: <%= task.description %></p>
+            <!-- TODO hablar tema fotos -->
             <p> Foto: <%= task.taskHasPic %></p>
+            
+            <!-- TODO gestionar por JS -->
             <p> Recordatorio: <%= task.reminder %></p>
             <p> Categoria: <%= task.category %></p>
             <p> idAsignatura: <%= task.idSubject %></p>
-            <p> Terminado: <%= task.done %></p>
             <p> Duración: <%= task.duration %></p>
+                <!-- TODO Flata idrecompensa -->
+
+            <!-- TODO todavía no implementado -->
             <p> idEvento: <%= task.idEvent %></p>
+            <p> Terminado: <%= task.done %></p>
         </div>
 
         <!-- text to voice button -->
