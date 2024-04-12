@@ -1,3 +1,11 @@
+//Configurar SW
+let swLocation = "sw.js";
+// "/beerjs/sw.js";
+
+if (navigator.serviceWorker) {
+  if (window.location.href.includes("localhost")) swLocation = "../sw.js"; //Varia según el host
+  navigator.serviceWorker.register(swLocation);
+}
 ///////////////////////
 const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9KyIRopraMi5mhaXqEMXitX22g-4kJNs7g';
 

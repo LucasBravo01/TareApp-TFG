@@ -5,7 +5,7 @@ module.exports = {
         host: "localhost",
         user: "root",
         password: "",
-        database: "TareApp",
+        database: "Prototipo_TareApp",
         port: 3306
     },
     
