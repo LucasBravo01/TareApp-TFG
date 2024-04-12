@@ -146,11 +146,11 @@ class ControllerTask {
                                                                             next({
                                                                                 ajax: false,
                                                                                 status: 200,
-                                                                                redirect: "tareas",
+                                                                                redirect: "tasks",
                                                                                 data: {
                                                                                     response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
                                                                                     generalInfo: {},
-                                                                                    tareas: tasks
+                                                                                    tasks: tasks
                                                                                 }
                                                                             });
                                                                         }
