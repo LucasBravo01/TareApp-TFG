@@ -15,6 +15,12 @@ body {
 }
 
 /*TEXTOS*/
+.title {
+    color: #000000;
+    margin: .5rem 0rem;
+    font-weight: bold;
+}
+
 .second-text {
     color: #F1F2F6;
 }
@@ -48,4 +54,18 @@ a {
     background-color: #DCDCDC;
     color: #000000;
     border: 1px #3D53E2 solid;
+}
+
+/*ELEMENTOS*/
+.card-task {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-items: center;
+    margin: 1rem auto;
+    padding: 1rem;
+    /*PROVISIONAL*/
+    width: 50%;
+    border-radius: 1.6rem;
+    color: #F1F2F6;
+    background-color: #3D53E2;
 }

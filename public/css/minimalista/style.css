@@ -15,6 +15,11 @@ body {
 }
 
 /*TEXTOS*/
+.title {
+    color: #000000;
+    margin: .5rem 0rem;
+}
+
 .second-text {
     color: #F1F2F6;
 }

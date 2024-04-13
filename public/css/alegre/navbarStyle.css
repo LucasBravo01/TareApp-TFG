@@ -1,7 +1,7 @@
 .menu-element {
     display: grid;
+    grid-template-columns: 15% 85%;
     align-items: center;
     justify-items: start;
-    grid-template-columns: 15% 85%;
     margin: 1.5rem 0rem;
 }

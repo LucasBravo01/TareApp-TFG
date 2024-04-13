@@ -4,11 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/listTasksStyle.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-
-    <!-- Importar JS específicos -->
+    <link rel="stylesheet" href="/css/alegre/listTasksStyle.css">
 
 </head>
 
@@ -19,18 +15,18 @@
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
     <div class="row">
-        <div class="centrado">
-            <h1 class="titulo">TAREAS</h1>
+        <div class="d-flex justify-content-center">
+            <h1 class="title">TAREAS</h1>
         </div>
-        <div class="contenedorTareas">
+        <div>
             <% tasks.forEach( t=> { %>
                 <a href="/tareas/tarea/<%= t.id %>">
-                    <div class="tareaCard">
-                        <div class="centrado">
-                            <img src="/images/default/profile.png" height="50px">
+                    <div class="card-task">
+                        <div class="d-flex justify-content-center">
+                            <img src="/images/default/profile.png" height="50">
                         </div>
                         <div>
-                            <label class="labelText"> <%= t.title %></label>
+                            <span><%= t.title %></span>
                         </div>
                     </div>
                 </a>
