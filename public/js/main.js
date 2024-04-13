@@ -19,7 +19,7 @@ function showModal(response, header, img, title, message, button, modal) {
         // Crear modal
         header.removeClass("bg-ta-light-gray");
         header.addClass("bg-ta-light-green");
-        img.attr("src", "/images/iconos/success.png");
+        img.attr("src", "/images/icons/success.png");
         img.attr("alt", "Icono de éxito");
         button.removeClass("bg-ta-red");
         button.addClass("bg-ta-green");
@@ -30,7 +30,7 @@ function showModal(response, header, img, title, message, button, modal) {
         message.text(response.message);
         header.removeClass("bg-ta-light-green");
         header.addClass("bg-ta-light-gray");
-        img.attr("src", "/images/iconos/error.png");
+        img.attr("src", "/images/icons/error.png");
         img.attr("alt", "Icono de error");
         button.removeClass("bg-ta-green");
         button.addClass("bg-ta-red");

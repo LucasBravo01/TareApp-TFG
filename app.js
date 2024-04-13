@@ -113,7 +113,7 @@ function userAlreadyLogged(request, response, next) {
 // --- Routers ---
 routerTask.routerConfig(conTask);
 
-app.use("/tasks", userLogged, routerTask.RouterTask);
+app.use("/tareas", userLogged, routerTask.RouterTask);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
@@ -125,22 +125,9 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 // Inicio
 app.get(["/", "/inicio"], userLogged, conTask.getTasks);
 
-// TODO RouterUser y rehacer
+// TODO RouterUser
 // Perfil usuario
-app.get("/profile", userLogged, (request, response, next) => {
-  // Obtener el usuario de la sesión
-  const currentUser = request.session.currentUser;
-  // Renderizar la vista perfil.ejs y pasar el usuario como dato
-  daoRew.getRewardsUser(currentUser.id, (error, rewards) => {
-    if (error) {
-      // Manejar el error si ocurre
-      next(error);
-    } else {
-      // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
-      response.render("profile", { user: currentUser, rewards: rewards });
-    }
-  });
-});
+app.get("/perfil", userLogged, conUse.profile);
 
 
 // --- Otras peticiones GET ---

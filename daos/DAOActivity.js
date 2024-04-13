@@ -10,26 +10,24 @@ class DAOActivity {
     }
 
     pushActivity(form, callback){
-        this.pool.getConnection(function (err, connection) { // coger la conexion
-            if (err) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
                 callback(-1);
-            } else { 
-                connection.query("INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES(?,?,?,?,?,?,?,?,?,?,?) ",
-                [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders,form.category, form.subject], // Actualiza esta línea
-                    function (err, result) {
-                        connection.release();
-                        if (err) {
-                            callback(-1); // Error en la sentencia
-                        } else {
-                            let task = {
-                                id : result.insertId, // Aquí obtenemos el ID generado automáticamente
-                                duration : form.duration,
-                                reward: form.reward
-                            };
-                            callback(null, task);  //Devolver el usuario registrado
-                        }
+            } else {
+                let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES(?,?,?,?,?,?,?,?,?);";
+                connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders,form.category, form.subject], (error, result) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1); // Error en la sentencia
+                    } else {
+                        let task = {
+                            id : result.insertId, // Aquí obtenemos el ID generado automáticamente
+                            duration : form.duration,
+                            reward: form.reward
+                        };
+                        callback(null, task);
                     }
-                );
+                });
             }
         });
     }
@@ -51,7 +49,7 @@ class DAOActivity {
                             
                             let activities = new Array();
                             rows.forEach(row => {
-                                let facility = {
+                                let activity = {
                                     id: row.id,
                                     enabled: row.enabled,
                                     id_creator: row.id_creator,
@@ -68,9 +66,9 @@ class DAOActivity {
                                     id_activity: row.id_activity,
                                     completed: row.completed,
                                     duration: row.duration,
-                                    id_event: row.id_event,
+                                    id_event: row.id_event
                                 }
-                                activities.push(facility);
+                                activities.push(activity);
                             });
                             callback(null, activities);
                         }

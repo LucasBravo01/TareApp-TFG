@@ -6,26 +6,24 @@ class DAOTask {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.pushTarea = this.pushTarea.bind(this);
+        this.pushTask = this.pushTask.bind(this);
         this.getTaskById = this.getTaskById.bind(this);
     }
 
-    pushTarea(tarea , callback){        
-        this.pool.getConnection(function (err, connection) { // coger la conexion
-            if (err) {
-                callback(new Error("Error de conexión a la base de datos."));// error de conexion
-            } else { 
-                connection.query("INSERT INTO task (id_activity, completed, duration, id_event, id_reward) VALUES(?,?,?,?,?);",
-                    [ tarea.id, 0, tarea.duracion, undefined, tarea.recompensa],  // Actualiza esta línea
-                    function (err) {
-                        connection.release();
-                        if (err) {
-                            callback(new Error("Error de acceso a la base de datos.")); // Error en la sentencia
-                        } else {
-                            callback(null, true);  //Devolver el usuario registrado
-                        }
+    pushTask(task , callback){        
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "INSERT INTO task (id_activity, duration, id_reward) VALUES(?,?,?);";
+                connection.query(querySQL, [task.id, task.duration, task.reward], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1); // Error en la sentencia
+                    } else {
+                        callback(null);
                     }
-                );
+                });
             }
         });
     }

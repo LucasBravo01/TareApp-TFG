@@ -39,7 +39,6 @@ $(() => {
     // Comprobar si hay tarea que mostrar
     const task = $("body").data("task");
 
-    console.log(task);
     // Ajustar datos tarea
     if (task.id) {
         // Rellenar campos faltantes

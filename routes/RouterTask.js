@@ -13,18 +13,18 @@ function routerConfig(conTask) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/createTask", conTask.dataForm, conTask.getFormTask);
+    RouterTask.get("/crearTarea", conTask.dataForm, conTask.getFormTask);
 
     // Mostrar una tarea
     RouterTask.get(
-        "/task/:id",
+        "/tarea/:id",
         check("id", "-2").isNumeric(),
         conTask.dataForm,
         conTask.getTask);
 
     // --- Peticiones POST ---
     // Crear Tarea 
-    RouterTask.post("/createTaskForm",
+    RouterTask.post("/crearTareaForm",
         // Ninguno de los campos vacíos 
         check("title", "1").notEmpty(),
         check("id", "1").notEmpty(),

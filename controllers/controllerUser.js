@@ -1,7 +1,7 @@
 "use strict"
 
-const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
 
 class ControllerUser {
@@ -16,6 +16,7 @@ class ControllerUser {
         this.logout = this.logout.bind(this);
     }
 
+    // TODO rehacer bien manejador de rutas
     //Metodo para traerme las recompensas del usuario
     profile(req, res, next) {
         // Obtener el usuario actual de la sesión

@@ -58,18 +58,16 @@ class DAOReward {
                     if (err) {
                         callback(-1);
                     } else {
-                        let rewards = [];
-                        let id, title, icon, message;
-    
-                        rows.forEach(element => {
-                            id = element.id;
-                            title = element.titulo;
-                            icon = element.icono;
-                            message = element.mensaje;
-    
-                            rewards.push({ id, title, icon, message });
+                        let rewards = new Array();
+                        rows.forEach(row => {
+                            let reward = {
+                                id: row.id,
+                                title: row.title,
+                                icon: row.icon,
+                                message: row.message
+                            }
+                            rewards.push(reward);
                         });
-    
                         callback(null, rewards);
                     }
                 });
