@@ -132,6 +132,9 @@ app.get("/perfil", userLogged, conUse.profile);
 
 // --- Otras peticiones GET ---
 
+app.get("/configuracion", userLogged, (request, response, next) => {
+  response.redirect("/configuration.ejs");
+});
 
 // --- Peticiones POST ---
 // Login

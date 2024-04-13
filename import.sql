@@ -30,10 +30,11 @@ CREATE TABLE user (
 
 -- Configuración
 CREATE TABLE configuration (
-  id_user INT NOT NULL PRIMARY KEY,
+  id INT NOT NULL PRIMARY KEY,
+  id_user INT NOT NULL,
   font_size INT NOT NULL,
-  theme INT NOT NULL,
-  time_preference INT NOT NULL,
+  theme  ENUM('alegre', 'minimalista') NOT NULL,
+  time_preference ENUM('largo', 'corto') NOT NULL,
 
   FOREIGN KEY (id_user) REFERENCES user(id)
 );
