@@ -7,12 +7,13 @@ const errorHandler = require("../errorHandler");
 
 class ControllerTask {
     // Constructor
-    constructor(daoTas, daoAct, daoCat, daoSub, daoRew, daoUse) {
-        this.daoTas = daoTas;
+    constructor(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse) {
         this.daoAct = daoAct;
         this.daoCat = daoCat;
-        this.daoSub = daoSub;
+        this.daoRem = daoRem;
         this.daoRew = daoRew;
+        this.daoSub = daoSub;
+        this.daoTas = daoTas;
         this.daoUse = daoUse;
 
         this.dataForm = this.dataForm.bind(this);
@@ -20,6 +21,7 @@ class ControllerTask {
         this.createTask = this.createTask.bind(this);
         this.getTasks = this.getTasks.bind(this);
         this.getTask = this.getTask.bind(this);
+        this.createReminders = this.createReminders.bind(this);
     }
 
     dataForm(req, res, next) {
@@ -123,29 +125,33 @@ class ControllerTask {
                                                             errorHandler.manageError(error, {}, "error", next);
                                                         }
                                                         else {
-                                                            console.log('Hola C1');
                                                             this.daoTas.pushTask(task, (error) => {
                                                                 if (error) {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
-                                                                    console.log('Tarea Añadida');
-                                                                    this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
-                                                                        if (error) {
-                                                                            errorHandler.manageError(error, {}, "error", next);
-                                                                        }
-                                                                        else {
-                                                                            next({
-                                                                                ajax: false,
-                                                                                status: 200,
-                                                                                redirect: "tasks",
-                                                                                data: {
-                                                                                    response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
-                                                                                    generalInfo: {},
-                                                                                    tasks: tasks
-                                                                                }
-                                                                            });
-                                                                        }
+                                                                    this.createReminders(form)
+                                                                    .then( () => {
+                                                                        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+                                                                            if (error) {
+                                                                                errorHandler.manageError(error, {}, "error", next);
+                                                                            }
+                                                                            else {
+                                                                                next({
+                                                                                    ajax: false,
+                                                                                    status: 200,
+                                                                                    redirect: "tasks",
+                                                                                    data: {
+                                                                                        response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
+                                                                                        generalInfo: {},
+                                                                                        tasks: tasks
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    })
+                                                                    .catch((error) => {
+                                                                        errorHandler.manageError(error, {}, "error", next);
                                                                     });
                                                                 }
                                                             });
@@ -163,8 +169,54 @@ class ControllerTask {
             });
         }
         else {
-            console.log("Campos vacios");
             errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+        }
+    }
+
+    async createReminders (form) {
+        // Dividir la fecha en sus componentes
+        let [year, month, day] = form.date.split('-').map(Number);
+    
+        // Crear la fecha de la tarea
+        let date = new Date(year, month - 1, day); // Restar 1 al mes ya que en JavaScript los meses van de 0 a 11
+        let currentDate = new Date();
+        
+        // Cuantos
+        let numRem = 0;
+        switch(form.reminders) {
+            case "1 día antes": numRem = 1; break;
+            case "Desde 2 días antes": numRem = 2; break;
+            case "Desde 1 semana antes": numRem = 7; break;
+            case "No recordarmelo": numRem = 0; break;
+            default: numRem = 0; break;
+        }
+        for(let i = 1; i <= numRem; i++){
+            let reminderDate = new Date(form.date);
+            reminderDate.setDate(date.getDate() - i);
+            reminderDate.setHours(8, 0, 0, 0);
+            
+            if(reminderDate <= currentDate){
+                continue;
+            }
+            let reminder = {
+                id: form.id,
+                sent_date: reminderDate
+            };
+            try{
+                await new Promise((resolve, reject)=>{
+                    this.daoRem.pushReminderSystem(reminder, (error) => {
+                        if (error) {
+                            reject(error);
+                        }
+                        else {
+                            resolve();
+                        }
+                    });
+                });
+                console.log(`Reminder ${i+1} add`);
+            }catch(error){
+                console.log("Error try reminderPush");
+            }
         }
     }
 

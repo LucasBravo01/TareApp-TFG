@@ -6,10 +6,10 @@ const errorHandler = require("../errorHandler");
 
 class ControllerUser {
     // Constructor
-    constructor(daoUse, daoAct, daoRew) {
-        this.daoUse = daoUse;
+    constructor(daoAct, daoRew, daoUse) {
         this.daoAct = daoAct;
         this.daoRew = daoRew;
+        this.daoUse = daoUse;
 
         this.profile = this.profile.bind(this);
         this.login = this.login.bind(this);

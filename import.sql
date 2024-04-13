@@ -79,7 +79,7 @@ CREATE TABLE subject (
 -- Recordatorio
 CREATE TABLE reminder (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  id_sender INT NOT NULL,
+  id_sender INT,
   id_receiver INT NOT NULL,
   message VARCHAR(255) NOT NULL,
   sent_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
