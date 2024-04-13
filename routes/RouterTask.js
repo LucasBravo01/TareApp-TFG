@@ -9,40 +9,40 @@ const { check, validationResult } = require("express-validator");
 const RouterTask = express.Router();
 
 // Obtener pool
-function routerConfig(conTarea) {
+function routerConfig(conTask) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/crearTarea", conTarea.datosForm, conTarea.getFormTask);
+    RouterTask.get("/crearTarea", conTask.dataForm, conTask.getFormTask);
 
     // Mostrar una tarea
     RouterTask.get(
         "/tarea/:id",
         check("id", "-2").isNumeric(),
-        conTarea.datosForm,
-        conTarea.getTask);
+        conTask.dataForm,
+        conTask.getTask);
 
     // --- Peticiones POST ---
     // Crear Tarea 
     RouterTask.post("/crearTareaForm",
         // Ninguno de los campos vacíos 
-        check("titulo", "1").notEmpty(),
+        check("title", "1").notEmpty(),
         check("id", "1").notEmpty(),
-        check("fecha", "1").notEmpty(),
-        check("hora", "1").notEmpty(),
-        check("categoria", "1").notEmpty(),
-        check("recordatorios", "1").notEmpty(),
-        check("recompensa", "1").notEmpty(),
-        check("duracion", "1").notEmpty(),
+        check("date", "1").notEmpty(),
+        check("time", "1").notEmpty(),
+        check("category", "1").notEmpty(),
+        check("reminders", "1").notEmpty(),
+        check("reward", "1").notEmpty(),
+        check("duration", "1").notEmpty(),
         // Campos de enums válidos
-        check("recordatorios", "32").custom((recType) => {
+        check("reminders", "32").custom((recType) => {
         return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
-        check("duracion", "32").custom((durType) => {
+        check("duration", "32").custom((durType) => {
         return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
-        conTarea.datosForm,
-        conTarea.crearTarea);
+        conTask.dataForm,
+        conTask.createTask);
 }
 
 module.exports = {

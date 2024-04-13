@@ -16,15 +16,15 @@ const cron = require('node-cron');
 // Fichero
 // DAOS
 const connection = require("./daos/connection");
-const DAOCategoria = require("./daos/DAOCategoria");
+const DAOCategory = require("./daos/DAOCategory");
 const DAOUser = require("./daos/DAOUser");
-const DAORecompensa = require("./daos/DAORecompensa");
-const DAOTarea = require("./daos/DAOTarea");
-const DAOActividad = require("./daos/DAOActividad");
-const DAOAsignatura = require("./daos/DAOAsignatura");
+const DAOReward = require("./daos/DAOReward");
+const DAOTask = require("./daos/DAOTask");
+const DAOActivity = require("./daos/DAOActivity");
+const DAOSubject = require("./daos/DAOSubject");
 // Controllers
 const ControllerUser = require("./controllers/controllerUser");
-const ControllerTarea = require("./controllers/controllerTarea");
+const ControllerTask = require("./controllers/controllerTask");
 // Routers
 const routerTask = require("./routes/RouterTask");
 
@@ -79,15 +79,15 @@ const pool = mysql.createPool(connection.mysqlConfig);
 
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
-const daoCat = new DAOCategoria(pool);
+const daoCat = new DAOCategory(pool);
 const daoUse = new DAOUser(pool);
-const daoRec = new DAORecompensa(pool);
-const daoTarea = new DAOTarea(pool);
-const daoActividad = new DAOActividad(pool);
-const daoAsignatura = new DAOAsignatura(pool);
+const daoRew = new DAOReward(pool);
+const daoTask = new DAOTask(pool);
+const daoAct = new DAOActivity(pool);
+const daoSub = new DAOSubject(pool);
 // Crear instancias de los Controllers
-const conUse = new ControllerUser(daoUse, daoActividad, daoRec);
-const conTarea = new ControllerTarea(daoTarea, daoActividad, daoCat, daoAsignatura, daoRec, daoUse);
+const conUse = new ControllerUser(daoUse, daoAct, daoRew);
+const conTask = new ControllerTask(daoTask, daoAct, daoCat, daoSub, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -111,7 +111,7 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTarea);
+routerTask.routerConfig(conTask);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 
@@ -123,24 +123,11 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conTarea.getTareas);
+app.get(["/", "/inicio"], userLogged, conTask.getTasks);
 
-// TODO RouterUser y rehacer
+// TODO RouterUser
 // Perfil usuario
-app.get("/perfil", userLogged, (request, response, next) => {
-  // Obtener el usuario de la sesión
-  const currentUser = request.session.currentUser;
-  // Renderizar la vista perfil.ejs y pasar el usuario como dato
-  daoRec.getRecompensasUsuario(currentUser.id, (error, recompensas) => {
-    if (error) {
-      // Manejar el error si ocurre
-      next(error);
-    } else {
-      // Renderizar la vista perfil.ejs y pasar el usuario y las recompensas como datos
-      response.render("perfil", { user: currentUser, recompensas: recompensas });
-    }
-  });
-});
+app.get("/perfil", userLogged, conUse.profile);
 
 
 // --- Otras peticiones GET ---

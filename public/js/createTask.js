@@ -24,7 +24,7 @@ function validateParams(params, currentDate) {
 
 $(() => {
     // Obtener elementos
-    const formTask = document.getElementById("formTarea");
+    const formTask = document.getElementById("formTask");
     const inputTitle = $("#input-title");
     const inputDate = $("#input-date");
     const inputHour = $("#input-hour");
@@ -39,7 +39,6 @@ $(() => {
     // Comprobar si hay tarea que mostrar
     const task = $("body").data("task");
 
-    console.log(task);
     // Ajustar datos tarea
     if (task.id) {
         // Rellenar campos faltantes

@@ -16,7 +16,7 @@ class DAOUser {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM usuario WHERE activo = 1 AND usuario_acceso = ?";
+                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND access_user = ?";
                 connection.query(querySQL, [username], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -33,15 +33,15 @@ class DAOUser {
                             // Construir objeto
                             let user = {
                                 id: rows[0].id,
-                                enabled: rows[0].activo,
-                                username: rows[0].usuario_acceso,
-                                name: rows[0].nombre,
-                                lastname1: rows[0].apellido1,
-                                lastname2: rows[0].apellido2,
-                                password: rows[0].contraseña,
-                                hasProfilePic: (rows[0].foto ? true : false),
-                                rol: rows[0].tipoUsuario,
-                                idParent: rows[0].id_padre
+                                enabled: rows[0].enabled,
+                                username: rows[0].access_user,
+                                name: rows[0].first_name,
+                                lastname1: rows[0].last_name1,
+                                lastname2: rows[0].last_name2,
+                                password: rows[0].password,
+                                hasProfilePic: (rows[0].photo ? true : false),
+                                rol: rows[0].userType,
+                                idParent: rows[0].id_parent
                             }
                             callback(null, user);
                         }
@@ -58,7 +58,7 @@ class DAOUser {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM usuario WHERE activo = 1 AND id = ?";
+                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND id = ?";
                 connection.query(querySQL, [id], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -75,15 +75,15 @@ class DAOUser {
                             // Construir objeto
                             let user = {
                                 id: rows[0].id,
-                                enabled: rows[0].activo,
-                                username: rows[0].usuario_acceso,
-                                name: rows[0].nombre,
-                                lastname1: rows[0].apellido1,
-                                lastname2: rows[0].apellido2,
-                                password: rows[0].contraseña,
-                                hasProfilePic: (rows[0].foto ? true : false),
-                                rol: rows[0].tipoUsuario,
-                                idParent: rows[0].id_padre
+                                enabled: rows[0].enabled,
+                                username: rows[0].access_user,
+                                name: rows[0].first_name,
+                                lastname1: rows[0].last_name1,
+                                lastname2: rows[0].last_name2,
+                                password: rows[0].password,
+                                hasProfilePic: (rows[0].photo ? true : false),
+                                rol: rows[0].userType,
+                                idParent: rows[0].id_parent
                             }
                             callback(null, user);
                         }
