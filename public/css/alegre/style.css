@@ -1,0 +1,51 @@
+/*FUENTE*/
+body {
+    font-family: 'Comfortaa', sans-serif;
+    background-color: #DCDCDC;
+    color: #000000;
+}
+
+/*FONDOS PANTALLAS*/
+.main-background {
+    background-color: #3D53E2;
+}
+
+.second-background {
+    background-color: #8898FA;
+}
+
+/*TEXTOS*/
+.second-text {
+    color: #F1F2F6;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*BOTONES*/
+.button {
+    padding: .5rem;
+    border-radius: .7rem;
+}
+
+.main-button {
+    background-color: #3D53E2;
+    color: #F1F2F6;
+}
+
+.second-button {
+    background-color: #8898FA;
+    color: #F1F2F6;
+}
+
+.dangerous-button {
+    background-color: #D9183B;
+    color: #F1F2F6;
+}
+
+.aux-button {
+    background-color: #DCDCDC;
+    color: #000000;
+    border: 1px #3D53E2 solid;
+}

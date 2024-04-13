@@ -1,6 +1,4 @@
 body {
-    background-color: #ffff;
-    font-family: NeutraText, Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
 }

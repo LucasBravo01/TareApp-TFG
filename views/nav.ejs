@@ -1,30 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/alegre/navbarStyle.css">
+</head>
+
 <body>
-    <nav class="d-flex align-items-center justify-content-between bg-ta-primary">
+    <nav class="d-flex align-items-center justify-content-between main-background">
         <!-- Menú hamburguesa -->
         <button id="button-nav-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" title="Desplegable del menú">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="white" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-            </svg>
+            <img src="/images/navbar/menu.png" alt="Menú" width="50">
         </button>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-            <div class="offcanvas-header bg-ta-primary">
+            <div class="offcanvas-header main-background">
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body bg-ta-primary">
-                <ul>
-                    <li><a href="/tareas/crearTarea">Crear Tarea</a></li>
-                </ul>
-                <form id="form-logout" method="POST" action="/logout">
-                    <a id="a-logout"><button class="m-0 p-0">Cerrar sesión</button></a>
-                </form>
+            <div class="offcanvas-body main-background">
+                <div id="functions" class="m-3">
+                    <div id="notifications" class="menu-element">
+                        <div>
+                            <img src="/images/navbar/notifications.png" alt="Notificaciones" width="30"/>
+                        </div>
+                        <div>
+                            <a href="/tareas/crearTarea" class="second-text">Notificaciones</a>
+                        </div>
+                    </div>
+
+                    <div id="settings" class="menu-element">
+                        <div>
+                            <img src="/images/navbar/settings.png" alt="Configuración" width="30"/>
+                        </div>
+                        <div>
+                            <a href="/tareas/crearTarea" class="second-text">Configuración</a>
+                        </div>
+                    </div>
+
+                    <div id="createTask" class="menu-element">
+                        <div>
+                            <img src="" alt="" width=""/>
+                        </div>
+                        <div>
+                            <a href="/tareas/crearTarea" class="second-text">Crear Tarea</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <form id="form-logout" method="POST" action="/logout">
+                        <a id="a-logout"><button class="button dangerous-button"><img src="/images/navbar/logout.png" alt="Cerrar Sesión" width="30"/> <span>Cerrar sesión</span></button></a>
+                    </form>
+                </div>
             </div>
         </div>
         <!-- Inicio -->
         <a id="a-nav" href="/" class="d-flex align-items-center" title="Volver a inicio">
-            <img src="/images/logos/logoTareApp.png" alt="Logo TareApp" width="100">
+            <img src="/images/logos/logo-no-background-no-text.png" alt="Logo TareApp" width="100">
         </a>
         <!-- Botón de perfil normal -->
         <a href="/perfil" title="Ir al perfil">
