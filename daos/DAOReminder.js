@@ -10,13 +10,13 @@ class DAOReminder {
         this.getNotifications = this.getNotifications.bind(this);
     }
 
-    pushReminderSystem(reminder , callback){        
+    pushReminderSystem(reminder, username, callback){        
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
                 let querySQL = "INSERT INTO reminder (id_receiver, message,sent_date) VALUES(?,?,?);";
-                connection.query(querySQL, [ reminder.id, "A por todo!!!", reminder.sent_date], (error) => {
+                connection.query(querySQL, [ reminder.id, `¡A por todo ${username}!`, reminder.sent_date], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); // Error en la sentencia
@@ -28,14 +28,14 @@ class DAOReminder {
         });
     }
 
-    getNotifications(callback) {
+    getNotifications(date, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE id_sender = NULL";
-                connection.query(querySQL, (error, rows) => {
+                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE REM.sent_date=? AND REM.id_sender IS NULL ORDER BY REM.id_receiver;"; // TODO GROUP BY para mandar solo una. Hablar con el grupo
+                connection.query(querySQL, [date], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -47,8 +47,10 @@ class DAOReminder {
                             let reminder = {
                                 message: row.message,
                                 endpoint: row.endpoint,
-                                auth: row.auth,
-                                p256dh: row.p256dh
+                                keys: {
+                                    auth: row.auth,
+                                    p256dh: row.p256dh
+                                }                                
                             }
                             reminders.push(reminder);
                         });

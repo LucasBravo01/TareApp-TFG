@@ -26,12 +26,15 @@ class controllerReminder {
         const notificationPayload = {
             notification: {
                 title: 'TareApp',
-                body: '¡Tienes un nuevo mensaje!',
-                icon: '../public/images/logos/logo-192x192.png' // Ruta al icono de la notificación
+                icon: '/images/logos/logo-192x192.png' // Ruta al icono de la notificación
             }
         };
         
-        this.daoRem.getNotifications((error, notifications) => {
+        let currentDate = new Date();
+        currentDate.setHours(8, 0, 0, 0);
+
+
+        this.daoRem.getNotifications(currentDate, (error, notifications) => {
             if (error) {
             console.error('Error al obtener suscripciones:', err);
             } else {

@@ -149,8 +149,8 @@ app.post('/suscribirse', conRem.subscribe);
 // --- Otras funciones ---
 
 // Programar la tarea para que se ejecute todos los días a las 8 de la mañana
-cron.schedule('* * * * *', () => {
-  // conRem.sendNotifications();
+cron.schedule('0 8 * * *', () => {
+  conRem.sendNotifications();
 });
 
 // --- Middlewares de respuestas y errores ---

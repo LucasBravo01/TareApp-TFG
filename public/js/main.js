@@ -5,7 +5,7 @@
 let swLocation = "sw.js";
 
 if (navigator.serviceWorker) {
-  if (window.location.href.includes("localhost")) swLocation = "../sw.js"; //Varia según el host
+  if (window.location.href.includes("localhost")) swLocation = "/sw.js"; //Varia según el host
   navigator.serviceWorker.register(swLocation);
 }
 
@@ -14,7 +14,7 @@ const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9Ky
 
 async function subscribeToNotifications() {
   try {
-    const serviceWorkerRegistration = await navigator.serviceWorker.register('../sw.js');
+    const serviceWorkerRegistration = await navigator.serviceWorker.register('/sw.js');
     const subscription = await serviceWorkerRegistration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: publicVapidKey
