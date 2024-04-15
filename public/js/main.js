@@ -37,6 +37,7 @@ async function sendSubscriptionToServer(subscription) {
       },
       body: JSON.stringify({ subscription })
     });
+    console.log(response);
     if (!response.ok) {
       throw new Error('Error al enviar la suscripción al servidor');
     }
@@ -77,17 +78,24 @@ function showModal(response, header, img, title, message, button, modal) {
 
 // Cuando cargue el DOM
 $(() => {
-    // Comprobar al cargar la página si hay un mensaje que mostrar
-    const response = $("body").data("response");
+  // Suscribirse cuando hace click
+  const subscribeButton = $("#button-subscribe");
+  subscribeButton.on("click", () => {
+    console.log("Suscribir");
+    subscribeToNotifications();
+  });
 
-    if (response) {
-        showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
-    }
+  // Comprobar al cargar la página si hay un mensaje que mostrar
+  const response = $("body").data("response");
 
-    // Logout
-    const buttonLogout = $("#a-logout");
-    const formLogout = $("#form-logout");
-    buttonLogout.on("click", () => {
-        formLogout.submit();
-    });
+  if (response) {
+      showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+  }
+
+  // Logout
+  const buttonLogout = $("#a-logout");
+  const formLogout = $("#form-logout");
+  buttonLogout.on("click", () => {
+      formLogout.submit();
+  });
 });

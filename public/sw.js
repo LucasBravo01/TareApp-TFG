@@ -40,7 +40,7 @@ self.addEventListener('push', e => {
 });
 
 async function sendSubscriptionToServer(subscription) {
-  const response = await fetch('/guardar-suscripcion', {
+  const response = await fetch('/suscribirse', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

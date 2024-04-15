@@ -21,6 +21,7 @@ const DAOCategory = require("./daos/DAOCategory");
 const DAOReminder = require("./daos/DAOReminder");
 const DAOReward = require("./daos/DAOReward");
 const DAOSubject = require("./daos/DAOSubject");
+const DAOSubscription = require("./daos/DAOSubscription");
 const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
 // Controllers
@@ -77,12 +78,13 @@ const daoCat = new DAOCategory(pool);
 const daoRem = new DAOReminder(pool);
 const daoRew = new DAOReward(pool);
 const daoSub = new DAOSubject(pool);
+const daoSubs = new DAOSubscription(pool);
 const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
-const conRem = new ControllerReminder();
+const conRem = new ControllerReminder(daoRem, daoSubs);
+const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
 const conUse = new ControllerUser(daoAct, daoRew, daoUse);
-const conTask = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -106,7 +108,7 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTask);
+routerTask.routerConfig(conTas);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 
@@ -118,7 +120,7 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conTask.getTasks);
+app.get(["/", "/inicio"], userLogged, conTas.getTasks);
 
 // TODO RouterUser
 // Perfil usuario
@@ -143,6 +145,13 @@ app.post("/logout", conUse.logout);
 
 // Ruta para recibir y guardar la suscripción desde el cliente
 app.post('/suscribirse', conRem.subscribe);
+
+// --- Otras funciones ---
+
+// Programar la tarea para que se ejecute todos los días a las 8 de la mañana
+cron.schedule('* * * * *', () => {
+  // conRem.sendNotifications();
+});
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
@@ -189,11 +198,4 @@ app.listen(connection.port, (error) => {
   else {
     console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
   }
-});
-
-// --- Otras funciones ---
-
-// Programar la tarea para que se ejecute todos los días a las 8 de la mañana
-cron.schedule('* * * * *', () => {
-  // conRem.sendNotifications();
 });

@@ -14,16 +14,18 @@ webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, private
 
 class controllerReminder {
     // Constructor
-    constructor(daoRem) {
+    constructor(daoRem, daoSubs) {
         this.daoRem = daoRem;
+        this.daoSubs = daoSubs;
 
         this.sendNotifications = this.sendNotifications.bind(this);
+        this.subscribe = this.subscribe.bind(this);
     }
 
     sendNotifications() {
         const notificationPayload = {
             notification: {
-                title: '¡Recordatorio TareApp!',
+                title: 'TareApp',
                 body: '¡Tienes un nuevo mensaje!',
                 icon: '../public/images/logos/logo-192x192.png' // Ruta al icono de la notificación
             }
@@ -34,6 +36,7 @@ class controllerReminder {
             console.error('Error al obtener suscripciones:', err);
             } else {
                 notifications.forEach(notification => {
+                    notificationPayload.notification.body = notification.message;
                     if(notification.endpoint) {
                         webpush.sendNotification(notification, JSON.stringify(notificationPayload))
                     .then(() => console.log('Notificación enviada con éxito a', notification.endpoint))
@@ -46,9 +49,9 @@ class controllerReminder {
 
     subscribe(req, res, next) {
         const subscription = req.body.subscription;
-        this.daoRem.guardarSuscripcion(subscription, (err) => {
-            if (err) {
-                console.error('Error al guardar la suscripción:', err);
+        this.daoSubs.pushSubscription(req.session.currentUser.id, subscription, (error) => {
+            if (error) {
+                console.error('Error al guardar la suscripción:', error);
                 res.status(500).json({ error: 'Error interno del servidor' });
                 return;
             }
