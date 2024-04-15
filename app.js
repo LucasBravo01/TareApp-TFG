@@ -22,11 +22,13 @@ const DAOReward = require("./daos/DAOReward");
 const DAOTask = require("./daos/DAOTask");
 const DAOActivity = require("./daos/DAOActivity");
 const DAOSubject = require("./daos/DAOSubject");
+const DAOConfiguration = require("./daos/DAOConfiguration");
 // Controllers
 const ControllerUser = require("./controllers/controllerUser");
 const ControllerTask = require("./controllers/controllerTask");
 // Routers
 const routerTask = require("./routes/RouterTask");
+const routerUser = require("./routes/RouterUser");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -85,8 +87,9 @@ const daoRew = new DAOReward(pool);
 const daoTask = new DAOTask(pool);
 const daoAct = new DAOActivity(pool);
 const daoSub = new DAOSubject(pool);
+const daoCon = new DAOConfiguration(pool);
 // Crear instancias de los Controllers
-const conUse = new ControllerUser(daoUse, daoAct, daoRew);
+const conUse = new ControllerUser(daoUse, daoAct, daoRew, daoCon);
 const conTask = new ControllerTask(daoTask, daoAct, daoCat, daoSub, daoRew, daoUse);
 
 // --- Middlewares ---
@@ -112,8 +115,10 @@ function userAlreadyLogged(request, response, next) {
 
 // --- Routers ---
 routerTask.routerConfig(conTask);
+routerUser.routerConfig(conUse);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
+app.use("/usuario", userLogged, routerUser.RouterUser);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
@@ -124,17 +129,6 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 
 // Inicio
 app.get(["/", "/inicio"], userLogged, conTask.getTasks);
-
-// TODO RouterUser
-// Perfil usuario
-app.get("/perfil", userLogged, conUse.profile);
-
-
-// --- Otras peticiones GET ---
-
-app.get("/configuracion", userLogged, (request, response, next) => {
-  response.redirect("/configuration.ejs");
-});
 
 // --- Peticiones POST ---
 // Login

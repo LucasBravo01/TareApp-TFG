@@ -30,9 +30,8 @@ CREATE TABLE user (
 
 -- Configuración
 CREATE TABLE configuration (
-  id INT NOT NULL PRIMARY KEY,
-  id_user INT NOT NULL,
-  font_size INT NOT NULL,
+  id_user INT NOT NULL PRIMARY KEY,
+  font_size ENUM('grande', 'normal') NOT NULL,
   theme  ENUM('alegre', 'minimalista') NOT NULL,
   time_preference ENUM('largo', 'corto') NOT NULL,
 
@@ -182,6 +181,14 @@ INSERT INTO user (access_user, first_name, last_name1, last_name2, password, use
 ('raquelHB', 'Raquel', 'Hervás', 'Ballesteros', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'profesor');
 
 -- Configuración
+INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
+(1, 'normal', 'alegre', 'corto'),
+(2, 'normal', 'alegre', 'corto'),
+(3, 'normal', 'alegre', 'corto'),
+(4, 'normal', 'alegre', 'corto'),
+(5, 'normal', 'alegre', 'corto'),
+(6, 'normal', 'alegre', 'corto'),
+(7, 'normal', 'alegre', 'corto');
 
 -- Suscripción
 

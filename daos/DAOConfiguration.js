@@ -4,8 +4,8 @@ class DAOConfiguration {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.updateConfigurations = this.readAllConfigurations.bind(this);
-        this.getConfigurationByUser= this.getConfiguration.bind(this);
+        this.updateConfigurations = this.updateConfigurations.bind(this);
+        this.getConfigurationByUser= this.getConfigurationByUser.bind(this);
     }
 
     getConfigurationByUser(userID, callback) {
@@ -14,25 +14,30 @@ class DAOConfiguration {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM configuration AS CONF where CONF.id_user = userID";
-                connection.query(querySQL, (error, rows) => {
+                let querySQL = "SELECT * FROM configuration where id_user = ?";
+                connection.query(querySQL, [userID], (error, rows) => {
+
                     connection.release();
                     if (error) {
                         callback(-1);
                     }
                     else {
-                        // Construir objeto
-                        let config = new Array();
-                        rows.forEach(row => {
-                            let category = {
-                                id_user: row.id_user,
-                                font_size: row.font_size,
-                                theme: row.theme,
-                                time_preference: row.time_preference
+                        if (rows.length > 1) {
+                            callback(-1);
+                        }
+                        else if (rows.length === 0) {
+                            callback(null, null);
+                        }
+                        else {
+                            // Construir objeto
+                            let configuration = {
+                                id_user: rows[0].id_user,
+                                font_size: rows[0].font_size,
+                                theme: rows[0].theme,
+                                time_preference: rows[0].time_preference
                             }
-                            configuration.push(config);
-                        });
-                        callback(null, configuration);
+                            callback(null, configuration);
+                        }
                     }
                 });
             }

@@ -6,30 +6,37 @@ const errorHandler = require("../errorHandler");
 
 class ControllerUser {
     // Constructor
-    constructor(daoUse, daoAct, daoRew) {
+    constructor(daoUse, daoAct, daoRew, daoCon) {
         this.daoUse = daoUse;
         this.daoAct = daoAct;
         this.daoRew = daoRew;
+        this.daoCon = daoCon;
+
 
         this.profile = this.profile.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
+        this.getConfiguration = this.getConfiguration.bind(this);
     }
 
     // TODO rehacer bien manejador de rutas
     //Metodo para traerme las recompensas del usuario
     profile(req, res, next) {
-        // Obtener el usuario actual de la sesión
-        const currentUser = req.session.currentUser;
-
-        // Obtener las recompensas del usuario utilizando el DAO de recompensas
-        this.daoRew.getRewardsUser(currentUser.id, (error, rewards) => {
+        this.daoRew.getRewardsUser(req.session.currentUser.id, (error, rewards) => {
             if (error) {
-                // Manejar el error, redirigir o mostrar un mensaje de error
-                next(error);
+                errorHandler.manageError(error, {}, "error", next);
             } else {
-                // Renderizar la vista del perfil del usuario y pasar los datos del usuario y las recompensas
-                res.render("profile", { user: currentUser, rewards: rewards });
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "profile",
+                    data: {
+                        response: undefined,
+                        generalInfo: {},
+                        user: req.session.currentUser, 
+                        rewards: rewards
+                    }
+                });
             }
         });
     }
@@ -99,6 +106,26 @@ class ControllerUser {
             data: {
                 user: "",
                 response: undefined
+            }
+        });
+    }
+
+    getConfiguration(req, res, next) {
+        this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, configuration) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "configuration",
+                    data: {
+                        response: undefined,
+                        generalInfo: {},
+                        configuration: configuration
+                    }
+                });
             }
         });
     }
