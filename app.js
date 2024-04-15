@@ -108,7 +108,7 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTas);
+routerTask.routerConfig(conTas, conRem );
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 
@@ -128,7 +128,7 @@ app.get("/perfil", userLogged, conUse.profile);
 
 
 // --- Otras peticiones GET ---
-
+app.get("/notificaciones", conRem.getReminders);
 
 // --- Peticiones POST ---
 // Login

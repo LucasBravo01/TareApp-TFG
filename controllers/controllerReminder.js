@@ -20,6 +20,7 @@ class controllerReminder {
 
         this.sendNotifications = this.sendNotifications.bind(this);
         this.subscribe = this.subscribe.bind(this);
+        this.getReminders = this.getReminders.bind(this);
     }
 
     sendNotifications() {
@@ -59,6 +60,27 @@ class controllerReminder {
                 return;
             }
             res.status(200).json({ message: 'Suscripción guardada correctamente' });
+        });
+    }
+
+    getReminders(req, res, next) {
+        let currentDate = new Date();
+        this.daoRem.readAllByUser(req.session.currentUser.id,currentDate, (error, reminders) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "notifications",
+                    data: {
+                        response: undefined,
+                        generalInfo: {},
+                        reminders: reminders
+                    }
+                });
+            }
         });
     }
 

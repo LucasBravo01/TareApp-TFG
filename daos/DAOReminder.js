@@ -8,6 +8,7 @@ class DAOReminder {
 
         this.pushReminderSystem = this.pushReminderSystem.bind(this);
         this.getNotifications = this.getNotifications.bind(this);
+        this.readAllByUser = this.readAllByUser.bind(this);
     }
 
     pushReminderSystem(reminder, username, callback){        
@@ -51,6 +52,34 @@ class DAOReminder {
                                     auth: row.auth,
                                     p256dh: row.p256dh
                                 }                                
+                            }
+                            reminders.push(reminder);
+                        });
+                        callback(null, reminders);
+                    }
+                });
+            }
+        });
+    }
+
+    readAllByUser(id,date, callback){
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? ;";
+                connection.query(querySQL, [id], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        // Construir objeto
+                        let reminders = new Array();
+                        rows.forEach(row => {
+                            let reminder = {
+                                message: row.message,                            
                             }
                             reminders.push(reminder);
                         });
