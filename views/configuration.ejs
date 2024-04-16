@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/listTasksStyle.css">
+    <link rel="stylesheet" href="/css/configurationStyle.css">
 
     <!-- Importar JS específicos -->
 
@@ -19,11 +19,46 @@
    
         <!-- text to voice button -->
 
-        <h1>OLAAA</h1>
-        <p><%= configuration.id_user %></p>
-        <p><%=configuration.font_size %></p>
-        <p><%=configuration.theme %></p>
-        <p><%=configuration.time_preference %></p>
+
+        <div>
+            <div class="centrado">
+                <h2>Apariencia</h2>
+            </div>
+            <div class = "appearanceContainer">
+                <div class="fontContainer">
+                    <label class="fontLabel">
+                        Tamaño de letra: 
+                    </label>
+                    <select class="form-control" id="fontSizeSelect" name="font-size">
+                        <option value="Grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
+                        <option value="Normal" <% if(configuration.font_size == "normal"){ %>selected <% }%>>Normal</option>
+                    </select>
+                </div>   
+                <div class="themeContainer">
+                    <label class="themeLabel">
+                        Tema: 
+                    </label>
+                    <select class="form-control" id="themeSelect" name="theme">
+                        <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
+                        <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
+                    </select>
+                </div>
+            </div>
+            <div class="centrado">
+                <h2>Tareas</h2>
+            </div>
+            <div class = "tareasContainer">
+                <div class="timeContainer">
+                    <label class="timeLabel">
+                        Preferencia de tiempo: 
+                    </label>
+                    <select class="form-control" id="timeSelect" name="time">
+                        <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
+                        <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
+                    </select>
+                </div>   
+            </div>
+        </div>
 </body>
 
 </html>
