@@ -9,6 +9,7 @@ class DAOReminder {
         this.pushReminderSystem = this.pushReminderSystem.bind(this);
         this.getNotifications = this.getNotifications.bind(this);
         this.readAllByUser = this.readAllByUser.bind(this);
+        this.notificationsUnread = this.notificationsUnread.bind(this);
     }
 
     pushReminderSystem(reminder, username, callback){        
@@ -84,6 +85,33 @@ class DAOReminder {
                             reminders.push(reminder);
                         });
                         callback(null, reminders);
+                    }
+                });
+            }
+        });
+    }
+
+    // Número de notificaciones no leidas
+    notificationsUnread(idUser, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND read_date IS NULL;";
+                connection.query(querySQL, [idUser], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        if (rows.length != 1) {
+                            callback(-1);
+                        }
+                        else {
+                            let numUnreadNotifications = rows[0].unread
+                            callback(null, numUnreadNotifications);
+                        }
                     }
                 });
             }

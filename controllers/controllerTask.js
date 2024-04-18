@@ -62,7 +62,9 @@ class ControllerTask {
             redirect: "createTask",
             data: {
                 response: undefined,
-                generalInfo: {},
+                generalInfo: {
+                    notificationsUnread: req.unreadNotifications
+                },
                 data: req.dataTask,
                 task: {}
             }
@@ -76,10 +78,10 @@ class ControllerTask {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
-                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
                 } else {
                     if (req.body.category !== "Escolar" && req.body.subject !== undefined) {
-                        errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                        errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
                     } else {
                         // Comprobar que el día y la hora son posteriores a hoy
                         let currentDate = moment(); // Momento actual
@@ -88,25 +90,25 @@ class ControllerTask {
                         let momentRes = moment(dateAndHour, 'YYYY-MM-DD HH:mm');
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (momentRes.isBefore(currentDate)) {
-                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next);//TODO Mirar que numero poner
+                            errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next);//TODO Mirar que numero poner
                         } else {
                             this.daoCat.checkCategoryExists(req.body.category, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
-                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
                                 } else {
                                     this.daoRew.checkRewardExists(req.body.reward, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result) {
-                                            errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                            errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
                                         } else {
                                             this.daoSub.checkSubjectExists(req.body.subject, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
                                                 } else if (!result && req.body.categoria === "Escolar") {
-                                                    errorHandler.manageError(33, { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
                                                 } else {
                                                     let form = {
                                                         id: req.body.id,
@@ -143,7 +145,9 @@ class ControllerTask {
                                                                                     redirect: "tasks",
                                                                                     data: {
                                                                                         response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
-                                                                                        generalInfo: {},
+                                                                                        generalInfo: {
+                                                                                            notificationsUnread: req.unreadNotifications
+                                                                                        },
                                                                                         tasks: tasks
                                                                                     }
                                                                                 });
@@ -169,7 +173,7 @@ class ControllerTask {
             });
         }
         else {
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
         }
     }
 
@@ -232,7 +236,9 @@ class ControllerTask {
                     redirect: "tasks",
                     data: {
                         response: undefined,
-                        generalInfo: {},
+                        generalInfo: {
+                            notificationsUnread: req.unreadNotifications
+                        },
                         tasks: tasks
                     }
                 });
@@ -265,7 +271,9 @@ class ControllerTask {
                                     redirect: "createTask",
                                     data: {
                                         response: undefined,
-                                        generalInfo: {},
+                                        generalInfo: {
+                                            notificationsUnread: req.unreadNotifications
+                                        },
                                         data: req.dataTask,
                                         task: task
                                     }

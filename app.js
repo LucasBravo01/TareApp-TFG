@@ -120,15 +120,15 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conTas.getTasks);
+app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
 
 // TODO RouterUser
 // Perfil usuario
-app.get("/perfil", userLogged, conUse.profile);
+app.get("/perfil", userLogged, conRem.unreadNotifications, conUse.profile);
 
 
 // --- Otras peticiones GET ---
-app.get("/notificaciones", conRem.getReminders);
+app.get("/notificaciones", userLogged, conRem.unreadNotifications, conRem.getReminders);
 
 // --- Peticiones POST ---
 // Login
@@ -144,7 +144,7 @@ app.post(
 app.post("/logout", conUse.logout);
 
 // Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/suscribirse', conRem.subscribe);
+app.post('/suscribirse', userLogged, conRem.subscribe);
 
 // --- Otras funciones ---
 

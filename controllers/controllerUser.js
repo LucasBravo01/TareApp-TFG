@@ -72,7 +72,9 @@ class ControllerUser {
                                             redirect: "tasks",
                                             data: {
                                                 response: undefined,
-                                                generalInfo: {},
+                                                generalInfo: {
+                                                    notificationsUnread: req.unreadNotifications
+                                                },
                                                 tasks: tasks
                                             }
                                         });

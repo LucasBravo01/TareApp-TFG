@@ -21,6 +21,7 @@ class controllerReminder {
         this.sendNotifications = this.sendNotifications.bind(this);
         this.subscribe = this.subscribe.bind(this);
         this.getReminders = this.getReminders.bind(this);
+        this.unreadNotifications = this.unreadNotifications.bind(this);
     }
 
     sendNotifications() {
@@ -76,10 +77,26 @@ class controllerReminder {
                     redirect: "notifications",
                     data: {
                         response: undefined,
-                        generalInfo: {},
+                        generalInfo: {
+                            notificationsUnread: req.unreadNotifications
+                        },
                         reminders: reminders
                     }
                 });
+            }
+        });
+    }
+
+    // Obtener mensajes no leídos (y meterlos en request para otros middlewares)
+    unreadNotifications(req, res, next) {
+        // Obtener mensajes no leídos
+        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            }
+            else {
+                req.unreadNotifications = numUnreadNotifications;
+                next();
             }
         });
     }
