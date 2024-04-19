@@ -18,8 +18,8 @@ class DAOReminder {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "INSERT INTO reminder (id_receiver, message,sent_date) VALUES(?,?,?);";
-                connection.query(querySQL, [ reminder.id, `¡A por todo ${username}!`, reminder.sent_date], (error) => {
+                let querySQL = "INSERT INTO reminder (id_receiver, message, sent_date, id_activity) VALUES(?,?,?,?);";
+                connection.query(querySQL, [ reminder.id, `¡A por todo ${username}!`, reminder.sent_date, reminder.idActivity], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); // Error en la sentencia
@@ -37,7 +37,7 @@ class DAOReminder {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE REM.sent_date=? AND REM.id_sender IS NULL ORDER BY REM.id_receiver;"; // TODO GROUP BY para mandar solo una. Hablar con el grupo
+                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE REM.enabled = 1 AND REM.sent_date=? AND REM.id_sender IS NULL ORDER BY REM.id_receiver;"; // TODO GROUP BY para mandar solo una. Hablar con el grupo
                 connection.query(querySQL, [date], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -71,7 +71,7 @@ class DAOReminder {
             }
             else {
 
-                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? AND REM.sent_date <= CURRENT_TIMESTAMP;";
+                let querySQL = "SELECT * FROM reminder AS REM WHERE REM.enabled = 1 AND REM.id_receiver = ? AND REM.sent_date <= CURRENT_TIMESTAMP;";
                 connection.query(querySQL, [id], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -100,7 +100,7 @@ class DAOReminder {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP AND read_date IS NULL;";
+                let querySQL = "SELECT COUNT(*) AS unread FROM reminder WHERE enabled = 1 AND id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP AND read_date IS NULL;";
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -127,7 +127,7 @@ class DAOReminder {
                 callback(-1);
             }
             else {
-                let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP;";
+                let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE enabled = 1 AND id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP;";
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {

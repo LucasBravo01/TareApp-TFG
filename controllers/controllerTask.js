@@ -132,7 +132,7 @@ class ControllerTask {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
-                                                                    this.createReminders(form, req)
+                                                                    this.createReminders(form, req, task.id)
                                                                     .then( () => {
                                                                         this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
                                                                             if (error) {
@@ -177,7 +177,7 @@ class ControllerTask {
         }
     }
 
-    async createReminders (form, req) {
+    async createReminders (form, req, idTask) {
         // Dividir la fecha en sus componentes
         let [year, month, day] = form.date.split('-').map(Number);
     
@@ -197,14 +197,15 @@ class ControllerTask {
         for(let i = 1; i <= numRem; i++){
             let reminderDate = new Date(form.date);
             reminderDate.setDate(date.getDate() - i);
-            reminderDate.setHours(8, 0, 0, 0);
+            reminderDate.setHours(13, 10, 0, 0);
             
             if(reminderDate <= currentDate){
                 continue;
             }
             let reminder = {
                 id: form.id,
-                sent_date: reminderDate
+                sent_date: reminderDate,
+                idActivity: idTask
             };
             try{
                 await new Promise((resolve, reject)=>{

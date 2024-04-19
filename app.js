@@ -151,7 +151,7 @@ app.post("/marcarLeido", userLogged, conRem.markAsRead)
 // --- Otras funciones ---
 
 // Programar la tarea para que se ejecute todos los días a las 8 de la mañana
-cron.schedule('0 8 * * *', () => {
+cron.schedule('10 13 * * *', () => {
   conRem.sendNotifications();
 });
 

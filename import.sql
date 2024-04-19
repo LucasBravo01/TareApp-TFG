@@ -76,20 +76,6 @@ CREATE TABLE subject (
   FOREIGN KEY (id_teacher) REFERENCES user(id)
 );
 
--- Recordatorio
-CREATE TABLE reminder (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  id_sender INT,
-  id_receiver INT NOT NULL,
-  message VARCHAR(255) NOT NULL,
-  sent_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  read_date TIMESTAMP NULL,
-
-  CONSTRAINT UC_reminder UNIQUE(id_sender, id_receiver, sent_date),
-  FOREIGN KEY (id_sender) REFERENCES user(id),
-  FOREIGN KEY (id_receiver) REFERENCES user(id)
-);
-
 -- Orden
 CREATE TABLE preference (
   id_configuration INT NOT NULL,
@@ -168,6 +154,23 @@ CREATE TABLE task (
   FOREIGN KEY (id_reward) REFERENCES reward(id)
 );
 
+-- Recordatorio
+CREATE TABLE reminder (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  enabled INT NOT NULL DEFAULT 1,
+  id_sender INT,
+  id_receiver INT NOT NULL,
+  id_activity INT NOT NULL,
+  message VARCHAR(255) NOT NULL,
+  sent_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  read_date TIMESTAMP NULL,
+
+  CONSTRAINT UC_reminder UNIQUE(id_sender, id_receiver, sent_date),
+  FOREIGN KEY (id_sender) REFERENCES user(id),
+  FOREIGN KEY (id_receiver) REFERENCES user(id),
+  FOREIGN KEY (id_activity) REFERENCES activity(id)
+);
+
 -- ------ Insertar datos de prueba ------
 
 -- Usuario
@@ -193,13 +196,6 @@ INSERT INTO subject (id_teacher, name, grade, photo, color) VALUES
 (6, 'Historia', '1 ESO', NULL, 'Green'),
 (6, 'Ciencias', '1 ESO', NULL, 'Yellow');
 
--- Recordatorio
-INSERT INTO reminder (id_receiver, message, sent_date) VALUES 
-(5, 'Recordatorio 1', '2024-04-18 09:00:00'),
-(5, 'Recordatorio 2', '2024-04-19 09:00:00'),
-(5, 'Recordatorio 3', '2024-04-19 18:00:00'),
-(5, 'Recordatorio 4', '2024-04-20 09:00:00');
-
 -- Orden
 
 -- Cursa
@@ -221,14 +217,27 @@ INSERT INTO reward (title, message, icon) VALUES
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category) VALUES
-(5, 5, 'Tarea 1', '2024-04-07', '13:20:00', 'Primera tarea de prueba', 'No recordarmelo', 'Ocio'),
-(5, 5, 'Tarea 2', '2024-04-07', '13:20:00', 'Segunda tarea de prueba', 'No recordarmelo', 'Ocio'),
-(5, 5, 'Tarea 3', '2024-04-07', '13:20:00', 'Tercera tarea de prueba', 'No recordarmelo', 'Ocio');
+(5, 5, 'Tarea 1', '2024-04-25', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(5, 5, 'Tarea 2', '2024-04-21', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(5, 5, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
+(5, 5, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa');
 
 -- Evento
 
 -- Tarea
 INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
 (1, false, 'no lo sé', 1),
-(2, true, 'media', 1),
-(3, true, 'larga', 4);
+(2, false, 'corta', 1),
+(3, true, 'media', 4),
+(4, true, 'larga', 4);
+
+-- Recordatorio
+INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES 
+(5, 1, 'Recordatorio 1 Tarea 1', '2024-04-24 09:00:00'),
+(5, 1, 'Recordatorio 2 Tarea 1', '2024-04-23 09:00:00'),
+(5, 2, 'Recordatorio 1 Tarea 2', '2024-04-20 09:00:00'),
+(5, 2, 'Recordatorio 2 Tarea 2', '2024-04-19 18:00:00'),
+(5, 3, 'Recordatorio 1 Tarea 3', '2024-04-19 09:00:00'),
+(5, 3, 'Recordatorio 2 Tarea 3', '2024-04-18 09:00:00'),
+(5, 4, 'Recordatorio 1 Tarea 4', '2024-04-14 09:00:00'),
+(5, 4, 'Recordatorio 2 Tarea 4', '2024-04-13 09:00:00');
