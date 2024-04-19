@@ -132,7 +132,10 @@ class ControllerUser {
     }
 
     updateConfiguration(req, res, next) {
+        console.log("entrar en update");
         const errors = validationResult(req);
+        console.log("pasa el validate");
+        console.log("req: " + req.);
         if (errors.isEmpty()) {
             let form = {
                 id_user: req.session.currentUser.id,
@@ -142,6 +145,7 @@ class ControllerUser {
             }
                     this.daoCon.updateConfiguration(form, (error) => {
                         if (error) {
+                            console.log("entra error de update");
                             errorHandler.manageError(error, {}, "error", next);
                         }
                         else{
@@ -152,7 +156,7 @@ class ControllerUser {
                                 else {
                                     console.log("entrar al next")
                                     next({
-                                        ajax: false,
+                                        ajax: true,
                                         status: 200,
                                         redirect: "configuration",
                                         data: {
