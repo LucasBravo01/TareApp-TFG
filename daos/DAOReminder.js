@@ -65,13 +65,15 @@ class DAOReminder {
     }
 
     readAllByUser(id,date, callback){
+        let today = new Date(); 
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? ;";
-                connection.query(querySQL, [id], (error, rows) => {
+
+                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? AND REM.sent_date <= ?;";
+                connection.query(querySQL, [id,today], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
