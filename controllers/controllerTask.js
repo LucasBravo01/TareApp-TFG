@@ -197,7 +197,7 @@ class ControllerTask {
         for(let i = 1; i <= numRem; i++){
             let reminderDate = new Date(form.date);
             reminderDate.setDate(date.getDate() - i);
-            reminderDate.setHours(13, 10, 0, 0);
+            reminderDate.setHours(8, 0, 0, 0);
             
             if(reminderDate <= currentDate){
                 continue;
