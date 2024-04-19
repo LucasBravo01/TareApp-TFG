@@ -194,6 +194,11 @@ INSERT INTO subject (id_teacher, name, grade, photo, color) VALUES
 (6, 'Ciencias', '1 ESO', NULL, 'Yellow');
 
 -- Recordatorio
+INSERT INTO reminder (id_receiver, message, sent_date) VALUES 
+(5, 'Recordatorio 1', '2024-04-18 09:00:00'),
+(5, 'Recordatorio 2', '2024-04-19 09:00:00'),
+(5, 'Recordatorio 3', '2024-04-19 18:00:00'),
+(5, 'Recordatorio 4', '2024-04-20 09:00:00');
 
 -- Orden
 

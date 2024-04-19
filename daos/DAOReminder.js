@@ -10,6 +10,7 @@ class DAOReminder {
         this.getNotifications = this.getNotifications.bind(this);
         this.readAllByUser = this.readAllByUser.bind(this);
         this.notificationsUnread = this.notificationsUnread.bind(this);
+        this.markAsRead = this.markAsRead.bind(this);
     }
 
     pushReminderSystem(reminder, username, callback){        
@@ -92,14 +93,14 @@ class DAOReminder {
     }
 
     // Número de notificaciones no leidas
-    notificationsUnread(idUser, callback) {
+    notificationsUnread(idUser, today ,callback) { // TODO solo aquellos anteriores a la fecha actual
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND read_date IS NULL;";
-                connection.query(querySQL, [idUser], (error, rows) => {
+                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND sent_date <= ? AND read_date IS NULL;";
+                connection.query(querySQL, [idUser, today], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -118,6 +119,31 @@ class DAOReminder {
         });
     }
 
+    // Número de mensajes no leidos
+    markAsRead(today, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE sent_date <= ?";
+                connection.query(querySQL, [today], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        if (rows.affectedRows != 1) {
+                            callback(-1);
+                        }
+                        else {
+                            callback(null);
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
 
 

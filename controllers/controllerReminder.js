@@ -22,6 +22,7 @@ class controllerReminder {
         this.subscribe = this.subscribe.bind(this);
         this.getReminders = this.getReminders.bind(this);
         this.unreadNotifications = this.unreadNotifications.bind(this);
+        this.markAsRead = this.markAsRead.bind(this);
     }
 
     sendNotifications() {
@@ -90,13 +91,32 @@ class controllerReminder {
     // Obtener mensajes no leídos (y meterlos en request para otros middlewares)
     unreadNotifications(req, res, next) {
         // Obtener mensajes no leídos
-        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+        this.daoRem.notificationsUnread(req.session.currentUser.id, new Date(), (error, numUnreadNotifications) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
             else {
                 req.unreadNotifications = numUnreadNotifications;
                 next();
+            }
+        });
+    }
+
+    // Marcar como leído
+    markAsRead(req, res, next) {
+        // Poner fecha_leído = hoy
+        this.daoRem.markAsRead(new Date(), (error) => {
+            if (error) {
+                errorHandler.manageAJAXError(error, next);
+            }
+            else {
+                // Terminamos
+                next({
+                    ajax: true,
+                    error: false,
+                    img: false,
+                    data: {}
+                });
             }
         });
     }
