@@ -17,6 +17,7 @@ class ControllerUser {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.getConfiguration = this.getConfiguration.bind(this);
+        this.updateConfiguration = this.updateConfiguration.bind(this);
     }
 
     // TODO rehacer bien manejador de rutas
@@ -128,6 +129,47 @@ class ControllerUser {
                 });
             }
         });
+    }
+
+    updateConfiguration(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            let form = {
+                id_user: req.session.currentUser.id,
+                font_size: req.body.font_size,
+                theme: req.body.theme,
+                time_preference: req.body.time_preference
+            }
+                    this.daoCon.updateConfiguration(form, (error) => {
+                        if (error) {
+                            errorHandler.manageError(error, {}, "error", next);
+                        }
+                        else{
+                            this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, config) => {
+                                if (error) {
+                                    errorHandler.manageError(error, {}, "error", next);
+                                }
+                                else {
+                                    console.log("entrar al next")
+                                    next({
+                                        ajax: false,
+                                        status: 200,
+                                        redirect: "configuration",
+                                        data: {
+                                            response: { code: 200, title: "Configuración actualizada Con Éxito.", message: "Enhorabuena tu configuración ha sido actualizada correctamente." },
+                                            generalInfo: {},
+                                            config: config
+                                        }
+                                    });
+                                }
+                            });               
+                        }
+                    });
+        }                                 
+        else {
+            console.log("Campos vacios");
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+        }
     }
 }
 

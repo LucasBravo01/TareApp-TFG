@@ -18,7 +18,20 @@ function routerConfig(conUse) {
     RouterUser.get("/configuracion", conUse.getConfiguration);
 
     // --- Peticiones POST ---
-    RouterUser.post("/guardarConfiguracion");
+    RouterUser.post("/usuario/guardarConfiguracion",
+
+     // Campos de enums válidos
+     check("font_size", "32").custom((fontS) => {
+        return (fontS === "grande" || fontS === "normal")
+        }),
+        check("theme", "32").custom((theme) => {
+        return (theme === "alegre" || theme === "minimalista")
+        }),
+        check("time_preference", "32").custom((timeP) => {
+        return (timeP === "corto" || timeP === "largo")
+        }),
+        conUse.updateConfiguration);
+
 }
 
 module.exports = {

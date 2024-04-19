@@ -20,7 +20,10 @@
         <!-- text to voice button -->
 
 
-        <div>
+        <div class="centrado">
+            <h1>Configuración</h1>
+        </div>
+        <form id="formConfiguration" action="/usuario/guardarConfiguracion" method="post">
             <div class="centrado">
                 <h2>Apariencia</h2>
             </div>
@@ -58,7 +61,13 @@
                     </select>
                 </div>   
             </div>
+            <div class="centrado">
+                <button type="submit" id="input-sb-updateConfig"
+                class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Cambiar configuración</button>
+            </div>
         </div>
+        </form>
+            
 </body>
 
 </html>
