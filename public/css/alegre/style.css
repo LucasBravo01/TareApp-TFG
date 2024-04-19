@@ -1,11 +1,35 @@
-/*FUENTE*/
-body {
+/*GENERAL*/
+* {
     font-family: 'Comfortaa', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #DCDCDC;
     color: #000000;
 }
 
-/*FONDOS PANTALLAS*/
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        filter: brightness(85%);
+    }
+
+img {
+    object-fit: cover;
+}
+
+hr {
+    height: 0.1rem;
+    opacity: 80%;
+    /*color: var(--primary-dark) !important;*/
+}
+
+/*BACKGROUND*/
 .main-background {
     background-color: #3D53E2;
 }
@@ -25,12 +49,8 @@ body {
     color: #F1F2F6;
 }
 
-a {
-    text-decoration: none;
-}
-
 /*BOTONES*/
-.button {
+button {
     padding: .5rem;
     border-radius: .7rem;
 }
@@ -38,16 +58,19 @@ a {
 .main-button {
     background-color: #3D53E2;
     color: #F1F2F6;
+    border: 1px #3D53E2 solid;
 }
 
 .second-button {
     background-color: #8898FA;
     color: #F1F2F6;
+    border: 1px #8898FA solid;
 }
 
 .dangerous-button {
     background-color: #D9183B;
     color: #F1F2F6;
+    border: 1px #D9183B solid;
 }
 
 .aux-button {
@@ -68,4 +91,36 @@ a {
     border-radius: 1.6rem;
     color: #F1F2F6;
     background-color: #3D53E2;
+}
+
+.separator-line {
+    border-color: grey;
+}
+
+/* --- RESPONSIVENESS --- */
+/* Monitores más largos */
+@media (max-width: 1919.98px) {
+    
+}
+
+/* Monitores largos - XXL */
+@media (max-width: 1399.98px) {
+
+}
+
+/* Monitores laptop - XL */
+@media (max-width: 1199.98px) {
+
+}
+
+/* Tablets - LG */
+@media (max-width: 991.98px) {
+    
+}
+
+/* Móviles - MD */
+@media (max-width: 767.98px) {
+    .card-task {
+        width: 75%;
+      }
 }

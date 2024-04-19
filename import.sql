@@ -212,7 +212,7 @@ INSERT INTO reward (title, message, icon) VALUES
 ('¡Genial!', null, 'awesome'),
 ('¡Increíble!', 'Este supergato te felicita', 'supercat'),
 ('¡Buen trabajo!', 'Vas por buen camino', 'good-job'),
-('¡Enhorabuena!', 'Has ganado una medalla espacial', 'medalla-estrella');
+('¡Enhorabuena!', 'Has ganado una medalla espacial', 'star-medal');
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category) VALUES

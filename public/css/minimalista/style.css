@@ -1,11 +1,35 @@
-/*FUENTE*/
+/*GENERAL*/
+* {
+    font-family: "Bitter", sans-serif;
+}
+
 body {
-    font-family: "Platypi", sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color: #DCDCDC;
     color: #000000;
 }
 
-/*FONDOS PANTALLAS*/
+a {
+    text-decoration: none;
+}
+
+    a:hover {
+        filter: brightness(85%);
+    }
+
+img {
+    object-fit: cover;
+}
+
+hr {
+    height: 0.1rem;
+    opacity: 80%;
+    /*color: var(--primary-dark) !important;*/
+}
+
+/*BACKGROUND*/
 .main-background {
     background-color: #C2C3C4;
 }
@@ -18,39 +42,79 @@ body {
 .title {
     color: #000000;
     margin: .5rem 0rem;
+    font-weight: bold;
 }
 
 .second-text {
-    color: #F1F2F6;
+    color: #000000;
 }
 
-a {
-    text-decoration: none;
-}
-
-/*TODO BOTONES*/
-.button {
+/*BOTONES*/
+button {
     padding: .5rem;
     border-radius: .7rem;
 }
 
 .main-button {
-    background-color: #3D53E2;
-    color: #F1F2F6;
+    background-color: #C2C2C2;
 }
 
 .second-button {
-    background-color: #8898FA;
-    color: #F1F2F6;
+    background-color: #D4E3BD;
 }
 
 .dangerous-button {
-    background-color: #D9183B;
-    color: #F1F2F6;
+    background-color: #F2ACAC;
 }
 
 .aux-button {
-    background-color: #DCDCDC;
+    background-color: #FFFFFF;
     color: #000000;
-    border: 1px #3D53E2 solid;
+    border: 1px #F4F4F4 solid;
+}
+
+/*ELEMENTOS*/
+.card-task {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-items: center;
+    margin: 1rem auto;
+    padding: 1rem;
+    /*PROVISIONAL*/
+    width: 50%;
+    border-radius: 1.6rem;
+    color: #000000;
+    background-color: #D1EAED;
+}
+
+.separator-line {
+    border-color: grey;
+}
+
+/* --- RESPONSIVENESS --- */
+/* Monitores más largos */
+@media (max-width: 1919.98px) {
+    
+}
+
+/* Monitores largos - XXL */
+@media (max-width: 1399.98px) {
+
+}
+
+/* Monitores laptop - XL */
+@media (max-width: 1199.98px) {
+
+}
+
+/* Tablets - LG */
+@media (max-width: 991.98px) {
+    
+}
+
+/* Móviles - MD */
+@media (max-width: 767.98px) {
+    .card-task {
+        width: 75%;
+      }
 }
