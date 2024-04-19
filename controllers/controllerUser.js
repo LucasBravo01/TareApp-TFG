@@ -135,7 +135,7 @@ class ControllerUser {
         console.log("entrar en update");
         const errors = validationResult(req);
         console.log("pasa el validate");
-        console.log("req: " + req.);
+        console.log("req: " + req);
         if (errors.isEmpty()) {
             let form = {
                 id_user: req.session.currentUser.id,
