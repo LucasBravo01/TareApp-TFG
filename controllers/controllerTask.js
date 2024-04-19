@@ -132,7 +132,7 @@ class ControllerTask {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
-                                                                    this.createReminders(form, req, task.id)
+                                                                    this.createReminders(form, task.id)
                                                                     .then( () => {
                                                                         this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
                                                                             if (error) {
@@ -177,7 +177,7 @@ class ControllerTask {
         }
     }
 
-    async createReminders (form, req, idTask) {
+    async createReminders (form, idTask) {
         // Dividir la fecha en sus componentes
         let [year, month, day] = form.date.split('-').map(Number);
     
@@ -198,18 +198,28 @@ class ControllerTask {
             let reminderDate = new Date(form.date);
             reminderDate.setDate(date.getDate() - i);
             reminderDate.setHours(8, 0, 0, 0);
+
+            
             
             if(reminderDate <= currentDate){
                 continue;
             }
+            let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));
+            let message;
+            if(daysDifference > 1)
+                message = `¡Ánimo! Aún te quedan ${daysDifference} días para terminar la tarea "${form.title}"`;
+            else 
+                message = `Mañana termina el plazo para la tarea "${form.title}"¡A por ello, tú puedes!`;
+
             let reminder = {
                 id: form.id,
                 sent_date: reminderDate,
+                message: message,
                 idActivity: idTask
             };
             try{
                 await new Promise((resolve, reject)=>{
-                    this.daoRem.pushReminderSystem(reminder, req.session.currentUser.username,(error) => {
+                    this.daoRem.pushReminderSystem(reminder, (error) => {
                         if (error) {
                             reject(error);
                         }
@@ -218,9 +228,8 @@ class ControllerTask {
                         }
                     });
                 });
-                console.log(`Reminder ${i} add`);
             }catch(error){
-                console.log("Error try reminderPush");
+                errorHandler.manageError(error, {}, "error", next);
             }
         }
     }

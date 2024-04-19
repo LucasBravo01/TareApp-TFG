@@ -233,11 +233,11 @@ INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
 
 -- Recordatorio
 INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES 
-(5, 1, 'Recordatorio 1 Tarea 1', '2024-04-24 09:00:00'),
-(5, 1, 'Recordatorio 2 Tarea 1', '2024-04-23 09:00:00'),
-(5, 2, 'Recordatorio 1 Tarea 2', '2024-04-20 09:00:00'),
-(5, 2, 'Recordatorio 2 Tarea 2', '2024-04-19 18:00:00'),
-(5, 3, 'Recordatorio 1 Tarea 3', '2024-04-19 09:00:00'),
-(5, 3, 'Recordatorio 2 Tarea 3', '2024-04-18 09:00:00'),
-(5, 4, 'Recordatorio 1 Tarea 4', '2024-04-14 09:00:00'),
-(5, 4, 'Recordatorio 2 Tarea 4', '2024-04-13 09:00:00');
+(5, 1, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(5, 1, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-23 08:00:00'),
+(5, 2, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-20 08:00:00'),
+(5, 2, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-19 8:00:00'),
+(5, 3, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(5, 3, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(5, 4, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(5, 4, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00');

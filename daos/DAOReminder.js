@@ -13,13 +13,13 @@ class DAOReminder {
         this.markAsRead = this.markAsRead.bind(this);
     }
 
-    pushReminderSystem(reminder, username, callback){        
+    pushReminderSystem(reminder, callback){        
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
                 let querySQL = "INSERT INTO reminder (id_receiver, message, sent_date, id_activity) VALUES(?,?,?,?);";
-                connection.query(querySQL, [ reminder.id, `¡A por todo ${username}!`, reminder.sent_date, reminder.idActivity], (error) => {
+                connection.query(querySQL, [ reminder.id, reminder.message, reminder.sent_date, reminder.idActivity], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); // Error en la sentencia
