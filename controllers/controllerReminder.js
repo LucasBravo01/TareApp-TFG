@@ -66,8 +66,7 @@ class controllerReminder {
     }
 
     getReminders(req, res, next) {
-        let currentDate = new Date();
-        this.daoRem.readAllByUser(req.session.currentUser.id,currentDate, (error, reminders) => {
+        this.daoRem.readAllByUser(req.session.currentUser.id, (error, reminders) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
@@ -90,8 +89,8 @@ class controllerReminder {
 
     // Obtener mensajes no leídos (y meterlos en request para otros middlewares)
     unreadNotifications(req, res, next) {
-        // Obtener mensajes no leídos
-        this.daoRem.notificationsUnread(req.session.currentUser.id, new Date(), (error, numUnreadNotifications) => {
+        // Obtener notificaciones no leídas
+        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
@@ -105,7 +104,7 @@ class controllerReminder {
     // Marcar como leído
     markAsRead(req, res, next) {
         // Poner fecha_leído = hoy
-        this.daoRem.markAsRead(new Date(), (error) => {
+        this.daoRem.markAsRead(req.session.currentUser.id, (error) => {
             if (error) {
                 errorHandler.manageAJAXError(error, next);
             }

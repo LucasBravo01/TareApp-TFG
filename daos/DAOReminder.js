@@ -64,16 +64,15 @@ class DAOReminder {
         });
     }
 
-    readAllByUser(id,date, callback){
-        let today = new Date(); 
+    readAllByUser(id, callback){
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
 
-                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? AND REM.sent_date <= ?;";
-                connection.query(querySQL, [id,today], (error, rows) => {
+                let querySQL = "SELECT * FROM reminder AS REM where  REM.id_receiver = ? AND REM.sent_date <= CURRENT_TIMESTAMP;";
+                connection.query(querySQL, [id], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -95,14 +94,14 @@ class DAOReminder {
     }
 
     // Número de notificaciones no leidas
-    notificationsUnread(idUser, today ,callback) { // TODO solo aquellos anteriores a la fecha actual
+    notificationsUnread(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND sent_date <= ? AND read_date IS NULL;";
-                connection.query(querySQL, [idUser, today], (error, rows) => {
+                let querySQL = "SELECT COUNT(*) AS unread FROM reminder AS REM WHERE id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP AND read_date IS NULL;";
+                connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -122,25 +121,20 @@ class DAOReminder {
     }
 
     // Número de mensajes no leidos
-    markAsRead(today, callback) {
+    markAsRead(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE sent_date <= ?";
-                connection.query(querySQL, [today], (error, rows) => {
+                let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP;";
+                connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
                     }
                     else {
-                        if (rows.affectedRows != 1) {
-                            callback(-1);
-                        }
-                        else {
-                            callback(null);
-                        }
+                        callback(null);
                     }
                 });
             }

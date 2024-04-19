@@ -84,7 +84,7 @@ const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
 const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
-const conUse = new ControllerUser(daoAct, daoRew, daoUse);
+const conUse = new ControllerUser(daoAct, daoRem, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión

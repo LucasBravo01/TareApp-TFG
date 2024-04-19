@@ -19,7 +19,7 @@
                     <li>
                         <a href="/notificaciones" class="position-relative" >Notificaciones
                         <% if (generalInfo.notificationsUnread > 0 ) { %>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
+                            <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
                                 <%= generalInfo.notificationsUnread %>
                             </span>
                         <% } %>
