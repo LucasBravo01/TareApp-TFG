@@ -14,40 +14,45 @@
             <div class="offcanvas-body main-background">
                 <div id="functions" class="m-3">
                     <!--NOTIFICACIONES-->
-                    <div class="menu-element">
-                        <div>
-                            <img src="/images/alegre/notifications.png" alt="Notificaciones" width="30"/>
-                        </div>
-                        <div>
-                            <a href="/notificaciones" class="second-text position-relative" >Notificaciones
+                    <a href="/notificaciones" class="second-text position-relative">
+                        <div class="menu-element">
+                            <div>
+                                <img src="/images/alegre/notifications.png" alt="Notificaciones" width="30"/>
+                            </div>
+                            <div>
+                                Notificaciones
                                 <% if (generalInfo.notificationsUnread > 0 ) { %>
                                     <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
                                         <%= generalInfo.notificationsUnread %>
                                     </span>
                                 <% } %>
-                                </a>
+                            </div>
                         </div>
-                    </div>
+                    </a>
 
                     <!--CONFIGURACIÓN-->
-                    <div class="menu-element">
-                        <div>
-                            <img src="/images/alegre/settings.png" alt="Configuración" width="30"/>
+                    <a href="/usuario/configuracion" class="second-text">
+                        <div class="menu-element">
+                            <div>
+                                <img src="/images/alegre/settings.png" alt="Configuración" width="30"/>
+                            </div>
+                            <div>
+                                Configuración
+                            </div>
                         </div>
-                        <div>
-                            <a href="/usuario/configuracion" class="second-text">Configuración</a>
+                    </a>
+                    
+                    <!--TEMPORAL: CREAR TAREA-->
+                    <a href="/tareas/crearTarea" class="second-text">
+                        <div class="menu-element">
+                            <div>
+                                <img src="" alt="" width=""/>
+                            </div>
+                            <div>
+                                Crear Tarea
+                            </div>
                         </div>
-                    </div>
-
-                    <!--TEMPORAL: CRAR TAREA-->
-                    <div class="menu-element">
-                        <div>
-                            <img src="" alt="" width=""/>
-                        </div>
-                        <div>
-                            <a href="/tareas/crearTarea" class="second-text">Crear Tarea</a>
-                        </div>
-                    </div>
+                    </a>
                 </div>
 
                 <div>

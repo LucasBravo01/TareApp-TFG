@@ -14,64 +14,62 @@
 <body data-response="<%= JSON.stringify(response) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
-     
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-   
-        <!-- text to voice button -->
 
-
-        <div class="centrado">
-            <h1>Configuración</h1>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1 class="title">CONFIGURACIÓN</h1>
         </div>
+        
         <form id="formConfiguration">
-            <div class="centrado">
-                <h2>Apariencia</h2>
-            </div>
-            <div class = "appearanceContainer">
-                <div class="fontContainer">
-                    <label class="fontLabel">
-                        Tamaño de letra: 
-                    </label>
+            <div class="row justify-content-center mt-5 mb-3">
+                <div class="col-12 text-center mt-5">
+                    <p class="text-start" style="font-weight: bold; color:#976E07">Apariencia</p>
+                </div>
+
+                <div class="col-6 text-center mt-5">
+                    <label class="form-label" style="font-weight: bold";>Tamaño de letra</label>
                     <select class="form-control" id="fontSizeSelect" name="font-size">
                         <option value="grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
                         <option value="normal" <% if(configuration.font_size == "normal"){ %>selected <% }%>>Normal</option>
                     </select>
-                </div>   
-                <div class="themeContainer">
-                    <label class="themeLabel">
-                        Tema: 
-                    </label>
+                </div>
+
+                <div class="col-6 text-center mt-5">
+                    <label class="form-label" style="font-weight: bold";>Tema</label>
                     <select class="form-control" id="themeSelect" name="theme">
                         <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
                         <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
                     </select>
                 </div>
-            </div>
-            <div class="centrado">
-                <h2>Tareas</h2>
-            </div>
-            <div class = "tareasContainer">
-                <div class="timeContainer">
-                    <label class="timeLabel">
-                        Preferencia de tiempo: 
-                    </label>
+
+                <div class="col-12 text-center mt-5">
+                    <p class="text-start" style="font-weight: bold; color:#976E07">Tareas</p>
+                </div>
+
+                <div class="col-6 text-center mt-5">
+                    <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
                     <select class="form-control" id="timeSelect" name="time">
                         <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
                         <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
                     </select>
-                </div>   
+                </div>
+
+                <div class="col-6 text-center mt-5"></div>
+
+                <div class="col-6 text-center mt-5">
+                    <button type="submit" id="input-sb-updateConfig" class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Cambiar configuración</button>
+                </div>
+
+                <div class="col-6 text-center mt-5">
+                    <button id="button-subscribe" class="btn btn-primary ms-2 mb-2 mt-2">Suscribirse a notificaciones</button>
+                </div>
             </div>
-            <div class="centrado">
-                <button type="submit" id="input-sb-updateConfig"
-                class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Cambiar configuración</button>
-            </div>
-            <div class="centrado">
-                <button id="button-subscribe" class="btn btn-primary ms-2 mb-2 mt-2">Suscribirse a notificaciones</button>
-            </div>
-        </div>
         </form>
-            
+    </div>
+   
+    <!-- text to voice button -->  
 </body>
 
 </html>
