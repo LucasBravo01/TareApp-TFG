@@ -24,12 +24,14 @@ const DAOSubject = require("./daos/DAOSubject");
 const DAOSubscription = require("./daos/DAOSubscription");
 const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
+const DAOConfiguration = require("./daos/DAOConfiguration");
 // Controllers
 const ControllerReminder  = require("./controllers/controllerReminder");
 const ControllerTask = require("./controllers/controllerTask");
 const ControllerUser = require("./controllers/controllerUser");
 // Routers
 const routerTask = require("./routes/RouterTask");
+const routerUser = require("./routes/RouterUser");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -81,10 +83,11 @@ const daoSub = new DAOSubject(pool);
 const daoSubs = new DAOSubscription(pool);
 const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
+const daoCon = new DAOConfiguration(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
 const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
-const conUse = new ControllerUser(daoAct, daoRem, daoRew, daoUse);
+const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -108,9 +111,11 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTas, conRem );
+routerTask.routerConfig(conTas, conRem);
+routerUser.routerConfig(conUse, conRem);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
+app.use("/usuario", userLogged, routerUser.RouterUser);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
@@ -121,14 +126,6 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 
 // Inicio
 app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
-
-// TODO RouterUser
-// Perfil usuario
-app.get("/perfil", userLogged, conRem.unreadNotifications, conUse.profile);
-
-
-// --- Otras peticiones GET ---
-app.get("/notificaciones", userLogged, conRem.unreadNotifications, conRem.getReminders);
 
 // --- Peticiones POST ---
 // Login
@@ -142,11 +139,6 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
-
-// Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/suscribirse', userLogged, conRem.subscribe);
-
-app.post("/marcarLeido", userLogged, conRem.markAsRead);
 
 // --- Otras funciones ---
 

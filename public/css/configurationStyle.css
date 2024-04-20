@@ -1,0 +1,72 @@
+.appearanceContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5%;
+}
+
+.tareasContainer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeContainer{
+    display: flex;
+    align-items: center;
+    width: 30% ;
+}
+
+.fontContainer{
+    display: flex;
+    align-items: center;
+    width: 30% ;
+
+}
+
+.themeContainer{
+    display: flex;
+    align-items: center;
+    width: 30% ;
+}
+
+.themeLabel{
+    width: 140% ;
+    justify-content: center;
+}
+
+.timeLabel{
+    width: 250% ;
+}
+
+.fontLabel{
+    width: 250% ;
+}
+.centrado{
+    display: flex;
+    justify-content: center;
+}
+
+  /* Móviles - MD */
+  @media (max-width: 767.98px) {
+    .fontContainer {
+     
+      width: 70%;
+     
+    }
+    .themeContainer {
+     
+        width: 70%;
+       
+    }
+    .timeContainer{
+        display: flex;
+        align-items: center;
+        width: 80% ;
+    }
+    .appearanceContainer{
+        margin-bottom: 20%;
+    }
+}
