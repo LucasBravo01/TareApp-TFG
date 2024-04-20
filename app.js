@@ -140,11 +140,6 @@ app.post(
 // Logout
 app.post("/logout", conUse.logout);
 
-// Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/suscribirse', userLogged, conRem.subscribe);
-
-app.post("/marcarLeido", userLogged, conRem.markAsRead);
-
 // --- Otras funciones ---
 
 // Programar la tarea para que se ejecute todos los días a las 8 de la mañana

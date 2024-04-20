@@ -30,7 +30,7 @@ async function subscribeToNotifications() {
 async function sendSubscriptionToServer(subscription) {
   // Envía la suscripción al servidor
   try {
-    const response = await fetch('/suscribirse', {
+    const response = await fetch('/usuario/suscribirse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

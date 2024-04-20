@@ -17,7 +17,7 @@ function routerConfig(conUse, conRem) {
     
     RouterUser.get("/configuracion", conRem.unreadNotifications, conUse.getConfiguration);
     
-    RouterUser.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders);
+    RouterUser.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders); // TODO RouteReminder?
 
     // --- Peticiones POST ---
     RouterUser.post("/guardarConfiguracion",
@@ -33,6 +33,11 @@ function routerConfig(conUse, conRem) {
         }),
         conRem.unreadNotifications,
         conUse.updateConfiguration);
+
+    // Ruta para recibir y guardar la suscripción desde el cliente
+    RouterUser.post('/suscribirse', conRem.subscribe); // TODO RouteReminder?
+
+    RouterUser.post("/marcarLeido", conRem.markAsRead); // TODO RouteReminder?
 
 }
 

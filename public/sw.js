@@ -41,7 +41,7 @@ self.addEventListener('push', e => {
 
 // TODO borrar lo de abajo?
 async function sendSubscriptionToServer(subscription) {
-  const response = await fetch('/suscribirse', {
+  const response = await fetch('/usuario/suscribirse', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'
