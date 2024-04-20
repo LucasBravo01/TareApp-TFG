@@ -13,25 +13,34 @@
             </div>
             <div class="offcanvas-body main-background">
                 <div id="functions" class="m-3">
-                    <div id="notifications" class="menu-element">
+                    <!--NOTIFICACIONES-->
+                    <div class="menu-element">
                         <div>
                             <img src="/images/alegre/notifications.png" alt="Notificaciones" width="30"/>
                         </div>
                         <div>
-                            <a href="/tareas/crearTarea" class="second-text">Notificaciones</a>
+                            <a href="/notificaciones" class="second-text position-relative" >Notificaciones
+                                <% if (generalInfo.notificationsUnread > 0 ) { %>
+                                    <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
+                                        <%= generalInfo.notificationsUnread %>
+                                    </span>
+                                <% } %>
+                                </a>
                         </div>
                     </div>
 
-                    <div id="settings" class="menu-element">
+                    <!--CONFIGURACIÓN-->
+                    <div class="menu-element">
                         <div>
                             <img src="/images/alegre/settings.png" alt="Configuración" width="30"/>
                         </div>
                         <div>
-                            <a href="/tareas/crearTarea" class="second-text">Configuración</a>
+                            <a href="/usuario/configuracion" class="second-text">Configuración</a>
                         </div>
                     </div>
 
-                    <div id="createTask" class="menu-element">
+                    <!--TEMPORAL: CRAR TAREA-->
+                    <div class="menu-element">
                         <div>
                             <img src="" alt="" width=""/>
                         </div>
@@ -54,7 +63,7 @@
         </a>
         <!-- Botón de perfil normal -->
         <a href="/usuario/perfil" title="Ir al perfil">
-            <img id="img-nav-profile" src="/images/default/profile.png" alt="Foto de perfil" width="50">
+            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50">
         </a>
     </nav>
 </body>

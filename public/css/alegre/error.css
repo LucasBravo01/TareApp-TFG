@@ -1,3 +1,14 @@
+/*GENERAL*/
+* {
+    font-family: 'Comfortaa', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #DCDCDC;
+    color: #000000;
+}
+
 div {
     text-align: center;
 }
@@ -9,7 +20,6 @@ img {
 h1 {
     margin: 2rem 0rem 2rem 0rem;
     font-size: 9rem;
-    color: var(--primary-dark);
 }
 
 h2 {
@@ -21,8 +31,15 @@ p {
 }
 
 button {
-    margin: 3rem 0rem;
-    font-size: 1rem;
+    padding: .5rem;
+    border: 1px #8898FA solid;
+    border-radius: .7rem;
+    background-color: #8898FA;
+    color: #F1F2F6;
+}
+
+.img-flecha {
+    margin: 0rem .4rem 0rem 0rem;
 }
 
 /* --- RESPONSIVENESS --- */
@@ -54,6 +71,10 @@ button {
         width: 12rem;
     }
 
+    .img-flecha{
+        width: 1.3rem;
+    }
+
     h1 {
         font-size: 8rem;
     }
@@ -67,6 +88,10 @@ button {
 @media (max-width: 991.98px) {
     img {
         width: 8rem;
+    }
+
+    .img-flecha {
+        width: 1rem;
     }
 
     h1 {
@@ -83,6 +108,10 @@ button {
     img {
         width: 6rem;
         margin: 1.5rem 0rem 2.5rem 1.5rem;
+    }
+
+    .img-flecha {
+        width: .5rem;
     }
 
     h1 {
