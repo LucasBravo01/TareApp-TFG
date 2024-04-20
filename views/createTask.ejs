@@ -145,6 +145,10 @@
                             class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Crear Tarea</button>
                         <% } %>
                     </form>
+                    <% if (task.id) { %>
+                        <label for="input-completed">Tarea completada: </label>
+                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                    <% } %>
                 </div>
             </div>
         </div>
