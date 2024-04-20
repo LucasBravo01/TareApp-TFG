@@ -146,12 +146,12 @@ class ControllerUser {
                     this.daoCon.updateConfiguration(form, (error) => {
                         if (error) {
                             console.log("entra error de update");
-                            errorHandler.manageError(error, {}, "error", next);
+                            errorHandler.manageAJAXError(error, next);
                         }
                         else{
                             this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, config) => {
                                 if (error) {
-                                    errorHandler.manageError(error, {}, "error", next);
+                                    errorHandler.manageAJAXError(error, next);
                                 }
                                 else {
                                     console.log("entrar al next")
@@ -172,7 +172,7 @@ class ControllerUser {
         }                                 
         else {
             console.log("Campos vacios");
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next); //TODO Mirar que numero poner
         }
     }
 }
