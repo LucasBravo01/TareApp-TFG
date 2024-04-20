@@ -29,6 +29,24 @@ hr {
     /*color: var(--primary-dark) !important;*/
 }
 
+/*NAVBAR*/
+nav {
+    padding: 0.6rem 2rem;
+}
+
+nav button {
+    border: none;
+    background: none;
+}
+
+.menu-element {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    align-items: center;
+    justify-items: start;
+    margin: 1.5rem 0rem;
+}
+
 /*BACKGROUND*/
 .main-background {
     background-color: #C2C3C4;
@@ -57,14 +75,17 @@ button {
 
 .main-button {
     background-color: #C2C2C2;
+    border: 1px #C2C2C2 solid;
 }
 
 .second-button {
     background-color: #D4E3BD;
+    border: 1px #D4E3BD solid;
 }
 
 .dangerous-button {
     background-color: #F2ACAC;
+    border: 1px #F2ACAC solid;
 }
 
 .aux-button {
