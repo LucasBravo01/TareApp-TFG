@@ -6,10 +6,11 @@ const errorHandler = require("../errorHandler");
 
 class ControllerUser {
     // Constructor
-    constructor(daoUse, daoAct, daoRew) {
-        this.daoUse = daoUse;
+    constructor(daoAct, daoRem, daoRew, daoUse) {
         this.daoAct = daoAct;
+        this.daoRem = daoRem
         this.daoRew = daoRew;
+        this.daoUse = daoUse;
 
         this.profile = this.profile.bind(this);
         this.login = this.login.bind(this);
@@ -66,14 +67,24 @@ class ControllerUser {
                                         errorHandler.manageError(error, { user: req.body.user }, "login", next);
                                     }
                                     else {
-                                        next({
-                                            ajax: false,
-                                            status: 200,
-                                            redirect: "tasks",
-                                            data: {
-                                                response: undefined,
-                                                generalInfo: {},
-                                                tasks: tasks
+                                        // Obtener notificaciones no leídas
+                                        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+                                            if (error) {
+                                                errorHandler.manageError(error, {}, "error", next);
+                                            }
+                                            else {
+                                                next({
+                                                    ajax: false,
+                                                    status: 200,
+                                                    redirect: "tasks",
+                                                    data: {
+                                                        response: undefined,
+                                                        generalInfo: {
+                                                            notificationsUnread: numUnreadNotifications
+                                                        },
+                                                        tasks: tasks
+                                                    }
+                                                });
                                             }
                                         });
                                     }

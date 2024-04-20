@@ -16,15 +16,18 @@ const cron = require('node-cron');
 // Fichero
 // DAOS
 const connection = require("./daos/connection");
-const DAOCategory = require("./daos/DAOCategory");
-const DAOUser = require("./daos/DAOUser");
-const DAOReward = require("./daos/DAOReward");
-const DAOTask = require("./daos/DAOTask");
 const DAOActivity = require("./daos/DAOActivity");
+const DAOCategory = require("./daos/DAOCategory");
+const DAOReminder = require("./daos/DAOReminder");
+const DAOReward = require("./daos/DAOReward");
 const DAOSubject = require("./daos/DAOSubject");
+const DAOSubscription = require("./daos/DAOSubscription");
+const DAOTask = require("./daos/DAOTask");
+const DAOUser = require("./daos/DAOUser");
 // Controllers
-const ControllerUser = require("./controllers/controllerUser");
+const ControllerReminder  = require("./controllers/controllerReminder");
 const ControllerTask = require("./controllers/controllerTask");
+const ControllerUser = require("./controllers/controllerUser");
 // Routers
 const routerTask = require("./routes/RouterTask");
 
@@ -65,29 +68,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// --- Web-Push ---
-const webpush = require('web-push'); // Importar web-push
-// Configuración de web-push (debes configurar tus propias claves)
-// Configura tus propias claves VAPID
-// const vapidKeys = webpush.generateVAPIDKeys();
-const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9KyIRopraMi5mhaXqEMXitX22g-4kJNs7g';
-const privateVapidKey = 'RQL25CNQAqpZHFJuCVKmP2kpDpeuRKZhNbK-N1Ijouc';
-webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, privateVapidKey);
-
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
 
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
-const daoCat = new DAOCategory(pool);
-const daoUse = new DAOUser(pool);
-const daoRew = new DAOReward(pool);
-const daoTask = new DAOTask(pool);
 const daoAct = new DAOActivity(pool);
+const daoCat = new DAOCategory(pool);
+const daoRem = new DAOReminder(pool);
+const daoRew = new DAOReward(pool);
 const daoSub = new DAOSubject(pool);
+const daoSubs = new DAOSubscription(pool);
+const daoTas = new DAOTask(pool);
+const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
-const conUse = new ControllerUser(daoUse, daoAct, daoRew);
-const conTask = new ControllerTask(daoTask, daoAct, daoCat, daoSub, daoRew, daoUse);
+const conRem = new ControllerReminder(daoRem, daoSubs);
+const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
+const conUse = new ControllerUser(daoAct, daoRem, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -111,7 +108,7 @@ function userAlreadyLogged(request, response, next) {
 };
 
 // --- Routers ---
-routerTask.routerConfig(conTask);
+routerTask.routerConfig(conTas, conRem );
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 
@@ -123,15 +120,15 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conTask.getTasks);
+app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
 
 // TODO RouterUser
 // Perfil usuario
-app.get("/perfil", userLogged, conUse.profile);
+app.get("/perfil", userLogged, conRem.unreadNotifications, conUse.profile);
 
 
 // --- Otras peticiones GET ---
-
+app.get("/notificaciones", userLogged, conRem.unreadNotifications, conRem.getReminders);
 
 // --- Peticiones POST ---
 // Login
@@ -145,6 +142,18 @@ app.post(
 
 // Logout
 app.post("/logout", conUse.logout);
+
+// Ruta para recibir y guardar la suscripción desde el cliente
+app.post('/suscribirse', userLogged, conRem.subscribe);
+
+app.post("/marcarLeido", userLogged, conRem.markAsRead)
+
+// --- Otras funciones ---
+
+// Programar la tarea para que se ejecute todos los días a las 8 de la mañana
+cron.schedule('0 8 * * *', () => {
+  conRem.sendNotifications();
+});
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
