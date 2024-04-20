@@ -132,10 +132,7 @@ class ControllerUser {
     }
 
     updateConfiguration(req, res, next) {
-        console.log("entrar en update");
         const errors = validationResult(req);
-        console.log("pasa el validate");
-        console.log("req: " + req);
         if (errors.isEmpty()) {
             let form = {
                 id_user: req.session.currentUser.id,
@@ -143,35 +140,25 @@ class ControllerUser {
                 theme: req.body.theme,
                 time_preference: req.body.time_preference
             }
-                    this.daoCon.updateConfiguration(form, (error) => {
-                        if (error) {
-                            console.log("entra error de update");
-                            errorHandler.manageAJAXError(error, next);
-                        }
-                        else{
-                            this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, config) => {
-                                if (error) {
-                                    errorHandler.manageAJAXError(error, next);
-                                }
-                                else {
-                                    console.log("entrar al next")
-                                    next({
-                                        ajax: true,
-                                        status: 200,
-                                        redirect: "configuration",
-                                        data: {
-                                            response: { code: 200, title: "Configuración actualizada Con Éxito.", message: "Enhorabuena tu configuración ha sido actualizada correctamente." },
-                                            generalInfo: {},
-                                            config: config
-                                        }
-                                    });
-                                }
-                            });               
+            this.daoCon.updateConfiguration(form, (error) => {
+                if (error) {
+                    errorHandler.manageAJAXError(error, next);
+                }
+                else{
+                    next({
+                        ajax: true,
+                        error: false,
+                        img: false,
+                        data: { 
+                            code: 200,
+                            title: "Configuración actualizada Con Éxito.",
+                            message: "Enhorabuena tu configuración ha sido actualizada correctamente."
                         }
                     });
+                }
+            });
         }                                 
         else {
-            console.log("Campos vacios");
             errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next); //TODO Mirar que numero poner
         }
     }

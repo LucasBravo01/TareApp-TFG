@@ -123,13 +123,11 @@ class ControllerTask {
                                                             errorHandler.manageError(error, {}, "error", next);
                                                         }
                                                         else {
-                                                            console.log('Hola C1');
                                                             this.daoTas.pushTask(task, (error) => {
                                                                 if (error) {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
-                                                                    console.log('Tarea Añadida');
                                                                     this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
                                                                         if (error) {
                                                                             errorHandler.manageError(error, {}, "error", next);
@@ -163,7 +161,6 @@ class ControllerTask {
             });
         }
         else {
-            console.log("Campos vacios");
             errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: {}, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
         }
     }

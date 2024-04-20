@@ -42,29 +42,32 @@ $(() => {
     const timeSelect = $("#timeSelect");
     const submitButton = $("#input-sb-updateConfig");
 
+
     // POST login
     submitButton.on("click", (event) => {
         event.preventDefault();
         let params = {
             font_size: fontSizeSelect.val(),
             theme: themeSelect.val(),
-            time_preference: timeSelect.val(),
+            time_preference: timeSelect.val()
         };
         // Validar
         let error = validateParams(params);
         if (!error) {
-            
             $.ajax({
                 method: "POST",
                 url: "/usuario/guardarConfiguracion",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: (data, statusText, jqXHR) => {}
+                data: params,
+                success: (data, statusText, jqXHR) => { 
+                    // Mostrar modal
+                    showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+                },
+                error: (jqXHR, statusText, errorThrown) => {
+                    showModal(jqXHR.responseJSON, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+                }
             });  
         }
         else {
-            console.log("dsfgcsrfgvfcsdfeg");
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
     });    

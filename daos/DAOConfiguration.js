@@ -4,8 +4,8 @@ class DAOConfiguration {
     constructor(pool){
         this.pool = pool;//tener el pool conexion
 
-        this.updateConfigurations = this.updateConfigurations.bind(this);
-        this.getConfigurationByUser= this.getConfigurationByUser.bind(this);
+        this.getConfigurationByUser = this.getConfigurationByUser.bind(this);
+        this.updateConfiguration= this.updateConfiguration.bind(this);
     }
 
     getConfigurationByUser(userID, callback) {
@@ -44,12 +44,12 @@ class DAOConfiguration {
         });
     }
 
-    updateConfigurations(config, callback){
+    updateConfiguration(config, callback){
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "UPDATE `configuration` SET `font_size`='?',`theme`='?',`time_preference`='?' WHERE id_user = ?;";
+                let querySQL = "UPDATE configuration SET font_size = ?, theme = ?, time_preference = ? WHERE id_user = ?;";
                 connection.query(querySQL, [config.font_size, config.theme, config.time_preference, config.id_user], (error) => {
                     connection.release();
                     if (error) {

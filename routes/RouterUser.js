@@ -19,15 +19,14 @@ function routerConfig(conUse) {
 
     // --- Peticiones POST ---
     RouterUser.post("/guardarConfiguracion",
-
-     // Campos de enums válidos
-     check("font_size", "31").custom((fontS) => { console.log("fontS: " + fontS);
+        // Campos de enums válidos
+        check("font_size", "31").custom((fontS) => {
         return (fontS === "grande" || fontS === "normal")
         }),
         check("theme", "32").custom((theme) => {
         return (theme === "alegre" || theme === "minimalista")
         }),
-        check("time_preference", "33").custom((timeP) => { console.log("entra en el post del router");
+        check("time_preference", "33").custom((timeP) => {
         return (timeP === "corto" || timeP === "largo")
         }),
         conUse.updateConfiguration);
