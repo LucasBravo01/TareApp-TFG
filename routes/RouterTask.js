@@ -45,6 +45,13 @@ function routerConfig(conTas, conRem) {
         conRem.unreadNotifications,
         conTas.dataForm,
         conTas.createTask);
+
+    // Marcar tarea como completada
+    RouterTask.post(
+        "/marcarCompletada",
+        check("id", "1").notEmpty(),
+        check("checkbox", "2").isNumeric(), // TODO Mirar que número poner
+        conTas.markAsCompleted);
 }
 
 module.exports = {

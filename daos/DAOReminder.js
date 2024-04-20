@@ -11,6 +11,7 @@ class DAOReminder {
         this.readAllByUser = this.readAllByUser.bind(this);
         this.notificationsUnread = this.notificationsUnread.bind(this);
         this.markAsRead = this.markAsRead.bind(this);
+        this.updateReminders = this.updateReminders.bind(this);
     }
 
     pushReminderSystem(reminder, callback){        
@@ -129,6 +130,27 @@ class DAOReminder {
             else {
                 let querySQL = "UPDATE reminder SET read_date = CURRENT_TIMESTAMP WHERE enabled = 1 AND id_receiver = ? AND sent_date <= CURRENT_TIMESTAMP;";
                 connection.query(querySQL, [idUser], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+
+    updateReminders(idTask, checked, callback) {
+        checked = checked ? 0 : 1;
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "UPDATE reminder SET enabled = ? WHERE id_activity = ? AND sent_date >= CURRENT_TIMESTAMP;";
+                connection.query(querySQL, [checked, idTask], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);

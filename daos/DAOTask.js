@@ -8,6 +8,7 @@ class DAOTask {
 
         this.pushTask = this.pushTask.bind(this);
         this.getTaskById = this.getTaskById.bind(this);
+        this.markAsCompleted = this.markAsCompleted.bind(this);
     }
 
     pushTask(task , callback){        
@@ -66,6 +67,26 @@ class DAOTask {
                             }
                             callback(null, task);
                         }
+                    }
+                });
+            }
+        });
+    }
+
+    markAsCompleted(idTask, checked, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "UPDATE task SET completed = ? WHERE id_activity = ?;";
+                connection.query(querySQL, [checked, idTask], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        callback(null);
                     }
                 });
             }
