@@ -9,13 +9,15 @@ const { check, validationResult } = require("express-validator");
 const RouterUser = express.Router();
 
 // Obtener pool
-function routerConfig(conUse) {
+function routerConfig(conUse, conRem) {
 
     // --- Peticiones GET ---
     // Perfil usuario
-    RouterUser.get("/perfil", conUse.profile);
+    RouterUser.get("/perfil", conRem.unreadNotifications, conUse.profile);
     
-    RouterUser.get("/configuracion", conUse.getConfiguration);
+    RouterUser.get("/configuracion", conRem.unreadNotifications, conUse.getConfiguration);
+    
+    RouterUser.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders);
 
     // --- Peticiones POST ---
     RouterUser.post("/guardarConfiguracion",
@@ -29,6 +31,7 @@ function routerConfig(conUse) {
         check("time_preference", "33").custom((timeP) => {
         return (timeP === "corto" || timeP === "largo")
         }),
+        conRem.unreadNotifications,
         conUse.updateConfiguration);
 
 }
