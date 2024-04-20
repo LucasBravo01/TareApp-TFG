@@ -143,7 +143,7 @@ app.post("/logout", conUse.logout);
 // Ruta para recibir y guardar la suscripción desde el cliente
 app.post('/suscribirse', userLogged, conRem.subscribe);
 
-app.post("/marcarLeido", userLogged, conRem.markAsRead)
+app.post("/marcarLeido", userLogged, conRem.markAsRead);
 
 // --- Otras funciones ---
 

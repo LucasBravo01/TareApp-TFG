@@ -35,6 +35,8 @@ $(() => {
     const inputReward = $("#input-reward");
     const inputDuration = $("#input-duration");
     const submitButton = $("#input-sb-createTask");
+    const inputIdtask = $("#input-id-task");
+    const inputCompleted = $("#input-completed");
 
     // Comprobar si hay tarea que mostrar
     const task = $("body").data("task");
@@ -67,7 +69,6 @@ $(() => {
     // Establecer la fecha y hora actual como el valor mínimo para los campos de entrada
     inputDate.attr("min", currentDateString);
 
-
     // Añadimos un event listener al cambio de la opción seleccionada en el select de categoría
     inputCategory.on("change", () => {
         // Si la opción seleccionada es "Escolar", habilitamos el select de asignatura
@@ -80,7 +81,7 @@ $(() => {
         }
     });
 
-    // POST login
+    // POST crear Tarea
     submitButton.on("click", (event) => {
         event.preventDefault();
         let params = {
@@ -99,7 +100,27 @@ $(() => {
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
-    });    
+    });
+
+    inputCompleted.on("change", (event) => {
+        event.preventDefault();
+        let params = {
+            id: inputIdtask.val(),
+            checkbox: inputCompleted.prop("checked") ? 1 : 0
+        };
+        $.ajax({
+            method: "POST",
+            url: "/tareas/marcarCompletada",
+            data: params,
+            success: (data, statusText, jqXHR) => { 
+                // Mostrar modal
+                showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+            },
+            error: (jqXHR, statusText, errorThrown) => {
+                showModal(jqXHR.responseJSON, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+            }
+        });
+    });
 });
 
 

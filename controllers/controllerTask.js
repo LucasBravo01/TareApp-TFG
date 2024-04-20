@@ -22,6 +22,7 @@ class ControllerTask {
         this.getTasks = this.getTasks.bind(this);
         this.getTask = this.getTask.bind(this);
         this.createReminders = this.createReminders.bind(this);
+        this.markAsCompleted = this.markAsCompleted.bind(this);
     }
 
     dataForm(req, res, next) {
@@ -296,6 +297,57 @@ class ControllerTask {
         }
         else {
             errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }        
+    }
+
+    markAsCompleted(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            let checked = parseInt(req.body.checkbox);
+            this.daoTas.getTaskById(req.body.id, (error, task) => {
+                if (error) {
+                    errorHandler.manageAJAXError(error, next);
+                }
+                else {
+                    if (!task) {
+                        errorHandler.manageAJAXError(33, next); //TODO Mirar que numero poner
+                    }
+                    else {
+                        this.daoTas.markAsCompleted(req.body.id, checked, (error) => {
+                            if (error) {
+                                errorHandler.manageAJAXError(error, next);
+                            }
+                            else {
+                                this.daoRem.updateReminders(req.body.id, checked, (error) => {
+                                    if (error) {
+                                        errorHandler.manageAJAXError(error, next);
+                                    }
+                                    else {
+                                        let data = { code: 200 };
+                                        if(checked === 1) {
+                                            data.title = "Tarea completada";
+                                            data.message = `¡Enhorabuena! Has completado la tarea "${task.title}"`;
+                                        }
+                                        else {
+                                            data.title = "Tarea pendiente";
+                                            data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
+                                        }
+                                        next({
+                                            ajax: true,
+                                            error: false,
+                                            img: false,
+                                            data: data
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else {
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }        
     }
 }
