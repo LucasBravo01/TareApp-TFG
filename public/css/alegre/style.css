@@ -26,7 +26,6 @@ img {
 hr {
     height: 0.1rem;
     opacity: 80%;
-    /*color: var(--primary-dark) !important;*/
 }
 
 /*NAVBAR*/
@@ -58,9 +57,9 @@ nav button {
 
 /*TEXTOS*/
 .title {
-    color: #000000;
     margin: .5rem 0rem;
     font-weight: bold;
+    color: #000000;
 }
 
 .second-text {
@@ -74,27 +73,27 @@ button {
 }
 
 .main-button {
+    border: 1px #3D53E2 solid;
     background-color: #3D53E2;
     color: #F1F2F6;
-    border: 1px #3D53E2 solid;
 }
 
 .second-button {
+    border: 1px #8898FA solid;
     background-color: #8898FA;
     color: #F1F2F6;
-    border: 1px #8898FA solid;
 }
 
 .dangerous-button {
+    border: 1px #D9183B solid;
     background-color: #D9183B;
     color: #F1F2F6;
-    border: 1px #D9183B solid;
 }
 
 .aux-button {
+    border: 1px #3D53E2 solid;
     background-color: #DCDCDC;
     color: #000000;
-    border: 1px #3D53E2 solid;
 }
 
 /*ELEMENTOS*/
