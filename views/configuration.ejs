@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/minimalista/style.css">
+    <link rel="stylesheet" href="/css/alegre/style.css">
 
     <!-- Importar JS específicos -->
     <script src="/js/configuration.js"></script>
@@ -43,7 +43,7 @@
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tema</label>
                     <select id="themeSelect" name="theme" class="form-control">
-                        <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>minimalista</option>
+                        <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
                         <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
                     </select>
                 </div>

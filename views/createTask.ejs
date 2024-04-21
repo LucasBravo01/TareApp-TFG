@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/minimalista/style.css">
+    <link rel="stylesheet" href="/css/alegre/style.css">
     <!-- Importar JS específicos -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/createTask.js"></script>
@@ -41,11 +41,11 @@
                 <div class="col-3 text-center mt-3">
                     <% if (session.currentUser.hasProfilePic) { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/minimalista/default-user.png" alt="Foto de perfil" width="50" height="55">
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } else { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/minimalista/default-user.png" alt="Foto de perfil" width="50" height="55">
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } %>
                     <% if (session.currentUser) { %>
