@@ -15,142 +15,149 @@
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <h1 class="text-center mt-3 mb-4">
-                        <% if (task.id) { %>
-                            Mostrar Tarea
-                        <% } else { %>
-                            Crear Tarea
-                        <% } %>
-                    </h1>
-                    <form id="formTask" action="/tareas/crearTareaForm" method="post">
-                        <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
-                        <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
-                        <div class="form-row mb-1">
-                            <div class="form-group col-5 me-3">
-                                <label for="input-title">Título:</label>
-                                <input type="text" class="form-control mt-1" id="input-title" name="title" value="<%= task.title %>">
-                            </div>
-                            <div class="form-group me-4">
-                                <div class="circle">
-                                    <% if (session.currentUser.hasProfilePic) { %>
-                                        <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil"
-                                            style="border-radius: 50%;" disabled>
-                                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
-                                                alt="Foto de perfil" width="50" height="55">
-                                        </button>
-                                    <% } else { %>
-                                        <button class="ms-1" id="button-nav-profile"
-                                            title="Desplegable del perfil" style="border-radius: 50%;" disabled>
-                                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
-                                                alt="Foto de perfil" width="50" height="55">
-                                        </button>
-                                    <% } %>
-                                    <% if (session.currentUser) { %>
-                                        <p class="ms-3">
-                                            <%=session.currentUser.name%>
-                                        </p>
-                                    <% }else{ %>
-                                        <p>Propietario</p>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="circle">
-                                    <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil"
-                                        disabled>
-                                        <img id="img-nav-profile" src="/images/icons/camara.jpg"
-                                            alt="Foto de perfil" width="50" height="55">
-                                    </button>
-                                    <p>Añadir Foto</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6 me-3">
-                                <label for="input-date">Fecha de entrega:</label>
-                                <input type="date" class="form-control" id="input-date" name="date" value="<%= task.date %>">
-                            </div>
-                            <div class="form-group col-5 ">
-                                <label for="input-hour">Hora:</label>
-                                <input type="time" class="form-control" id="input-hour" name="time" value="<%= task.time %>">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-3 me-2">
-                                <label for="input-category">Categoria:</label>
-                                <select class="form-control" id="input-category" name="category">
-                                    <option value="">...</option>
-                                    <% data.categories.forEach( c=> { %>
-                                        <option value="<%= c.name %>">
-                                            <%= c.name %>
-                                        </option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div class="form-group col-4 me-2">
-                                <label for="input-subject">Asignatura:</label>
-                                <select class="form-control" id="input-subject" name="subject" disabled>
-                                    <option value="">...</option>
-                                    <% data.subjects.forEach( s=> { %>
-                                        <option value="<%= s.id %>">
-                                            <%= s.name %>
-                                        </option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div class="form-group col-4 me-2">
-                                <label for="input-reminder">Recordatorios:</label>
-                                <select class="form-control" id="input-reminder" name="reminders">
-                                    <option value="1 día antes">1 día antes</option>
-                                    <option value="Desde 2 días antes">Desde 2 días antes</option>
-                                    <option value="Desde 1 semana antes">Desde 1 semana antes</option>
-                                    <option value="No recordarmelo">No recordarmelo</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="input-description">Descripción:</label>
-                            <textarea class="form-control" id="input-description" name="description"
-                                rows="4"><%= task.description %></textarea>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6 me-4">
-                                <label for="input-reward">Recompensa:</label>
-                                <select class="form-control" id="input-reward" name="reward">
-                                    <option value="">...</option>
-                                    <% data.rewards.forEach( r=> { %>
-                                        <option value="<%= r.id %>">
-                                            <%= r.title %>
-                                        </option>
-                                    <% }); %>
-                                </select>
-                            </div>
-                            <div class="form-group col-5">
-                                <label for="input-duration">Duracion estimada:</label>
-                                <select class="form-control" id="input-duration" name="duration">
-                                    <option value="no lo sé">No lo sé</option>
-                                    <option value="corta">Corta</option>
-                                    <option value="media">Media</option>
-                                    <option value="larga">Larga</option>
-                                </select>
-                            </div>
-                        </div>
-                        <% if (task.id) { %>
-                        <% } else { %>
-                            <button type="submit" id="input-sb-createTask"
-                            class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Crear Tarea</button>
-                        <% } %>
-                    </form>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1 class="title">
+                <% if (task.id) { %>
+                    Mostrar Tarea
+                <% } else { %>
+                    Crear Tarea
+                <% } %>
+            </h1>
+        </div>
+
+        <form id="formTask" action="/tareas/crearTareaForm" method="post">
+            <div class="row justify-content-center mt-5 mb-3">
+                <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
+                <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
+
+                <!--TITULO-->
+                <div class="col-6 text-center mt-5">
+                    <label for="input-title">Título</label>
+                    <input type="text" class="form-control mt-1" id="input-title" name="title" value="<%= task.title %>">
+                </div>
+
+                <!--PROPIETARIO-->
+                <div class="col-3 text-center mt-5">
+                    <% if (session.currentUser.hasProfilePic) { %>
+                        <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil"
+                            style="border-radius: 50%;" disabled>
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
+                                alt="Foto de perfil" width="50" height="55">
+                        </button>
+                    <% } else { %>
+                        <button class="ms-1" id="button-nav-profile"
+                            title="Desplegable del perfil" style="border-radius: 50%;" disabled>
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
+                                alt="Foto de perfil" width="50" height="55">
+                        </button>
+                    <% } %>
+                    <% if (session.currentUser) { %>
+                        <p class="ms-3">
+                            <%=session.currentUser.name%>
+                        </p>
+                    <% }else{ %>
+                        <p>Propietario</p>
+                    <% } %>
+                </div>
+
+                <!--PROVISIONAL: AÑADIR FOTO-->
+                <div class="col-3 text-center mt-5">
+                    <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil" disabled>
+                        <img id="img-nav-profile" src="/images/icons/camara.jpg" alt="Foto de perfil" width="50" height="55">
+                    </button>
+
+                    <p>Añadir Foto</p>
+                </div>
+
+                <!--FECHA DE ENTREGA-->
+                <div class="col-6 text-center mt-5">
+                    <label for="input-date">Fecha de entrega</label>
+                    <input type="date" class="form-control" id="input-date" name="date" value="<%= task.date %>">  
+                </div>
+
+                <!--HORA DE ENTREGA-->
+                <div class="col-6 text-center mt-5">
+                    <label for="input-hour">Hora:</label>
+                    <input type="time" class="form-control" id="input-hour" name="time" value="<%= task.time %>">
+                </div>
+
+                <!--CATEGORIA-->
+                <div class="col-4 text-center mt-5">
+                    <label for="input-category">Categoria</label>
+                    <select class="form-control" id="input-category" name="category">
+                        <option value="">...</option>
+                        <% data.categories.forEach( c=> { %>
+                            <option value="<%= c.name %>"><%= c.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!--ASIGNATURA-->
+                <div class="col-4 text-center mt-5">
+                    <label for="input-subject">Asignatura</label>
+                    <select class="form-control" id="input-subject" name="subject" disabled>
+                        <option value="">...</option>
+                        <% data.subjects.forEach( s=> { %>
+                            <option value="<%= s.id %>"><%= s.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!--RECORDATORIOS-->
+                <div class="col-4 text-center mt-5">
+                    <label for="input-reminder">Recordatorios</label>
+                    <select class="form-control" id="input-reminder" name="reminders">
+                        <option value="1 día antes">1 día antes</option>
+                        <option value="Desde 2 días antes">Desde 2 días antes</option>
+                        <option value="Desde 1 semana antes">Desde 1 semana antes</option>
+                        <option value="No recordarmelo">No recordarmelo</option>
+                    </select>
+                </div>
+
+                <!--DESCRIPCIÓN-->
+                <div class="col-12 text-center mt-5">
+                    <label for="input-description">Descripción</label>
+                    <textarea class="form-control" id="input-description" name="description" rows="4"><%= task.description %></textarea>
+                </div>
+
+                <!--RECOMPENSA-->
+                <div class="col-4 text-center mt-5">
+                    <label for="input-reward">Recompensa</label>
+                    <select class="form-control" id="input-reward" name="reward">
+                        <option value="">...</option>
+                        <% data.rewards.forEach( r=> { %>
+                            <option value="<%= r.id %>"><%= r.title %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <!--DURACIÓN ESTIMADA-->
+                <div class="col-4 text-center mt-5">
+                    <label for="input-duration">Duracion estimada</label>
+                    <select class="form-control" id="input-duration" name="duration">
+                        <option value="no lo sé">No lo sé</option>
+                        <option value="corta">Corta</option>
+                        <option value="media">Media</option>
+                        <option value="larga">Larga</option>
+                    </select>
+                </div>
+
+                <!--BOTÓN CREAR TAREA-->
+                <div class="col-6 text-center mt-5">
                     <% if (task.id) { %>
-                        <label for="input-completed">Tarea completada: </label>
-                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                    <% } else { %>
+                        <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
                     <% } %>
                 </div>
             </div>
-        </div>
+        </form>
+                    
+        <% if (task.id) { %>
+            <label for="input-completed">Tarea completada: </label>
+            <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+        <% } %>
+    </div>
 </body>
 
 </html>
