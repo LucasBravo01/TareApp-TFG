@@ -19,26 +19,26 @@
         <div class="d-flex justify-content-center">
             <h1 class="title">
                 <% if (task.id) { %>
-                    Mostrar Tarea
+                    MOSTRAR TAREA
                 <% } else { %>
-                    Crear Tarea
+                    CREAR TAREA
                 <% } %>
             </h1>
         </div>
 
         <form id="formTask" action="/tareas/crearTareaForm" method="post">
-            <div class="row justify-content-center mt-5 mb-3">
+            <div class="row justify-content-center mt-3 mb-3">
                 <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
                 <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
 
                 <!--TITULO-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label for="input-title">Título</label>
                     <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
                 </div>
 
                 <!--PROPIETARIO-->
-                <div class="col-3 text-center mt-5">
+                <div class="col-3 text-center mt-3">
                     <% if (session.currentUser.hasProfilePic) { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
                             <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
@@ -58,7 +58,7 @@
                 </div>
 
                 <!--PROVISIONAL: AÑADIR FOTO-->
-                <div class="col-3 text-center mt-5">
+                <div class="col-3 text-center mt-3">
                     <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" disabled>
                         <img id="img-nav-profile" src="/images/icons/camara.jpg" alt="Foto de perfil" width="50" height="55">
                     </button>
@@ -67,19 +67,19 @@
                 </div>
 
                 <!--FECHA DE ENTREGA-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label for="input-date">Fecha de entrega</label>
                     <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label for="input-hour">Hora:</label>
                     <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
                 <!--CATEGORIA-->
-                <div class="col-4 text-center mt-5">
+                <div class="col-4 text-center mt-3">
                     <label for="input-category">Categoria</label>
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
@@ -90,7 +90,7 @@
                 </div>
 
                 <!--ASIGNATURA-->
-                <div class="col-4 text-center mt-5">
+                <div class="col-4 text-center mt-3">
                     <label for="input-subject">Asignatura</label>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
@@ -101,7 +101,7 @@
                 </div>
 
                 <!--RECORDATORIOS-->
-                <div class="col-4 text-center mt-5">
+                <div class="col-4 text-center mt-3">
                     <label for="input-reminder">Recordatorios</label>
                     <select id="input-reminder" name="reminders" class="form-control">
                         <option value="1 día antes">1 día antes</option>
@@ -112,13 +112,13 @@
                 </div>
 
                 <!--DESCRIPCIÓN-->
-                <div class="col-12 text-center mt-5">
+                <div class="col-12 text-center mt-3">
                     <label for="input-description">Descripción</label>
                     <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>
 
                 <!--RECOMPENSA-->
-                <div class="col-4 text-center mt-5">
+                <div class="col-4 text-center mt-3">
                     <label for="input-reward">Recompensa</label>
                     <select id="input-reward" name="reward" class="form-control">
                         <option value="">...</option>
@@ -129,7 +129,7 @@
                 </div>
 
                 <!--DURACIÓN ESTIMADA-->
-                <div class="col-4 text-center mt-5">
+                <div class="col-4 text-center mt-3">
                     <label for="input-duration">Duracion estimada</label>
                     <select id="input-duration" name="duration" class="form-control">
                         <option value="no lo sé">No lo sé</option>
@@ -140,7 +140,7 @@
                 </div>
 
                 <!--BOTÓN CREAR TAREA-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <% if (task.id) { %>
                     <% } else { %>
                         <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>

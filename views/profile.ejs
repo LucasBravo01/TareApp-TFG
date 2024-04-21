@@ -15,35 +15,35 @@
     <%- include("nav") %>
 
     <div class="container">
-        <div class="row justify-content-center mt-5 mb-3">
-            <div class="col-6 text-center mt-5">
+        <div class="row justify-content-center mt-3 mb-3">
+            <div class="col-6 text-center mt-3">
                 <img src="../images/alegre/default-user.png" alt="imagen perfil" width="100em" height="100em">
             </div>
 
-            <div class="col-6 text-center mt-5">
+            <div class="col-6 text-center mt-3">
                 <label for="nameUser" class="form-label" style="font-weight: bold";>Nombre completo</label>
                 <input id="input-user" name="nameUser" type="text" class="form-control" value="<%= user.name %>"
                     disabled>
             </div>
             
-            <div class="col-4 text-center mt-5">
+            <div class="col-4 text-center mt-3">
                 <label for="user" class="form-label" style="font-weight: bold";>Usuario</label>
                 <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
                     disabled>
             </div>
             
-            <div class="col-4 text-center mt-5">
+            <div class="col-4 text-center mt-3">
                 <label for="rol" class="form-label" style="font-weight: bold";>Rol</label>
                 <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>" disabled>
             </div>
             
-            <div class="col-4 text-center mt-5">
+            <div class="col-4 text-center mt-3">
                 <label for="grade" class="form-label" style="font-weight: bold";>Curso</label>
                 <input id="input-user" name="grade" type="text" class="form-control" value="<%= user.grade %>" disabled>
             </div>            
 
             <div class="col-12 text-center mt-5">
-                <p class="text-start" style="font-weight: bold; color:#976E07">Recompensas</p>
+                <p class="text-start subtitle">Recompensas</p>
                 <hr class="separator-line" />
                 <div class="row justify-content-center">
                     <% for (let i = 0; i < rewards.length; i++) { %> <!-- Iterar sobre todas las recompensas -->

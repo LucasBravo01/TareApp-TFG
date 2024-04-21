@@ -23,14 +23,15 @@
         </div>
         
         <form id="formConfiguration">
-            <div class="row justify-content-center mt-5 mb-3">
+            <div class="row justify-content-center mt-3 mb-3">
                 <!--SECCIÓN APARIENCIA-->
-                <div class="col-12 text-center mt-5">
-                    <p class="text-start" style="font-weight: bold; color:#976E07">Apariencia</p>
+                <div class="col-12 text-center mt-3">
+                    <p class="text-start subtitle">Apariencia</p>
+                    <hr class="separator-line" />
                 </div>
 
                 <!--TAMAÑO DE LETRA-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tamaño de letra</label>
                     <select id="fontSizeSelect" name="font-size" class="form-control">
                         <option value="grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
@@ -39,7 +40,7 @@
                 </div>
 
                 <!--TEMA-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tema</label>
                     <select id="themeSelect" name="theme" class="form-control">
                         <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
@@ -49,11 +50,12 @@
 
                 <!--SECCIÓN TAREAS-->
                 <div class="col-12 text-center mt-5">
-                    <p class="text-start" style="font-weight: bold; color:#976E07">Tareas</p>
+                    <p class="text-start subtitle">Tareas</p>
+                    <hr class="separator-line" />
                 </div>
 
                 <!--PREFERENCIA DE TIEMPO-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
                     <select id="timeSelect" name="time" class="form-control">
                         <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
@@ -62,15 +64,15 @@
                 </div>
 
                 <!--DIV AUX PARA MANTENERLO A LA IZQUIERDA EL ANTERIOR-->
-                <div class="col-6 text-center mt-5"></div>
+                <div class="col-6 text-center mt-3"></div>
 
                 <!--BOTÓN DE CAMBIAR LA CONFIGURACIÓN-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <button type="submit" id="input-sb-updateConfig" class="main-button">Cambiar configuración</button>
                 </div>
 
                 <!--BOTÓN DE SUSCRIPCIÓN A NOTIFICACIONES-->
-                <div class="col-6 text-center mt-5">
+                <div class="col-6 text-center mt-3">
                     <button id="button-subscribe" class="main-button">Suscribirse a notificaciones</button>
                 </div>
             </div>

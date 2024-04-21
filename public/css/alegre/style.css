@@ -46,6 +46,18 @@ nav button {
     margin: 1.5rem 0rem;
 }
 
+/*MODAL*/
+.modal-confirm-button {
+    border: 1px #8898FA solid;
+    background-color: #8898FA;
+    color: #F1F2F6;
+}
+
+.modal-close-window-button {
+    border: none;
+    background-color: #FFFFFF;
+}
+
 /*BACKGROUND*/
 .main-background {
     background-color: #3D53E2;
@@ -57,9 +69,14 @@ nav button {
 
 /*TEXTOS*/
 .title {
-    margin: .5rem 0rem;
+    margin: 1rem 0rem;
     font-weight: bold;
     color: #000000;
+}
+
+.subtitle {
+    font-weight: bold;
+    color:#8898FA;
 }
 
 .second-text {

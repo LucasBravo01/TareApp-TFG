@@ -22,3 +22,17 @@ body{
     background-color: #51A644;
     color: #F1F2F6;
 }
+
+/*MODAL*/
+.modal-confirm-button {
+    padding: .5rem;
+    border: 1px #51A644 solid;
+    border-radius: .7rem;
+    background-color: #51A644;
+    color: #F1F2F6;
+}
+
+.modal-close-window-button {
+    border: none;
+    background-color: #FFFFFF;
+}

@@ -54,23 +54,15 @@ function showModal(response, header, img, title, message, button, modal) {
     // Success
     if (response.code === 200) {
         // Crear modal
-        header.removeClass("bg-ta-light-gray");
-        header.addClass("bg-ta-light-green");
-        img.attr("src", "/images/icons/success.png");
+        img.attr("src", "/images/modals/success.png");
         img.attr("alt", "Icono de éxito");
-        button.removeClass("bg-ta-red");
-        button.addClass("bg-ta-green");
     }
     // Error
     else {
         title.text(response.title);
         message.text(response.message);
-        header.removeClass("bg-ta-light-green");
-        header.addClass("bg-ta-light-gray");
-        img.attr("src", "/images/icons/error.png");
+        img.attr("src", "/images/modals/error.png");
         img.attr("alt", "Icono de error");
-        button.removeClass("bg-ta-green");
-        button.addClass("bg-ta-red");
     }
     // Abrir modal
     modal.click();
