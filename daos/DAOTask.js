@@ -8,6 +8,8 @@ class DAOTask {
 
         this.pushTask = this.pushTask.bind(this);
         this.getTaskById = this.getTaskById.bind(this);
+        this.readAllByUserAndWeek = this.readAllByUserAndWeek.bind(this);
+        this.readAllByUserAndDay = this.readAllByUserAndDay.bind(this);
     }
 
     pushTask(task , callback){        
@@ -27,6 +29,44 @@ class DAOTask {
             }
         });
     }
+
+    readAllByUserAndWeek(userId, startOfWeek, endOfWeek, callback) {
+        const sql = `
+            SELECT a.*, t.*
+            FROM activity a
+            JOIN task t ON a.id = t.id_activity
+            WHERE (a.id_creator = ? OR a.id_receiver = ?)
+            AND a.date BETWEEN ? AND ?
+            AND a.enabled = 1
+            ORDER BY a.date, a.time;
+        `;
+        this.pool.query(sql, [userId, userId, startOfWeek, endOfWeek], function(err, tasks) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, tasks);
+            }
+        });
+    }
+
+    readAllByUserAndDay(userId, startOfDay, endOfDay, callback) {
+        const sql = `
+            SELECT a.*, t.*
+            FROM activity a
+            JOIN task t ON a.id = t.id_activity
+            WHERE (a.id_creator = ? OR a.id_receiver = ?)
+            AND a.date BETWEEN ? AND ?
+            AND a.enabled = 1
+            ORDER BY a.date, a.time;
+        `;
+        this.pool.query(sql, [userId, userId, startOfDay, endOfDay], function(err, tasks) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, tasks);
+            }
+        });
+    }    
 
     getTaskById(idTask, callback){
         this.pool.getConnection((error, connection) => {

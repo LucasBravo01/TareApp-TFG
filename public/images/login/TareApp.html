@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://localhost:3000/tareas/semanal -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>TareApp</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=""> <!-- TODO Añadir descripción de la página-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#ffff"> <!-- TODO Elegir color barra de arriba -->
+
+<link rel="manifest" href="http://localhost:3000/tareas/manifest.json">
+<link rel="icon" href="http://localhost:3000/images/icon-64x64.png">
+<!-- Importar bootstrap CSS -->
+<link href="./TareApp_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<!-- Importar CSS -->
+<link rel="stylesheet" href="./TareApp_files/styles.css">
+<!-- Importar bootstrap JS -->
+<script src="./TareApp_files/bootstrap.bundle.min.js.descarga" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<!-- Importar JQuery -->
+<script src="./TareApp_files/jquery-3.6.4.min.js.descarga"></script>
+<!-- Importar JS general -->
+<script src="./TareApp_files/main.js.descarga"></script>
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="./TareApp_files/weeklyCalendar.css">
+    <script src="./TareApp_files/calendar.js.descarga"></script>
+
+</head>
+<body>
+    
+
+
+
+    <nav class="d-flex align-items-center justify-content-between bg-ta-primary">
+        <!-- Menú hamburguesa -->
+        <button id="button-nav-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" title="Desplegable del menú">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"></path>
+            </svg>
+        </button>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header bg-ta-primary">
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body bg-ta-primary">
+                <ul>
+                    <li><a href="http://localhost:3000/tareas/crearTarea">Crear Tarea</a></li>
+                </ul>
+                <form id="form-logout" method="POST" action="http://localhost:3000/logout">
+                    <a id="a-logout"><button class="m-0 p-0">Cerrar sesión</button></a>
+                </form>
+            </div>
+        </div>
+        <!-- Inicio -->
+        <a id="a-nav" href="http://localhost:3000/" class="d-flex align-items-center" title="Volver a inicio">
+            <img src="./TareApp_files/logoTareApp.png" alt="Logo TareApp" width="100">
+        </a>
+        <!-- Botón de perfil normal -->
+        <a href="http://localhost:3000/perfil" title="Ir al perfil">
+            <img id="img-nav-profile" src="./TareApp_files/profile.png" alt="Foto de perfil" width="50">
+        </a>
+    </nav>
+
+
+
+    <div class="row mt-3">
+        <div class="col-6">
+            <a class="btnCreateTask" href="http://localhost:3000/tareas/crearTarea">Crear Tarea</a>
+        </div>
+    
+        <div class="col-6 text-end"> 
+            <a class="btn btnList" href="http://localhost:3000/">Lista</a>
+            <a class="btn btnWeek" href="http://localhost:3000/tareas/semanal">Semanal</a>
+            <a class="btn btnDay" href="http://localhost:3000/tareas/diaria">Diaria</a>
+        </div>
+    </div>    
+    
+    <div class="container-fluid mt-4 calendar" id="weekly-calendar-container">
+        <div class="row justify-content-center" id="weekly-calendar">
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">M 15</div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">T 16</div>
+                    
+                        <div class="task">
+                            <div class="task-title">Tarea 1</div>
+                            <div class="task-time">13:20:00</div>
+                        </div>
+                    
+                        <div class="task">
+                            <div class="task-title">Tarea 3</div>
+                            <div class="task-time">13:21:00</div>
+                        </div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">W 17</div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">T 18</div>
+                    
+                        <div class="task">
+                            <div class="task-title">Tarea 2</div>
+                            <div class="task-time">13:20:00</div>
+                        </div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">F 19</div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">S 20</div>
+                    
+                </div>
+            
+                <div class="col-1 day-column">
+                    <div class="day-header">S 21</div>
+                    
+                </div>
+            
+        </div>
+    </div>
+
+
+</body></html>

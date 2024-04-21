@@ -129,7 +129,6 @@ app.get(["/", "/inicio"], userLogged, conTask.getTasks);
 // Perfil usuario
 app.get("/perfil", userLogged, conUse.profile);
 
-
 // --- Otras peticiones GET ---
 
 
