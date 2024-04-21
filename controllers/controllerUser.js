@@ -166,7 +166,7 @@ class ControllerUser {
                         img: false,
                         data: { 
                             code: 200,
-                            title: "Configuración actualizada Con Éxito.",
+                            title: "Configuración actualizada con éxito.",
                             message: "Enhorabuena tu configuración ha sido actualizada correctamente."
                         }
                     });
