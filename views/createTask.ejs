@@ -34,22 +34,18 @@
                 <!--TITULO-->
                 <div class="col-6 text-center mt-5">
                     <label for="input-title">Título</label>
-                    <input type="text" class="form-control mt-1" id="input-title" name="title" value="<%= task.title %>">
+                    <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
                 </div>
 
                 <!--PROPIETARIO-->
                 <div class="col-3 text-center mt-5">
                     <% if (session.currentUser.hasProfilePic) { %>
-                        <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil"
-                            style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
-                                alt="Foto de perfil" width="50" height="55">
+                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } else { %>
-                        <button class="ms-1" id="button-nav-profile"
-                            title="Desplegable del perfil" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/alegre/default-user.png"
-                                alt="Foto de perfil" width="50" height="55">
+                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
+                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } %>
                     <% if (session.currentUser) { %>
@@ -63,7 +59,7 @@
 
                 <!--PROVISIONAL: AÑADIR FOTO-->
                 <div class="col-3 text-center mt-5">
-                    <button class="ms-1" id="button-nav-profile" title="Desplegable del perfil" disabled>
+                    <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" disabled>
                         <img id="img-nav-profile" src="/images/icons/camara.jpg" alt="Foto de perfil" width="50" height="55">
                     </button>
 
@@ -73,19 +69,19 @@
                 <!--FECHA DE ENTREGA-->
                 <div class="col-6 text-center mt-5">
                     <label for="input-date">Fecha de entrega</label>
-                    <input type="date" class="form-control" id="input-date" name="date" value="<%= task.date %>">  
+                    <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
                 <div class="col-6 text-center mt-5">
                     <label for="input-hour">Hora:</label>
-                    <input type="time" class="form-control" id="input-hour" name="time" value="<%= task.time %>">
+                    <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
                 <!--CATEGORIA-->
                 <div class="col-4 text-center mt-5">
                     <label for="input-category">Categoria</label>
-                    <select class="form-control" id="input-category" name="category">
+                    <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
                             <option value="<%= c.name %>"><%= c.name %></option>
@@ -96,7 +92,7 @@
                 <!--ASIGNATURA-->
                 <div class="col-4 text-center mt-5">
                     <label for="input-subject">Asignatura</label>
-                    <select class="form-control" id="input-subject" name="subject" disabled>
+                    <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
                             <option value="<%= s.id %>"><%= s.name %></option>
@@ -107,7 +103,7 @@
                 <!--RECORDATORIOS-->
                 <div class="col-4 text-center mt-5">
                     <label for="input-reminder">Recordatorios</label>
-                    <select class="form-control" id="input-reminder" name="reminders">
+                    <select id="input-reminder" name="reminders" class="form-control">
                         <option value="1 día antes">1 día antes</option>
                         <option value="Desde 2 días antes">Desde 2 días antes</option>
                         <option value="Desde 1 semana antes">Desde 1 semana antes</option>
@@ -118,13 +114,13 @@
                 <!--DESCRIPCIÓN-->
                 <div class="col-12 text-center mt-5">
                     <label for="input-description">Descripción</label>
-                    <textarea class="form-control" id="input-description" name="description" rows="4"><%= task.description %></textarea>
+                    <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>
 
                 <!--RECOMPENSA-->
                 <div class="col-4 text-center mt-5">
                     <label for="input-reward">Recompensa</label>
-                    <select class="form-control" id="input-reward" name="reward">
+                    <select id="input-reward" name="reward" class="form-control">
                         <option value="">...</option>
                         <% data.rewards.forEach( r=> { %>
                             <option value="<%= r.id %>"><%= r.title %></option>
@@ -135,7 +131,7 @@
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-4 text-center mt-5">
                     <label for="input-duration">Duracion estimada</label>
-                    <select class="form-control" id="input-duration" name="duration">
+                    <select id="input-duration" name="duration" class="form-control">
                         <option value="no lo sé">No lo sé</option>
                         <option value="corta">Corta</option>
                         <option value="media">Media</option>
