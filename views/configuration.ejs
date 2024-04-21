@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/alegre/style.css">
+    <link rel="stylesheet" href="/css/minimalista/style.css">
 
     <!-- Importar JS específicos -->
     <script src="/js/configuration.js"></script>
@@ -43,7 +43,7 @@
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tema</label>
                     <select id="themeSelect" name="theme" class="form-control">
-                        <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
+                        <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>minimalista</option>
                         <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
                     </select>
                 </div>
@@ -67,12 +67,12 @@
                 <div class="col-6 text-center mt-3"></div>
 
                 <!--BOTÓN DE CAMBIAR LA CONFIGURACIÓN-->
-                <div class="col-6 text-center mt-3">
+                <div class="col-6 text-center mt-5">
                     <button type="submit" id="input-sb-updateConfig" class="main-button">Cambiar configuración</button>
                 </div>
 
                 <!--BOTÓN DE SUSCRIPCIÓN A NOTIFICACIONES-->
-                <div class="col-6 text-center mt-3">
+                <div class="col-6 text-center mt-5">
                     <button id="button-subscribe" class="main-button">Suscribirse a notificaciones</button>
                 </div>
             </div>
