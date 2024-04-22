@@ -69,6 +69,14 @@ nav button {
 }
 
 /*TEXTOS*/
+.normal {
+    font-size: 1rem;
+}
+
+.grande {
+    font-size: 1.5rem;
+}
+
 .title {
     margin: 1rem 0rem;
     font-weight: bold;
@@ -89,6 +97,10 @@ button {
     padding: .5rem;
     border-radius: .7rem;
 }
+
+    button:hover {
+        filter: brightness(85%);
+    }
 
 .main-button {
     border: 1px #C2C2C2 solid;

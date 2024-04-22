@@ -63,9 +63,15 @@ function showModal(response, header, img, title, message, button, modal) {
         message.text(response.message);
         img.attr("src", "/images/modals/error.png");
         img.attr("alt", "Icono de error");
+        
     }
     // Abrir modal
     modal.click();
+}
+
+function setConfiguration(textSize) {
+  document.body.className = textSize;
+  localStorage.setItem('font-size', textSize);
 }
 
 // Cuando cargue el DOM
@@ -83,6 +89,9 @@ $(() => {
   if (response) {
       showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
   }
+
+  var textSize = localStorage.getItem('font-size');
+  document.body.className = textSize;
 
   // Logout
   const buttonLogout = $("#a-logout");
