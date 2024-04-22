@@ -15,37 +15,31 @@
     <%- include("nav") %>
 
     <div class="container">
-        <div class="row justify-content-center mt-3 mb-3">
+        <div class="row justify-content-center mt-5 mb-3">
             <!--FOTO-->
-            <div class="col-6 text-center mt-3">
+            <div class="col-3 text-center mt-5">
                 <img src="../images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="imagen perfil" width="100em" height="100em">
             </div>
 
             <!--NOMBRE-->
-            <div class="col-6 text-center mt-3">
+            <div class="col-3 text-center mt-5">
                 <label for="nameUser" class="form-label" style="font-weight: bold";>Nombre completo</label>
                 <input id="input-user" name="nameUser" type="text" class="form-control" value="<%= user.name %>"
                     disabled>
             </div>
             
             <!--USUARIO-->
-            <div class="col-4 text-center mt-3">
+            <div class="col-3 text-center mt-5">
                 <label for="user" class="form-label" style="font-weight: bold";>Usuario</label>
                 <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
                     disabled>
             </div>
             
             <!--ROL-->
-            <div class="col-4 text-center mt-3">
+            <div class="col-3 text-center mt-5">
                 <label for="rol" class="form-label" style="font-weight: bold";>Rol</label>
                 <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>" disabled>
-            </div>
-            
-            <!--TEMPORAL: CURSO-->
-            <div class="col-4 text-center mt-3">
-                <label for="grade" class="form-label" style="font-weight: bold";>Curso</label>
-                <input id="input-user" name="grade" type="text" class="form-control" value="<%= user.grade %>" disabled>
-            </div>            
+            </div>           
 
             <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
@@ -57,16 +51,17 @@
             <% let j = 0; %>
             <% for (let i = 0; i < allRewards.length; i++) { %>
                 <div class="col-4 text-center mt-3">
-                    <div class="card">
+                    <div class="card-recompensa">
                         <img src="/images/rewards/<%= allRewards[i].icon %>.png" alt="Icono de la recompensa <%= allRewards[i].title %>" width="100">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= allRewards[i].title %></h5>
+                        <div class="card-body-recompensa">
+                            <h5 class="card-title mt-2"><%= allRewards[i].title %></h5>
                             <% if (allRewards[i].message) { %>
-                                <p class="card-text"><%= allRewards[i].message %></p>
+                                <p class="card-text mt-2"><%= allRewards[i].message %></p>
                             <% } %>
                         </div>
-                        <div class="card-footer">
-                            <% if (userRewards.length === 0 || allRewards[i].id !== userRewards[j].id) { %>
+                        <div>
+                            <hr class="separator-line" />
+                            <% if (userRewards.length === 0 || j === userRewards.length || allRewards[i].id !== userRewards[j].id) { %>
                                 <p class="card-text">Obtenidas: 0</p>
                             <% } else { %>
                                 <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
