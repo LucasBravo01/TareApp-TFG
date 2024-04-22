@@ -69,6 +69,10 @@ function showModal(response, header, img, title, message, button, modal) {
     modal.click();
 }
 
+function setConfiguration(textSize) {
+  document.body.className = textSize;
+}
+
 // Cuando cargue el DOM
 $(() => {
   // Suscribirse cuando hace click

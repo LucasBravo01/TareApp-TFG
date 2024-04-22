@@ -58,7 +58,9 @@ $(() => {
                 method: "POST",
                 url: "/usuario/guardarConfiguracion",
                 data: params,
-                success: (data, statusText, jqXHR) => { 
+                success: (data, statusText, jqXHR) => {
+                    // Aplicar configuración
+                    setConfiguration(fontSizeSelect.val());
                     // Mostrar modal
                     showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
                 },
