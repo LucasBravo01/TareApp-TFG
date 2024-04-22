@@ -97,6 +97,10 @@ button {
     border-radius: .7rem;
 }
 
+    button:hover {
+        filter: brightness(85%);
+    }
+
 .main-button {
     border: 1px #3D53E2 solid;
     background-color: #3D53E2;
