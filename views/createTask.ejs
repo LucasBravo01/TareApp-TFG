@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/alegre/style.css">
+    <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/createTask.js"></script>
@@ -41,11 +41,11 @@
                 <div class="col-3 text-center mt-3">
                     <% if (session.currentUser.hasProfilePic) { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
+                            <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } else { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/alegre/default-user.png" alt="Foto de perfil" width="50" height="55">
+                            <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50" height="55">
                         </button>
                     <% } %>
                     <% if (session.currentUser) { %>
@@ -57,13 +57,12 @@
                     <% } %>
                 </div>
 
-                <!--PROVISIONAL: AÑADIR FOTO-->
+                <!--TAREA COMPLETADA-->
                 <div class="col-3 text-center mt-3">
-                    <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" disabled>
-                        <img id="img-nav-profile" src="/images/icons/camara.jpg" alt="Foto de perfil" width="50" height="55">
-                    </button>
-
-                    <p>Añadir Foto</p>
+                    <% if (task.id) { %>
+                        <label for="input-completed">Completar tarea</label>
+                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                    <% } %>
                 </div>
 
                 <!--FECHA DE ENTREGA-->
@@ -148,11 +147,6 @@
                 </div>
             </div>
         </form>
-                    
-        <% if (task.id) { %>
-            <label for="input-completed">Tarea completada: </label>
-            <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
-        <% } %>
     </div>
 </body>
 
