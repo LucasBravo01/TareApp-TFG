@@ -14,18 +14,18 @@
             <div class="offcanvas-body main-background">
                 <div id="functions" class="m-3">
                     <!--NOTIFICACIONES-->
-                    <a href="/usuario/notificaciones" class="second-text position-relative">
+                    <a href="/usuario/notificaciones" class="second-text">
                         <div class="menu-element">
-                            <div>
+                            <div class="position-relative">
                                 <img id="img-nav-notifications" src="/images/<%= session.currentUser.configuration.theme %>/notifications.png" alt="Notificaciones" width="30"/>
-                            </div>
-                            <div>
-                                Notificaciones
                                 <% if (generalInfo.notificationsUnread > 0 ) { %>
                                     <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
                                         <%= generalInfo.notificationsUnread %>
                                     </span>
                                 <% } %>
+                            </div>
+                            <div>
+                                Notificaciones
                             </div>
                         </div>
                     </a>
