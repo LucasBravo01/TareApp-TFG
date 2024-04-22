@@ -71,6 +71,7 @@ function showModal(response, header, img, title, message, button, modal) {
 
 function setConfiguration(textSize) {
   document.body.className = textSize;
+  localStorage.setItem('font-size', textSize);
 }
 
 // Cuando cargue el DOM
@@ -88,6 +89,9 @@ $(() => {
   if (response) {
       showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
   }
+
+  var textSize = localStorage.getItem('font-size');
+  document.body.className = textSize;
 
   // Logout
   const buttonLogout = $("#a-logout");
