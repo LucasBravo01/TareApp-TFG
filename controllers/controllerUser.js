@@ -77,22 +77,30 @@ class ControllerUser {
                                         errorHandler.manageError(error, { user: req.body.user }, "login", next);
                                     }
                                     else {
-                                        // Obtener notificaciones no leídas
-                                        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+                                        this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, configuration) => {
                                             if (error) {
                                                 errorHandler.manageError(error, {}, "error", next);
                                             }
                                             else {
-                                                next({
-                                                    ajax: false,
-                                                    status: 200,
-                                                    redirect: "tasks",
-                                                    data: {
-                                                        response: undefined,
-                                                        generalInfo: {
-                                                            notificationsUnread: numUnreadNotifications
-                                                        },
-                                                        tasks: tasks
+                                                req.session.currentUser.configuration = configuration;
+                                                // Obtener notificaciones no leídas
+                                                this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+                                                    if (error) {
+                                                        errorHandler.manageError(error, {}, "error", next);
+                                                    }
+                                                    else {
+                                                        next({
+                                                            ajax: false,
+                                                            status: 200,
+                                                            redirect: "tasks",
+                                                            data: {
+                                                                response: undefined,
+                                                                generalInfo: {
+                                                                    notificationsUnread: numUnreadNotifications
+                                                                },
+                                                                tasks: tasks
+                                                            }
+                                                        });
                                                     }
                                                 });
                                             }
@@ -125,23 +133,16 @@ class ControllerUser {
     }
 
     getConfiguration(req, res, next) {
-        this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, configuration) => {
-            if (error) {
-                errorHandler.manageError(error, {}, "error", next);
-            }
-            else {
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "configuration",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            notificationsUnread: req.unreadNotifications
-                        },
-                        configuration: configuration
-                    }
-                });
+        next({
+            ajax: false,
+            status: 200,
+            redirect: "configuration",
+            data: {
+                response: undefined,
+                generalInfo: {
+                    notificationsUnread: req.unreadNotifications
+                },
+                configuration: req.session.currentUser.configuration
             }
         });
     }
@@ -160,6 +161,7 @@ class ControllerUser {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else{
+                    req.session.currentUser.configuration = form;
                     next({
                         ajax: true,
                         error: false,
