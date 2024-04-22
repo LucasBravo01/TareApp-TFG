@@ -57,15 +57,6 @@
                     <% } %>
                 </div>
 
-                <!--PROVISIONAL: AÑADIR FOTO-->
-                <div class="col-3 text-center mt-3">
-                    <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" disabled>
-                        <img id="img-nav-profile" src="/images/icons/camara.jpg" alt="Foto de perfil" width="50" height="55">
-                    </button>
-
-                    <p>Añadir Foto</p>
-                </div>
-
                 <!--FECHA DE ENTREGA-->
                 <div class="col-6 text-center mt-3">
                     <label for="input-date">Fecha de entrega</label>
@@ -84,11 +75,11 @@
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
-                            <option value="<%= c.name %>"><%= c.name %></option>
+                            <option value="<%= c.name %>"><%- c.icon %> <%= c.name %></option>
                         <% }); %>
                     </select>
                 </div>
-
+    
                 <!--ASIGNATURA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-subject">Asignatura</label>

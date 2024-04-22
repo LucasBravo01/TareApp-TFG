@@ -210,10 +210,10 @@ INSERT INTO subject (id_teacher, name, grade, photo, color) VALUES
 
 -- Categoría
 INSERT INTO category (name, icon) VALUES
-('Escolar', 'escolar'),
-('Ocio', 'ocio'),
-('Extraescolar', 'extraEscolar'),
-('Casa', 'casa');
+('Escolar', '&#128218;'),
+('Ocio', '&#x1F389;'),
+('Extraescolar', '&#127934;'),
+('Casa', '&#127968;');
 
 -- Recompensa
 INSERT INTO reward (title, message, icon) VALUES
