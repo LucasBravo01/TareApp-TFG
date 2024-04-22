@@ -59,6 +59,14 @@ $(() => {
                 url: "/usuario/guardarConfiguracion",
                 data: params,
                 success: (data, statusText, jqXHR) => {
+                    // Reemplazar el archivo CSS actual e imágenes por el nuevo
+                    $("#css-link").attr('href', `/css/${themeSelect.val()}/style.css`);
+                    $("#img-nav-burger").attr('src', `/images/${themeSelect.val()}/menu.png`);
+                    $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
+                    $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
+                    $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
+                    $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
+
                     // Aplicar configuración
                     setConfiguration(fontSizeSelect.val());
                     // Mostrar modal

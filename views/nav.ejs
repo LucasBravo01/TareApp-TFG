@@ -5,7 +5,7 @@
     <nav class="d-flex align-items-center justify-content-between main-background">
         <!-- Menú hamburguesa -->
         <button id="button-nav-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" title="Desplegable del menú">
-            <img src="/images/<%= session.currentUser.configuration.theme %>/menu.png" alt="Menú" width="50">
+            <img id="img-nav-burger" src="/images/<%= session.currentUser.configuration.theme %>/menu.png" alt="Menú" width="50">
         </button>
         <div id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel" class="offcanvas offcanvas-start">
             <div class="offcanvas-header main-background">
@@ -17,7 +17,7 @@
                     <a href="/usuario/notificaciones" class="second-text position-relative">
                         <div class="menu-element">
                             <div>
-                                <img src="/images/<%= session.currentUser.configuration.theme %>/notifications.png" alt="Notificaciones" width="30"/>
+                                <img id="img-nav-notifications" src="/images/<%= session.currentUser.configuration.theme %>/notifications.png" alt="Notificaciones" width="30"/>
                             </div>
                             <div>
                                 Notificaciones
@@ -34,7 +34,7 @@
                     <a href="/usuario/configuracion" class="second-text">
                         <div class="menu-element">
                             <div>
-                                <img src="/images/<%= session.currentUser.configuration.theme %>/settings.png" alt="Configuración" width="30"/>
+                                <img id="img-nav-settings" src="/images/<%= session.currentUser.configuration.theme %>/settings.png" alt="Configuración" width="30"/>
                             </div>
                             <div>
                                 Configuración
@@ -57,7 +57,7 @@
 
                 <div>
                     <form id="form-logout" method="POST" action="/logout">
-                        <a id="a-logout"><button class="button dangerous-button"><img src="/images/<%= session.currentUser.configuration.theme %>/logout.png" alt="Cerrar Sesión" width="30" class="ms-2 me-2"/> <span>Cerrar sesión</span></button></a>
+                        <a id="a-logout"><button class="button dangerous-button"><img id="img-nav-logout" src="/images/<%= session.currentUser.configuration.theme %>/logout.png" alt="Cerrar Sesión" width="30" class="ms-2 me-2"/> <span>Cerrar sesión</span></button></a>
                     </form>
                 </div>
             </div>
