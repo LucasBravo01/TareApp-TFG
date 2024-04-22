@@ -63,6 +63,7 @@ function showModal(response, header, img, title, message, button, modal) {
         message.text(response.message);
         img.attr("src", "/images/modals/error.png");
         img.attr("alt", "Icono de error");
+        
     }
     // Abrir modal
     modal.click();
