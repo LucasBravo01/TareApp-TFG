@@ -83,11 +83,11 @@
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
-                            <option value="<%= c.name %>"><%= c.name %></option>
+                            <option value="<%= c.name %>"><%- c.icon %> <%= c.name %></option>
                         <% }); %>
                     </select>
                 </div>
-
+    
                 <!--ASIGNATURA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-subject">Asignatura</label>
