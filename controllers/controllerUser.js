@@ -24,21 +24,30 @@ class ControllerUser {
     // TODO rehacer bien manejador de rutas
     //Metodo para traerme las recompensas del usuario
     profile(req, res, next) {
-        this.daoRew.getRewardsUser(req.session.currentUser.id, (error, rewards) => {
+        this.daoRew.readAllRewards((error, allRewards) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "profile",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            notificationsUnread: req.unreadNotifications
-                        },
-                        user: req.session.currentUser, 
-                        rewards: rewards
+                this.daoRew.getCountRewardsUser(req.session.currentUser.id, (error, userRewards) => {
+                    if (error) {
+                        errorHandler.manageError(error, {}, "error", next);
+                    } else {
+                        next({
+                            ajax: false,
+                            status: 200,
+                            redirect: "profile",
+                            data: {
+                                response: undefined,
+                                generalInfo: {
+                                    notificationsUnread: req.unreadNotifications
+                                },
+                                user: req.session.currentUser, 
+                                allRewards: allRewards,
+                                userRewards: userRewards
+                            }
+                        });
+
+                        
                     }
                 });
             }
