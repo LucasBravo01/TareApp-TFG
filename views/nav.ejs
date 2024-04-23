@@ -19,7 +19,7 @@
                             <div class="position-relative">
                                 <img id="img-nav-notifications" src="/images/<%= session.currentUser.configuration.theme %>/notifications.png" alt="Notificaciones" width="30"/>
                                 <% if (generalInfo.notificationsUnread > 0 ) { %>
-                                    <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ta-blue" title="Correos no leídos">
+                                    <span id="span-num-notifications" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notifications-badge" title="Correos no leídos">
                                         <%= generalInfo.notificationsUnread %>
                                     </span>
                                 <% } %>
