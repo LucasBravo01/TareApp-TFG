@@ -21,7 +21,7 @@
         <div>
             <% tasks.forEach( t=> { %>
                 <a href="/tareas/tarea/<%= t.id %>">
-                    <div class="card-task">
+                    <div class="card-task" data-color="<% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                         <div class="d-flex justify-content-center">
                             <img src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" height="50">
                         </div>

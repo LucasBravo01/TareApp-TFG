@@ -39,7 +39,7 @@ class DAOActivity {
             }
             else {
                 // Construir objeto 
-                    let querySQL = "SELECT * FROM activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity where id_receiver =?;";
+                    let querySQL = "SELECT ACT.*, TAR.*, CAT.icon, CAT.category_color, SUB.name, SUB.photo, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ?;"
                     connection.query(querySQL,[idUser], (error, rows) => {
                         connection.release();
                         if (error) {
@@ -50,6 +50,7 @@ class DAOActivity {
                             let activities = new Array();
                             rows.forEach(row => {
                                 let activity = {
+                                    // Activity
                                     id: row.id,
                                     enabled: row.enabled,
                                     id_creator: row.id_creator,
@@ -58,15 +59,25 @@ class DAOActivity {
                                     date: row.date,
                                     time: row.time,
                                     description: row.description,
-                                    photo: (row.photo ? true : false),
                                     reminder: row.reminder,
                                     category: row.category,
                                     id_subject: row.id_subject,
 
+                                    // Task
                                     id_activity: row.id_activity,
                                     completed: row.completed,
                                     duration: row.duration,
-                                    id_event: row.id_event
+                                    id_event: row.id_event,
+                                    id_reward: row.id_reward,
+
+                                    // Category
+                                    icon: row.icon,
+                                    category_color: row.category_color,
+                                    
+                                    // Subject
+                                    name: row.name,
+                                    photo: row.photo,
+                                    subject_color: subject_color                                    
                                 }
                                 activities.push(activity);
                             });

@@ -70,7 +70,7 @@ CREATE TABLE subject (
   name VARCHAR(255) NOT NULL,
   grade VARCHAR(255) NOT NULL,
   photo BLOB,
-  color VARCHAR(255) NOT NULL,
+  subject_color VARCHAR(255) NOT NULL,
 
   CONSTRAINT UC_subject UNIQUE(id_teacher, name, grade),
   FOREIGN KEY (id_teacher) REFERENCES user(id)
@@ -100,7 +100,8 @@ CREATE TABLE study (
 -- Categoría
 CREATE TABLE category (
   name  VARCHAR(255) NOT NULL PRIMARY KEY,
-  icon VARCHAR(255) NOT NULL
+  icon VARCHAR(255) NOT NULL,
+  category_color VARCHAR(255) NOT NULL
 );
 
 -- Recompensa
@@ -121,7 +122,6 @@ CREATE TABLE activity (
   date DATE NOT NULL,
   time TIME NOT NULL,
   description VARCHAR(255),
-  photo BLOB,
   reminder ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   category VARCHAR(255) NOT NULL,
   id_subject INT,
@@ -198,22 +198,22 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
 -- SesiónEstudio
 
 -- Asignatura
-INSERT INTO subject (id_teacher, name, grade, photo, color) VALUES 
-(6, 'Matemáticas', '1 ESO', NULL, 'Blue'),
-(6, 'Literatura', '1 ESO', NULL, 'Red'),
-(6, 'Historia', '1 ESO', NULL, 'Green'),
-(6, 'Ciencias', '1 ESO', NULL, 'Yellow');
+INSERT INTO subject (id_teacher, name, grade, photo, subject_color) VALUES 
+(6, 'Matemáticas', '1 ESO', NULL, '0000ff'),
+(6, 'Literatura', '1 ESO', NULL, 'ff0000'),
+(6, 'Historia', '1 ESO', NULL, '00ff00'),
+(6, 'Ciencias', '1 ESO', NULL, '00ffff');
 
 -- Orden
 
 -- Cursa
 
 -- Categoría
-INSERT INTO category (name, icon) VALUES
-('Escolar', '&#128218;'),
-('Ocio', '&#x1F389;'),
-('Extraescolar', '&#127934;'),
-('Casa', '&#127968;');
+INSERT INTO category (name, icon, category_color) VALUES
+('Escolar', '&#128218;', 'ff0000'),
+('Ocio', '&#x1F389;', '00ff00'),
+('Extraescolar', '&#127934;', '0000ff'),
+('Casa', '&#127968;', '00ffff');
 
 -- Recompensa
 INSERT INTO reward (title, message, icon) VALUES

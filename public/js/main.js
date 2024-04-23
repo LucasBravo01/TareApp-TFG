@@ -93,6 +93,12 @@ $(() => {
   var textSize = localStorage.getItem('font-size');
   document.body.className = textSize;
 
+  // Aplicar color task
+  const tasksCards = $("card-task")
+  tasksCards.array.forEach(card => {
+    card.style.backgroundColor = card.data("color");
+  });
+
   // Logout
   const buttonLogout = $("#a-logout");
   const formLogout = $("#form-logout");
