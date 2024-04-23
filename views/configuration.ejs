@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/configurationStyle.css">
+
+    <!-- Importar JS específicos -->
+    <script src="/js/configuration.js"></script>
+
+</head>
+
+<body data-response="<%= JSON.stringify(response) %>">
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %>
+     
+    <!-- Importar nav -->
+    <%- include("nav", { generalInfo: generalInfo }) %>
+   
+        <!-- text to voice button -->
+
+
+        <div class="centrado">
+            <h1>Configuración</h1>
+        </div>
+        <form id="formConfiguration">
+            <div class="centrado">
+                <h2>Apariencia</h2>
+            </div>
+            <div class = "appearanceContainer">
+                <div class="fontContainer">
+                    <label class="fontLabel">
+                        Tamaño de letra: 
+                    </label>
+                    <select class="form-control" id="fontSizeSelect" name="font-size">
+                        <option value="grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
+                        <option value="normal" <% if(configuration.font_size == "normal"){ %>selected <% }%>>Normal</option>
+                    </select>
+                </div>   
+                <div class="themeContainer">
+                    <label class="themeLabel">
+                        Tema: 
+                    </label>
+                    <select class="form-control" id="themeSelect" name="theme">
+                        <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
+                        <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
+                    </select>
+                </div>
+            </div>
+            <div class="centrado">
+                <h2>Tareas</h2>
+            </div>
+            <div class = "tareasContainer">
+                <div class="timeContainer">
+                    <label class="timeLabel">
+                        Preferencia de tiempo: 
+                    </label>
+                    <select class="form-control" id="timeSelect" name="time">
+                        <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
+                        <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
+                    </select>
+                </div>   
+            </div>
+            <div class="centrado">
+                <button type="submit" id="input-sb-updateConfig"
+                class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Cambiar configuración</button>
+            </div>
+        </div>
+        </form>
+        <div class="centrado">
+            <button id="button-subscribe" class="btn btn-primary ms-2 mb-2 mt-2">Suscribirse a notificaciones</button>
+        </div>
+            
+</body>
+
+</html>

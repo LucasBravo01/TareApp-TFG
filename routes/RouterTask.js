@@ -9,18 +9,19 @@ const { check, validationResult } = require("express-validator");
 const RouterTask = express.Router();
 
 // Obtener pool
-function routerConfig(conTask) {
+function routerConfig(conTas, conRem) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/crearTarea", conTask.dataForm, conTask.getFormTask);
+    RouterTask.get("/crearTarea", conRem.unreadNotifications, conTas.dataForm, conTas.getFormTask);
 
     // Mostrar una tarea
     RouterTask.get(
         "/tarea/:id",
         check("id", "-2").isNumeric(),
-        conTask.dataForm,
-        conTask.getTask);
+        conRem.unreadNotifications,
+        conTas.dataForm,
+        conTas.getTask);
 
     //Calendario semanal
     RouterTask.get("/semanal", conTask.getWeeklyTasks);
@@ -47,8 +48,16 @@ function routerConfig(conTask) {
         check("duration", "32").custom((durType) => {
         return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
-        conTask.dataForm,
-        conTask.createTask);
+        conRem.unreadNotifications,
+        conTas.dataForm,
+        conTas.createTask);
+
+    // Marcar tarea como completada
+    RouterTask.post(
+        "/marcarCompletada",
+        check("id", "1").notEmpty(),
+        check("checkbox", "2").isNumeric(), // TODO Mirar que número poner
+        conTas.markAsCompleted);
 }
 
 module.exports = {
