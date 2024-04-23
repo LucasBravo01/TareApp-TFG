@@ -47,33 +47,35 @@
                 <hr class="separator-line" />
             </div>
 
-            <!--RECOMPENSAS-->
-            <% let j = 0; %>
-            <% for (let i = 0; i < allRewards.length; i++) { %>
-                <div class="col-3 text-center mt-3">
-                    <div class="card card-recompensa">
-                        <div class="card-header card-header-recompensa">
-                            <img src="/images/rewards/<%= allRewards[i].icon %>.png" alt="Icono de la recompensa <%= allRewards[i].title %>" width="100">
-                        </div>
+            <div class="row align-items-center justify-content-center">
+                <!--RECOMPENSAS-->
+                <% let j = 0; %>
+                <% for (let i = 0; i < allRewards.length; i++) { %>
+                    <div class="col-3 text-center mt-3">
+                        <div class="card card-recompensa">
+                            <div class="card-header card-header-recompensa">
+                                <img src="/images/rewards/<%= allRewards[i].icon %>.png" alt="Icono de la recompensa <%= allRewards[i].title %>" width="100">
+                            </div>
 
-                        <div class="card-body card-body-recompensa">
-                            <h5 class="card-title mt-2"><%= allRewards[i].title %></h5>
-                            <% if (allRewards[i].message) { %>
-                                <p class="card-text mt-2"><%= allRewards[i].message %></p>
-                            <% } %>
-                        </div>
+                            <div class="card-body card-body-recompensa">
+                                <h5 class="card-title mt-2"><%= allRewards[i].title %></h5>
+                                <% if (allRewards[i].message) { %>
+                                    <p class="card-text mt-2"><%= allRewards[i].message %></p>
+                                <% } %>
+                            </div>
 
-                        <div class="card-footer">
-                            <% if (userRewards.length === 0 || j === userRewards.length || allRewards[i].id !== userRewards[j].id) { %>
-                                <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
-                            <% } else { %>
-                                <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
-                                <% j++; %>
-                            <% } %>
+                            <div class="card-footer card-footer-recompensa">
+                                <% if (userRewards.length === 0 || j === userRewards.length || allRewards[i].id !== userRewards[j].id) { %>
+                                    <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
+                                <% } else { %>
+                                    <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
+                                    <% j++; %>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <% } %>
+                <% } %>
+            </div>            
         </div>
     </div>
 </body>

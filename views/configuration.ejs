@@ -11,7 +11,7 @@
 
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
@@ -85,8 +85,6 @@
 
                 <!--DIV AUX PARA MANTENERLO A LA IZQUIERDA EL ANTERIOR-->
                 <div class="col-6 text-center mt-3"></div>
-
-                
             </div>
         </form>
     </div>
