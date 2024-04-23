@@ -79,7 +79,7 @@ class DAOReward {
             if (err) {
                 callback(-1);
             } else {
-                let querySQL = "SELECT REW.id, COUNT(*) as count FROM reward AS REW JOIN task AS TAS ON TAS.id_reward = REW.id JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ? GROUP BY REW.title ORDER BY REW.id;";
+                let querySQL = "SELECT REW.*, COUNT(*) as count FROM reward AS REW LEFT JOIN task AS TAS ON TAS.id_reward = REW.id LEFT JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ? GROUP BY REW.id;";
                 
                 connection.query(querySQL, [idUser], (err, rows) => {
                     connection.release();
@@ -91,6 +91,9 @@ class DAOReward {
                         rows.forEach(row => {
                             let reward = {
                                 id: row.id,
+                                title: row.title,
+                                message: row.message,
+                                icon: row.icon,
                                 count: row.count
                             }
                             rewards.push(reward);

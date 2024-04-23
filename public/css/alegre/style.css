@@ -143,10 +143,15 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: .5rem;
-    min-height: 20.9rem;
-    border: 2px #8898FA solid;
+    min-height: 20rem;
+    padding: .5rem;  
+    border: 2px #404040 solid;
     border-radius: 1rem;
+    background-color: #F4F4F2;
+}
+
+.card-header-recompensa, .card-footer-recompensa {
+    border: none;
     background-color: #F4F4F2;
 }
 
@@ -154,7 +159,6 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 4.5rem;
 }
 
 .separator-line {
