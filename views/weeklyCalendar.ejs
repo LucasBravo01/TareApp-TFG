@@ -34,20 +34,17 @@
         <div class="row">
             <!-- Columna de horas a la izquierda -->
             <div class="col-auto hour-column">
-                <% for(let hour = 8; hour < 24; hour++) { %>
-                <div class="hour"><%= hour %>:00</div>
-                <% } %>
-                <% for(let hour = 0; hour < 8; hour++) { %>
-                <div class="hour"><%= hour %>:00</div>
+                <% for(let hour = 0; hour < 24; hour++) { %>
+                    <div class="hour"><%= hour %>:00</div>
                 <% } %>
             </div>
-
+            
             <div class="col">
                 <div class="row justify-content-between align-items-start">
                     <!-- Botón de semana anterior al inicio -->
                     <div class="col-auto">
-                        <a class="prevWeek btn" href="/tareas/semanal?currentWeek=<%= week[0].date %>&previous=true">
-                            <span class="material-icons arrow">arrow_back</span>
+                        <a class="prevWeek btn arrow" href="/tareas/semanal?currentWeek=<%= week[0].date %>&previous=true">
+                            <span class="material-icons">arrow_back</span>
                         </a>
                     </div>
                     
@@ -58,22 +55,23 @@
                                 <div class="col day-column">
                                     <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
                                     <% day.tasks.sort((a, b) => a.time.localeCompare(b.time)).forEach(task => { %>
-                                        <div class="task" style="top: <%= (parseInt(task.time.split(':')[0]) - 8) * 50 + task.index * 50 + 50 %>px">
+                                        <!-- Calcula el top basándose en la hora de la tarea, asumiendo cada hora tiene una altura de 50px -->
+                                        <div class="task" style="top: <%= (parseInt(task.time.split(':')[0]) * 50) + (parseInt(task.time.split(':')[1]) / 60 * 50) %>px">
                                             <div class="task-time-title">
-                                                <div class="task-time"><%= task.time %></div>
+                                                <div class="task-time"><%= task.time.slice(0, 5) %></div>
                                                 <div class="task-title"><%= task.title %></div>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                     <% }) %>
-                                </div>
+                                </div>                                
                             <% }) %>                                                                                     
                         </div>
                     </div>
 
                     <!-- Botón de semana siguiente al final -->
                     <div class="col-auto">
-                        <a class="nextWeek btn" href="/tareas/semanal?currentWeek=<%= week[0].date %>&previous=false">
-                            <span class="material-icons arrow">arrow_forward</span>
+                        <a class="nextWeek btn arrow" href="/tareas/semanal?currentWeek=<%= week[0].date %>&previous=false">
+                            <span class="material-icons">arrow_forward</span>
                         </a>
                     </div>
                 </div>

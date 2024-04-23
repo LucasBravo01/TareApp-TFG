@@ -1,189 +1,123 @@
-.btnCreateTask{
-    margin-left: 2em;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btnWeek{
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btnDay{
-    margin-right: 2em;
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.btnList{
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.prevWeek{
-    display: inline-block;
-    padding: 10px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.nextWeek{
-    display: inline-block;
-    padding: 10px;
-    background-color: #223BDD;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.day-header {
-    font-weight: bold;
-    margin-bottom: 2px;
-    text-align: center;
-    padding: 1px;
-    border-radius: 5px;
-    color:rgb(0, 0, 0);
-}
-
-.hour-column {
-    margin-top: 10px;
-    text-align: right;
-    padding-right: 10px;
-}
-
-.hour {
-    height: 50px;
-    line-height: 50px; 
-}
-
-.day-column {
-    position: relative;
-    min-height: 800px; 
-}
-
-.task {
-    position: absolute;
-    width: 95%; 
-    min-height: 50px; 
-    background-color: rgb(240, 194, 108); 
-    border: 1px solid #ddd; 
-    border-radius: 8px;
-    box-shadow: 2px rgba(0,0,0,0.1);
-    padding: 8px; 
-    margin-bottom: 10px; 
-    box-sizing: border-box; 
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-}
-
-.task-time-title {
-    display: flex;
-    align-items: center; 
-}
-
-.task-time {
-    font-size: 14px;
-    color: #555;
-    margin-right: 10px; 
-    white-space: nowrap; 
-}
-
-.task-title {
-    font-size: 16px;
-    font-weight: bold;
+body, html {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
     color: #333;
 }
 
-.day-column {
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.arrow{
+    margin-left: 1em;
+    margin-right: 1em;
+}
+.btnCreateTask{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #223BDD;
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 2em;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #223BDD;
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #4056f4;
+    transform: translateY(-2px);
+}
+
+.container-fluid {
+    max-width: 1200px;
+    padding: 1rem;
+}
+
+.row {
     display: flex;
-    flex-direction: column; 
-    text-align: center;
-    flex: 1; 
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
 }
 
-.task-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: rgb(240, 194, 108);
+.col {
+    flex: 1;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
-@media (max-width: 1100px){
-    .task-time {
-        display: none;
-    }
+.hour-column {
+    flex: 0 0 50px; 
+    text-align: right;
 }
 
-@media (max-width: 1008px) {
-    .hour{
-        width: 5px;
-    }
-    .day-column {
-        width: 15%; 
-    }
+.hour {
+    height: 50px; 
+    line-height: 50px; 
+}
 
+.weekly-calendar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Columnas del día */
+.day-column {
+    position: relative;
+    flex: 1;
+    min-height: 1200px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding-top: 1rem; 
+    margin-right: 0.1em;
+    margin-left: 0.1em;
+}
+
+/* Tareas */
+.task {
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    height: auto;
+    min-height: 50px;
+    background-color: #f0c26c;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    box-sizing: border-box
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .task{
-        height: 3em;
-    }
-    .task-title{
-        display: none;
+        padding: 0.1rem; /* Aún más reducido para pantallas pequeñas */
+        margin: 0.1rem 0; /* Margen superior e inferior reducido */
+        top: calc(var(--task-hour) * 40px + var(--task-minute) / 60 * 40px); /* Asumiendo una altura de fila de 40px en pantallas pequeñas */
     }
 
-    .task-time {
-        display: none;
+    .day-column {
+        flex: 1 0 100%; /* Cada columna ocupa el 100% en pantallas pequeñas */
+        min-height: 1200px; /* Mantener suficiente altura */
+        position: relative; /* Si usa posicionamiento absoluto para tareas */
     }
 
     .hour-column{
-        width: 10%;
-    }
-
-    .prevWeek{
-        padding: 5px;
-    }
-
-    .nextWeek{
-        padding: 5px;
-    }
-
-    .btnCreateTask{
-        padding: 7px;
-    }
-    
-    .btnWeek{
-        padding: 7px;
-    }
-    
-    .btnDay{
-        padding: 7px;
-    }
-    
-    .btnList{ 
-        padding: 7px;
+        display: none;
     }
 }
-
-

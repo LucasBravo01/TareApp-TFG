@@ -122,9 +122,9 @@ class ControllerTask {
         }
     
         var startOfDay = selectedDate.startOf('day');
-        var endOfDay = selectedDate.endOf('day');
     
-        this.daoTas.readAllByUserAndDay(req.session.currentUser.id, startOfDay.toDate(), endOfDay.toDate(), (error, tasks) => {
+        // Llamar a la función del DAO pasando solo startOfDay
+        this.daoTas.readAllByUserAndDay(req.session.currentUser.id, startOfDay.toDate(), (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
@@ -134,18 +134,14 @@ class ControllerTask {
                     hourlyTasks[hour] = [];  // Preparar un arreglo para cada hora
                 }
                 
-                console.log(moment(tasks.date));
-                console.log(tasks);
-                tasks.forEach(task => {
-                    console.log("entro");
-                    let taskDate = moment(task.date);
-                    console.log(taskDate);
-                    let hour = taskDate.hour();  // Extrae la hora usando moment.js
-                    hourlyTasks[hour].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
-                });                              
+                if (tasks) {
+                    tasks.forEach(task => {
+                        let taskDate = moment(task.date);
+                        let hour = taskDate.hour();  // Extrae la hora usando moment.js
+                        hourlyTasks[hour].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
+                    }); 
+                }
     
-                console.log(JSON.stringify(hourlyTasks, null, 2)); // Imprime el objeto de tareas agrupadas por hora
-                console.log(selectedDate);
                 res.render("dailyCalendar", {
                     day: {
                         dayName: selectedDate.format('dddd'),
@@ -156,8 +152,8 @@ class ControllerTask {
                 });
             }
         });
-    }        
-    
+    }
+          
     createTask(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {

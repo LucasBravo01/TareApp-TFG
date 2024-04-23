@@ -39,29 +39,33 @@
             </div>
             <div class="col-10">
                 <div class="row justify-content-between">
-                    <div class="col-6 text-start">
+                    <div class="col-3 text-start">
                         <a href="/tareas/diaria?currentDate=<%= day.date %>&previous=true" class="btn">
                             <span class="material-symbols-outlined">arrow_back</span>
                         </a>
                     </div>
-                    <div class="col-6 text-end">
-                        <a href="/tareas/diaria?currentDate=<%= day.date %>&previous=false" class="btn">
+
+                    <div class="day-header text-center col-6"><%= day.dayName %> <%= day.dayNumber %></div>
+
+                    <div class="col-3 text-end">
+                        <a href="/tareas/diaria?currentDate=<%= day.date %>&previous=false" class="btn arrow">
                             <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="day-header"><%= day.dayName %> <%= day.dayNumber %>, <%= day.date %></div>
+               
                 <% for(let hour = 0; hour < 24; hour++) { %>
                     <div class="hour-tasks">
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <% tasks[hour].forEach(task => { %>
-                                <div class="task">
-                                    <div class="task-time"><%= task.title %></div>
-                                </div>
+                                <div class="task" style="top: <%= (parseInt(task.time.split(':')[0]) * 45) + (parseInt(task.time.split(':')[1]) / 60) %>px">
+                                    <div class="task-time-title">
+                                        <div class="task-time"><%= task.time.slice(0, 5) %></div>
+                                        <div class="task-title"><%= task.title %></div>
+                                    </div>
+                                </div>          
                             <% }) %>
-                        <% } else { %>
-                            <div class="no-task">No tasks this hour</div>
                         <% } %>
                     </div>
                 <% } %>                
