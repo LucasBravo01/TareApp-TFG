@@ -165,6 +165,10 @@ button {
     border-color: grey;
 }
 
+.notifications-badge {
+    background-color: #D9183B !important;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
