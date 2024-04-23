@@ -148,6 +148,10 @@ button {
     background-color: #F4F4F2;
 }
 
+.card-header-recompensa {
+    background-color: #F4F4F2;
+}
+
 .card-body-recompensa {
     display: flex;
     flex-direction: column;
