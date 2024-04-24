@@ -15,10 +15,6 @@ a {
     text-decoration: none;
 }
 
-    a:hover {
-        filter: brightness(85%);
-    }
-
 img {
     object-fit: cover;
 }
@@ -138,6 +134,10 @@ button {
     color: #F1F2F6;
     background-color: #3D53E2;
 }
+
+    .card-task:hover {
+        filter: brightness(85%);
+    }
 
 .separator-line {
     border-color: grey;

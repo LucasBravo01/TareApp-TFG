@@ -77,7 +77,7 @@ class DAOActivity {
                                     // Subject
                                     name: row.name,
                                     photo: row.photo,
-                                    subject_color: subject_color                                    
+                                    subject_color: row.subject_color                                    
                                 }
                                 activities.push(activity);
                             });
