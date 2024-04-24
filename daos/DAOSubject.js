@@ -31,7 +31,7 @@ class DAOSubject {
                                 name: row.name,
                                 grade: row.grade,
                                 color: row.color, 
-                                hasProfilePic: (row.photo ? true : false),
+                                subject_icon: row.subject_icon,
                             }
                             subjects.push(facility);
                         });

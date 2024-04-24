@@ -126,14 +126,28 @@ button {
     align-items: center;
     margin: 1rem auto;
     padding: 1rem;
-    /*PROVISIONAL*/
+    width: 50%;
+    border-radius: 1.6rem;
+    color: #000000;
+}
+
+    .card-task:hover {
+        filter: brightness(85%);
+    }
+
+.card-notification {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-items: center;
+    margin: 1rem auto;
+    padding: 1rem;
     width: 50%;
     border-radius: 1.6rem;
     color: #000000;
     background-color: #D1EAED;
 }
-
-    .card-task:hover {
+    
+    .card-notification:hover {
         filter: brightness(85%);
     }
 

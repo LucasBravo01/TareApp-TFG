@@ -84,7 +84,8 @@ class DAOReminder {
                         rows.forEach(row => {
                             let reminder = {
                                 message: row.message,
-                                idActivity: row.id_activity                           
+                                idActivity: row.id_activity,
+                                sent_date: row.sent_date                           
                             }
                             reminders.push(reminder);
                         });

@@ -13,17 +13,35 @@
      
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-    <div class="row">
+    <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">TAREAS</h1>
         </div>
         
-        <div>
+        <div class="justify-content-center">
+            <% let primeraNoCompletada = false;
+            let primeraCompletada = false; %>
             <% tasks.forEach( t=> { %>
+                <% if(!primeraNoCompletada && !t.completed) { %>
+                    <!--SECCIÓN NO COMPLETADAS-->
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">No completadas</p>
+                        <hr class="separator-line" />
+                    </div>
+                <% primeraNoCompletada = true; } %>
+
+                <% if(!primeraCompletada && t.completed) { %>
+                    <!--SECCIÓN COMPLETADAS-->
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">Completadas</p>
+                        <hr class="separator-line" />
+                    </div>
+                <% primeraCompletada = true; } %>
+                
                 <a href="/tareas/tarea/<%= t.id %>">
                     <div class="card-task <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                         <div class="d-flex justify-content-center">
-                            <img src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" height="50">
+                            <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
                         </div>
                         <div>
                             <span><%= t.title %></span>

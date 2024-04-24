@@ -17,17 +17,36 @@
      
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-    <div class="row">
+    <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">NOTIFICACIONES</h1>
         </div>
 
-        <div class="contenedorNotificaciones">
+        <div class="justify-content-center">
+            <% let primeraHoy = false;
+            let primeraAnterior = false; 
+            let currentDate = new Date(); %>
             <% reminders.forEach( r=> { %>
+                <% if(!primeraHoy && r.sent_date.getDate() === currentDate.getDate()) { %>
+                    <!--SECCIÓN HOY-->
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">Hoy</p>
+                        <hr class="separator-line" />
+                    </div>
+                <% primeraHoy = true; } %>
+
+                <% if(!primeraAnterior && r.sent_date.getDate() !== currentDate.getDate()) { %>
+                    <!--SECCIÓN ANTERIORES-->
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">Anteriores</p>
+                        <hr class="separator-line" />
+                    </div>
+                <% primeraAnterior = true; } %>
+
                 <a href="/tareas/tarea/<%= r.idActivity %>">
-                    <div class="card-task">
+                    <div class="card-notification">
                         <div class="d-flex justify-content-center">
-                            <img src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" height="50px">
+                            <img src="/images/logos/logo-no-background-no-text.png" height="50px">
                         </div>
                         <div>
                             <span><%= r.message %></span>

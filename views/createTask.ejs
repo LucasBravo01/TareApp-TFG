@@ -83,7 +83,7 @@
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
-                            <option value="<%= c.name %>"><%- c.icon %> <%= c.name %></option>
+                            <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.category_icon %> <% } %> <%= c.name %></option>
                         <% }); %>
                     </select>
                 </div>
@@ -94,7 +94,7 @@
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
-                            <option value="<%= s.id %>"><%= s.name %></option>
+                            <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subject_icon %> <% } %> <%= s.name %></option>
                         <% }); %>
                     </select>
                 </div>
