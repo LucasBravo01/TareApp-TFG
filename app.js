@@ -3,6 +3,7 @@
 // --- Importar módulos ---
 // Core
 const path = require("path");
+const moment = require('moment');
 
 // Paquete
 const express = require("express");
@@ -128,10 +129,24 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
 
 //Calendario semanal
-app.get("/semanal/:day", userLogged,  conRem.unreadNotifications, conTas.getWeeklyTasks);
+app.get(
+  "/semanal/:day", 
+  check("day", "30").custom((day) => { // TODO Mirar número. Tiene que ser negativo
+    return moment(day, 'YYYY-MM-DD', true).isValid()
+  }),
+  userLogged,
+  conRem.unreadNotifications,
+  conTas.getWeeklyTasks);
 
 //Calendario diario
-app.get("/diaria/:day",  userLogged, conRem.unreadNotifications, conTas.getDailyTasks);
+app.get(
+  "/diaria/:day",
+  check("day", "30").custom((day) => { // TODO Mirar número. Tiene que ser negativo
+    return moment(day, 'YYYY-MM-DD', true).isValid()
+  }),
+  userLogged,
+  conRem.unreadNotifications,
+  conTas.getDailyTasks);
 
 // --- Peticiones POST ---
 // Login
@@ -161,9 +176,11 @@ app.use((request, response, next) => {
     status: 404,
     redirect: "error",
     data: {
-      code: 404,
-      title: "Oops! Página no encontrada :(",
-      message: "La página a la que intentas acceder no existe."
+      response: {
+        code: 404,
+        title: "Oops! Página no encontrada :(",
+        message: "La página a la que intentas acceder no existe."
+      }
     }
   });
 });

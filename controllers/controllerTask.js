@@ -28,6 +28,7 @@ class ControllerTask {
         this.markAsCompleted = this.markAsCompleted.bind(this);
     }
 
+    // Cargar datos del formulario de tarea
     dataForm(req, res, next) {
         this.daoCat.readAllCategories((error, categories) => {
             if (error) {
@@ -59,6 +60,7 @@ class ControllerTask {
         });
     }
 
+    // Cargar vista de crear tareas
     getFormTask(req, res, next) {
         next({
             ajax: false,
@@ -75,115 +77,131 @@ class ControllerTask {
         });
     }
 
+    // Cargar vista de calendario semanal
     getWeeklyTasks(req, res, next) {
-        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
-            if (error) {
-                errorHandler.manageError(error, {}, "error", next);
-            }
-            else {
-                let currentDate = req.params.day;
-                let currentDateFormat = utils.formatString(currentDate);
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    let currentDate = req.params.day;
+                    let currentDateFormat = utils.formatString(currentDate);
 
-                let startOfWeek = new Date(currentDateFormat);
-                startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
-                let endOfWeek = new Date(startOfWeek);
-                endOfWeek.setDate(startOfWeek.getDate() + 6);
-
-                let week = [];
-                for (let date = startOfWeek; date <= endOfWeek; date.setDate(date.getDate() + 1)) {
-                    let dailyTasks = tasks.filter(task => {
-                        let taskDate = new Date(task.date);
-                        return taskDate.getFullYear() === date.getFullYear() &&
-                               taskDate.getMonth() === date.getMonth() &&
-                               taskDate.getDate() === date.getDate();
-                    });
-
-                    let taskTimeIndex = {};
+                    console.log(moment(currentDate, 'YYYY-MM-DD', true).isValid());
     
-                    dailyTasks.forEach(task => {
-                        let hour = task.time.split(':')[0];
-                        if (!taskTimeIndex[hour]) {
-                            taskTimeIndex[hour] = 0;
-                        }
-                        task.index = taskTimeIndex[hour]++;
-                    });
-
-                    let dateString = utils.formatDate(date);
-
-                    week.push({
-                        dayName: utils.getDayName(date),
-                        dayNumber: date.getDate(),
-                        date: dateString,
-                        tasks: dailyTasks
-                    });
-                }
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "tasks",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            notificationsUnread: req.unreadNotifications
-                        },
-                        homeInfo: {
-                            day: undefined,
-                            week: week,
-                        }
+                    let startOfWeek = new Date(currentDateFormat);
+                    startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
+                    let endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    
+                    let week = [];
+                    for (let date = startOfWeek; date <= endOfWeek; date.setDate(date.getDate() + 1)) {
+                        let dailyTasks = tasks.filter(task => {
+                            let taskDate = new Date(task.date);
+                            return taskDate.getFullYear() === date.getFullYear() &&
+                                   taskDate.getMonth() === date.getMonth() &&
+                                   taskDate.getDate() === date.getDate();
+                        });
+    
+                        let taskTimeIndex = {};
+        
+                        dailyTasks.forEach(task => {
+                            let hour = task.time.split(':')[0];
+                            if (!taskTimeIndex[hour]) {
+                                taskTimeIndex[hour] = 0;
+                            }
+                            task.index = taskTimeIndex[hour]++;
+                        });
+    
+                        let dateString = utils.formatDate(date);
+    
+                        week.push({
+                            dayName: utils.getDayName(date),
+                            dayNumber: date.getDate(),
+                            date: dateString,
+                            tasks: dailyTasks
+                        });
                     }
-                });
-            }
-        });
-    }
-
-    getDailyTasks(req, res, next) {
-        // Llamar a la función del DAO pasando solo startOfDay
-        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
-            if (error) {
-                errorHandler.manageError(error, {}, "error", next);
-            }
-            else {
-                let currentDate = req.params.day;
-                let currentDateFormat = utils.formatString(currentDate);
-
-                // Agrupar tareas por hora
-                let hourlyTasks = {};
-                for (let hour = 0; hour < 24; hour++) {
-                    hourlyTasks[hour] = [];  // Preparar un arreglo para cada hora
-                }
-                
-                if (tasks) {
-                    tasks.forEach(task => {
-                        if (utils.formatDate(task.date) === currentDate) {
-                            hourlyTasks[parseInt(task.time.split(':')[0])].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
-                        }
-                    }); 
-                }
-
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "tasks",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            notificationsUnread: req.unreadNotifications
-                        },
-                        homeInfo: {
-                            day:{
-                                dayName: utils.getDayName(currentDateFormat),
-                                dayNumber: currentDateFormat.getDate(),
-                                date: currentDate
+                    next({
+                        ajax: false,
+                        status: 200,
+                        redirect: "tasks",
+                        data: {
+                            response: undefined,
+                            generalInfo: {
+                                notificationsUnread: req.unreadNotifications
                             },
-                            week: undefined
-                        },
-                        tasks: hourlyTasks
-                    }
-                });
-            }
-        });
+                            homeInfo: {
+                                day: undefined,
+                                week: week,
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
     }
-          
+
+    // Cargar vista de calendario diario
+    getDailyTasks(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    let currentDate = req.params.day;
+                    let currentDateFormat = utils.formatString(currentDate);
+    
+                    // Agrupar tareas por hora
+                    let hourlyTasks = {};
+                    for (let hour = 0; hour < 24; hour++) {
+                        hourlyTasks[hour] = [];  // Preparar un arreglo para cada hora
+                    }
+                    
+                    if (tasks) {
+                        tasks.forEach(task => {
+                            if (utils.formatDate(task.date) === currentDate) {
+                                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
+                            }
+                        }); 
+                    }
+    
+                    next({
+                        ajax: false,
+                        status: 200,
+                        redirect: "tasks",
+                        data: {
+                            response: undefined,
+                            generalInfo: {
+                                notificationsUnread: req.unreadNotifications
+                            },
+                            homeInfo: {
+                                day:{
+                                    dayName: utils.getDayName(currentDateFormat),
+                                    dayNumber: currentDateFormat.getDate(),
+                                    date: currentDate
+                                },
+                                week: undefined
+                            },
+                            tasks: hourlyTasks
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
+    }
+
+    // Crear tarea
     createTask(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
@@ -290,6 +308,7 @@ class ControllerTask {
         }
     }
 
+    // Crear los recordatorios de una tarea
     async createReminders (form, idTask) {
         // Dividir la fecha en sus componentes
         let [year, month, day] = form.date.split('-').map(Number);
@@ -334,7 +353,7 @@ class ControllerTask {
                 await new Promise((resolve, reject)=>{
                     this.daoRem.pushReminderSystem(reminder, (error) => {
                         if (error) {
-                            reject(error);
+                            errorHandler.manageError(error, {}, "error", next);
                         }
                         else {
                             resolve();
@@ -347,6 +366,7 @@ class ControllerTask {
         }
     }
 
+    // Cargar vista de lista de tareas
     getTasks(req, res, next) {
         this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
@@ -383,7 +403,7 @@ class ControllerTask {
                 }
                 else {
                     if (task.idCreator !== req.session.currentUser.id ) {
-                        errorHandler.manageError(-3, {}, "error", next); //TODO Mirar que numero poner
+                        errorHandler.manageError(-3, {}, "error", next); //TODO Mirar que numero poner. Tiene que ser negativo
                     }
                     else {
                         this.daoUse.readById(req.session.currentUser.id, (error, user) => {
@@ -416,6 +436,7 @@ class ControllerTask {
         }        
     }
 
+    // Marcar o desmarcar tarea como completada
     markAsCompleted(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
