@@ -65,11 +65,11 @@ nav button {
 }
 
 /*TEXTOS*/
-.normal {
+.normal { /*Tiene que estar en español para la BD*/
     font-size: 1rem;
 }
 
-.grande {
+.grande { /*Tiene que estar en español para la BD*/
     font-size: 1.5rem;
 }
 
@@ -165,6 +165,35 @@ button {
 
 .notifications-badge {
     background-color: #F2ACAC !important;
+}
+
+/*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
+.rojo {
+    background-color: #F2ACAC;
+}
+
+.azul {
+    background-color: #D1EAED;
+}
+
+.verde {
+    background-color: #D4E3BD;
+}
+
+.naranja {
+    background-color: #E0A36B;
+}
+
+.amarillo {
+    background-color: #f3f38e;
+}
+
+.morado {
+    background-color: #D095E0;
+}
+
+.rosa {
+    background-color: #E074AD;
 }
 
 /* --- RESPONSIVENESS --- */
