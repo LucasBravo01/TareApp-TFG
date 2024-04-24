@@ -88,8 +88,6 @@ class ControllerTask {
                 else {
                     let currentDate = req.params.day;
                     let currentDateFormat = utils.formatString(currentDate);
-
-                    console.log(moment(currentDate, 'YYYY-MM-DD', true).isValid());
     
                     let startOfWeek = new Date(currentDateFormat);
                     startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
