@@ -199,10 +199,10 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
 
 -- Asignatura
 INSERT INTO subject (id_teacher, name, grade, photo, subject_color) VALUES 
-(6, 'Matemáticas', '1 ESO', NULL, '0000ff'),
-(6, 'Literatura', '1 ESO', NULL, 'ff0000'),
-(6, 'Historia', '1 ESO', NULL, '00ff00'),
-(6, 'Ciencias', '1 ESO', NULL, '00ffff');
+(6, 'Matemáticas', '1 ESO', NULL, 'naranja'),
+(6, 'Literatura', '1 ESO', NULL, 'azul'),
+(6, 'Historia', '1 ESO', NULL, 'amarillo'),
+(6, 'Ciencias', '1 ESO', NULL, 'verde');
 
 -- Orden
 
@@ -210,10 +210,10 @@ INSERT INTO subject (id_teacher, name, grade, photo, subject_color) VALUES
 
 -- Categoría
 INSERT INTO category (name, icon, category_color) VALUES
-('Escolar', '&#128218;', 'ff0000'),
-('Ocio', '&#x1F389;', '00ff00'),
-('Extraescolar', '&#127934;', '0000ff'),
-('Casa', '&#127968;', '00ffff');
+('Escolar', '&#128218;', 'rojo'),
+('Ocio', '&#x1F389;', 'morado'),
+('Extraescolar', '&#127934;', 'verde'),
+('Casa', '&#127968;', 'rosa');
 
 -- Recompensa
 INSERT INTO reward (title, message, icon) VALUES
