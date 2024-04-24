@@ -8,11 +8,12 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: #DCDCDC;
-    color: #000000;
+    color: #F1F2F6;
 }
 
 a {
     text-decoration: none;
+    color: #F1F2F6;
 }
 
 img {
@@ -123,9 +124,6 @@ button {
 
 /*ELEMENTOS*/
 .card-task {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    align-items: center;
     margin: 1rem auto;
     padding: 1rem;
     width: 50%;
@@ -138,9 +136,6 @@ button {
     }
 
 .card-notification {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    align-items: center;
     margin: 1rem auto;
     padding: 1rem;
     width: 50%;

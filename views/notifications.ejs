@@ -43,16 +43,19 @@
                     </div>
                 <% primeraAnterior = true; } %>
 
-                <a href="/tareas/tarea/<%= r.idActivity %>">
-                    <div class="card-notification">
-                        <div class="d-flex justify-content-center">
-                            <img src="/images/logos/logo-no-background-no-text.png" height="50px">
+                <div class="card-notification">
+                    <a href="/tareas/tarea/<%= r.idActivity %>">
+                        <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                            <div class="d-flex justify-content-center">
+                                <img src="/images/logos/logo-no-background-no-text.png" height="50px">
+                            </div>
+                            <div>
+                                <span><%= r.message %></span>
+                            </div>
                         </div>
-                        <div>
-                            <span><%= r.message %></span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                
             <% }); %>
         </div>
 

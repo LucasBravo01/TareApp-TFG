@@ -38,16 +38,20 @@
                     </div>
                 <% primeraCompletada = true; } %>
                 
-                <a href="/tareas/tarea/<%= t.id %>">
-                    <div class="card-task <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
-                        <div class="d-flex justify-content-center">
-                            <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                
+                <div class="card-task <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                    <a href="/tareas/tarea/<%= t.id %>"></a>
+                        <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                            <div class="d-flex justify-content-center">
+                                <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                            </div>
+                            <div>
+                                <span><%= t.title %></span>
+                            </div>
                         </div>
-                        <div>
-                            <span><%= t.title %></span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                
             <% }); %>
         </div>
 
