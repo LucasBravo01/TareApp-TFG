@@ -26,9 +26,9 @@ $(() => {
     if(day){
         let currentDay = formatString(day.date);
 
-        let previous = new Date();
+        let previous = new Date(currentDay);
         previous.setDate(currentDay.getDate() - 1);
-        let next = new Date();
+        let next = new Date(currentDay);
         next.setDate(currentDay.getDate() + 1);
 
         let previousDay = formatDate(previous);
@@ -43,9 +43,9 @@ $(() => {
     if (week) {
         let currentDay = formatString(week[0].date);
 
-        let previous = new Date();
+        let previous = new Date(currentDay);
         previous.setDate(currentDay.getDate() - 7);
-        let next = new Date();
+        let next = new Date(currentDay);
         next.setDate(currentDay.getDate() + 7);
 
         let previousWeek = formatDate(previous);
