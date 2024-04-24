@@ -23,12 +23,6 @@ function routerConfig(conTas, conRem) {
         conTas.dataForm,
         conTas.getTask);
 
-    //Calendario semanal
-    RouterTask.get("/semanal", conTask.getWeeklyTasks);
-
-    //Calendario diario
-    RouterTask.get("/diaria", conTask.getDailyTasks);
-
     // --- Peticiones POST ---
     // Crear Tarea 
     RouterTask.post("/crearTareaForm",
