@@ -1,4 +1,4 @@
-'use strict'
+"use strict"
 
 // Cuando cargue el DOM
 $(() => {

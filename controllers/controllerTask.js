@@ -3,6 +3,7 @@
 const moment = require('moment');
 const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
+const utils = require("../utils");
 
 
 class ControllerTask {
@@ -75,23 +76,28 @@ class ControllerTask {
     }
 
     getWeeklyTasks(req, res, next) {
-        const { currentWeek, previous } = req.query;
-    
-        var startOfWeek = moment().startOf('isoWeek');
-        var endOfWeek = moment().endOf('isoWeek');
-    
-        if (currentWeek && previous) {
-            startOfWeek = moment(currentWeek, 'DD-MM-YYYY').add(previous === 'true' ? -7 : 7, 'days');
-            endOfWeek = moment(startOfWeek).add(7, 'days');
-        }
-    
-        this.daoTas.readAllByUserAndWeek(req.session.currentUser.id, startOfWeek.toDate(), endOfWeek.toDate(), (error, tasks) => {
+        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
-            } else {
+            }
+            else {
+                let currentDate = req.params.day;
+                let currentDateFormat = utils.formatString(currentDate);
+
+                let startOfWeek = new Date(currentDateFormat);
+                startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
+                let endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+
                 let week = [];
-                for (let m = moment(startOfWeek); m.isBefore(endOfWeek); m.add(1, 'days')) {
-                    let dailyTasks = tasks.filter(task => moment(task.date).isSame(m, 'day'));
+                for (let date = startOfWeek; date <= endOfWeek; date.setDate(date.getDate() + 1)) {
+                    let dailyTasks = tasks.filter(task => {
+                        let taskDate = new Date(task.date);
+                        return taskDate.getFullYear() === date.getFullYear() &&
+                               taskDate.getMonth() === date.getMonth() &&
+                               taskDate.getDate() === date.getDate();
+                    });
+
                     let taskTimeIndex = {};
     
                     dailyTasks.forEach(task => {
@@ -101,38 +107,45 @@ class ControllerTask {
                         }
                         task.index = taskTimeIndex[hour]++;
                     });
-    
+
+                    let dateString = utils.formatDate(date);
+
                     week.push({
-                        dayName: m.format('dddd'),
-                        dayNumber: m.format('D'),
-                        date: m.format('DD-MM-YYYY'),
+                        dayName: utils.getDayName(date),
+                        dayNumber: date.getDate(),
+                        date: dateString,
                         tasks: dailyTasks
                     });
                 }
-                res.render("weeklyCalendar", { week: week });
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "tasks",
+                    data: {
+                        response: undefined,
+                        generalInfo: {
+                            notificationsUnread: req.unreadNotifications
+                        },
+                        homeInfo: {
+                            day: undefined,
+                            week: week,
+                        }
+                    }
+                });
             }
         });
     }
 
     getDailyTasks(req, res, next) {
-        let { currentDate, previous } = req.query; 
-    
-        // Usar la fecha dada o la fecha actual si no se proporciona ninguna
-        let selectedDate = currentDate ? moment(currentDate, 'DD-MM-YYYY') : moment();
-    
-        if (previous === 'true') {
-            selectedDate.subtract(1, 'days'); // Ir al día anterior si previous es true
-        } else if (previous === 'false') {
-            selectedDate.add(1, 'days'); // Ir al día siguiente si previous es false
-        }
-    
-        var startOfDay = selectedDate.startOf('day');
-    
         // Llamar a la función del DAO pasando solo startOfDay
-        this.daoTas.readAllByUserAndDay(req.session.currentUser.id, startOfDay.toDate(), (error, tasks) => {
+        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
-            } else {
+            }
+            else {
+                let currentDate = req.params.day;
+                let currentDateFormat = utils.formatString(currentDate);
+
                 // Agrupar tareas por hora
                 let hourlyTasks = {};
                 for (let hour = 0; hour < 24; hour++) {
@@ -141,19 +154,31 @@ class ControllerTask {
                 
                 if (tasks) {
                     tasks.forEach(task => {
-                        let taskDate = moment(task.date);
-                        let hour = taskDate.hour();  // Extrae la hora usando moment.js
-                        hourlyTasks[hour].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
+                        if (utils.formatDate(task.date) === currentDate) {
+                            hourlyTasks[parseInt(task.time.split(':')[0])].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
+                        }
                     }); 
                 }
-    
-                res.render("dailyCalendar", {
-                    day: {
-                        dayName: selectedDate.format('dddd'),
-                        dayNumber: selectedDate.format('D'),
-                        date: selectedDate.format('DD-MM-YYYY')
-                    },
-                    tasks: hourlyTasks
+
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "tasks",
+                    data: {
+                        response: undefined,
+                        generalInfo: {
+                            notificationsUnread: req.unreadNotifications
+                        },
+                        homeInfo: {
+                            day:{
+                                dayName: utils.getDayName(currentDateFormat),
+                                dayNumber: currentDateFormat.getDate(),
+                                date: currentDate
+                            },
+                            week: undefined
+                        },
+                        tasks: hourlyTasks
+                    }
                 });
             }
         });
@@ -336,6 +361,10 @@ class ControllerTask {
                         response: undefined,
                         generalInfo: {
                             notificationsUnread: req.unreadNotifications
+                        },
+                        homeInfo: {
+                            day: undefined,
+                            week: undefined
                         },
                         tasks: tasks
                     }

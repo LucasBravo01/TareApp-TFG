@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 
 // --- Importar módulos ---
 // Core
@@ -126,6 +126,12 @@ app.get("/login", userAlreadyLogged, (request, response, next) => {
 
 // Inicio
 app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
+
+//Calendario semanal
+app.get("/semanal/:day", userLogged,  conRem.unreadNotifications, conTas.getWeeklyTasks);
+
+//Calendario diario
+app.get("/diaria/:day",  userLogged, conRem.unreadNotifications, conTas.getDailyTasks);
 
 // --- Peticiones POST ---
 // Login
