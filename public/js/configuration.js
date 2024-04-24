@@ -3,30 +3,12 @@
 // Validación Cliente
 function validateParams(params) {
     let error = {};
-    let selectedDate = params.date + params.hour;
+    const user = $("body").data("user");
     // Campos no vacíos
     if (params.font_size === "" || params.theme === "" || params.time_preference === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
-        return error;
-    }
-    else if (params.font_size !== "grande" && params.font_size !== "normal" ) {
-        error.code = 400;
-        error.title = "Tamaño de fuente mal introducido";
-        error.message = "Asegúrate de de que los campos esten marcados.";
-        return error;
-    }
-    else if (params.theme !== "alegre" && params.theme !== "minimalista" ) {
-        error.code = 400;
-        error.title = "Tema mal introducido";
-        error.message = "Asegúrate de de que los campos esten marcados.";
-        return error;
-    }
-    else if (params.time_preference !== "largo" && params.time_preference !== "corto" ) {
-        error.code = 400;
-        error.title = "Preferencia de tiempo mal introducida";
-        error.message = "Asegúrate de de que los campos esten marcados.";
         return error;
     }
     else {

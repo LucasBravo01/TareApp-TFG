@@ -15,58 +15,65 @@
     <%- include("nav") %>
 
     <div class="container">
-        <div class="row justify-content-center mt-3 mb-3">
-            <div class="col-6 text-center mt-3">
+        <div class="row justify-content-center mt-5 mb-3">
+            <!--FOTO-->
+            <div class="col-3 text-center mt-5">
                 <img src="../images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="imagen perfil" width="100em" height="100em">
             </div>
 
-            <div class="col-6 text-center mt-3">
+            <!--NOMBRE-->
+            <div class="col-3 text-center mt-5">
                 <label for="nameUser" class="form-label" style="font-weight: bold";>Nombre completo</label>
                 <input id="input-user" name="nameUser" type="text" class="form-control" value="<%= user.name %>"
                     disabled>
             </div>
             
-            <div class="col-4 text-center mt-3">
+            <!--USUARIO-->
+            <div class="col-3 text-center mt-5">
                 <label for="user" class="form-label" style="font-weight: bold";>Usuario</label>
                 <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
                     disabled>
             </div>
             
-            <div class="col-4 text-center mt-3">
+            <!--ROL-->
+            <div class="col-3 text-center mt-5">
                 <label for="rol" class="form-label" style="font-weight: bold";>Rol</label>
                 <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>" disabled>
-            </div>
-            
-            <div class="col-4 text-center mt-3">
-                <label for="grade" class="form-label" style="font-weight: bold";>Curso</label>
-                <input id="input-user" name="grade" type="text" class="form-control" value="<%= user.grade %>" disabled>
-            </div>            
+            </div>           
 
+            <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
                 <p class="text-start subtitle">Recompensas</p>
                 <hr class="separator-line" />
-                <div class="row justify-content-center">
-                    <% for (let i = 0; i < rewards.length; i++) { %> <!-- Iterar sobre todas las recompensas -->
-                        <% if (i % 2 === 0) { %> <!-- Si el índice es par, abrir una nueva fila -->
-                            <div class="row justify-content-center mt-3">
-                        <% } %>
-                        <div class="col-6 mt-3"> <!-- Dividir la fila en dos columnas -->
-                            <div class="recompensaTarjeta">
-                                <label for="grade" class="form-label tituloRecompensa"><%= rewards[i].title %></label>
-                                <img src="/images/rewards/<%= rewards[i].icon %>.png" alt="Icono de la recompensa">
-                                <% if (rewards[i].message) { %>
-                                    <div class="mensajeRecompensa">
-                                        <p><%= rewards[i].message %></p>
-                                    </div>
+            </div>
+
+            <div class="row align-items-center justify-content-center">
+                <!--RECOMPENSAS-->
+                <% for (let i = 0; i < userRewards.length; i++) { %>
+                    <div class="col-3 text-center mt-3">
+                        <div class="card card-recompensa">
+                            <div class="card-header card-header-recompensa">
+                                <img src="/images/rewards/<%= userRewards[i].icon %>.png" alt="Icono de la recompensa <%= userRewards[i].title %>" width="100">
+                            </div>
+
+                            <div class="card-body card-body-recompensa">
+                                <h5 class="card-title mt-2"><%= userRewards[i].title %></h5>
+                                <% if (userRewards[i].message) { %>
+                                    <p class="card-text mt-2"><%= userRewards[i].message %></p>
+                                <% } %>
+                            </div>
+
+                            <div class="card-footer card-footer-recompensa">
+                                <% if (userRewards[i].count === 0) { %>
+                                    <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
+                                <% } else { %>
+                                    <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
                                 <% } %>
                             </div>
                         </div>
-                        <% if (i % 2 !== 0 || i === rewards.length - 1) { %> <!-- Si el índice es impar o es la última recompensa, cerrar la fila -->
-                            </div>
-                        <% } %>
-                    <% } %> 
-                </div>
-            </div>
+                    </div>
+                <% } %>
+            </div>            
         </div>
     </div>
 </body>
