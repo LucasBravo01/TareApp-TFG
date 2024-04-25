@@ -68,7 +68,7 @@
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <div id="<%= hour %>">
                                 <% tasks[hour].forEach(t => { %>
-                                    <div class="card-task-daily <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                    <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
                                             <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
                                                 <div class="d-flex justify-content-center">
@@ -130,7 +130,7 @@
                                 <% if (j < day.tasks.length && day.tasks[j].time.split(':')[0] == hour) { %> 
                                     <div id="<%= hour %>">
                                         <% let t = day.tasks[j] %>
-                                        <div class="card-task-daily <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                        <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                                             <a href="/tareas/tarea/<%= t.id %>">
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
                                                     <div class="d-flex justify-content-center">
