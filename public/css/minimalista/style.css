@@ -232,6 +232,42 @@ button {
     background-color: #E074AD;
 }
 
+/*CALENDARIO DIARIO*/
+.scroll-container-day {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.div-hour {
+    min-height: 4rem;
+}
+
+.card-task-daily {
+    margin: auto;
+    padding: .5rem;
+    width: 90%;
+    border-radius: 1.6rem;
+    color: #000000;
+}
+
+    .card-task-daily:hover {
+        filter: brightness(85%);
+    }
+
+/*CALENDARIO SEMANAL*/
+.scroll-container-week {
+    display: grid;
+    grid-template-columns: 9% 13% 13% 13% 13% 13% 13% 13%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {

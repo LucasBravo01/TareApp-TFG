@@ -43,69 +43,99 @@
 
         <!--VISTA DIARIA-->
         <% if (homeInfo.day) { %>
-            <div id="daily-calendar-container" class="container mt-4">
-                <div class="row">
-                    <div class="col-2 hour-column">
-                        <% for(let hour = 0; hour < 24; hour++) { %>
-                            <div class="hour"><%= hour %>:00</div>
-                        <% } %>
-                    </div>
-                    <div class="col-10">
-                        <div class="row justify-content-between">
-                            <div class="col-3 text-start">
-                                <a id="a-previous-day" href=""  class="view-selected-button">
-                                    <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
-                                </a>
-                            </div>
-        
-                            <div class="col-6 text-center"><%= homeInfo.day.dayName %> <%= homeInfo.day.dayNumber %></div>
-        
-                            <div class="col-3 text-end">
-                                <a id="a-next-day" href=""  class="view-selected-button">
-                                    <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
-                                </a>
-                            </div>
-                        </div>
-        
-                       
-                        <% for(let hour = 0; hour < 24; hour++) { %>
-                            <div class="hour-tasks">
-                                <% if (tasks[hour] && tasks[hour].length > 0) { %> 
-                                    <% tasks[hour].forEach(task => { %>
-                                        <div class="task" style="top: <%= (parseInt(task.time.split(':')[0]) * 45) + (parseInt(task.time.split(':')[1]) / 60) %>px">
-                                            <!-- TODO Ver cómo quitar el style de arriba y ponerlo en el js o por css -->
-                                            <div class="task-time-title">
-                                                <div class="task-time"><%= task.time.slice(0, 5) %></div>
-                                                <div class="task-title"><%= task.title %></div>
-                                            </div>
-                                        </div>          
-                                    <% }) %>
-                                <% } %>
-                            </div>
-                        <% } %>                
-                    </div>
+            <!--FLECHAS Y DÍA-->
+            <div class="row mt-5">
+                <div class="col-3 text-start">
+                    <a id="a-previous-day" href="" class="view-selected-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                    </a>
+                </div>
+
+                <div class="col-6 text-center"><%= homeInfo.day.dayName %> <%= homeInfo.day.dayNumber %></div>
+
+                <div class="col-3 text-end">
+                    <a id="a-next-day" href=""  class="view-selected-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                    </a>
                 </div>
             </div>
-        
-        <!--VISTA SEMANAL-->
-        <% } else if (homeInfo.week) { %>
-            <div class="container-fluid mt-4 calendar" id="weekly-calendar-container">
-                <div class="row">
-                    <!-- Columna de horas a la izquierda -->
-                    <div class="col-auto hour-column">
-                        <% for(let hour = 0; hour < 24; hour++) { %>
-                            <div class="hour"><%= hour %>:00</div>
+
+            <!--HORAS Y TAREAS-->
+            <scroll-container class="mt-3 scroll-container-day">
+                <% for(let hour = 0; hour < 24; hour++) { %>
+                    <div class="div-hour"><%= hour %>:00</div>
+                    <div class="hour-tasks">
+                        <% if (tasks[hour] && tasks[hour].length > 0) { %> 
+                            <div id="<%= hour %>">
+                                <% tasks[hour].forEach(t => { %>
+                                    <div class="card-task-daily <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                        <a href="/tareas/tarea/<%= t.id %>">
+                                            <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
+                                                <div class="d-flex justify-content-center">
+                                                    <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                                </div>
+                                                <div>
+                                                    <span><%= t.title %></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>       
+                                <% }) %>
+                            </div>
+                        <% } else { %>
+                            <div id="<%= hour %>"></div>
                         <% } %>
                     </div>
-                    
+                <% } %>
+            </scroll-container> 
+
+        <!--VISTA SEMANAL-->
+        <% } else if (homeInfo.week) { %>
+            <!--FLECHAS Y SEMANA-->
+            <div class="row mt-5">
+                <div class="col-3 text-start">
+                    <a id="a-previous-week" href="" class="view-selected-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                    </a>
+                </div>
+
+                <div class="col-6 text-center">
+                    <% homeInfo.week.forEach(day => { %>
+                        <div class="col day-column">
+                            <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
+                        </div>                                
+                    <% }) %>
+                </div>
+
+                <div class="col-3 text-end">
+                    <a id="a-next-week" href=""  class="view-selected-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                    </a>
+                </div>
+            </div>
+
+            <!--HORAS Y TAREAS-->
+            <scroll-container class="mt-3 scroll-container-day">
+                <% for(let hour = 0; hour < 24; hour++) { %>
+                    <div class="div-hour"><%= hour %>:00</div>
+                    <div class="hour-tasks">
+                        <% if (tasks[hour] && tasks[hour].length > 0) { %> 
+                            <div id="<%= hour %>">
+                                <% tasks[hour].forEach(task => { %>
+                                    <%= task.title %>       
+                                <% }) %>
+                            </div>
+                        <% } else { %>
+                            <div id="<%= hour %>"></div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </scroll-container>
+
+            <div class="container-fluid mt-4 calendar" id="weekly-calendar-container">
+                <div class="row">                    
                     <div class="col">
                         <div class="row justify-content-between align-items-start">
-                            <!-- Botón de semana anterior al inicio -->
-                            <div class="col-auto">
-                                <a id="a-previous-week" href=""  class="view-selected-button">
-                                    <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
-                                </a>
-                            </div>
                             
                             <!-- Días de la semana -->
                             <div class="col">
@@ -125,13 +155,6 @@
                                         </div>                                
                                     <% }) %>                                                                                     
                                 </div>
-                            </div>
-        
-                            <!-- Botón de semana siguiente al final -->
-                            <div class="col-auto">
-                                <a id="a-next-week" href=""  class="view-selected-button">
-                                    <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
-                                </a>
                             </div>
                         </div>
                     </div>
