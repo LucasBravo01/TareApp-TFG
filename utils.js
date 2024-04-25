@@ -14,8 +14,20 @@ function formatHour(hour) {
     return formattedHour;
 }
 
+function formatString(date) {
+    let dateParts = date.split('-');
+    let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+    return newDate
+}
+
+function getDayName(date){
+    let dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    return dayNames[date.getDay()];
+}
 
 module.exports = {
     formatDate: formatDate,
-    formatHour: formatHour
+    formatHour: formatHour,
+    formatString: formatString,
+    getDayName: getDayName
 };

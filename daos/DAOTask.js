@@ -28,7 +28,7 @@ class DAOTask {
             }
         });
     }
-
+    
     getTaskById(idTask, callback){
         this.pool.getConnection((error, connection) => {
             if (error) {
