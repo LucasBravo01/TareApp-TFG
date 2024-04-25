@@ -39,7 +39,10 @@ async function sendSubscriptionToServer(subscription) {
     });
     console.log(response);
     if (!response.ok) {
-      throw new Error('Error al enviar la suscripción al servidor');
+      showModal({ code: 500, title: "Error al activar las notificaciones", message: "Este dispositivo ya tienes las notificaciones activadas o se ha producido un error." }, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+    }
+    else {
+      showModal({ code: 200, title: "Notificaciones activadas", message: "A partir de ahora recibirás notificaciones en este dispositivo." }, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
     }
   } catch (error) {
     console.error('Error al enviar la suscripción al servidor:', error);
