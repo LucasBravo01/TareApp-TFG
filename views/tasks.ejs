@@ -64,7 +64,7 @@
             <scroll-container class="mt-3 scroll-container-day">
                 <% for(let hour = 0; hour < 24; hour++) { %>
                     <div class="div-hour"><%= hour %>:00</div>
-                    <div class="hour-tasks">
+                    <div>
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <div id="<%= hour %>">
                                 <% tasks[hour].forEach(t => { %>
@@ -93,13 +93,13 @@
         <% } else if (homeInfo.week) { %>
             <!--FLECHAS Y SEMANA-->
             <div class="row mt-5">
-                <div class="col-3 text-start">
+                <div class="col-1 text-start">
                     <a id="a-previous-week" href="" class="view-selected-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
 
-                <div class="col-6 text-center">
+                <div class="col-10 text-center d-flex">
                     <% homeInfo.week.forEach(day => { %>
                         <div class="col day-column">
                             <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
@@ -107,7 +107,7 @@
                     <% }) %>
                 </div>
 
-                <div class="col-3 text-end">
+                <div class="col-1 text-end">
                     <a id="a-next-week" href=""  class="view-selected-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                     </a>
@@ -115,51 +115,43 @@
             </div>
 
             <!--HORAS Y TAREAS-->
-            <scroll-container class="mt-3 scroll-container-day">
-                <% for(let hour = 0; hour < 24; hour++) { %>
-                    <div class="div-hour"><%= hour %>:00</div>
-                    <div class="hour-tasks">
-                        <% if (tasks[hour] && tasks[hour].length > 0) { %> 
-                            <div id="<%= hour %>">
-                                <% tasks[hour].forEach(task => { %>
-                                    <%= task.title %>       
-                                <% }) %>
-                            </div>
-                        <% } else { %>
-                            <div id="<%= hour %>"></div>
-                        <% } %>
-                    </div>
-                <% } %>
-            </scroll-container>
-
-            <div class="container-fluid mt-4 calendar" id="weekly-calendar-container">
-                <div class="row">                    
-                    <div class="col">
-                        <div class="row justify-content-between align-items-start">
-                            
-                            <!-- Días de la semana -->
-                            <div class="col">
-                                <div class="row" id="weekly-calendar">
-                                    <% homeInfo.week.forEach(day => { %>
-                                        <div class="col day-column">
-                                            <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
-                                            <% day.tasks.sort((a, b) => a.time.localeCompare(b.time)).forEach(task => { %>
-                                                <!-- Calcula el top basándose en la hora de la tarea, asumiendo cada hora tiene una altura de 50px -->
-                                                <div class="task" style="top: <%= (parseInt(task.time.split(':')[0]) * 50) + (parseInt(task.time.split(':')[1]) / 60 * 50) %>px">
-                                                    <div class="task-time-title">
-                                                        <div class="task-time"><%= task.time.slice(0, 5) %></div>
-                                                        <div class="task-title"><%= task.title %></div>
-                                                    </div>
-                                                </div>                                        
-                                            <% }) %>
-                                        </div>                                
-                                    <% }) %>                                                                                     
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <scroll-container class="mt-3 scroll-container-week">
+                <div> <!--COLUMNA DÍA-->
+                    <% for(let hour = 0; hour < 24; hour++) { %>
+                        <div class="div-hour"><%= hour %>:00</div>
+                    <% } %>
                 </div>
-            </div>
+                
+                <% homeInfo.week.forEach(day => { %>
+                    <% let j = 0; %>
+                    <div class="d-grid" style="grid-template-columns: 100%;"> <!--COLUMNA DÍA-->
+                        <% for(let hour = 0; hour < 24; hour++) { %>
+                            <div class="div-hour">
+                                <% if (j < day.tasks.length && day.tasks[j].time.split(':')[0] == hour) { %> 
+                                    <div id="<%= hour %>">
+                                        <% let t = day.tasks[j] %>
+                                        <div class="card-task-daily <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                            <a href="/tareas/tarea/<%= t.id %>">
+                                                <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                    <div class="d-flex justify-content-center">
+                                                        <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                                    </div>
+                                                    <div>
+                                                        <span><%= t.title %></span>
+                                                    </div>
+                                                </div>
+                                                </a>
+                                            </div>
+                                    </div>
+                                    <% j++; %>
+                                <% } else { %>
+                                    <div id="<%= hour %>" class="div-hour"></div>
+                                <% } %>
+                            </div>
+                        <% } %> 
+                    </div>                               
+                <% }) %>
+            </scroll-container>
 
         <!--VISTA LISTA-->
         <% } else { %>
