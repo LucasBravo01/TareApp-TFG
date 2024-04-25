@@ -17,28 +17,31 @@
      
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
+
     <div class="container">
+        <!--BOTONES DE NUEVA TAREA Y ELECCIÓN DE VISTA-->
         <div class="row mt-5">
             <div class="col-4 text-start">
-                <a href="/tareas/crearTarea" class="btn main-button">
+                <a href="/tareas/crearTarea" class="new-task-button">
                     <span>Nueva tarea</span>
                 </a>
             </div>
         
             <div class="col-8 text-end"> 
-                <a href="/" class="btn second-button">
+                <a id="a-home-list" href="/" class="mx-2">
                     <span class="material-symbols-outlined">Lista</span>
                 </a>
-                <a id="a-home-week" href="/semanal" class="btn aux-button">
+                <a id="a-home-week" href="/semanal" class="mx-2">
                     <span class="material-symbols-outlined">Semana</span>
                 </a>
                 
-                <a id="a-home-daily" href="" class="btn aux-button">
+                <a id="a-home-daily" href="" class="mx-2">
                     <span class="material-symbols-outlined">Día</span>
                 </a>
             </div>
         </div>
 
+        <!--VISTA DIARIA-->
         <% if (homeInfo.day) { %>
             <div id="daily-calendar-container" class="container mt-4">
                 <div class="row">
@@ -50,7 +53,7 @@
                     <div class="col-10">
                         <div class="row justify-content-between">
                             <div class="col-3 text-start">
-                                <a id="a-previous-day" href=""  class="btn second-button">
+                                <a id="a-previous-day" href=""  class="view-selected-button">
                                     <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                                 </a>
                             </div>
@@ -58,7 +61,7 @@
                             <div class="col-6 text-center"><%= homeInfo.day.dayName %> <%= homeInfo.day.dayNumber %></div>
         
                             <div class="col-3 text-end">
-                                <a id="a-next-day" href=""  class="btn second-button">
+                                <a id="a-next-day" href=""  class="view-selected-button">
                                     <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                                 </a>
                             </div>
@@ -83,6 +86,8 @@
                     </div>
                 </div>
             </div>
+        
+        <!--VISTA SEMANAL-->
         <% } else if (homeInfo.week) { %>
             <div class="container-fluid mt-4 calendar" id="weekly-calendar-container">
                 <div class="row">
@@ -97,7 +102,7 @@
                         <div class="row justify-content-between align-items-start">
                             <!-- Botón de semana anterior al inicio -->
                             <div class="col-auto">
-                                <a id="a-previous-week" href=""  class="btn second-button">
+                                <a id="a-previous-week" href=""  class="view-selected-button">
                                     <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                                 </a>
                             </div>
@@ -124,7 +129,7 @@
         
                             <!-- Botón de semana siguiente al final -->
                             <div class="col-auto">
-                                <a id="a-next-week" href=""  class="btn second-button">
+                                <a id="a-next-week" href=""  class="view-selected-button">
                                     <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                                 </a>
                             </div>
@@ -132,6 +137,8 @@
                     </div>
                 </div>
             </div>
+
+        <!--VISTA LISTA-->
         <% } else { %>
             <div class="mt-4 justify-content-center">
                 <% let primeraNoCompletada = false;

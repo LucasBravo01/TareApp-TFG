@@ -17,6 +17,10 @@ a {
     color: #000000;
 }
 
+    a:hover {
+        filter: brightness(85%);
+    }
+
 img {
     object-fit: cover;
 }
@@ -114,11 +118,38 @@ button {
     background-color: #F2ACAC;
 }
 
-.aux-button {
-    border: 1px #F4F4F4 solid;
-    background-color: #FFFFFF;
-    color: #000000;
+.new-task-button {
+    padding: .5rem;
+    border: 1px #C2C2C2 solid;
+    border-radius: .7rem;
+    background-color: #C2C2C2;
 }
+
+    .new-task-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-selected-button {
+    padding: .5rem;
+    border: 1px #D4E3BD solid;
+    border-radius: .7rem;
+    background-color: #D4E3BD;
+}
+
+    .view-selected-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-non-selected-button {
+    padding: .5rem;
+    border: 1px #D4E3BD solid;
+    border-radius: .7rem;
+    background-color: #C2C3C4;
+}
+
+    .view-non-selected-button:hover {
+        filter: brightness(85%);
+    }
 
 /*ELEMENTOS*/
 .card-task {
