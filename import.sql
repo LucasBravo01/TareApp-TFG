@@ -181,6 +181,7 @@ INSERT INTO user (access_user, first_name, last_name1, last_name2, password, use
 ('cacalv04', 'Carlos', 'Calvo', 'Martínez', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('jorsie01', 'Jorge', 'Sierra', 'Alonso', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('lucbravo', 'Lucas', 'Bravo', 'Fairen', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
+('tester01', 'Tester', 'test', '01', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('virginia', 'Virginia', 'Francisco', 'Gilmartin', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'profesor'),
 ('raquelHB', 'Raquel', 'Hervás', 'Ballesteros', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'profesor');
 
@@ -226,8 +227,28 @@ INSERT INTO reward (title, message, icon) VALUES
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category) VALUES
-(5, 5, 'Tarea 1', '2024-04-25', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
-(5, 5, 'Tarea 2', '2024-04-22', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(1, 1, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(1, 1, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(1, 1, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
+(1, 1, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa'),
+
+(2, 2, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(2, 2, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(2, 2, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
+(2, 2, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa'),
+
+(3, 3, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(3, 3, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(3, 3, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
+(3, 3, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa'),
+
+(4, 4, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(4, 4, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(4, 4, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
+(4, 4, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa'),
+
+(5, 5, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio'),
+(5, 5, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio'),
 (5, 5, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa'),
 (5, 5, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa');
 
@@ -238,18 +259,74 @@ INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
 (1, false, 'no lo sé', 1),
 (2, false, 'corta', 1),
 (3, true, 'media', 4),
-(4, true, 'larga', 4);
+(4, true, 'larga', 4),
+
+(5, false, 'no lo sé', 1),
+(6, false, 'corta', 1),
+(7, true, 'media', 4),
+(8, true, 'larga', 4),
+
+(9, false, 'no lo sé', 1),
+(10, false, 'corta', 1),
+(11, true, 'media', 4),
+(12, true, 'larga', 4),
+
+(13, false, 'no lo sé', 1),
+(14, false, 'corta', 1),
+(15, true, 'media', 4),
+(16, true, 'larga', 4),
+
+(17, false, 'no lo sé', 1),
+(18, false, 'corta', 1),
+(19, true, 'media', 4),
+(20, true, 'larga', 4);
 
 -- Recordatorio
 INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES 
-(5, 1, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
-(5, 1, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-23 08:00:00'),
-(5, 2, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-21 08:00:00'),
-(5, 2, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-20 8:00:00'),
-(5, 3, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
-(5, 3, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
-(5, 4, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
-(5, 4, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00');
+(1, 1, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-26 08:00:00'),
+(1, 1, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-25 16:50:00'),
+(1, 2, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(1, 2, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-23 8:00:00'),
+(1, 3, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(1, 3, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(1, 4, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(1, 4, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00'),
+
+(2, 5, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-26 08:00:00'),
+(2, 5, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-25 16:50:00'),
+(2, 6, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(2, 6, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-23 8:00:00'),
+(2, 7, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(2, 7, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(2, 8, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(2, 8, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00'),
+
+(3, 9, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-26 08:00:00'),
+(3, 9, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-25 16:50:00'),
+(3, 10, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(3, 10, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-23 8:00:00'),
+(3, 11, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(3, 11, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(3, 12, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(3, 12, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00'),
+
+(4, 13, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-26 08:00:00'),
+(4, 13, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-25 16:50:00'),
+(4, 14, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(4, 14, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-23 8:00:00'),
+(4, 15, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(4, 15, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(4, 16, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(4, 16, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00'),
+
+(5, 17, 'Mañana termina el plazo para la tarea "Tarea 1"¡A por ello, tú puedes!', '2024-04-26 08:00:00'),
+(5, 17, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 1"', '2024-04-25 16:50:00'),
+(5, 18, 'Mañana termina el plazo para la tarea "Tarea 2"¡A por ello, tú puedes!', '2024-04-24 08:00:00'),
+(5, 18, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 2"', '2024-04-23 8:00:00'),
+(5, 19, 'Mañana termina el plazo para la tarea "Tarea 3"¡A por ello, tú puedes!', '2024-04-19 08:00:00'),
+(5, 19, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
+(5, 20, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
+(5, 20, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00');
 
 -- ------ Añadir fotos ------
 
