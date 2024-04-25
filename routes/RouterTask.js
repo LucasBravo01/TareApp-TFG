@@ -18,7 +18,7 @@ function routerConfig(conTas, conRem) {
     // Mostrar una tarea
     RouterTask.get(
         "/tarea/:id",
-        check("id", "-2").isNumeric(),
+        check("id", "-2").isNumeric(), // TODO Mirar número. Tiene que ser negativo
         conRem.unreadNotifications,
         conTas.dataForm,
         conTas.getTask);
@@ -49,7 +49,7 @@ function routerConfig(conTas, conRem) {
     // Marcar tarea como completada
     RouterTask.post(
         "/marcarCompletada",
-        check("id", "1").notEmpty(),
+        check("id", "1").notEmpty(), // TODO Mirar que número poner
         check("checkbox", "2").isNumeric(), // TODO Mirar que número poner
         conTas.markAsCompleted);
 }

@@ -41,11 +41,12 @@ CREATE TABLE configuration (
 
 -- Suscripción
 CREATE TABLE subscription (
-  id_user INT NOT NULL PRIMARY KEY,
+  id_user INT NOT NULL,
   endpoint VARCHAR(255) NOT NULL,
   auth VARCHAR(255) NOT NULL,
   p256dh VARCHAR(255) NOT NULL,
 
+  CONSTRAINT UC_subscription UNIQUE(id_user, endpoint, auth, p256dh),
   FOREIGN KEY (id_user) REFERENCES user(id)
 );
 

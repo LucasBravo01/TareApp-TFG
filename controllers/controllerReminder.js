@@ -25,6 +25,7 @@ class controllerReminder {
         this.markAsRead = this.markAsRead.bind(this);
     }
 
+    // Mandar las notificaciones a los usuarios
     sendNotifications() {
         const notificationPayload = {
             notification: {
@@ -53,6 +54,7 @@ class controllerReminder {
         });
     }
 
+    // Activar las notificaciones
     subscribe(req, res, next) {
         const subscription = req.body.subscription;
         this.daoSubs.pushSubscription(req.session.currentUser.id, subscription, (error) => {
@@ -65,6 +67,7 @@ class controllerReminder {
         });
     }
 
+    // Cargar vista de notificaciones
     getReminders(req, res, next) {
         this.daoRem.readAllByUser(req.session.currentUser.id, (error, reminders) => {
             if (error) {
