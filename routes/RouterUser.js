@@ -19,6 +19,14 @@ function routerConfig(conUse, conRem) {
     
     RouterUser.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders); // TODO RouteReminder?
 
+    // - Otras peticiones GET -
+    // Imagen del usuario
+    RouterUser.get(
+        "/fotoPerfil/:id",
+        check("id", "-2").isNumeric(),
+        conUse.profilePic
+    );
+
     // --- Peticiones POST ---
     RouterUser.post("/guardarConfiguracion",
         // Campos de enums válidos

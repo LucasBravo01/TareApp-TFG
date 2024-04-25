@@ -15,13 +15,13 @@ class ControllerUser {
         this.daoUse = daoUse;
 
         this.profile = this.profile.bind(this);
+        this.profilePic = this.profilePic.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.getConfiguration = this.getConfiguration.bind(this);
         this.updateConfiguration = this.updateConfiguration.bind(this);
     }
-
-    // TODO rehacer bien manejador de rutas
+    
     //Metodo para traerme las recompensas del usuario
     profile(req, res, next) {
         this.daoRew.getCountRewardsUser(req.session.currentUser.id, (error, userRewards) => {
@@ -43,6 +43,28 @@ class ControllerUser {
                 });      
             }
         });
+    }
+
+    // Obtener foto de perfil de un usuario
+    profilePic(request, response, next) {        
+        const errors = validationResult(request);
+        if (errors.isEmpty()) {
+            this.daoUse.readPic(request.params.id, (error, pic) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    next({
+                        ajax: true,
+                        error: false,
+                        img: pic
+                    });
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
     }
 
     // Iniciar sesión

@@ -67,9 +67,15 @@
             <img src="/images/logos/logo-no-background-no-text.png" alt="Logo TareApp" width="100">
         </a>
         <!-- Botón de perfil normal -->
-        <a href="/usuario/perfil" title="Ir al perfil">
-            <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50">
-        </a>
+        <% if (session.currentUser.hasProfilePic) { %>
+            <a href="/usuario/perfil" title="Ir al perfil">
+                <img id="img-nav-profile" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
+            </a>
+        <% } else { %>
+            <a href="/usuario/perfil" title="Ir al perfil">
+                <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50">
+            </a>
+        <% } %>
     </nav>
 </body>
 

@@ -4,7 +4,8 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS espacíficos -->
-    <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/error.css">
+    <link rel="stylesheet" href="/css/alegre/error.css">
+    
 </head>
 
 <body>
@@ -15,7 +16,7 @@
         <p><%= message %></p>
         <!-- Botón para volver atrás -->
         <button onclick="history.back()" class="d-flex align-items-center justify-content-center">
-            <img src="/images/<%= session.currentUser.configuration.theme %>/go-back.png" alt="Ir atras" width="20" class="img-flecha">
+            <img src="/images/alegre/go-back.png" alt="Ir atras" width="20" class="img-flecha">
             Ir atrás
         </button>
     </div>        
