@@ -1,7 +1,5 @@
 "use strict"
 
-const utils = require("../utils");
-
 class DAOReminder {
     constructor(pool){
         this.pool = pool;//tener el pool conexion

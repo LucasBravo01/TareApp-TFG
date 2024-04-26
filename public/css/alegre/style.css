@@ -13,6 +13,7 @@ body {
 
 a {
     text-decoration: none;
+    color: #F1F2F6;
 }
 
 img {
@@ -115,17 +116,44 @@ button {
     color: #F1F2F6;
 }
 
-.aux-button {
+.new-task-button {
+    padding: .5rem;
     border: 1px #3D53E2 solid;
+    border-radius: .7rem;
+    background-color: #3D53E2;
+    color: #F1F2F6;
+}
+
+    .new-task-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-selected-button {
+    padding: .5rem;
+    border: 1px #8898FA solid;
+    border-radius: .7rem;
+    background-color: #8898FA;
+    color: #F1F2F6;
+}
+
+    .view-selected-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-non-selected-button {
+    padding: .5rem;
+    border: 1px #3D53E2 solid;
+    border-radius: .7rem;
     background-color: #DCDCDC;
     color: #000000;
 }
 
+    .view-non-selected-button:hover {
+        filter: brightness(85%);
+    }
+
 /*ELEMENTOS*/
 .card-task {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    align-items: center;
     margin: 1rem auto;
     padding: 1rem;
     width: 50%;
@@ -138,9 +166,6 @@ button {
     }
 
 .card-notification {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    align-items: center;
     margin: 1rem auto;
     padding: 1rem;
     width: 50%;
@@ -206,6 +231,42 @@ button {
 
 .rosa {
     background-color: #E11485;
+}
+
+/*CALENDARIO DIARIO*/
+.scroll-container-day {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.div-hour {
+    min-height: 4rem;
+}
+
+.card-task-calendar {
+    margin: auto;
+    padding: .5rem;
+    width: 90%;
+    border-radius: 1.6rem;
+    color: #F1F2F6;
+}
+
+    .card-task-calendar:hover {
+        filter: brightness(85%);
+    }
+
+/*CALENDARIO SEMANAL*/
+.scroll-container-week {
+    display: grid;
+    grid-template-columns: 5% 13% 13% 13% 13% 13% 13% 13% 4%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 /* --- RESPONSIVENESS --- */

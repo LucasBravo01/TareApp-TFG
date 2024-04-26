@@ -74,7 +74,7 @@ class ControllerUser {
             // Obtener usuario
             this.daoUse.readByUser(req.body.user, (error, user) => {
                 if (error) {
-                    errorHandler.manageError(error, { user: req.body.user }, "login", next);
+                    errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
                     if (!user) {
@@ -82,9 +82,9 @@ class ControllerUser {
                     }
                     else {
                         // Comprobar contraseña con bcrypt
-                        bcrypt.compare(req.body.password, user.password, (err, result) => {
+                        bcrypt.compare(req.body.password, user.password, (error, result) => {
                             if (error) {
-                                errorHandler.manageError(error, { user: req.body.user }, "login", next);
+                                errorHandler.manageError(error, {}, "error", next);
                             }
                             else if (!result) {
                                 errorHandler.manageError(5, { user: req.body.user }, "login", next);
@@ -96,7 +96,7 @@ class ControllerUser {
                                 req.session.currentUser = user;
                                 this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
                                     if (error) {
-                                        errorHandler.manageError(error, { user: req.body.user }, "login", next);
+                                        errorHandler.manageError(error, {}, "error", next);
                                     }
                                     else {
                                         this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, configuration) => {
@@ -119,6 +119,10 @@ class ControllerUser {
                                                                 response: undefined,
                                                                 generalInfo: {
                                                                     notificationsUnread: numUnreadNotifications
+                                                                },
+                                                                homeInfo: {
+                                                                    day: undefined,
+                                                                    week: undefined
                                                                 },
                                                                 tasks: tasks
                                                             }
@@ -154,6 +158,7 @@ class ControllerUser {
         });
     }
 
+    // Cargar vista de configuración
     getConfiguration(req, res, next) {
         next({
             ajax: false,
@@ -169,6 +174,7 @@ class ControllerUser {
         });
     }
 
+    // Actualizar configuración del usuario
     updateConfiguration(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {

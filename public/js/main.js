@@ -1,3 +1,4 @@
+"use strict"
 // JS General
 
 // TODO Descomentar cuando se necesite
@@ -82,7 +83,6 @@ $(() => {
   // Suscribirse cuando hace click
   const subscribeButton = $("#button-subscribe");
   subscribeButton.on("click", () => {
-    console.log("Suscribir");
     subscribeToNotifications();
   });
 
