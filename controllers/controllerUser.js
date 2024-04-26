@@ -3,6 +3,7 @@
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
+const utils = require("../utils");
 
 class ControllerUser {
     // Constructor
@@ -111,6 +112,8 @@ class ControllerUser {
                                                         errorHandler.manageError(error, {}, "error", next);
                                                     }
                                                     else {
+                                                        let info = utils.getDailyInfo(utils.formatDate(new Date()), tasks);
+
                                                         next({
                                                             ajax: false,
                                                             status: 200,
@@ -118,13 +121,13 @@ class ControllerUser {
                                                             data: {
                                                                 response: undefined,
                                                                 generalInfo: {
-                                                                    notificationsUnread: numUnreadNotifications
+                                                                    notificationsUnread: req.unreadNotifications
                                                                 },
                                                                 homeInfo: {
-                                                                    day: undefined,
+                                                                    day: info.day,
                                                                     week: undefined
                                                                 },
-                                                                tasks: tasks
+                                                                tasks: info.tasks
                                                             }
                                                         });
                                                     }

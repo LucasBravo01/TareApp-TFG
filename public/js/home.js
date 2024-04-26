@@ -1,18 +1,5 @@
 "use strict"
 
-function formatDate(date) {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // En JavaScript los meses van de 0 a 11
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-}
-
-function formatString(date) {
-    let dateParts = date.split('-');
-    let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-    return newDate
-}
-
 // Cuando cargue el DOM
 $(() => {
     let currentDate = new Date();

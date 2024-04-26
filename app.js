@@ -176,11 +176,9 @@ app.use((request, response, next) => {
     status: 404,
     redirect: "error",
     data: {
-      response: {
-        code: 404,
-        title: "Oops! Página no encontrada :(",
-        message: "La página a la que intentas acceder no existe."
-      }
+      code: 404,
+      title: "Oops! Página no encontrada :(",
+      message: "La página a la que intentas acceder no existe."
     }
   });
 });

@@ -1,6 +1,19 @@
 "use strict"
 // JS General
 
+function formatDate(date) {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // En JavaScript los meses van de 0 a 11
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+function formatString(date) {
+  let dateParts = date.split('-');
+  let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  return newDate
+}
+
 // TODO Descomentar cuando se necesite
 //Configurar SW
 let swLocation = "sw.js";
@@ -80,6 +93,10 @@ function setConfiguration(textSize) {
 
 // Cuando cargue el DOM
 $(() => {
+
+  let currentDate = formatDate(new Date());
+  $("#a-nav").attr("href", `/diaria/${currentDate}`);
+  
   // Suscribirse cuando hace click
   const subscribeButton = $("#button-subscribe");
   subscribeButton.on("click", () => {
@@ -95,13 +112,6 @@ $(() => {
 
   var textSize = localStorage.getItem('font-size');
   document.body.className = textSize;
-
-  // TODO mover a home.js
-  // // Aplicar color task
-  // const tasksCards = $("card-task")
-  // tasksCards.array.forEach(card => {
-  //   card.style.backgroundColor = card.data("color");
-  // });
 
   // Logout
   const buttonLogout = $("#a-logout");

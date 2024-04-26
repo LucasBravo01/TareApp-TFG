@@ -14,7 +14,6 @@
 <body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
-     
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
 
@@ -142,7 +141,7 @@
                                                 </div>
                                                 </a>
                                             </div>
-                                    </div>
+                                        </div>
                                     <% j++; %>
                                 <% } else { %>
                                     <div id="<%= hour %>" class="div-hour"></div>
