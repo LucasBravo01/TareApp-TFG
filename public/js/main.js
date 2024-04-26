@@ -96,6 +96,7 @@ $(() => {
 
   let currentDate = formatDate(new Date());
   $("#a-nav").attr("href", `/diaria/${currentDate}`);
+  $("#a-calendar").attr("href", `/diaria/${currentDate}`);
   
   // Suscribirse cuando hace click
   const subscribeButton = $("#button-subscribe");

@@ -20,7 +20,11 @@
         <div class="row justify-content-center mt-5 mb-3">
             <!--FOTO-->
             <div class="col-3 text-center mt-5">
-                <img src="../images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="imagen perfil" width="100em" height="100em">
+                <% if (session.currentUser.hasProfilePic) { %>
+                    <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="150">
+                <% } else { %>
+                    <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="150">
+                <% } %>
             </div>
 
             <!--NOMBRE-->

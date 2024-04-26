@@ -269,6 +269,10 @@ button {
     scroll-behavior: smooth;
 }
 
+.user-pic {
+    border-radius: 50%;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
