@@ -92,14 +92,14 @@
         <!--VISTA SEMANAL-->
         <% } else if (homeInfo.week) { %>
             <!--FLECHAS Y SEMANA-->
-            <div class="row mt-5">
-                <div class="col-1 text-start">
+            <div class="d-grid mt-5" style="grid-template-columns: 5% 91% 4%;">
+                <div class="text-start">
                     <a id="a-previous-week" href="" class="view-selected-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
 
-                <div class="col-10 text-center d-flex">
+                <div class="text-center d-flex">
                     <% homeInfo.week.forEach(day => { %>
                         <div class="col day-column">
                             <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
@@ -107,7 +107,7 @@
                     <% }) %>
                 </div>
 
-                <div class="col-1 text-end">
+                <div class="text-end">
                     <a id="a-next-week" href=""  class="view-selected-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                     </a>
@@ -151,6 +151,11 @@
                         <% } %> 
                     </div>                               
                 <% }) %>
+
+                <!--COLUMNA EXTRA PARA IGUALAR LOS DÍAS CON LAS COLUMNAS DE TAREAS-->
+                <div>
+                    <div class="div-hour"></div>
+                </div>
             </scroll-container>
 
         <!--VISTA LISTA-->
