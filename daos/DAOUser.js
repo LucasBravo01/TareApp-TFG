@@ -7,6 +7,7 @@ class DAOUser {
 
         this.readByUser = this.readByUser.bind(this);
         this.readById = this.readById.bind(this);
+        this.readPic = this.readPic.bind(this);
     }
 
     // Obtener usuario por nombre
@@ -93,6 +94,33 @@ class DAOUser {
         });
     }
 
+    // Obtener foto de un usuario
+    readPic(idUser, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "SELECT photo FROM user WHERE id = ?";
+                connection.query(querySQL, [idUser], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        if (rows.length != 1) {
+                            callback(-1);
+                        }
+                        else {
+                            // Construir objeto
+                            let pic = rows[0].photo;
+                            callback(null, pic);
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
 
 module.exports = DAOUser;

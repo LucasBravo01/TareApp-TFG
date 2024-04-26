@@ -3,6 +3,7 @@
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
+const utils = require("../utils");
 
 class ControllerUser {
     // Constructor
@@ -15,15 +16,16 @@ class ControllerUser {
         this.daoUse = daoUse;
 
         this.profile = this.profile.bind(this);
+        this.profilePic = this.profilePic.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.getConfiguration = this.getConfiguration.bind(this);
         this.updateConfiguration = this.updateConfiguration.bind(this);
     }
-
+    
     //Metodo para traerme las recompensas del usuario
     profile(req, res, next) {
-        this.daoRew.getRewardsUser(req.session.currentUser.id, (error, rewards) => {
+        this.daoRew.getCountRewardsUser(req.session.currentUser.id, (error, userRewards) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
@@ -36,12 +38,34 @@ class ControllerUser {
                         generalInfo: {
                             notificationsUnread: req.unreadNotifications
                         },
-                        user: req.session.currentUser, 
-                        rewards: rewards
+                        user: req.session.currentUser,
+                        userRewards: userRewards
                     }
-                });
+                });      
             }
         });
+    }
+
+    // Obtener foto de perfil de un usuario
+    profilePic(request, response, next) {        
+        const errors = validationResult(request);
+        if (errors.isEmpty()) {
+            this.daoUse.readPic(request.params.id, (error, pic) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    next({
+                        ajax: true,
+                        error: false,
+                        img: pic
+                    });
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
     }
 
     // Iniciar sesión
@@ -88,6 +112,8 @@ class ControllerUser {
                                                         errorHandler.manageError(error, {}, "error", next);
                                                     }
                                                     else {
+                                                        let info = utils.getDailyInfo(utils.formatDate(new Date()), tasks);
+
                                                         next({
                                                             ajax: false,
                                                             status: 200,
@@ -95,13 +121,13 @@ class ControllerUser {
                                                             data: {
                                                                 response: undefined,
                                                                 generalInfo: {
-                                                                    notificationsUnread: numUnreadNotifications
+                                                                    notificationsUnread: req.unreadNotifications
                                                                 },
                                                                 homeInfo: {
-                                                                    day: undefined,
+                                                                    day: info.day,
                                                                     week: undefined
                                                                 },
-                                                                tasks: tasks
+                                                                tasks: info.tasks
                                                             }
                                                         });
                                                     }
@@ -173,7 +199,7 @@ class ControllerUser {
                         img: false,
                         data: { 
                             code: 200,
-                            title: "Configuración actualizada Con Éxito.",
+                            title: "Configuración actualizada con éxito.",
                             message: "Enhorabuena tu configuración ha sido actualizada correctamente."
                         }
                     });

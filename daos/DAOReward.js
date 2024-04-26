@@ -5,38 +5,36 @@ class DAOReward {
     constructor (pool) {
         this.pool = pool;
 
-       
-        this.getRewardsUser = this.getRewardsUser.bind(this);
         this.readAllRewards = this.readAllRewards.bind(this);
+        this.getRewardsUser = this.getRewardsUser.bind(this);
+        this.getCountRewardsUser = this.getCountRewardsUser.bind(this);
         this.checkRewardsExists = this.checkRewardExists.bind(this);
     }
 
     // Leer todas las recompensas de la base de datos
     readAllRewards (callback) {
-        this.pool.getConnection(function(err, connection) {
+        this.pool.getConnection((err, connection) => {
             if (err) {
                 callback(-1);
-            }
-            else {
-                connection.query("SELECT * FROM reward", function(err, rows) {
+            } else {
+                let querySQL = "SELECT * FROM reward;";
+                
+                connection.query(querySQL, (err, rows) => {
                     connection.release();
-
+    
                     if (err) {
                         callback(-1);
-                    }
-                    else {
-                        let rewards =  [];
-                        let id; let title; let icon; let message;
-
-                        rows.forEach(element => {
-                            id = element.id;
-                            title = element.title;
-                            icon = element.icon;
-                            message = element.message;
-
-                            rewards.push({id, title, icon, message});
+                    } else {
+                        let rewards = new Array();
+                        rows.forEach(row => {
+                            let reward = {
+                                id: row.id,
+                                title: row.title,
+                                icon: row.icon,
+                                message: row.message
+                            }
+                            rewards.push(reward);
                         });
-
                         callback(null, rewards);
                     }
                 });
@@ -65,6 +63,38 @@ class DAOReward {
                                 title: row.title,
                                 icon: row.icon,
                                 message: row.message
+                            }
+                            rewards.push(reward);
+                        });
+                        callback(null, rewards);
+                    }
+                });
+            }
+        });
+    }
+
+    // Obtener el número de recompensas de cada tipo de un usuario tras haber completado una tarea
+    getCountRewardsUser(idUser, callback) {
+        this.pool.getConnection((err, connection) => {
+            if (err) {
+                callback(-1);
+            } else {
+                let querySQL = "SELECT REW.*, COUNT(*) as count FROM reward AS REW LEFT JOIN task AS TAS ON TAS.id_reward = REW.id LEFT JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ? GROUP BY REW.id;";
+                
+                connection.query(querySQL, [idUser], (err, rows) => {
+                    connection.release();
+    
+                    if (err) {
+                        callback(-1);
+                    } else {
+                        let rewards = new Array();
+                        rows.forEach(row => {
+                            let reward = {
+                                id: row.id,
+                                title: row.title,
+                                message: row.message,
+                                icon: row.icon,
+                                count: row.count
                             }
                             rewards.push(reward);
                         });

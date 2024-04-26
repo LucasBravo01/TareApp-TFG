@@ -86,42 +86,8 @@ class ControllerTask {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    let currentDate = req.params.day;
-                    let currentDateFormat = utils.formatString(currentDate);
-    
-                    let startOfWeek = new Date(currentDateFormat);
-                    startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
-                    let endOfWeek = new Date(startOfWeek);
-                    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    
-                    let week = [];
-                    for (let date = startOfWeek; date <= endOfWeek; date.setDate(date.getDate() + 1)) {
-                        let dailyTasks = tasks.filter(task => {
-                            let taskDate = new Date(task.date);
-                            return taskDate.getFullYear() === date.getFullYear() &&
-                                   taskDate.getMonth() === date.getMonth() &&
-                                   taskDate.getDate() === date.getDate();
-                        });
-    
-                        let taskTimeIndex = {};
-        
-                        dailyTasks.forEach(task => {
-                            let hour = task.time.split(':')[0];
-                            if (!taskTimeIndex[hour]) {
-                                taskTimeIndex[hour] = 0;
-                            }
-                            task.index = taskTimeIndex[hour]++;
-                        });
-    
-                        let dateString = utils.formatDate(date);
-    
-                        week.push({
-                            dayName: utils.getDayName(date),
-                            dayNumber: date.getDate(),
-                            date: dateString,
-                            tasks: dailyTasks
-                        });
-                    }
+                    let week = utils.getWeeklyInfo(req.params.day, tasks);
+
                     next({
                         ajax: false,
                         status: 200,
@@ -154,22 +120,7 @@ class ControllerTask {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    let currentDate = req.params.day;
-                    let currentDateFormat = utils.formatString(currentDate);
-    
-                    // Agrupar tareas por hora
-                    let hourlyTasks = {};
-                    for (let hour = 0; hour < 24; hour++) {
-                        hourlyTasks[hour] = [];  // Preparar un arreglo para cada hora
-                    }
-                    
-                    if (tasks) {
-                        tasks.forEach(task => {
-                            if (utils.formatDate(task.date) === currentDate) {
-                                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
-                            }
-                        }); 
-                    }
+                    let info = utils.getDailyInfo(req.params.day, tasks);
     
                     next({
                         ajax: false,
@@ -181,14 +132,10 @@ class ControllerTask {
                                 notificationsUnread: req.unreadNotifications
                             },
                             homeInfo: {
-                                day:{
-                                    dayName: utils.getDayName(currentDateFormat),
-                                    dayNumber: currentDateFormat.getDate(),
-                                    date: currentDate
-                                },
+                                day: info.day,
                                 week: undefined
                             },
-                            tasks: hourlyTasks
+                            tasks: info.tasks
                         }
                     });
                 }
@@ -276,6 +223,10 @@ class ControllerTask {
                                                                                         response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
                                                                                         generalInfo: {
                                                                                             notificationsUnread: req.unreadNotifications
+                                                                                        },
+                                                                                        homeInfo: {
+                                                                                            day: undefined,
+                                                                                            week: undefined
                                                                                         },
                                                                                         tasks: tasks
                                                                                     }

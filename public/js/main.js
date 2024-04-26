@@ -1,6 +1,19 @@
 "use strict"
 // JS General
 
+function formatDate(date) {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // En JavaScript los meses van de 0 a 11
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+function formatString(date) {
+  let dateParts = date.split('-');
+  let newDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+  return newDate
+}
+
 // TODO Descomentar cuando se necesite
 //Configurar SW
 let swLocation = "sw.js";
@@ -58,30 +71,32 @@ function showModal(response, header, img, title, message, button, modal) {
     // Success
     if (response.code === 200) {
         // Crear modal
-        header.removeClass("bg-ta-light-gray");
-        header.addClass("bg-ta-light-green");
-        img.attr("src", "/images/icons/success.png");
+        img.attr("src", "/images/modals/success.png");
         img.attr("alt", "Icono de éxito");
-        button.removeClass("bg-ta-red");
-        button.addClass("bg-ta-green");
     }
     // Error
     else {
         title.text(response.title);
         message.text(response.message);
-        header.removeClass("bg-ta-light-green");
-        header.addClass("bg-ta-light-gray");
-        img.attr("src", "/images/icons/error.png");
+        img.attr("src", "/images/modals/error.png");
         img.attr("alt", "Icono de error");
-        button.removeClass("bg-ta-green");
-        button.addClass("bg-ta-red");
+        
     }
     // Abrir modal
     modal.click();
 }
 
+function setConfiguration(textSize) {
+  document.body.className = textSize;
+  localStorage.setItem('font-size', textSize);
+}
+
 // Cuando cargue el DOM
 $(() => {
+
+  let currentDate = formatDate(new Date());
+  $("#a-nav").attr("href", `/diaria/${currentDate}`);
+  
   // Suscribirse cuando hace click
   const subscribeButton = $("#button-subscribe");
   subscribeButton.on("click", () => {
@@ -94,6 +109,9 @@ $(() => {
   if (response) {
       showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
   }
+
+  var textSize = localStorage.getItem('font-size');
+  document.body.className = textSize;
 
   // Logout
   const buttonLogout = $("#a-logout");

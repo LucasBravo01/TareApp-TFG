@@ -4,74 +4,95 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link rel="stylesheet" href="/css/configurationStyle.css">
+    <link id="css-link" rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
 
     <!-- Importar JS específicos -->
     <script src="/js/configuration.js"></script>
 
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
-     
     <!-- Importar nav -->
     <%- include("nav", { generalInfo: generalInfo }) %>
-   
-        <!-- text to voice button -->
+    <!-- Botón para volver atrás -->
+    <%- include("back", { theme: session.currentUser.configuration.theme }) %>
 
-
-        <div class="centrado">
-            <h1>Configuración</h1>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1 class="title">CONFIGURACIÓN</h1>
         </div>
+        
         <form id="formConfiguration">
-            <div class="centrado">
-                <h2>Apariencia</h2>
-            </div>
-            <div class = "appearanceContainer">
-                <div class="fontContainer">
-                    <label class="fontLabel">
-                        Tamaño de letra: 
-                    </label>
-                    <select class="form-control" id="fontSizeSelect" name="font-size">
+            <div class="row justify-content-center mt-3 mb-3">
+                <!--SECCIÓN APARIENCIA-->
+                <div class="col-12 text-center mt-3">
+                    <p class="text-start subtitle">Apariencia</p>
+                    <hr class="separator-line" />
+                </div>
+
+                <!--TAMAÑO DE LETRA-->
+                <div class="col-6 text-center mt-3">
+                    <label class="form-label" style="font-weight: bold";>Tamaño de letra</label>
+                    <select id="fontSizeSelect" name="font-size" class="form-control">
                         <option value="grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
                         <option value="normal" <% if(configuration.font_size == "normal"){ %>selected <% }%>>Normal</option>
                     </select>
-                </div>   
-                <div class="themeContainer">
-                    <label class="themeLabel">
-                        Tema: 
-                    </label>
-                    <select class="form-control" id="themeSelect" name="theme">
+                </div>
+
+                <!--TEMA-->
+                <div class="col-6 text-center mt-3">
+                    <label class="form-label" style="font-weight: bold";>Tema</label>
+                    <select id="themeSelect" name="theme" class="form-control">
                         <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
                         <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
                     </select>
                 </div>
-            </div>
-            <div class="centrado">
-                <h2>Tareas</h2>
-            </div>
-            <div class = "tareasContainer">
-                <div class="timeContainer">
-                    <label class="timeLabel">
-                        Preferencia de tiempo: 
-                    </label>
-                    <select class="form-control" id="timeSelect" name="time">
+
+                <!--SECCIÓN TAREAS-->
+                <div class="col-12 text-center mt-5">
+                    <p class="text-start subtitle">Tareas</p>
+                    <hr class="separator-line" />
+                </div>
+
+                <!-- TODO borrar? -->
+                <!--PREFERENCIA DE TIEMPO-->
+                <div class="col-6 text-center mt-3">
+                    <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
+                    <select id="timeSelect" name="time" class="form-control">
                         <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
                         <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
                     </select>
-                </div>   
+                </div>
+
+                <!--DIV AUX PARA MANTENERLO A LA IZQUIERDA EL ANTERIOR-->
+                <div class="col-6 text-center mt-3"></div>
+
+                <!--BOTÓN DE CAMBIAR LA CONFIGURACIÓN-->
+                <div class="col-12 text-center mt-5">
+                    <button type="submit" id="input-sb-updateConfig" class="main-button">Cambiar configuración</button>
+                </div>
+
+                <!--SECCIÓN NOTIFICACIONES-->
+                <div class="col-12 text-center mt-5">
+                    <p class="text-start subtitle">Notificaciones</p>
+                    <hr class="separator-line" />
+                </div>
+
+                <!--BOTÓN DE SUSCRIPCIÓN A NOTIFICACIONES-->
+                <div class="col-6 mt-3">
+                    <label class="form-label me-3" style="font-weight: bold";>Activar notificaciones</label>
+                    <button id="button-subscribe" class="main-button">Activar</button>
+                </div>
+
+                <!--DIV AUX PARA MANTENERLO A LA IZQUIERDA EL ANTERIOR-->
+                <div class="col-6 text-center mt-3"></div>
             </div>
-            <div class="centrado">
-                <button type="submit" id="input-sb-updateConfig"
-                class="btn btn-primary btn-block p-2 mx-auto col-4 mb-4">Cambiar configuración</button>
-            </div>
-        </div>
         </form>
-        <div class="centrado">
-            <button id="button-subscribe" class="btn btn-primary ms-2 mb-2 mt-2">Suscribirse a notificaciones</button>
-        </div>
-            
+    </div>
+   
+    <!-- text to voice button -->  
 </body>
 
 </html>

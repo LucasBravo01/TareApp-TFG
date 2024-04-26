@@ -26,7 +26,7 @@ class DAOCategory {
                         rows.forEach(row => {
                             let category = {
                                 name: row.name,
-                                icon: row.icon
+                                category_icon: row.category_icon
                             }
                             categories.push(category);
                         });

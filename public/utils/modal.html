@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-    
-<head>
-    <!-- Importar CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
 
 <body>
     <!-- Botón escondido para abrir el modal cuando haya error -->
@@ -13,16 +8,15 @@
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <!-- Header -->
-                <!-- Establecer color fondo con jQuery (bg-riu-light-gray o bg-riu-light-green)-->
                 <div id="div-modal-response-header" class="modal-header d-flex justify-content-between">
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         <!-- Icono de error o éxito (jQuery) -->
-                        <img id="img-modal-response" src="" alt="" width="30">
+                        <img id="img-modal-response" src="" alt="" height="60" class="ms-3">
                         <!-- Título del error/mensaje (jQuery) -->
-                        <h1 id="h1-modal-response" class="modal-title">Error desconocido</h1>
+                        <h1 id="h1-modal-response" class="modal-title ms-3 text-center">Error desconocido</h1>
                     </div>                        
                     <!-- Botón para cerrar el modal -->
-                    <button type="button" class="button-modal-x" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="modal-close-window-button" data-bs-dismiss="modal" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="20" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
                           </svg>
@@ -30,12 +24,12 @@
                 </div>
                 <!-- Body (jQuery) -->
                 <div class="modal-body"> 
-                    <p id="p-modal-response">Si estás viendo esto, se ha producido un error desconocido.</p>
+                    <p id="p-modal-response" class="text-center">Si estás viendo esto, se ha producido un error desconocido.</p>
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer d-flex justify-content-center">
                     <!-- Cambiar color del botón por jQuery -->
-                    <button id="button-modal-response-ok" type="button" class="button-riu" data-bs-dismiss="modal">OK</button>
+                    <button id="button-modal-response-ok" type="button" class="modal-confirm-button" data-bs-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>

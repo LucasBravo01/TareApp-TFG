@@ -4,10 +4,7 @@
     <head>
         <%- include("../public/utils/head.html") %>
         <!-- Importar CSS específicos -->
-        <link rel="stylesheet" href="css/loginStyle.css"> 
-
-        <!-- Importar JS específicos -->
-
+        <link rel="stylesheet" href="/css/loginStyle.css">
     </head>
 
     <body data-response="<%= JSON.stringify(response) %>">
@@ -17,7 +14,7 @@
         <div class="container mt-5">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 col-sm-8">
-                    <div class="loginBox">
+                    <div class="login-box">
                         <h3 class="text-center mb-4">INICIAR SESIÓN</h3>
                         <form action="/login" method="POST">
                             <div class="mb-3">
@@ -28,11 +25,8 @@
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input id="input-password" name="password" type="password" class="form-control">
                             </div>
-                            <!-- TODO tenemos que ver si hacemos está funcionalidad <div class="mb-3 text-center">
-                                <a class="btn btn-link" href="/users/cambioPass">¿Has olvidado la contraseña?</a>
-                            </div> -->
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                                <button type="submit" class="login-button">Iniciar sesión</button>
                             </div>
                         </form>
                     </div>
@@ -40,5 +34,4 @@
             </div>
         </div>
     </body>
-
 </html>

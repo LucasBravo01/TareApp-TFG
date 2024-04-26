@@ -19,7 +19,7 @@ function generateError(cod) {
         } break;
         case -3: {
             code = 403;
-            title = "Acceso no premitido";
+            title = "Acceso no permitido";
             message = "No sé a dónde estabas intentando acceder, pero no puedes!";
         } break;
         case -4: {
