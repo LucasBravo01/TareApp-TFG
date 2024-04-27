@@ -14,9 +14,8 @@ function formatString(date) {
   return newDate
 }
 
-// TODO Descomentar cuando se necesite
 //Configurar SW
-let swLocation = "sw.js";
+let swLocation = "sw.js"; // TODO Revisar. Se llama en rutas raras "/usuarios/sw.js"
 
 if (navigator.serviceWorker) {
   if (window.location.href.includes("localhost")) swLocation = "/sw.js"; //Varia según el host

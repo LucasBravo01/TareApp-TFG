@@ -121,7 +121,7 @@ class ControllerUser {
                                                             data: {
                                                                 response: undefined,
                                                                 generalInfo: {
-                                                                    notificationsUnread: req.unreadNotifications
+                                                                    notificationsUnread: numUnreadNotifications
                                                                 },
                                                                 homeInfo: {
                                                                     day: info.day,
