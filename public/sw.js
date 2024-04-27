@@ -1,16 +1,16 @@
-// const STATIC_CACHE = "static-v1";
+const STATIC_CACHE = "static-v1";
 
-// const APP_SHELL = [
-//   '/',
-// ];
+const APP_SHELL = [
+  '/',
+];
 
-// self.addEventListener("install", (e) => {
-//   const cacheStatic = caches
-//     .open(STATIC_CACHE)
-//     .then((cache) => cache.addAll(APP_SHELL));
+self.addEventListener("install", (e) => {
+  const cacheStatic = caches
+    .open(STATIC_CACHE)
+    .then((cache) => cache.addAll(APP_SHELL));
 
-//   e.waitUntil(cacheStatic);
-// });
+  e.waitUntil(cacheStatic);
+});
 
 self.addEventListener("fetch", (e) => {
   console.log("fetch! ", e.request);
@@ -25,8 +25,6 @@ self.addEventListener("fetch", (e) => {
   //e.waitUntil(response);
 });
 
-
-
 ///////////////////////
 
 self.addEventListener('push', e => {
@@ -39,29 +37,28 @@ self.addEventListener('push', e => {
   });
 });
 
-// TODO borrar lo de abajo?
-// async function sendSubscriptionToServer(subscription) {
-//   const response = await fetch('/usuario/suscribirse', {
-//       method: 'POST',
-//       headers: {
-//           'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ subscription })
-//   });
+async function sendSubscriptionToServer(subscription) {
+  const response = await fetch('/usuario/suscribirse', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ subscription })
+  });
 
-//   if (!response.ok) {
-//       console.error('Error al guardar la suscripción en el servidor');
-//   }
-// }
+  if (!response.ok) {
+      console.error('Error al guardar la suscripción en el servidor');
+  }
+}
 
-// self.addEventListener('pushsubscriptionchange', async (event) => {
-//   const subscription = await self.registration.pushManager.subscribe(event.oldSubscription.options);
-//   await sendSubscriptionToServer(subscription);
-// });
+self.addEventListener('pushsubscriptionchange', async (event) => {
+  const subscription = await self.registration.pushManager.subscribe(event.oldSubscription.options);
+  await sendSubscriptionToServer(subscription);
+});
 
-// self.addEventListener('activate', async () => {
-//   const subscription = await self.registration.pushManager.getSubscription();
-//   if (subscription) {
-//       await sendSubscriptionToServer(subscription);
-//   }
-// });
+self.addEventListener('activate', async () => {
+  const subscription = await self.registration.pushManager.getSubscription();
+  if (subscription) {
+      await sendSubscriptionToServer(subscription);
+  }
+});

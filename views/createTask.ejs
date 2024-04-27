@@ -44,7 +44,7 @@
                 <div class="col-3 text-center mt-3">
                     <% if (session.currentUser.hasProfilePic) { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
+                            <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
                         </button>
                     <% } else { %>
                         <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>

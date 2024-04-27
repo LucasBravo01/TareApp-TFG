@@ -14,7 +14,7 @@
             <div class="offcanvas-body main-background">
                 <div id="functions" class="m-3">
                     <!--CALENDARIO-->
-                    <a href="/usuario/configuracion" class="second-text">
+                    <a id="a-calendar" href="/" class="second-text">
                         <div class="menu-element">
                             <div>
                                 <img id="img-nav-settings" src="/images/<%= session.currentUser.configuration.theme %>/calendar.png" alt="Calendario" width="30"/>
@@ -69,7 +69,7 @@
         <!-- Botón de perfil normal -->
         <% if (session.currentUser.hasProfilePic) { %>
             <a href="/usuario/perfil" title="Ir al perfil">
-                <img id="img-nav-profile" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
+                <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
             </a>
         <% } else { %>
             <a href="/usuario/perfil" title="Ir al perfil">
