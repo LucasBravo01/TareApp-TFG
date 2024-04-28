@@ -4,7 +4,7 @@
 function validateParams(params) {
     let error = {};
     let user = $("body").data("user");
-    // Campos no vacíos
+    // Campos no modificados
     if (params.font_size === user.configuration.font_size && params.theme === user.configuration.theme && params.time_preference === user.configuration.time_preference) {
         error.code = 400;
         error.title = "Campos no modificados";

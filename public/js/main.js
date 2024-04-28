@@ -15,7 +15,7 @@ function formatString(date) {
 }
 
 //Configurar SW
-let swLocation = "sw.js"; // TODO Revisar. Se llama en rutas raras "/usuarios/sw.js"
+let swLocation = "sw.js"; // TODO Revisar. Se llama en rutas raras "/usuarios/sw.js" en dispositivos móviles
 
 if (navigator.serviceWorker) {
   if (window.location.href.includes("localhost")) swLocation = "/sw.js"; //Varia según el host
@@ -43,7 +43,7 @@ async function subscribeToNotifications() {
 async function sendSubscriptionToServer(subscription) {
   // Envía la suscripción al servidor
   try {
-    const response = await fetch('/usuario/suscribirse', {
+    const response = await fetch('/recordatorio/suscribirse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

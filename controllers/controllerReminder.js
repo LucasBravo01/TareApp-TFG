@@ -35,7 +35,7 @@ class controllerReminder {
         };
         
         let currentDate = new Date();
-        currentDate.setHours(12, 5, 0, 0);
+        currentDate.setHours(8, 0, 0, 0);
 
 
         this.daoRem.getNotifications(currentDate, (error, notifications) => {
@@ -90,7 +90,7 @@ class controllerReminder {
         });
     }
 
-    // Obtener mensajes no leídos (y meterlos en request para otros middlewares)
+    // Obtener mensajes no leídos (y meterlos en req para otros middlewares)
     unreadNotifications(req, res, next) {
         // Obtener notificaciones no leídas
         this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {

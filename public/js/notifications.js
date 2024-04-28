@@ -5,7 +5,7 @@ $(() => {
     // POST marcar mensaje como leído (AJAX)
     $.ajax({
         method: "POST",
-        url: "/usuario/marcarLeido",
+        url: "/recordatorio/marcarLeido",
         data: {},
         success: (data, statusText, jqXHR) => {
             $("#span-num-notifications").addClass("d-none");

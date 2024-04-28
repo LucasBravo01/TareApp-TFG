@@ -47,10 +47,10 @@ class ControllerUser {
     }
 
     // Obtener foto de perfil de un usuario
-    profilePic(request, response, next) {        
-        const errors = validationResult(request);
+    profilePic(req, res, next) {        
+        const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoUse.readPic(request.params.id, (error, pic) => {
+            this.daoUse.readPic(req.params.id, (error, pic) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
@@ -148,8 +148,8 @@ class ControllerUser {
     }
 
     // Cerrar sesión
-    logout(request, response, next) {
-        request.session.destroy();
+    logout(req, res, next) {
+        req.session.destroy();
         next({
             ajax: false,
             status: 200,
@@ -207,7 +207,7 @@ class ControllerUser {
             });
         }                                 
         else {
-            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next); //TODO Mirar que numero poner
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }
     }
 }

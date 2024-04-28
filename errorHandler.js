@@ -17,6 +17,11 @@ function generateError(cod) {
             title = "Petición incorrecta";
             message = "Esta dirección no es válida.";
         } break;
+
+
+        // -------------------------------------------------------------------------------------
+
+
         case -3: {
             code = 403;
             title = "Acceso no permitido";
@@ -47,6 +52,10 @@ function generateError(cod) {
             title = "Instalación no válida";
             message = "No sé qué estabas intentando hacer, pero no puedes!";
         } break;
+
+
+
+
         // Bad Request
         case 1: {
             code = 400;
@@ -55,44 +64,50 @@ function generateError(cod) {
         } break;
         case 2: {
             code = 400;
-            title = "Correo no válido";
-            message = "Tu correo no pertenece a una universidad.";
+            title = "Elección de los recordatorios";
+            message = "El campo de los recordatorios no es válido. Por favor, introduce uno adecuado.";
         } break;
         case 3: {
             code = 400;
-            title = "Usuario no existente";
-            message = "El correo introducido no está registrado o has sido expulsado. Debes crear una cuenta primero y ser validado.";
+            title = "Elección de la duración";
+            message = "El campo de la duración no es válido. Por favor, introduce uno adecuado.";
         } break;
         case 4: {
             code = 400;
-            title = "No validado";
-            message = "Aún no has sido validado por uno de los administradores de tu universidad. Este proceso no debería durar más de 24h, contacta con un superior si persiste el problema.";
+            title = "Error al marcar/desmarcar";
+            message = "Se ha producido un error al marcar/desmarcar la tarea como completada. Por favor, vuelve a intentarlo en unos instantes.";
         } break;
         case 5: {
             code = 400;
-            title = "Contraseña no válida";
-            message = "La contraseña introducida no es correcta.";
+            title = "Elección del tamaño de letra";
+            message = "El campo del tamaño de letra no es válido. Por favor, introduce uno adecuado.";
         } break;
         case 6: {
             code = 403;
-            title = "Acceso no permitido";
-            message = "Has sido expulsado de la aplicación por un administrados. Si crees que ha sido un problema, contacta con un superior de tu universidad.";
+            title = "Elección del tema";
+            message = "El campo del tema no es válido. Por favor, introduce uno adecuado.";
         } break;
-        case 7: {
+        case 7: { // TODO Borrar?
             code = 400;
-            title = "Nº personas no válido";
-            message = "Recuerda introducir un número de personas válido y que sea menor o igual que el aforo de la instalación que deseas reservar.";
+            title = "Elección de la preferencia de tiempo";
+            message = "El campo de la preferencia de tiempo no es válido. Por favor, introduce uno adecuado.";
         } break;
-        case 8: {
-            code = 400;
-            title = "Fecha y hora no válidas";
-            message = "La reserva debe realizarse en un día (y hora) posterior a este momento.";
-        } break;
-        case 9: {
-            code = 400;
-            title = "Fecha no válida";
-            message = "Las instalaciones no están disponibles los fines de semana.";
-        } break;
+
+
+        // -------------------------------------------------------------------------------------
+
+        // TODO asignatura vacía
+        // case 8: {
+        //     code = 400;
+        //     title = "Asignatura vacía";
+        //     message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
+        // } break;
+        // TODO campos no modificados
+        // case 9: {
+        //     code = 400;
+        //     title = "Campos no modificados";
+        //     message = "Los campos de la configuración no han sido modificados.";
+        // } break;
         case 10: {
             code = 400;
             title = "Demasiadas personas";

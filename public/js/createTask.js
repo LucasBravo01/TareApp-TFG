@@ -11,10 +11,11 @@ function validateParams(params, currentDate) {
         error.message = "Asegúrate de rellenar todos los campos.";
         return error;
     }
+    // Asignatura vacía cuando categoría es Escolar
     else if (params.category === "Escolar" && params.subject === "" ) {
         error.code = 400;
         error.title = "Asignatura vacía";
-        error.message = "Asegúrate de rellenar para una tarea escolar la asignatura.";
+        error.message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
         return error;
     }
     else {

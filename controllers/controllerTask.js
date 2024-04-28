@@ -253,7 +253,7 @@ class ControllerTask {
             });
         }
         else {
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next);
         }
     }
 

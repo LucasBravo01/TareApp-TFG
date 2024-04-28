@@ -18,7 +18,7 @@ function routerConfig(conTas, conRem) {
     // Mostrar una tarea
     RouterTask.get(
         "/tarea/:id",
-        check("id", "-2").isNumeric(), // TODO Mirar número. Tiene que ser negativo
+        check("id", "-2").isNumeric(),
         conRem.unreadNotifications,
         conTas.dataForm,
         conTas.getTask);
@@ -36,10 +36,10 @@ function routerConfig(conTas, conRem) {
         check("reward", "1").notEmpty(),
         check("duration", "1").notEmpty(),
         // Campos de enums válidos
-        check("reminders", "32").custom((recType) => {
+        check("reminders", "2").custom((recType) => {
         return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
-        check("duration", "32").custom((durType) => {
+        check("duration", "3").custom((durType) => {
         return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
         conRem.unreadNotifications,
@@ -49,8 +49,8 @@ function routerConfig(conTas, conRem) {
     // Marcar tarea como completada
     RouterTask.post(
         "/marcarCompletada",
-        check("id", "1").notEmpty(), // TODO Mirar que número poner
-        check("checkbox", "2").isNumeric(), // TODO Mirar que número poner
+        check("id", "1").notEmpty(),
+        check("checkbox", "4").isNumeric(),
         conTas.markAsCompleted);
 }
 
