@@ -1,7 +1,7 @@
 "use strict"
 
 class DAOSubject {
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;//tener el pool conexion
 
         this.readAllSubjects = this.readAllSubjects.bind(this);
@@ -30,7 +30,7 @@ class DAOSubject {
                                 id_teacher: row.id_teacher,
                                 name: row.name,
                                 grade: row.grade,
-                                color: row.color, 
+                                color: row.color,
                                 subject_icon: row.subject_icon,
                             }
                             subjects.push(facility);

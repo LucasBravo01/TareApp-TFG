@@ -2,7 +2,7 @@
 
 class DAOReward {
     // Constructor con las conexiones
-    constructor (pool) {
+    constructor(pool) {
         this.pool = pool;
 
         this.readAllRewards = this.readAllRewards.bind(this);
@@ -12,16 +12,16 @@ class DAOReward {
     }
 
     // Leer todas las recompensas de la base de datos
-    readAllRewards (callback) {
+    readAllRewards(callback) {
         this.pool.getConnection((err, connection) => {
             if (err) {
                 callback(-1);
             } else {
                 let querySQL = "SELECT * FROM reward;";
-                
+
                 connection.query(querySQL, (err, rows) => {
                     connection.release();
-    
+
                     if (err) {
                         callback(-1);
                     } else {
@@ -49,10 +49,10 @@ class DAOReward {
                 callback(-1);
             } else {
                 let querySQL = "SELECT REW.* FROM reward AS REW JOIN task AS TAS ON TAS.id_reward = REW.id JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ?;";
-                
+
                 connection.query(querySQL, [idUser], (err, rows) => {
                     connection.release();
-    
+
                     if (err) {
                         callback(-1);
                     } else {
@@ -80,10 +80,10 @@ class DAOReward {
                 callback(-1);
             } else {
                 let querySQL = "SELECT REW.*, COUNT(*) as count FROM reward AS REW LEFT JOIN task AS TAS ON TAS.id_reward = REW.id LEFT JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ? GROUP BY REW.id;";
-                
+
                 connection.query(querySQL, [idUser], (err, rows) => {
                     connection.release();
-    
+
                     if (err) {
                         callback(-1);
                     } else {

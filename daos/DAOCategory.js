@@ -1,7 +1,7 @@
 "use strict"
 
 class DAOCategory {
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;//tener el pool conexion
 
         this.readAllCategories = this.readAllCategories.bind(this);

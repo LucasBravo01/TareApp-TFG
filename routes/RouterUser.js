@@ -13,8 +13,8 @@ function routerConfig(conUse, conRem) {
 
     // --- Peticiones GET ---
     // Perfil usuario
-    RouterUser.get("/perfil", conRem.unreadNotifications, conUse.profile);
-    
+    RouterUser.get("/perfil", conRem.unreadNotifications, conUse.getProfile);
+
     // Configuración
     RouterUser.get("/configuracion", conRem.unreadNotifications, conUse.getConfiguration);
 
@@ -23,7 +23,7 @@ function routerConfig(conUse, conRem) {
     RouterUser.get(
         "/fotoPerfil/:id",
         check("id", "-2").isNumeric(),
-        conUse.profilePic
+        conUse.getProfilePic
     );
 
     // --- Peticiones POST ---
@@ -31,16 +31,17 @@ function routerConfig(conUse, conRem) {
     RouterUser.post("/guardarConfiguracion",
         // Campos de enums válidos
         check("font_size", "5").custom((fontS) => {
-        return (fontS === "grande" || fontS === "normal")
+            return (fontS === "grande" || fontS === "normal")
         }),
         check("theme", "6").custom((theme) => {
-        return (theme === "alegre" || theme === "minimalista")
+            return (theme === "alegre" || theme === "minimalista")
         }),
         check("time_preference", "7").custom((timeP) => { // TODO Borrar?
-        return (timeP === "corto" || timeP === "largo")
+            return (timeP === "corto" || timeP === "largo")
         }),
         conRem.unreadNotifications,
-        conUse.updateConfiguration);
+        conUse.updateConfiguration
+    );
 }
 
 module.exports = {

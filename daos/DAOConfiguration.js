@@ -1,11 +1,11 @@
 "use strict"
 
 class DAOConfiguration {
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;//tener el pool conexion
 
         this.getConfigurationByUser = this.getConfigurationByUser.bind(this);
-        this.updateConfiguration= this.updateConfiguration.bind(this);
+        this.updateConfiguration = this.updateConfiguration.bind(this);
     }
 
     getConfigurationByUser(userID, callback) {
@@ -44,7 +44,7 @@ class DAOConfiguration {
         });
     }
 
-    updateConfiguration(config, callback){
+    updateConfiguration(config, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);

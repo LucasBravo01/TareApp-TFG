@@ -8,23 +8,27 @@ const utils = require("../utils");
 class ControllerUser {
     // Constructor
     constructor(daoAct, daoCon, daoRem, daoRew, daoUse) {
-        
+
         this.daoAct = daoAct;
         this.daoCon = daoCon;
         this.daoRem = daoRem;
         this.daoRew = daoRew;
         this.daoUse = daoUse;
 
-        this.profile = this.profile.bind(this);
-        this.profilePic = this.profilePic.bind(this);
+        // GETs
+        this.getProfile = this.getProfile.bind(this);
+        this.getConfiguration = this.getConfiguration.bind(this);
+        // OTROS GETs
+        this.getProfilePic = this.getProfilePic.bind(this);
+        // POSTs
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
-        this.getConfiguration = this.getConfiguration.bind(this);
         this.updateConfiguration = this.updateConfiguration.bind(this);
     }
-    
+
+    // GETs
     //Metodo para traerme las recompensas del usuario
-    profile(req, res, next) {
+    getProfile(req, res, next) {
         this.daoRew.getCountRewardsUser(req.session.currentUser.id, (error, userRewards) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
@@ -41,13 +45,30 @@ class ControllerUser {
                         user: req.session.currentUser,
                         userRewards: userRewards
                     }
-                });      
+                });
             }
         });
     }
 
+    // Cargar vista de configuración
+    getConfiguration(req, res, next) {
+        next({
+            ajax: false,
+            status: 200,
+            redirect: "configuration",
+            data: {
+                response: undefined,
+                generalInfo: {
+                    notificationsUnread: req.unreadNotifications
+                },
+                configuration: req.session.currentUser.configuration
+            }
+        });
+    }
+
+    // OTROS GETs
     // Obtener foto de perfil de un usuario
-    profilePic(req, res, next) {        
+    getProfilePic(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             this.daoUse.readPic(req.params.id, (error, pic) => {
@@ -68,6 +89,7 @@ class ControllerUser {
         }
     }
 
+    // POSTs
     // Iniciar sesión
     login(req, res, next) {
         const errors = validationResult(req);
@@ -138,7 +160,7 @@ class ControllerUser {
                                 });
                             }
                         });
-                    }            
+                    }
                 }
             });
         }
@@ -161,22 +183,6 @@ class ControllerUser {
         });
     }
 
-    // Cargar vista de configuración
-    getConfiguration(req, res, next) {
-        next({
-            ajax: false,
-            status: 200,
-            redirect: "configuration",
-            data: {
-                response: undefined,
-                generalInfo: {
-                    notificationsUnread: req.unreadNotifications
-                },
-                configuration: req.session.currentUser.configuration
-            }
-        });
-    }
-
     // Actualizar configuración del usuario
     updateConfiguration(req, res, next) {
         const errors = validationResult(req);
@@ -191,13 +197,13 @@ class ControllerUser {
                 if (error) {
                     errorHandler.manageAJAXError(error, next);
                 }
-                else{
+                else {
                     req.session.currentUser.configuration = form;
                     next({
                         ajax: true,
                         error: false,
                         img: false,
-                        data: { 
+                        data: {
                             code: 200,
                             title: "Configuración actualizada con éxito.",
                             message: "Enhorabuena tu configuración ha sido actualizada correctamente."
@@ -205,7 +211,7 @@ class ControllerUser {
                     });
                 }
             });
-        }                                 
+        }
         else {
             errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }

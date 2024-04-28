@@ -21,7 +21,8 @@ function routerConfig(conTas, conRem) {
         check("id", "-2").isNumeric(),
         conRem.unreadNotifications,
         conTas.dataForm,
-        conTas.getTask);
+        conTas.getTask
+    );
 
     // --- Peticiones POST ---
     // Crear Tarea 
@@ -37,21 +38,23 @@ function routerConfig(conTas, conRem) {
         check("duration", "1").notEmpty(),
         // Campos de enums válidos
         check("reminders", "2").custom((recType) => {
-        return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+            return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
         check("duration", "3").custom((durType) => {
-        return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
+            return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
         conRem.unreadNotifications,
         conTas.dataForm,
-        conTas.createTask);
+        conTas.createTask
+    );
 
     // Marcar tarea como completada
     RouterTask.post(
         "/marcarCompletada",
         check("id", "1").notEmpty(),
         check("checkbox", "4").isNumeric(),
-        conTas.markAsCompleted);
+        conTas.markAsCompleted
+    );
 }
 
 module.exports = {

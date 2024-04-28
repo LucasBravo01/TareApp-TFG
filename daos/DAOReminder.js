@@ -1,7 +1,7 @@
 "use strict"
 
 class DAOReminder {
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;//tener el pool conexion
 
         this.pushReminderSystem = this.pushReminderSystem.bind(this);
@@ -12,13 +12,13 @@ class DAOReminder {
         this.updateReminders = this.updateReminders.bind(this);
     }
 
-    pushReminderSystem(reminder, callback){        
+    pushReminderSystem(reminder, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
                 let querySQL = "INSERT INTO reminder (id_receiver, message, sent_date, id_activity) VALUES(?,?,?,?);";
-                connection.query(querySQL, [ reminder.id, reminder.message, reminder.sent_date, reminder.idActivity], (error) => {
+                connection.query(querySQL, [reminder.id, reminder.message, reminder.sent_date, reminder.idActivity], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); // Error en la sentencia
@@ -52,7 +52,7 @@ class DAOReminder {
                                 keys: {
                                     auth: row.auth,
                                     p256dh: row.p256dh
-                                }                                
+                                }
                             }
                             reminders.push(reminder);
                         });
@@ -63,7 +63,7 @@ class DAOReminder {
         });
     }
 
-    readAllByUser(id, callback){
+    readAllByUser(id, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
@@ -83,7 +83,7 @@ class DAOReminder {
                             let reminder = {
                                 message: row.message,
                                 idActivity: row.id_activity,
-                                sent_date: row.sent_date                           
+                                sent_date: row.sent_date
                             }
                             reminders.push(reminder);
                         });

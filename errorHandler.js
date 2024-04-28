@@ -2,7 +2,7 @@
 
 function generateError(cod) {
     let code;
-    let title; 
+    let title;
     let message;
 
     switch (cod) {
@@ -41,7 +41,7 @@ function generateError(cod) {
             code = 403;
             title = "Petición no válida";
             message = "No sé qué estabas intentando cancelar, pero no lo estás haciendo bien!";
-        } break;    
+        } break;
         case -7: {
             code = 403;
             title = "Petición no válida";
@@ -318,10 +318,10 @@ function manageError(error, data, redirect, next) {
 function manageAJAXError(error, next) {
     let errorObj = generateError(error);
     next({
-            ajax: true,
-            status: errorObj.code,
-            error: errorObj
-        });
+        ajax: true,
+        status: errorObj.code,
+        error: errorObj
+    });
 }
 
 module.exports = {

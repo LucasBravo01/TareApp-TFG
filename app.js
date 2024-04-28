@@ -27,7 +27,7 @@ const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
 const DAOConfiguration = require("./daos/DAOConfiguration");
 // Controllers
-const ControllerReminder  = require("./controllers/controllerReminder");
+const ControllerReminder = require("./controllers/controllerReminder");
 const ControllerTask = require("./controllers/controllerTask");
 const ControllerUser = require("./controllers/controllerUser");
 // Routers
@@ -66,7 +66,8 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-app.use((req, res, next) => { // TODO Que hace esto?
+// TODO Que hace esto?
+app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
@@ -132,13 +133,14 @@ app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTask
 
 //Calendario semanal
 app.get(
-  "/semanal/:day", 
+  "/semanal/:day",
   check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
   }),
   userLogged,
   conRem.unreadNotifications,
-  conTas.getWeeklyTasks);
+  conTas.getWeeklyTasks
+);
 
 //Calendario diario
 app.get(
@@ -148,7 +150,8 @@ app.get(
   }),
   userLogged,
   conRem.unreadNotifications,
-  conTas.getDailyTasks);
+  conTas.getDailyTasks
+);
 
 // --- Peticiones POST ---
 // Login

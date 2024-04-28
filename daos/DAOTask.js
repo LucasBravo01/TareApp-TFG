@@ -3,7 +3,7 @@
 const utils = require("../utils");
 
 class DAOTask {
-    constructor(pool){
+    constructor(pool) {
         this.pool = pool;//tener el pool conexion
 
         this.pushTask = this.pushTask.bind(this);
@@ -11,7 +11,7 @@ class DAOTask {
         this.markAsCompleted = this.markAsCompleted.bind(this);
     }
 
-    pushTask(task , callback){        
+    pushTask(task, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
@@ -28,8 +28,8 @@ class DAOTask {
             }
         });
     }
-    
-    getTaskById(idTask, callback){
+
+    getTaskById(idTask, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);

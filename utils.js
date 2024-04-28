@@ -20,40 +20,39 @@ function formatString(date) {
     return newDate
 }
 
-function getDayName(date){
+function getDayName(date) {
     let dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     return dayNames[date.getDay()];
 }
 
-function getDailyInfo(date, tasks){
+function getDailyInfo(date, tasks) {
     let currentDateFormat = formatString(date);
-    
-    // Agrupar tareas por hora
+
     let hourlyTasks = {};
     for (let hour = 0; hour < 24; hour++) {
-        hourlyTasks[hour] = [];  // Preparar un arreglo para cada hora
+        hourlyTasks[hour] = [];
     }
-    
+
     if (tasks) {
         tasks.forEach(task => {
             if (formatDate(task.date) === date) {
-                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);  // Agrega la tarea al arreglo correspondiente a la hora
+                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);
             }
-        }); 
+        });
     }
 
-    let day ={
+    let day = {
         dayName: getDayName(currentDateFormat),
         dayNumber: currentDateFormat.getDate(),
         date: date
     }
 
-    return {day: day, tasks: hourlyTasks}
+    return { day: day, tasks: hourlyTasks }
 }
 
 function getWeeklyInfo(date, tasks) {
     let currentDateFormat = formatString(date);
-    
+
     let startOfWeek = new Date(currentDateFormat);
     startOfWeek.setDate(currentDateFormat.getDate() - currentDateFormat.getDay());
     let endOfWeek = new Date(startOfWeek);
@@ -64,11 +63,11 @@ function getWeeklyInfo(date, tasks) {
         let dailyTasks = tasks.filter(task => {
             let taskDate = new Date(task.date);
             return taskDate.getFullYear() === date.getFullYear() &&
-                    taskDate.getMonth() === date.getMonth() &&
-                    taskDate.getDate() === date.getDate();
+                taskDate.getMonth() === date.getMonth() &&
+                taskDate.getDate() === date.getDate();
         });
 
-        dailyTasks.sort((a, b) => a.time.localeCompare(b.time));                 
+        dailyTasks.sort((a, b) => a.time.localeCompare(b.time));
 
         week.push({
             dayName: getDayName(date),
