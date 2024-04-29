@@ -2,8 +2,12 @@
 
 // Validación Cliente
 function validateParams(params, currentDate) {
+    console.log(params);
+    let dateString = params.date + 'T' + params.hour + ':00';
+    let taskDate = new Date(dateString);
+    console.log("CD: ",currentDate);
+    console.log("TD: ",taskDate);
     let error = {};
-    let selectedDate = params.date + params.hour;
     // Campos no vacíos
     if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === "") {
         error.code = 400;
@@ -12,10 +16,16 @@ function validateParams(params, currentDate) {
         return error;
     }
     // Asignatura vacía cuando categoría es Escolar
-    else if (params.category === "Escolar" && params.subject === "" ) {
+    else if (params.category === "Escolar" && params.subject === "") {
         error.code = 400;
         error.title = "Asignatura vacía";
         error.message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
+        return error;
+    }// Comprobar si la fecha y hora son posteriores a la actual
+    else if (taskDate <= currentDate) {
+        error.code = 400;
+        error.title = "Fecha y/o hora no válidas";
+        error.message = "Asegúrate de que la fecha y hora no sean anteriores a la actual.";
         return error;
     }
     else {
@@ -61,7 +71,7 @@ $(() => {
         inputDescription.attr("disabled", "true");
         inputReward.attr("disabled", "true");
         inputDuration.attr("disabled", "true");
-        
+
     }
 
     // Obtener la fecha y hora actual
@@ -113,7 +123,7 @@ $(() => {
             method: "POST",
             url: "/tareas/marcarCompletada",
             data: params,
-            success: (data, statusText, jqXHR) => { 
+            success: (data, statusText, jqXHR) => {
                 // Mostrar modal
                 showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
             },

@@ -8,7 +8,6 @@ const utils = require("../utils");
 class ControllerUser {
     // Constructor
     constructor(daoAct, daoCon, daoRem, daoRew, daoUse) {
-
         this.daoAct = daoAct;
         this.daoCon = daoCon;
         this.daoRem = daoRem;
@@ -27,9 +26,9 @@ class ControllerUser {
     }
 
     // GETs
-    //Metodo para traerme las recompensas del usuario
+    // Cargar vista de perfil
     getProfile(req, res, next) {
-        this.daoRew.getCountRewardsUser(req.session.currentUser.id, (error, userRewards) => {
+        this.daoRew.readRewardsByIdUser(req.session.currentUser.id, (error, userRewards) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
@@ -40,7 +39,7 @@ class ControllerUser {
                     data: {
                         response: undefined,
                         generalInfo: {
-                            notificationsUnread: req.unreadNotifications
+                            remindersUnread: req.unreadReminders
                         },
                         user: req.session.currentUser,
                         userRewards: userRewards
@@ -59,7 +58,7 @@ class ControllerUser {
             data: {
                 response: undefined,
                 generalInfo: {
-                    notificationsUnread: req.unreadNotifications
+                    remindersUnread: req.unreadReminders
                 },
                 configuration: req.session.currentUser.configuration
             }
@@ -71,7 +70,7 @@ class ControllerUser {
     getProfilePic(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoUse.readPic(req.params.id, (error, pic) => {
+            this.daoUse.readPicByIdUser(req.params.id, (error, pic) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
@@ -95,13 +94,13 @@ class ControllerUser {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             // Obtener usuario
-            this.daoUse.readByUser(req.body.user, (error, user) => {
+            this.daoUse.readUserByUsername(req.body.user, (error, user) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
                     if (!user) {
-                        errorHandler.manageError(3, { user: req.body.user }, "login", next);
+                        errorHandler.manageError(8, { user: req.body.user }, "login", next);
                     }
                     else {
                         // Comprobar contraseña con bcrypt
@@ -110,26 +109,26 @@ class ControllerUser {
                                 errorHandler.manageError(error, {}, "error", next);
                             }
                             else if (!result) {
-                                errorHandler.manageError(5, { user: req.body.user }, "login", next);
+                                errorHandler.manageError(9, { user: req.body.user }, "login", next);
                             }
                             else {
                                 // Quitar contraseña, no se guarda en la sesión
                                 delete (user.password);
                                 // Iniciar sesión
                                 req.session.currentUser = user;
-                                this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                                     if (error) {
                                         errorHandler.manageError(error, {}, "error", next);
                                     }
                                     else {
-                                        this.daoCon.getConfigurationByUser(req.session.currentUser.id, (error, configuration) => {
+                                        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                                             if (error) {
                                                 errorHandler.manageError(error, {}, "error", next);
                                             }
                                             else {
                                                 req.session.currentUser.configuration = configuration;
                                                 // Obtener notificaciones no leídas
-                                                this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+                                                this.daoRem.unreadReminders(req.session.currentUser.id, (error, numunreadReminders) => {
                                                     if (error) {
                                                         errorHandler.manageError(error, {}, "error", next);
                                                     }
@@ -143,7 +142,7 @@ class ControllerUser {
                                                             data: {
                                                                 response: undefined,
                                                                 generalInfo: {
-                                                                    notificationsUnread: numUnreadNotifications
+                                                                    remindersUnread: numunreadReminders
                                                                 },
                                                                 homeInfo: {
                                                                     day: info.day,
@@ -198,17 +197,24 @@ class ControllerUser {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
-                    req.session.currentUser.configuration = form;
-                    next({
-                        ajax: true,
-                        error: false,
-                        img: false,
-                        data: {
-                            code: 200,
-                            title: "Configuración actualizada con éxito.",
-                            message: "Enhorabuena tu configuración ha sido actualizada correctamente."
-                        }
-                    });
+                    if (form.font_size === req.session.currentUser.configuration.font_size 
+                        && form.theme === req.session.currentUser.configuration.theme 
+                        && form.time_preference === req.session.currentUser.configuration.time_preference) {
+                            errorHandler.manageAJAXError(17, next);
+                    }
+                    else {
+                        req.session.currentUser.configuration = form;
+                        next({
+                            ajax: true,
+                            error: false,
+                            img: false,
+                            data: {
+                                code: 200,
+                                title: "Configuración actualizada con éxito.",
+                                message: "Enhorabuena tu configuración ha sido actualizada correctamente."
+                            }
+                        });
+                    }
                 }
             });
         }

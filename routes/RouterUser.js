@@ -13,15 +13,14 @@ function routerConfig(conUse, conRem) {
 
     // --- Peticiones GET ---
     // Perfil usuario
-    RouterUser.get("/perfil", conRem.unreadNotifications, conUse.getProfile);
+    RouterUser.get("/perfil", conRem.unreadReminders, conUse.getProfile);
 
     // Configuración
-    RouterUser.get("/configuracion", conRem.unreadNotifications, conUse.getConfiguration);
+    RouterUser.get("/configuracion", conRem.unreadReminders, conUse.getConfiguration);
 
     // - Otras peticiones GET -
     // Imagen del usuario
-    RouterUser.get(
-        "/fotoPerfil/:id",
+    RouterUser.get("/fotoPerfil/:id",
         check("id", "-2").isNumeric(),
         conUse.getProfilePic
     );
@@ -39,7 +38,7 @@ function routerConfig(conUse, conRem) {
         check("time_preference", "7").custom((timeP) => { // TODO Borrar?
             return (timeP === "corto" || timeP === "largo")
         }),
-        conRem.unreadNotifications,
+        conRem.unreadReminders,
         conUse.updateConfiguration
     );
 }

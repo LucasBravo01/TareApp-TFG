@@ -1,38 +1,20 @@
 "use strict"
 
 class DAOActivity {
+    // Constructor
     constructor(pool) {
-        this.pool = pool;//tener el pool conexion
+        this.pool = pool;
 
-        this.pushActivity = this.pushActivity.bind(this);
-        this.readAllByUser = this.readAllByUser.bind(this);
-        this.checkActivityExists = this.checkActivityExists.bind(this);
+        // SELECTs
+        this.readActivityByIdUser = this.readActivityByIdUser.bind(this);
+        this.readActivity = this.readActivity.bind(this);
+        // INSERTs
+        this.insertActivity = this.insertActivity.bind(this);
     }
 
-    pushActivity(form, callback) {
-        this.pool.getConnection((error, connection) => {
-            if (error) {
-                callback(-1);
-            } else {
-                let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES(?,?,?,?,?,?,?,?,?);";
-                connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.subject], (error, result) => {
-                    connection.release();
-                    if (error) {
-                        callback(-1); // Error en la sentencia
-                    } else {
-                        let task = {
-                            id: result.insertId, // Aquí obtenemos el ID generado automáticamente
-                            duration: form.duration,
-                            reward: form.reward
-                        };
-                        callback(null, task);
-                    }
-                });
-            }
-        });
-    }
-
-    readAllByUser(idUser, callback) {
+    // SELECTs
+    // Leer actividades dado un id de usuario
+    readActivityByIdUser(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
@@ -89,13 +71,14 @@ class DAOActivity {
         });
     }
 
-    checkActivityExists(form, callback) {
+    // Leer actividad repetida
+    readActivity(form, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM activity WHERE title = ? and date = ? and time = ? and id_receiver = ?;";
+                let querySQL = "SELECT COUNT(*) AS count FROM activity WHERE title = ? AND date = ? AND time = ? AND id_receiver = ?;";
                 connection.query(querySQL, [form.title, form.date, form.time, form.id], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -108,6 +91,31 @@ class DAOActivity {
                         else {
                             callback(null, true); // La actividad no existe
                         }
+                    }
+                });
+            }
+        });
+    }
+
+    // INSERTs
+    // Insertar recordatorio
+    insertActivity(form, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES (?,?,?,?,?,?,?,?,?);";
+                connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.subject], (error, result) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else {
+                        let task = {
+                            id: result.insertId, // Aquí obtenemos el ID generado automáticamente
+                            duration: form.duration,
+                            reward: form.reward
+                        };
+                        callback(null, task);
                     }
                 });
             }

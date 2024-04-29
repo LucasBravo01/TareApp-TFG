@@ -17,45 +17,11 @@ function generateError(cod) {
             title = "Petición incorrecta";
             message = "Esta dirección no es válida.";
         } break;
-
-
-        // -------------------------------------------------------------------------------------
-
-
         case -3: {
             code = 403;
             title = "Acceso no permitido";
             message = "No sé a dónde estabas intentando acceder, pero no puedes!";
         } break;
-        case -4: {
-            code = 403;
-            title = "Instalación no válida";
-            message = "No tienes permiso para reservar esta instalación (o no existe).";
-        } break;
-        case -5: {
-            code = 403;
-            title = "Petición no válida";
-            message = "No sé qué estás intentando hacer, pero no lo estás haciendo bien!";
-        } break;
-        case -6: {
-            code = 403;
-            title = "Petición no válida";
-            message = "No sé qué estabas intentando cancelar, pero no lo estás haciendo bien!";
-        } break;
-        case -7: {
-            code = 403;
-            title = "Petición no válida";
-            message = "No sé qué estabas intentando leer, pero no lo estás haciendo bien!";
-        } break;
-        case -8: {
-            code = 403;
-            title = "Instalación no válida";
-            message = "No sé qué estabas intentando hacer, pero no puedes!";
-        } break;
-
-
-
-
         // Bad Request
         case 1: {
             code = 400;
@@ -92,191 +58,55 @@ function generateError(cod) {
             title = "Elección de la preferencia de tiempo";
             message = "El campo de la preferencia de tiempo no es válido. Por favor, introduce uno adecuado.";
         } break;
-
-
-        // -------------------------------------------------------------------------------------
-
-        // TODO asignatura vacía
-        // case 8: {
-        //     code = 400;
-        //     title = "Asignatura vacía";
-        //     message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
-        // } break;
-        // TODO campos no modificados
-        // case 9: {
-        //     code = 400;
-        //     title = "Campos no modificados";
-        //     message = "Los campos de la configuración no han sido modificados.";
-        // } break;
+        case 8: {
+            code = 400;
+            title = "Usuario no existente";
+            message = "No existe ningún usuario con ese nombre de usuario.";
+        } break;
+        case 9: {
+            code = 400;
+            title = "Contraseña no válida";
+            message = "La contraseña introducida no es correcta.";
+        } break;
         case 10: {
             code = 400;
-            title = "Demasiadas personas";
-            message = "La instalación no tiene aforo suficiente para las personas que has solicitado.";
+            title = "Tarea no existente";
+            message = "La tarea que intentas modificar no existe.";
         } break;
         case 11: {
             code = 400;
-            title = "Hora no válida";
-            message = "La hora no está incluida en el rango disponible para esta instalación.";
+            title = "Tarea ya existente";
+            message = "Ya existe una tarea con el mismo título para el mismo momento.";
         } break;
         case 12: {
             code = 400;
-            title = "Reserva fallida";
-            message = "Ya habías realizado una reserva de esta instalación en el día y la hora indicados. Si deseas modificar la que hiciste, deberás cancelarala y volver a realizarla, pero se te sacará de la cola.";
+            title = "Asignatura vacía";
+            message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
         } break;
         case 13: {
             code = 400;
-            title = "Dirección web no válida";
-            message = "La dirección web proporcionada no es una URL válida.";
+            title = "Fecha y/o hora no válidas";
+            message = "Asegúrate de que la fecha y hora no sean anteriores a la actual.";
         } break;
         case 14: {
             code = 400;
-            title = "Imagen no válida";
-            message = "La imagen debe ser un fichero de tipo .png y no superar los 64KB.";
+            title = "Categoría no existente";
+            message = "La categoría asignada a la tarea no existe.";
         } break;
         case 15: {
             code = 400;
-            title = "Contraseña no válida";
-            message = "La contraseña debe tener al menos 8 caracteres, de los cuales al menos 1 debe ser un número y 1 una letra.";
+            title = "Recompensa no existente";
+            message = "La recompensa asignada a la tarea no existe.";
         } break;
         case 16: {
             code = 400;
-            title = "Facultad no válida";
-            message = "Por favor, asegúrate de seleccionar una facultad de las disponibles.";
+            title = "Asignatura no existente";
+            message = "La asignatura asignada a la tarea no existe.";
         } break;
         case 17: {
             code = 400;
-            title = "Usuario ya registrado";
-            message = "Este correo ya está registrado en la universidad.";
-        } break;
-        case 18: {
-            code = 400;
-            title = "Usuario expulsado";
-            message = "No se puede validar un usuario expulsado.";
-        } break;
-        case 19: {
-            code = 400;
-            title = "Usuario ya validado";
-            message = "Este usuario ya está validado.";
-        } break;
-        case 20: {
-            code = 400;
-            title = "Reserva ya cancelada";
-            message = "Ya habías cancelado esta reserva!";
-        } break;
-        case 21: {
-            code = 400;
-            title = "Reserva pasada";
-            message = "No puedes cancelar una reserva que ya ha pasado.";
-        } break;
-        case 22: {
-            code = 400;
-            title = "Usuario no válido";
-            message = "Recuerda introducir correctamente el correo del usuario al que quieres escribir sólo con la parte que va antes del @.";
-        } break;
-        case 23: {
-            code = 400;
-            title = "Usuario no válido";
-            message = "El usuario al que deseas mandar el mensaje no existe en tu organización o no está validado todavía.";
-        } break;
-        case 24: {
-            code = 400;
-            title = "Destino no válido";
-            message = "Sólo puedes enviar un mensaje a una de estas tres opciones: un usuario particular, todos los usuarios de una facultad o todos los usuarios de la universidad.";
-        } break;
-        case 25: {
-            code = 501;
-            title = "Funcionalidad no implementada";
-            message = "Oops! Esta funcionalidad aún no está disponible :(";
-        } break;
-        case 26: {
-            code = 400;
-            title = "Mensaje ya leído";
-            message = "Este mensaje ya lo habías leído.";
-        } break;
-        case 27: {
-            code = 400;
-            title = "Hora no válida";
-            message = "Las horas de apertura y cierre deben ser horas en punto, y la hora de cierre debe ser posterior a la de apertura.";
-        } break;
-        case 28: {
-            code = 400;
-            title = "Aforo no válido";
-            message = "El aforo debe ser un número mayor que 0.";
-        } break;
-        case 29: {
-            code = 400;
-            title = "Tipo de instalación no válido";
-            message = "Por favor, asegúrate de seleccionar un tipo de los disponibles, o crea uno nuevo.";
-        } break;
-        case 30: {
-            code = 400;
-            title = "Instalación repetida";
-            message = "Ya existe una instalación de este tipo con el nombre introducido.";
-        } break;
-        case 31: {
-            code = 400;
-            title = "Usuario ya es administrador";
-            message = "El usuario al que intentas hacer administrador ya lo es.";
-        } break;
-        case 32: {
-            code = 400;
-            title = "Tipo de reserva no válido";
-            message = "El tipo de reserva tiene que ser Individual o Colectiva.";
-        } break;
-        case 33: {
-            code = 400;
-            title = "Usuario expulsado";
-            message = "No se puede volver a expulsar un usuario que ya lo está.";
-        } break;
-        case 34: {
-            code = 400;
-            title = "Usuario no válido";
-            message = "El usuario al que deseas hace administrador no está validado todavía.";
-        } break;
-        case 35: {
-            code = 400;
-            title = "Usuario es administrador";
-            message = "No puedes expulsar a un usuario que es administrador.";
-        } break;
-        case 36: {
-            code = 400;
-            title = "Mensaje vacío";
-            message = "El mensaje que quieres mandar no puede estar vacío.";
-        } break;
-        case 37: {
-            code = 400;
-            title = "Correo vacío";
-            message = "Recuerda indicar a quién quieres mandar el correo, escribiendo sólo con la parte que va antes del @.";
-        } break;
-        case 38: {
-            code = 400;
-            title = "Fecha no válida";
-            message = "Indica una fecha válida en el calendario.";
-        } break;
-        case 39: {
-            code = 400;
-            title = "Contraseña no válida";
-            message = "La nueva contraseña debe ser distinta a la antigua.";
-        } break;
-        case 40: {
-            code = 400;
-            title = "Ningún campo modificado";
-            message = "El nombre y la foto de la instalación son iguales que como eran antes.";
-        } break;
-        case 41: {
-            code = 400;
-            title = "Tipo repetido";
-            message = "El tipo de instalación introducido ya existía.";
-        } break;
-        case 42: {
-            code = 400;
-            title = "Tipo no seleccionado";
-            message = "Por favor, selecciona el tipo de instalación que deseas o crea uno nuevo.";
-        } break;
-        case 43: {
-            code = 400;
-            title = "Universidad existente";
-            message = "Ya existe una universidad con ese nombre, por favor ingresa otro.";
+            title = "Campos no modificados";
+            message = "Los campos de la configuración no han sido modificados.";
         } break;
         default: {
             code = 500;

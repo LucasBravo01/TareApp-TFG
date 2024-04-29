@@ -47,7 +47,8 @@ $(() => {
                     $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
-                    $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
+                    // TODO Cambiar la imagen solo si el usuario no tiene foto de perfil
+                    // $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
 
                     let params = {
                         id_user: $("body").data("user").id,
@@ -55,7 +56,7 @@ $(() => {
                         theme: themeSelect.val(),
                         time_preference: timeSelect.val()
                     };
-                    
+
                     $("body").data("user").configuration.font_size = params.font_size;
                     $("body").data("user").configuration.theme = params.theme;
                     $("body").data("user").configuration.time_preference = params.time_preference;
@@ -68,12 +69,12 @@ $(() => {
                 error: (jqXHR, statusText, errorThrown) => {
                     showModal(jqXHR.responseJSON, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
                 }
-            });  
+            });
         }
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
-    });    
+    });
 });
 
 

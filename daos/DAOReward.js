@@ -1,28 +1,29 @@
 "use strict"
 
 class DAOReward {
-    // Constructor con las conexiones
+    // Constructor
     constructor(pool) {
         this.pool = pool;
 
+        // SELECTs
         this.readAllRewards = this.readAllRewards.bind(this);
-        this.getRewardsUser = this.getRewardsUser.bind(this);
-        this.getCountRewardsUser = this.getCountRewardsUser.bind(this);
-        this.checkRewardsExists = this.checkRewardExists.bind(this);
+        this.readRewardsByIdUser = this.readRewardsByIdUser.bind(this);
+        this.readRewardsById = this.readRewardsById.bind(this);
     }
 
-    // Leer todas las recompensas de la base de datos
+    // SELECTs
+    // Leer todas las recompensas
     readAllRewards(callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
                 callback(-1);
             } else {
                 let querySQL = "SELECT * FROM reward;";
 
-                connection.query(querySQL, (err, rows) => {
+                connection.query(querySQL, (error, rows) => {
                     connection.release();
 
-                    if (err) {
+                    if (error) {
                         callback(-1);
                     } else {
                         let rewards = new Array();
@@ -42,49 +43,18 @@ class DAOReward {
         });
     }
 
-    // Obtener las recompensas de un usuario tras haber completado una tarea
-    getRewardsUser(idUser, callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) {
-                callback(-1);
-            } else {
-                let querySQL = "SELECT REW.* FROM reward AS REW JOIN task AS TAS ON TAS.id_reward = REW.id JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ?;";
-
-                connection.query(querySQL, [idUser], (err, rows) => {
-                    connection.release();
-
-                    if (err) {
-                        callback(-1);
-                    } else {
-                        let rewards = new Array();
-                        rows.forEach(row => {
-                            let reward = {
-                                id: row.id,
-                                title: row.title,
-                                icon: row.icon,
-                                message: row.message
-                            }
-                            rewards.push(reward);
-                        });
-                        callback(null, rewards);
-                    }
-                });
-            }
-        });
-    }
-
-    // Obtener el número de recompensas de cada tipo de un usuario tras haber completado una tarea
-    getCountRewardsUser(idUser, callback) {
-        this.pool.getConnection((err, connection) => {
-            if (err) {
+    // Leer recompensas dado un id de usuario
+    readRewardsByIdUser(idUser, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
                 callback(-1);
             } else {
                 let querySQL = "SELECT REW.*, COUNT(*) as count FROM reward AS REW LEFT JOIN task AS TAS ON TAS.id_reward = REW.id LEFT JOIN activity AS ACT ON ACT.id = TAS.id_activity WHERE TAS.completed = 1 AND ACT.id_receiver = ? GROUP BY REW.id;";
 
-                connection.query(querySQL, [idUser], (err, rows) => {
+                connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
 
-                    if (err) {
+                    if (error) {
                         callback(-1);
                     } else {
                         let rewards = new Array();
@@ -105,14 +75,14 @@ class DAOReward {
         });
     }
 
-    //Verificar que una recompensa existe en la BBDD
-    checkRewardExists(idReward, callback) {
+    // Leer número de recompensas dado un id
+    readRewardsById(idReward, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM reward WHERE id = ?";
+                let querySQL = "SELECT COUNT(*) AS count FROM reward WHERE id = ?;";
                 connection.query(querySQL, [idReward], (error, rows) => {
                     connection.release();
                     if (error) {

@@ -125,38 +125,43 @@ app.use("/recordatorio", userLogged, routerReminder.RouterReminder);
 // - Enrutamientos -
 // Login
 app.get("/login", userAlreadyLogged, (req, res, next) => {
-  res.render("login", { user: "", response: undefined });
+  next({
+    ajax: false,
+    status: 200,
+    redirect: "login",
+    data: {
+      user: "",
+      response: undefined
+    }
+  });
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
+app.get(["/", "/inicio"], userLogged, conRem.unreadReminders, conTas.getTasks);
 
 //Calendario semanal
-app.get(
-  "/semanal/:day",
+app.get("/semanal/:day",
   check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
   }),
   userLogged,
-  conRem.unreadNotifications,
+  conRem.unreadReminders,
   conTas.getWeeklyTasks
 );
 
 //Calendario diario
-app.get(
-  "/diaria/:day",
+app.get("/diaria/:day",
   check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
   }),
   userLogged,
-  conRem.unreadNotifications,
+  conRem.unreadReminders,
   conTas.getDailyTasks
 );
 
 // --- Peticiones POST ---
 // Login
-app.post(
-  "/login",
+app.post("/login",
   // Ninguno de los campos vacíos 
   check("user", "1").notEmpty(),
   check("password", "1").notEmpty(),

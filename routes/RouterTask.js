@@ -13,13 +13,12 @@ function routerConfig(conTas, conRem) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/crearTarea", conRem.unreadNotifications, conTas.dataForm, conTas.getFormTask);
+    RouterTask.get("/crearTarea", conRem.unreadReminders, conTas.dataForm, conTas.getFormTask);
 
     // Mostrar una tarea
-    RouterTask.get(
-        "/tarea/:id",
+    RouterTask.get("/tarea/:id",
         check("id", "-2").isNumeric(),
-        conRem.unreadNotifications,
+        conRem.unreadReminders,
         conTas.dataForm,
         conTas.getTask
     );
@@ -43,17 +42,16 @@ function routerConfig(conTas, conRem) {
         check("duration", "3").custom((durType) => {
             return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
-        conRem.unreadNotifications,
+        conRem.unreadReminders,
         conTas.dataForm,
         conTas.createTask
     );
 
     // Marcar tarea como completada
-    RouterTask.post(
-        "/marcarCompletada",
+    RouterTask.post("/marcarCompletada",
         check("id", "1").notEmpty(),
         check("checkbox", "4").isNumeric(),
-        conTas.markAsCompleted
+        conTas.markTaskAsCompleted
     );
 }
 

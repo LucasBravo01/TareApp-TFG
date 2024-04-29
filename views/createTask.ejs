@@ -6,7 +6,6 @@
     <!-- Importar CSS específicos -->
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/createTask.js"></script>
 </head>
 
@@ -14,9 +13,9 @@
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
-    <%- include("nav", { generalInfo: generalInfo }) %>
+    <%- include("fragments/nav", { generalInfo: generalInfo }) %>
     <!-- Botón para volver atrás -->
-    <%- include("back", { theme: session.currentUser.configuration.theme }) %>
+    <%- include("fragments/back", { theme: session.currentUser.configuration.theme }) %>
 
     <div class="container">
         <div class="d-flex justify-content-center">

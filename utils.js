@@ -25,31 +25,6 @@ function getDayName(date) {
     return dayNames[date.getDay()];
 }
 
-function getDailyInfo(date, tasks) {
-    let currentDateFormat = formatString(date);
-
-    let hourlyTasks = {};
-    for (let hour = 0; hour < 24; hour++) {
-        hourlyTasks[hour] = [];
-    }
-
-    if (tasks) {
-        tasks.forEach(task => {
-            if (formatDate(task.date) === date) {
-                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);
-            }
-        });
-    }
-
-    let day = {
-        dayName: getDayName(currentDateFormat),
-        dayNumber: currentDateFormat.getDate(),
-        date: date
-    }
-
-    return { day: day, tasks: hourlyTasks }
-}
-
 function getWeeklyInfo(date, tasks) {
     let currentDateFormat = formatString(date);
 
@@ -80,11 +55,36 @@ function getWeeklyInfo(date, tasks) {
     return week;
 }
 
+function getDailyInfo(date, tasks) {
+    let currentDateFormat = formatString(date);
+
+    let hourlyTasks = {};
+    for (let hour = 0; hour < 24; hour++) {
+        hourlyTasks[hour] = [];
+    }
+
+    if (tasks) {
+        tasks.forEach(task => {
+            if (formatDate(task.date) === date) {
+                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);
+            }
+        });
+    }
+
+    let day = {
+        dayName: getDayName(currentDateFormat),
+        dayNumber: currentDateFormat.getDate(),
+        date: date
+    }
+
+    return { day: day, tasks: hourlyTasks }
+}
+
 module.exports = {
     formatDate: formatDate,
     formatHour: formatHour,
     formatString: formatString,
     getDayName: getDayName,
-    getDailyInfo: getDailyInfo,
-    getWeeklyInfo: getWeeklyInfo
+    getWeeklyInfo: getWeeklyInfo,
+    getDailyInfo: getDailyInfo
 };

@@ -25,7 +25,7 @@ class ControllerTask {
         this.getTask = this.getTask.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
-        this.markAsCompleted = this.markAsCompleted.bind(this);
+        this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
         // OTROS
         this.dataForm = this.dataForm.bind(this);
         // PROPIAS
@@ -35,7 +35,7 @@ class ControllerTask {
     // GETs
     // Cargar vista de lista de tareas
     getTasks(req, res, next) {
-        this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
@@ -47,7 +47,7 @@ class ControllerTask {
                     data: {
                         response: undefined,
                         generalInfo: {
-                            notificationsUnread: req.unreadNotifications
+                            remindersUnread: req.unreadReminders
                         },
                         homeInfo: {
                             day: undefined,
@@ -59,12 +59,12 @@ class ControllerTask {
             }
         });
     }
-    
+
     // Cargar vista de calendario semanal
     getWeeklyTasks(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
@@ -78,7 +78,7 @@ class ControllerTask {
                         data: {
                             response: undefined,
                             generalInfo: {
-                                notificationsUnread: req.unreadNotifications
+                                remindersUnread: req.unreadReminders
                             },
                             homeInfo: {
                                 day: undefined,
@@ -98,7 +98,7 @@ class ControllerTask {
     getDailyTasks(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
@@ -112,7 +112,7 @@ class ControllerTask {
                         data: {
                             response: undefined,
                             generalInfo: {
-                                notificationsUnread: req.unreadNotifications
+                                remindersUnread: req.unreadReminders
                             },
                             homeInfo: {
                                 day: info.day,
@@ -138,28 +138,28 @@ class ControllerTask {
             data: {
                 response: undefined,
                 generalInfo: {
-                    notificationsUnread: req.unreadNotifications
+                    remindersUnread: req.unreadReminders
                 },
                 data: req.dataTask,
                 task: {}
             }
         });
     }
-    
+
     // Obtener tarea dado un id
     getTask(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoTas.getTaskById(req.params.id, (error, task) => {
+            this.daoTas.readTaskById(req.params.id, (error, task) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    if (task.idCreator !== req.session.currentUser.id) {
+                    if (task.idDestination !== req.session.currentUser.id) {
                         errorHandler.manageError(-3, {}, "error", next); //TODO Mirar que numero poner. Tiene que ser negativo
                     }
                     else {
-                        this.daoUse.readById(req.session.currentUser.id, (error, user) => {
+                        this.daoUse.readUserById(req.session.currentUser.id, (error, user) => {
                             if (error) {
                                 errorHandler.manageError(error, {}, "error", next);
                             }
@@ -172,7 +172,7 @@ class ControllerTask {
                                     data: {
                                         response: undefined,
                                         generalInfo: {
-                                            notificationsUnread: req.unreadNotifications
+                                            remindersUnread: req.unreadReminders
                                         },
                                         data: req.dataTask,
                                         task: task
@@ -194,41 +194,39 @@ class ControllerTask {
     createTask(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoAct.checkActivityExists(req.body, (error, result) => {
+            this.daoAct.readActivity(req.body, (error, result) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
-                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                    errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                 } else {
                     if (req.body.category !== "Escolar" && req.body.subject !== undefined) {
-                        errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                        errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                     } else {
                         // Comprobar que el día y la hora son posteriores a hoy
                         let currentDate = moment(); // Momento actual
-                        // Juntar fecha y hora en un "moment"
-                        let dateAndHour = `${req.body.date} ${req.body.time}`;
-                        let momentRes = moment(dateAndHour, 'YYYY-MM-DD HH:mm');
+                        let momentRes = moment(`${req.body.date} ${req.body.time}`, 'YYYY-MM-DD HH:mm'); // Momento de la tarea
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (momentRes.isBefore(currentDate)) {
-                            errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next);//TODO Mirar que numero poner
+                            errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                         } else {
-                            this.daoCat.checkCategoryExists(req.body.category, (error, result) => {
+                            this.daoCat.readCategoryByName(req.body.category, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
-                                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                    errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                 } else {
-                                    this.daoRew.checkRewardExists(req.body.reward, (error, result) => {
+                                    this.daoRew.readRewardsById(req.body.reward, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result) {
-                                            errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                            errorHandler.manageError(15, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                         } else {
-                                            this.daoSub.checkSubjectExists(req.body.subject, (error, result) => {
+                                            this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
                                                 } else if (!result && req.body.categoria === "Escolar") {
-                                                    errorHandler.manageError(33, { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next); //TODO Mirar que numero poner
+                                                    errorHandler.manageError(16, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                                 } else {
                                                     let form = {
                                                         id: req.body.id,
@@ -242,19 +240,19 @@ class ControllerTask {
                                                         reward: req.body.reward,
                                                         duration: req.body.duration
                                                     }
-                                                    this.daoAct.pushActivity(form, (error, task) => {
+                                                    this.daoAct.insertActivity(form, (error, task) => {
                                                         if (error) {
                                                             errorHandler.manageError(error, {}, "error", next);
                                                         }
                                                         else {
-                                                            this.daoTas.pushTask(task, (error) => {
+                                                            this.daoTas.insertTask(task, (error) => {
                                                                 if (error) {
                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                 }
                                                                 else {
                                                                     this.createReminders(form, task.id)
                                                                         .then(() => {
-                                                                            this.daoAct.readAllByUser(req.session.currentUser.id, (error, tasks) => {
+                                                                            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                                                                                 if (error) {
                                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                                 }
@@ -266,7 +264,7 @@ class ControllerTask {
                                                                                         data: {
                                                                                             response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
                                                                                             generalInfo: {
-                                                                                                notificationsUnread: req.unreadNotifications
+                                                                                                remindersUnread: req.unreadReminders
                                                                                             },
                                                                                             homeInfo: {
                                                                                                 day: undefined,
@@ -297,25 +295,25 @@ class ControllerTask {
             });
         }
         else {
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { notificationsUnread: req.unreadNotifications }, data: req.dataTask, task: {} }, "createTask", next);
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
         }
     }
-    
+
     // Marcar o desmarcar tarea como completada
-    markAsCompleted(req, res, next) {
+    markTaskAsCompleted(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             let checked = parseInt(req.body.checkbox);
-            this.daoTas.getTaskById(req.body.id, (error, task) => {
+            this.daoTas.readTaskById(req.body.id, (error, task) => {
                 if (error) {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
                     if (!task) {
-                        errorHandler.manageAJAXError(33, next); //TODO Mirar que numero poner
+                        errorHandler.manageAJAXError(10, next);
                     }
                     else {
-                        this.daoTas.markAsCompleted(req.body.id, checked, (error) => {
+                        this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
                             if (error) {
                                 errorHandler.manageAJAXError(error, next);
                             }
@@ -385,7 +383,7 @@ class ControllerTask {
             }
         });
     }
-    
+
     // PROPIAS
     // Crear los recordatorios de una tarea
     async createReminders(form, idTask) {
@@ -430,7 +428,7 @@ class ControllerTask {
             };
             try {
                 await new Promise((resolve, reject) => {
-                    this.daoRem.pushReminderSystem(reminder, (error) => {
+                    this.daoRem.insertReminder(reminder, (error) => {
                         if (error) {
                             errorHandler.manageError(error, {}, "error", next);
                         }

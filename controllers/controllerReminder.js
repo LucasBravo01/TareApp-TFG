@@ -20,9 +20,9 @@ class controllerReminder {
         this.getReminders = this.getReminders.bind(this);
         // POSTs
         this.subscribe = this.subscribe.bind(this);
-        this.markAsRead = this.markAsRead.bind(this);
+        this.markReminderAsRead = this.markReminderAsRead.bind(this);
         // OTROS
-        this.unreadNotifications = this.unreadNotifications.bind(this);
+        this.unreadReminders = this.unreadReminders.bind(this);
         // PROPIAS
         this.sendNotifications = this.sendNotifications.bind(this);
     }
@@ -30,7 +30,7 @@ class controllerReminder {
     // GETs
     // Cargar vista de notificaciones
     getReminders(req, res, next) {
-        this.daoRem.readAllByUser(req.session.currentUser.id, (error, reminders) => {
+        this.daoRem.readRemindersByIdUser(req.session.currentUser.id, (error, reminders) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
@@ -42,7 +42,7 @@ class controllerReminder {
                     data: {
                         response: undefined,
                         generalInfo: {
-                            notificationsUnread: req.unreadNotifications
+                            remindersUnread: req.unreadReminders
                         },
                         reminders: reminders
                     }
@@ -53,9 +53,9 @@ class controllerReminder {
 
     // POSTs
     // Activar las notificaciones
-    subscribe(req, res, next) {
+    subscribe(req, res, next) { // TODO Revisar otras opciones
         const subscription = req.body.subscription;
-        this.daoSubs.pushSubscription(req.session.currentUser.id, subscription, (error) => {
+        this.daoSubs.insertSubscription(req.session.currentUser.id, subscription, (error) => {
             if (error) {
                 console.error('Error al guardar la suscripción:', error);
                 res.status(500).json({ error: 'Error interno del servidor' });
@@ -66,14 +66,12 @@ class controllerReminder {
     }
 
     // Marcar como leído
-    markAsRead(req, res, next) {
-        // Poner fecha_leído = hoy
-        this.daoRem.markAsRead(req.session.currentUser.id, (error) => {
+    markReminderAsRead(req, res, next) {
+        this.daoRem.markReminderAsRead(req.session.currentUser.id, (error) => {
             if (error) {
                 errorHandler.manageAJAXError(error, next);
             }
             else {
-                // Terminamos
                 next({
                     ajax: true,
                     error: false,
@@ -86,14 +84,14 @@ class controllerReminder {
 
     // OTROS
     // Obtener mensajes no leídos (y meterlos en req para otros middlewares)
-    unreadNotifications(req, res, next) {
+    unreadReminders(req, res, next) {
         // Obtener notificaciones no leídas
-        this.daoRem.notificationsUnread(req.session.currentUser.id, (error, numUnreadNotifications) => {
+        this.daoRem.unreadReminders(req.session.currentUser.id, (error, numUnreadReminders) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
             else {
-                req.unreadNotifications = numUnreadNotifications;
+                req.unreadReminders = numUnreadReminders;
                 next();
             }
         });
@@ -113,16 +111,16 @@ class controllerReminder {
         currentDate.setHours(8, 0, 0, 0);
 
 
-        this.daoRem.getNotifications(currentDate, (error, notifications) => {
+        this.daoRem.readRemindersByDate(currentDate, (error, notifications) => {
             if (error) {
-                console.error('Error al obtener suscripciones:', err);
+                console.error('Error al obtener suscripciones:', error);
             } else {
                 notifications.forEach(notification => {
                     notificationPayload.notification.body = notification.message;
                     if (notification.endpoint) {
                         webpush.sendNotification(notification, JSON.stringify(notificationPayload))
                             .then(() => console.log('Notificación enviada con éxito a', notification.endpoint))
-                            .catch(err => console.error('Error al enviar notificación a', notification.endpoint, ':', err));
+                            .catch(error => console.error('Error al enviar notificación a', notification.endpoint, ':', error));
                     }
                 });
             }

@@ -12,14 +12,14 @@ function routerConfig(conRem) {
 
     // --- Peticiones GET ---
     // Notificaciones
-    RouterReminder.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders);
+    RouterReminder.get("/notificaciones", conRem.unreadReminders, conRem.getReminders);
 
     // --- Peticiones POST ---
     // Activar las notificaciones
     RouterReminder.post('/suscribirse', conRem.subscribe);
 
     // Marcar recordatorios como leidos
-    RouterReminder.post("/marcarLeido", conRem.markAsRead);
+    RouterReminder.post("/marcarLeido", conRem.markReminderAsRead);
 
 }
 
