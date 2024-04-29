@@ -155,7 +155,7 @@ class ControllerTask {
                 }
                 else {
                     if (task.idDestination !== req.session.currentUser.id) {
-                        errorHandler.manageError(-3, {}, "error", next); //TODO Mirar que numero poner. Tiene que ser negativo
+                        errorHandler.manageError(-3, {}, "error", next);
                     }
                     else {
                         this.daoUse.readUserById(req.session.currentUser.id, (error, user) => {

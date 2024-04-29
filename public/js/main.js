@@ -15,10 +15,9 @@ function formatString(date) {
 }
 
 //Configurar SW
-let swLocation = "sw.js"; // TODO Revisar. Se llama en rutas raras "/usuarios/sw.js" en dispositivos móviles
+let swLocation = "/sw.js";
 
 if (navigator.serviceWorker) {
-  if (window.location.href.includes("localhost")) swLocation = "/sw.js"; //Varia según el host
   navigator.serviceWorker.register(swLocation);
 }
 

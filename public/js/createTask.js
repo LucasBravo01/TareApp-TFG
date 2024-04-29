@@ -2,7 +2,7 @@
 
 // Validación Cliente
 function validateParams(params, currentDate) {
-    let taskDate = new Date(`${req.body.date}T${req.body.time}:00`);
+    let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
     // Campos no vacíos
     if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === "") {

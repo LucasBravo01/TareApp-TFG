@@ -18,7 +18,6 @@ function validateParams(params) {
 
 $(() => {
     // Obtener elementos
-    const formConfiguration = document.getElementById("formConfiguration");
     const fontSizeSelect = $("#fontSizeSelect");
     const themeSelect = $("#themeSelect");
     const timeSelect = $("#timeSelect");
@@ -40,15 +39,20 @@ $(() => {
                 method: "POST",
                 url: "/usuario/guardarConfiguracion",
                 data: params,
-                success: (data, statusText, jqXHR) => {
+                success: (data, statusText, jqXHR) => { // TODO revisar
                     // Reemplazar el archivo CSS actual e imágenes por el nuevo
                     $("#css-link").attr('href', `/css/${themeSelect.val()}/style.css`);
                     $("#img-nav-burger").attr('src', `/images/${themeSelect.val()}/menu.png`);
+                    $("#img-nav-calendar").attr('src', `/images/${themeSelect.val()}/calendar.png`);
                     $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
-                    // TODO Cambiar la imagen solo si el usuario no tiene foto de perfil
-                    // $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
+                    
+                    const hasPic = $("body").data("user").hasProfilePic;
+                    console.log("Pic: ",hasPic);
+                    if(!hasPic) {
+                        $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
+                    }
 
                     let params = {
                         id_user: $("body").data("user").id,

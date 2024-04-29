@@ -1,3 +1,5 @@
+"use strict"
+
 const STATIC_CACHE = "static-v1";
 
 const APP_SHELL = [
