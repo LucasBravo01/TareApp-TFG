@@ -1,6 +1,5 @@
 "use strict"
 
-const moment = require('moment');
 const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
 const utils = require("../utils");
@@ -200,14 +199,13 @@ class ControllerTask {
                 } else if (!result) {
                     errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                 } else {
-                    if (req.body.category !== "Escolar" && req.body.subject !== undefined) {
+                    if (req.body.category === "" && req.body.subject !== undefined) {
                         errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                     } else {
-                        // Comprobar que el día y la hora son posteriores a hoy
-                        let currentDate = moment(); // Momento actual
-                        let momentRes = moment(`${req.body.date} ${req.body.time}`, 'YYYY-MM-DD HH:mm'); // Momento de la tarea
+                        let currentDate = new Date();
+                        let taskDate = new Date(`${req.body.date}T${req.body.time}:00`);
                         // Comprobar si la fecha y hora son posteriores a la actual
-                        if (momentRes.isBefore(currentDate)) {
+                        if (taskDate <= currentDate) {
                             errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                         } else {
                             this.daoCat.readCategoryByName(req.body.category, (error, result) => {
@@ -225,7 +223,7 @@ class ControllerTask {
                                             this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
-                                                } else if (!result && req.body.categoria === "Escolar") {
+                                                } else if (!result && req.body.category === "Escolar") {
                                                     errorHandler.manageError(16, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                                 } else {
                                                     let form = {
