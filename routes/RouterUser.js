@@ -13,40 +13,34 @@ function routerConfig(conUse, conRem) {
 
     // --- Peticiones GET ---
     // Perfil usuario
-    RouterUser.get("/perfil", conRem.unreadNotifications, conUse.profile);
-    
-    RouterUser.get("/configuracion", conRem.unreadNotifications, conUse.getConfiguration);
-    
-    RouterUser.get("/notificaciones", conRem.unreadNotifications, conRem.getReminders); // TODO RouteReminder?
+    RouterUser.get("/perfil", conRem.unreadReminders, conUse.getProfile);
+
+    // Configuración
+    RouterUser.get("/configuracion", conRem.unreadReminders, conUse.getConfiguration);
 
     // - Otras peticiones GET -
     // Imagen del usuario
-    RouterUser.get(
-        "/fotoPerfil/:id",
+    RouterUser.get("/fotoPerfil/:id",
         check("id", "-2").isNumeric(),
-        conUse.profilePic
+        conUse.getProfilePic
     );
 
     // --- Peticiones POST ---
+    // Cambiar la configuración del usuario
     RouterUser.post("/guardarConfiguracion",
         // Campos de enums válidos
-        check("font_size", "31").custom((fontS) => {
-        return (fontS === "grande" || fontS === "normal")
+        check("font_size", "5").custom((fontS) => {
+            return (fontS === "grande" || fontS === "normal")
         }),
-        check("theme", "32").custom((theme) => {
-        return (theme === "alegre" || theme === "minimalista")
+        check("theme", "6").custom((theme) => {
+            return (theme === "alegre" || theme === "minimalista")
         }),
-        check("time_preference", "33").custom((timeP) => {
-        return (timeP === "corto" || timeP === "largo")
+        check("time_preference", "7").custom((timeP) => { // TODO Borrar?
+            return (timeP === "corto" || timeP === "largo")
         }),
-        conRem.unreadNotifications,
-        conUse.updateConfiguration);
-
-    // Ruta para recibir y guardar la suscripción desde el cliente
-    RouterUser.post('/suscribirse', conRem.subscribe); // TODO RouteReminder?
-
-    RouterUser.post("/marcarLeido", conRem.markAsRead); // TODO RouteReminder?
-
+        conRem.unreadReminders,
+        conUse.updateConfiguration
+    );
 }
 
 module.exports = {

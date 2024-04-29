@@ -5,19 +5,15 @@
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
-
     <!-- Importar JS específicos -->
     <script src="/js/notifications.js"></script>
-
 </head>
 
 <body data-response="<%= JSON.stringify(response) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
-    <%- include("nav", { generalInfo: generalInfo }) %>
-    <!-- Botón para volver atrás -->
-    <%- include("back", { theme: session.currentUser.configuration.theme }) %>
+    <%- include("fragments/nav", { generalInfo: generalInfo }) %>
     
     <div class="container">
         <div class="d-flex justify-content-center">

@@ -1,3 +1,5 @@
+"use strict"
+
 const STATIC_CACHE = "static-v1";
 
 const APP_SHELL = [
@@ -38,7 +40,7 @@ self.addEventListener('push', e => {
 });
 
 async function sendSubscriptionToServer(subscription) {
-  const response = await fetch('/usuario/suscribirse', {
+  const response = await fetch('/recordatorio/suscribirse', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json'

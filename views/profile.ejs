@@ -5,16 +5,13 @@
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
-
 </head>
 
 <body>
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
-    <%- include("nav") %>
-    <!-- Botón para volver atrás -->
-    <%- include("back", { theme: session.currentUser.configuration.theme }) %>
+    <%- include("fragments/nav") %>
 
     <div class="container">
         <div class="row justify-content-center mt-5 mb-3">

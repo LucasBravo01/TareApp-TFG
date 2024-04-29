@@ -15,10 +15,9 @@ function formatString(date) {
 }
 
 //Configurar SW
-let swLocation = "sw.js"; // TODO Revisar. Se llama en rutas raras "/usuarios/sw.js"
+let swLocation = "/sw.js";
 
 if (navigator.serviceWorker) {
-  if (window.location.href.includes("localhost")) swLocation = "/sw.js"; //Varia según el host
   navigator.serviceWorker.register(swLocation);
 }
 
@@ -43,7 +42,7 @@ async function subscribeToNotifications() {
 async function sendSubscriptionToServer(subscription) {
   // Envía la suscripción al servidor
   try {
-    const response = await fetch('/usuario/suscribirse', {
+    const response = await fetch('/recordatorio/suscribirse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,25 +63,25 @@ async function sendSubscriptionToServer(subscription) {
 
 // Mostrar el modal con respuesta/error
 function showModal(response, header, img, title, message, button, modal) {
-    // Título y mensaje
+  // Título y mensaje
+  title.text(response.title);
+  message.text(response.message);
+  // Success
+  if (response.code === 200) {
+    // Crear modal
+    img.attr("src", "/images/modals/success.png");
+    img.attr("alt", "Icono de éxito");
+  }
+  // Error
+  else {
     title.text(response.title);
     message.text(response.message);
-    // Success
-    if (response.code === 200) {
-        // Crear modal
-        img.attr("src", "/images/modals/success.png");
-        img.attr("alt", "Icono de éxito");
-    }
-    // Error
-    else {
-        title.text(response.title);
-        message.text(response.message);
-        img.attr("src", "/images/modals/error.png");
-        img.attr("alt", "Icono de error");
-        
-    }
-    // Abrir modal
-    modal.click();
+    img.attr("src", "/images/modals/error.png");
+    img.attr("alt", "Icono de error");
+
+  }
+  // Abrir modal
+  modal.click();
 }
 
 function setConfiguration(textSize) {
@@ -96,7 +95,7 @@ $(() => {
   let currentDate = formatDate(new Date());
   $("#a-nav").attr("href", `/diaria/${currentDate}`);
   $("#a-calendar").attr("href", `/diaria/${currentDate}`);
-  
+
   // Suscribirse cuando hace click
   const subscribeButton = $("#button-subscribe");
   subscribeButton.on("click", () => {
@@ -107,7 +106,7 @@ $(() => {
   const response = $("body").data("response");
 
   if (response) {
-      showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+    showModal(response, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
   }
 
   var textSize = localStorage.getItem('font-size');
@@ -117,6 +116,6 @@ $(() => {
   const buttonLogout = $("#a-logout");
   const formLogout = $("#form-logout");
   buttonLogout.on("click", () => {
-      formLogout.submit();
+    formLogout.submit();
   });
 });

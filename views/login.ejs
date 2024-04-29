@@ -5,6 +5,8 @@
         <%- include("../public/utils/head.html") %>
         <!-- Importar CSS específicos -->
         <link rel="stylesheet" href="/css/loginStyle.css">
+        <!-- Importar JS específicos -->
+        <script src="/js/login.js"></script>
     </head>
 
     <body data-response="<%= JSON.stringify(response) %>">
@@ -16,17 +18,17 @@
                 <div class="col-lg-4 col-md-6 col-sm-8">
                     <div class="login-box">
                         <h3 class="text-center mb-4">INICIAR SESIÓN</h3>
-                        <form action="/login" method="POST">
+                        <form id="form-login" action="/login" method="POST">
                             <div class="mb-3">
                                 <label for="user" class="form-label">Usuario</label>
-                                <input id="input-user" name="user" type="text" class="form-control" value="<%= user %>">
+                                <input id="input-user" name="user" type="text" value="<%= user %>" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Contraseña</label>
                                 <input id="input-password" name="password" type="password" class="form-control">
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="login-button">Iniciar sesión</button>
+                                <button id="button-login" type="submit" class="login-button">Iniciar sesión</button>
                             </div>
                         </form>
                     </div>

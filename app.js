@@ -27,12 +27,13 @@ const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
 const DAOConfiguration = require("./daos/DAOConfiguration");
 // Controllers
-const ControllerReminder  = require("./controllers/controllerReminder");
+const ControllerReminder = require("./controllers/controllerReminder");
 const ControllerTask = require("./controllers/controllerTask");
 const ControllerUser = require("./controllers/controllerUser");
 // Routers
 const routerTask = require("./routes/RouterTask");
 const routerUser = require("./routes/RouterUser");
+const routerReminder = require("./routes/RouterReminder");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -65,7 +66,7 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-
+// TODO Que hace esto?
 app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
@@ -78,13 +79,13 @@ const pool = mysql.createPool(connection.mysqlConfig);
 // Crear instancias de los DAOs
 const daoAct = new DAOActivity(pool);
 const daoCat = new DAOCategory(pool);
+const daoCon = new DAOConfiguration(pool);
 const daoRem = new DAOReminder(pool);
 const daoRew = new DAOReward(pool);
 const daoSub = new DAOSubject(pool);
 const daoSubs = new DAOSubscription(pool);
 const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
-const daoCon = new DAOConfiguration(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
 const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
@@ -92,19 +93,19 @@ const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
-function userLogged(request, response, next) {
-  if (request.session.currentUser) {
+function userLogged(req, res, next) {
+  if (req.session.currentUser) {
     next();
   }
   else {
-    response.redirect("/login");
+    res.redirect("/login");
   }
 };
 
 // Comprobar que el usuario no había iniciado sesión
-function userAlreadyLogged(request, response, next) {
-  if (request.session.currentUser) {
-    response.redirect("/inicio");
+function userAlreadyLogged(req, res, next) {
+  if (req.session.currentUser) {
+    res.redirect("/inicio");
   }
   else {
     next();
@@ -114,44 +115,53 @@ function userAlreadyLogged(request, response, next) {
 // --- Routers ---
 routerTask.routerConfig(conTas, conRem);
 routerUser.routerConfig(conUse, conRem);
+routerReminder.routerConfig(conRem);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 app.use("/usuario", userLogged, routerUser.RouterUser);
+app.use("/recordatorio", userLogged, routerReminder.RouterReminder);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
 // Login
-app.get("/login", userAlreadyLogged, (request, response, next) => {
-  response.render("login", { user: "", response: undefined });
+app.get("/login", userAlreadyLogged, (req, res, next) => {
+  next({
+    ajax: false,
+    status: 200,
+    redirect: "login",
+    data: {
+      user: "",
+      response: undefined
+    }
+  });
 });
 
 // Inicio
-app.get(["/", "/inicio"], userLogged, conRem.unreadNotifications, conTas.getTasks);
+app.get(["/", "/inicio"], userLogged, conRem.unreadReminders, conTas.getTasks);
 
 //Calendario semanal
-app.get(
-  "/semanal/:day", 
-  check("day", "30").custom((day) => { // TODO Mirar número. Tiene que ser negativo
+app.get("/semanal/:day",
+  check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
   }),
   userLogged,
-  conRem.unreadNotifications,
-  conTas.getWeeklyTasks);
+  conRem.unreadReminders,
+  conTas.getWeeklyTasks
+);
 
 //Calendario diario
-app.get(
-  "/diaria/:day",
-  check("day", "30").custom((day) => { // TODO Mirar número. Tiene que ser negativo
+app.get("/diaria/:day",
+  check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
   }),
   userLogged,
-  conRem.unreadNotifications,
-  conTas.getDailyTasks);
+  conRem.unreadReminders,
+  conTas.getDailyTasks
+);
 
 // --- Peticiones POST ---
 // Login
-app.post(
-  "/login",
+app.post("/login",
   // Ninguno de los campos vacíos 
   check("user", "1").notEmpty(),
   check("password", "1").notEmpty(),
@@ -162,15 +172,14 @@ app.post(
 app.post("/logout", conUse.logout);
 
 // --- Otras funciones ---
-
 // Programar la tarea para que se ejecute todos los días a las 8 de la mañana
-cron.schedule('5 12 * * *', () => {
+cron.schedule('0 8 * * *', () => {
   conRem.sendNotifications();
 });
 
 // --- Middlewares de respuestas y errores ---
 // Error 404
-app.use((request, response, next) => {
+app.use((req, res, next) => {
   next({
     ajax: false,
     status: 404,
@@ -184,24 +193,24 @@ app.use((request, response, next) => {
 });
 
 // Manejador de respuestas 
-app.use((responseData, request, response, next) => {
+app.use((responseData, req, res, next) => {
   // Respuestas AJAX
   if (responseData.ajax) {
     if (responseData.error) {
-      response.status(responseData.status).send(responseData.error);
-      response.end();
+      res.status(responseData.status).send(responseData.error);
+      res.end();
     }
     else if (responseData.img) {
-      response.end(responseData.img);
+      res.end(responseData.img);
     }
     else {
-      response.json(responseData.data);
+      res.json(responseData.data);
     }
   }
   // Respuestas no AJAX
   else {
-    response.status(responseData.status);
-    response.render(responseData.redirect, responseData.data);
+    res.status(responseData.status);
+    res.render(responseData.redirect, responseData.data);
   }
 });
 

@@ -10,7 +10,7 @@ $(() => {
 
     const day = $("body").data("day");
 
-    if(day){
+    if (day) {
         let currentDay = formatString(day.date);
 
         let previous = new Date(currentDay);
@@ -31,7 +31,7 @@ $(() => {
     }
 
     const week = $("body").data("week");
-    
+
     if (week) {
         let currentDay = formatString(week[0].date);
 
@@ -42,7 +42,7 @@ $(() => {
 
         let previousWeek = formatDate(previous);
         let nextWeek = formatDate(next);
-        
+
         $("#a-previous-week").attr("href", `/semanal/${previousWeek}`);
         $("#a-next-week").attr("href", `/semanal/${nextWeek}`);
 
@@ -52,7 +52,7 @@ $(() => {
         $("#a-home-daily").attr("class", "me-1 view-non-selected-button");
     }
 
-    if(!day && !week) {
+    if (!day && !week) {
         // CAMBIAR CLASES BOTONES
         $("#a-home-list").attr("class", "me-1 view-selected-button");
         $("#a-home-week").attr("class", "me-1 view-non-selected-button");

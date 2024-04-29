@@ -1,21 +1,26 @@
 "use strict"
 
 class DAOConfiguration {
-    constructor(pool){
-        this.pool = pool;//tener el pool conexion
+    // Constructor
+    constructor(pool) {
+        this.pool = pool;
 
-        this.getConfigurationByUser = this.getConfigurationByUser.bind(this);
-        this.updateConfiguration= this.updateConfiguration.bind(this);
+        // SELECTs
+        this.readConfigurationByIdUser = this.readConfigurationByIdUser.bind(this);
+        // UPDATEs
+        this.updateConfiguration = this.updateConfiguration.bind(this);
     }
 
-    getConfigurationByUser(userID, callback) {
+    // SELECTs
+    // Leer configuración dado un id de usuario
+    readConfigurationByIdUser(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM configuration where id_user = ?";
-                connection.query(querySQL, [userID], (error, rows) => {
+                let querySQL = "SELECT * FROM configuration where id_user = ?;";
+                connection.query(querySQL, [idUser], (error, rows) => {
 
                     connection.release();
                     if (error) {
@@ -44,7 +49,9 @@ class DAOConfiguration {
         });
     }
 
-    updateConfiguration(config, callback){
+    // UPDATEs
+    // Actualizar configuración del usuario
+    updateConfiguration(config, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
@@ -53,7 +60,7 @@ class DAOConfiguration {
                 connection.query(querySQL, [config.font_size, config.theme, config.time_preference, config.id_user], (error) => {
                     connection.release();
                     if (error) {
-                        callback(-1); // Error en la sentencia
+                        callback(-1);
                     } else {
                         callback(null);
                     }

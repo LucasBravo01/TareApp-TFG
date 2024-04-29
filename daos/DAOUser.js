@@ -5,19 +5,21 @@ class DAOUser {
     constructor(pool) {
         this.pool = pool;
 
-        this.readByUser = this.readByUser.bind(this);
-        this.readById = this.readById.bind(this);
-        this.readPic = this.readPic.bind(this);
+        // SELECTs
+        this.readUserByUsername = this.readUserByUsername.bind(this);
+        this.readUserById = this.readUserById.bind(this);
+        this.readPicByIdUser = this.readPicByIdUser.bind(this);
     }
 
-    // Obtener usuario por nombre
-    readByUser(username, callback) {
+    // SELECTs
+    // Leer usuario dado un nombre de usuario
+    readUserByUsername(username, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND access_user = ?";
+                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND access_user = ?;";
                 connection.query(querySQL, [username], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -52,14 +54,14 @@ class DAOUser {
         });
     }
 
-    // Obtener usuario por id
-    readById(id, callback) {
+    // Leer usuario dado un id
+    readUserById(id, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND id = ?";
+                let querySQL = "SELECT * FROM user WHERE enabled = 1 AND id = ?;";
                 connection.query(querySQL, [id], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -94,14 +96,14 @@ class DAOUser {
         });
     }
 
-    // Obtener foto de un usuario
-    readPic(idUser, callback) {
+    // Leer foto dado un id de usuario
+    readPicByIdUser(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT photo FROM user WHERE id = ?";
+                let querySQL = "SELECT photo FROM user WHERE id = ?;";
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {

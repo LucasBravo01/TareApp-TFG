@@ -13,15 +13,15 @@ function routerConfig(conTas, conRem) {
 
     // --- Peticiones GET ---
     // Crear Tarea
-    RouterTask.get("/crearTarea", conRem.unreadNotifications, conTas.dataForm, conTas.getFormTask);
+    RouterTask.get("/crearTarea", conRem.unreadReminders, conTas.dataForm, conTas.getFormTask);
 
     // Mostrar una tarea
-    RouterTask.get(
-        "/tarea/:id",
-        check("id", "-2").isNumeric(), // TODO Mirar número. Tiene que ser negativo
-        conRem.unreadNotifications,
+    RouterTask.get("/tarea/:id",
+        check("id", "-2").isNumeric(),
+        conRem.unreadReminders,
         conTas.dataForm,
-        conTas.getTask);
+        conTas.getTask
+    );
 
     // --- Peticiones POST ---
     // Crear Tarea 
@@ -36,22 +36,23 @@ function routerConfig(conTas, conRem) {
         check("reward", "1").notEmpty(),
         check("duration", "1").notEmpty(),
         // Campos de enums válidos
-        check("reminders", "32").custom((recType) => {
-        return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+        check("reminders", "2").custom((recType) => {
+            return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
-        check("duration", "32").custom((durType) => {
-        return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
+        check("duration", "3").custom((durType) => {
+            return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")
         }),
-        conRem.unreadNotifications,
+        conRem.unreadReminders,
         conTas.dataForm,
-        conTas.createTask);
+        conTas.createTask
+    );
 
     // Marcar tarea como completada
-    RouterTask.post(
-        "/marcarCompletada",
-        check("id", "1").notEmpty(), // TODO Mirar que número poner
-        check("checkbox", "2").isNumeric(), // TODO Mirar que número poner
-        conTas.markAsCompleted);
+    RouterTask.post("/marcarCompletada",
+        check("id", "1").notEmpty(),
+        check("checkbox", "4").isNumeric(),
+        conTas.markTaskAsCompleted
+    );
 }
 
 module.exports = {

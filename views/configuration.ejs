@@ -5,7 +5,6 @@
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
     <link id="css-link" rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
-
     <!-- Importar JS específicos -->
     <script src="/js/configuration.js"></script>
 
@@ -15,10 +14,8 @@
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
-    <%- include("nav", { generalInfo: generalInfo }) %>
-    <!-- Botón para volver atrás -->
-    <%- include("back", { theme: session.currentUser.configuration.theme }) %>
-
+    <%- include("fragments/nav", { generalInfo: generalInfo }) %>
+    
     <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">CONFIGURACIÓN</h1>
@@ -56,7 +53,7 @@
                     <hr class="separator-line" />
                 </div>
 
-                <!-- TODO borrar? -->
+                <!-- TODO Borrar? -->
                 <!--PREFERENCIA DE TIEMPO-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>

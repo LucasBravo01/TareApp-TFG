@@ -8,6 +8,6 @@ module.exports = {
         database: "TareApp",
         port: 3306
     },
-    
+
     port: 3000  // Puerto del servidor
 }

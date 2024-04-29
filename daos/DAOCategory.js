@@ -1,20 +1,24 @@
 "use strict"
 
 class DAOCategory {
-    constructor(pool){
-        this.pool = pool;//tener el pool conexion
+    // Constructor
+    constructor(pool) {
+        this.pool = pool;
 
+        // SELECTs
         this.readAllCategories = this.readAllCategories.bind(this);
-        this.checkCategoriaExists = this.checkCategoryExists.bind(this);
+        this.readCategoryByName = this.readCategoryByName.bind(this);
     }
 
+    // SELECTs
+    // Leer todas las categorías
     readAllCategories(callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM category";
+                let querySQL = "SELECT * FROM category;";
                 connection.query(querySQL, (error, rows) => {
                     connection.release();
                     if (error) {
@@ -37,13 +41,14 @@ class DAOCategory {
         });
     }
 
-    checkCategoryExists(nameCategory, callback) {
+    // Leer categoria dado un nombre
+    readCategoryByName(nameCategory, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM category WHERE name = ?";
+                let querySQL = "SELECT COUNT(*) AS count FROM category WHERE name = ?;";
                 connection.query(querySQL, [nameCategory], (error, rows) => {
                     connection.release();
                     if (error) {

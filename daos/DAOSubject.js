@@ -1,20 +1,24 @@
 "use strict"
 
 class DAOSubject {
-    constructor(pool){
-        this.pool = pool;//tener el pool conexion
+    // Constructor
+    constructor(pool) {
+        this.pool = pool;
 
+        // SELECTs
         this.readAllSubjects = this.readAllSubjects.bind(this);
-        this.checkSubjectExists = this.checkSubjectExists.bind(this);
+        this.readSubjectById = this.readSubjectById.bind(this);
     }
 
+    // SELECTs
+    // Leer todas las asignaturas
     readAllSubjects(callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM subject AS SUB";
+                let querySQL = "SELECT * FROM subject;";
                 connection.query(querySQL, (error, rows) => {
                     connection.release();
                     if (error) {
@@ -30,7 +34,7 @@ class DAOSubject {
                                 id_teacher: row.id_teacher,
                                 name: row.name,
                                 grade: row.grade,
-                                color: row.color, 
+                                color: row.color,
                                 subject_icon: row.subject_icon,
                             }
                             subjects.push(facility);
@@ -42,14 +46,15 @@ class DAOSubject {
         });
     }
 
-    checkSubjectExists(idAsignatura, callback) {
+    // Leer asignaturas dado un id
+    readSubjectById(idSubject, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM subject WHERE id = ?";
-                connection.query(querySQL, [idAsignatura], (error, rows) => {
+                let querySQL = "SELECT COUNT(*) AS count FROM subject WHERE id = ?;";
+                connection.query(querySQL, [idSubject], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);

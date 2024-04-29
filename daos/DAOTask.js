@@ -3,39 +3,27 @@
 const utils = require("../utils");
 
 class DAOTask {
-    constructor(pool){
-        this.pool = pool;//tener el pool conexion
+    // Constructor
+    constructor(pool) {
+        this.pool = pool;
 
-        this.pushTask = this.pushTask.bind(this);
-        this.getTaskById = this.getTaskById.bind(this);
-        this.markAsCompleted = this.markAsCompleted.bind(this);
+        // SELECTs
+        this.readTaskById = this.readTaskById.bind(this);
+        // INSERTs
+        this.insertTask = this.insertTask.bind(this);
+        // UPDATEs
+        this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
     }
 
-    pushTask(task , callback){        
-        this.pool.getConnection((error, connection) => {
-            if (error) {
-                callback(-1);
-            } else {
-                let querySQL = "INSERT INTO task (id_activity, duration, id_reward) VALUES(?,?,?);";
-                connection.query(querySQL, [task.id, task.duration, task.reward], (error) => {
-                    connection.release();
-                    if (error) {
-                        callback(-1); // Error en la sentencia
-                    } else {
-                        callback(null);
-                    }
-                });
-            }
-        });
-    }
-    
-    getTaskById(idTask, callback){
+    // SELECTs
+    // Leer tarea dado un id
+    readTaskById(idTask, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ?";
+                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ?;";
                 connection.query(querySQL, [idTask], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -73,14 +61,36 @@ class DAOTask {
         });
     }
 
-    markAsCompleted(idTask, checked, callback) {
+    // INSERTs
+    // Insertar tarea
+    insertTask(task, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "INSERT INTO task (id_activity, duration, id_reward) VALUES (?,?,?);";
+                connection.query(querySQL, [task.id, task.duration, task.reward], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1); 
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+
+    // UPDATEs
+    // Marcar/Desmarcar tarea como completada
+    markTaskAsCompleted(idTask, checked, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
                 let querySQL = "UPDATE task SET completed = ? WHERE id_activity = ?;";
-                connection.query(querySQL, [checked, idTask], (error, rows) => {
+                connection.query(querySQL, [checked, idTask], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1);
