@@ -8,7 +8,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #DCDCDC;
+    background-color: #F4F4F2;
     color: #000000;
 }
 
@@ -62,7 +62,7 @@ nav button {
 
 /*BACKGROUND*/
 .main-background {
-    background-color: #C2C3C4;
+    background-color: #F4F4F2;
 }
 
 .second-background {
@@ -120,9 +120,9 @@ button {
 
 .new-task-button {
     padding: .5rem;
-    border: 1px #C2C2C2 solid;
+    border: 1px #D4E3BD solid;
     border-radius: .7rem;
-    background-color: #C2C2C2;
+    background-color: #D4E3BD;
 }
 
     .new-task-button:hover {
@@ -131,9 +131,9 @@ button {
 
 .view-selected-button {
     padding: .5rem;
-    border: 1px #D4E3BD solid;
+    border: 1px #C2C3C4 solid;
     border-radius: .7rem;
-    background-color: #D4E3BD;
+    background-color: #C2C3C4;
 }
 
     .view-selected-button:hover {
@@ -142,14 +142,26 @@ button {
 
 .view-non-selected-button {
     padding: .5rem;
-    border: 1px #D4E3BD solid;
+    border: 1px #C2C3C4 solid;
     border-radius: .7rem;
-    background-color: #C2C3C4;
+    background-color: #F4F4F2;
 }
 
     .view-non-selected-button:hover {
         filter: brightness(85%);
     }
+
+.arrow-button {
+    background-color: none;
+}
+
+    .arrow-button:hover {
+        filter: brightness(85%);
+    }
+
+.arrow-task-button {
+    display: flex;
+}
 
 /*ELEMENTOS*/
 .card-task {
