@@ -1,5 +1,11 @@
 "use strict"
 
+function scroll(hour8Element){
+    if (hour8Element) {
+        hour8Element.scrollIntoView();
+    }
+}
+
 // Cuando cargue el DOM
 $(() => {
     let currentDate = new Date();
@@ -28,6 +34,8 @@ $(() => {
         $("#a-home-list").attr("class", "me-1 view-non-selected-button");
         $("#a-home-week").attr("class", "me-1 view-non-selected-button");
         $("#a-home-daily").attr("class", "me-1 view-selected-button");
+
+        scroll(document.getElementById('8'));
     }
 
     const week = $("body").data("week");
@@ -50,6 +58,8 @@ $(() => {
         $("#a-home-list").attr("class", "me-1 view-non-selected-button");
         $("#a-home-week").attr("class", "me-1 view-selected-button");
         $("#a-home-daily").attr("class", "me-1 view-non-selected-button");
+
+        scroll(document.getElementById('8'));
     }
 
     if (!day && !week) {

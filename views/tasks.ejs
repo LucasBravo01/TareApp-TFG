@@ -19,9 +19,9 @@
         <!--BOTONES DE NUEVA TAREA Y ELECCIÓN DE VISTA-->
         <div class="row mt-5">
             <div class="col-4 text-start">
-                <a href="/tareas/crearTarea" class="new-task-button">
+                <button onclick="window.location.href='/tareas/crearTarea'" class="new-task-button">
                     <span>Nueva tarea</span>
-                </a>
+                </button>
             </div>
         
             <div class="col-8 text-end"> 
@@ -137,9 +137,9 @@
                                                         <span><%= t.title %></span>
                                                     </div>
                                                 </div>
-                                                </a>
-                                            </div>
+                                            </a>
                                         </div>
+                                    </div>
                                     <% j++; %>
                                 <% } else { %>
                                     <div id="<%= hour %>" class="div-hour"></div>
