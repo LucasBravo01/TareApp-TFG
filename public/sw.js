@@ -2,9 +2,7 @@
 
 const STATIC_CACHE = "static-v1";
 
-const APP_SHELL = [
-  '/',
-];
+const APP_SHELL = [];
 
 self.addEventListener("install", (e) => {
   const cacheStatic = caches
