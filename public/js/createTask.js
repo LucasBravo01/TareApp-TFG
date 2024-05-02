@@ -81,9 +81,11 @@ $(() => {
         // Si la opción seleccionada es "Escolar", habilitamos el select de asignatura
         if (inputCategory.val() === "Escolar") {
             inputSubject.removeAttr("disabled");
+            $('#subject-asterisk').removeClass('d-none'); // Mostrar el asterisco rojo
         } else {
             // Si no, deshabilitamos el select de asignatura y lo reseteamos
             inputSubject.attr("disabled", "true");
+            $('#subject-asterisk').addClass('d-none'); // Ocultar el asterisco rojo
             inputSubject.val(""); // Esto establece la opción por defecto
         }
     });

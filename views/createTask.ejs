@@ -34,27 +34,8 @@
                 <!--TITULO-->
                 <div class="col-6 text-center mt-3">
                     <label for="input-title">Título</label>
+                    <span class="text-danger">*</span>
                     <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
-                </div>
-
-                <!--PROPIETARIO-->
-                <div class="col-3 text-center mt-3">
-                    <% if (session.currentUser.hasProfilePic) { %>
-                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
-                        </button>
-                    <% } else { %>
-                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50">
-                        </button>
-                    <% } %>
-                    <% if (session.currentUser) { %>
-                        <p class="ms-3">
-                            <%=session.currentUser.name%>
-                        </p>
-                    <% }else{ %>
-                        <p>Propietario</p>
-                    <% } %>
                 </div>
 
                 <!--TAREA COMPLETADA-->
@@ -68,18 +49,21 @@
                 <!--FECHA DE ENTREGA-->
                 <div class="col-6 text-center mt-3">
                     <label for="input-date">Fecha de entrega</label>
+                    <span class="text-danger">*</span>
                     <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
                 <div class="col-6 text-center mt-3">
                     <label for="input-hour">Hora:</label>
+                    <span class="text-danger">*</span>
                     <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
                 <!--CATEGORIA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-category">Categoria</label>
+                    <span class="text-danger">*</span>
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
@@ -91,6 +75,7 @@
                 <!--ASIGNATURA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-subject">Asignatura</label>
+                    <span id="subject-asterisk" class="text-danger d-none">*</span>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
@@ -102,6 +87,7 @@
                 <!--RECORDATORIOS-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-reminder">Recordatorios</label>
+                    <span class="text-danger">*</span>
                     <select id="input-reminder" name="reminders" class="form-control">
                         <option value="1 día antes">1 día antes</option>
                         <option value="Desde 2 días antes">Desde 2 días antes</option>
@@ -119,6 +105,7 @@
                 <!--RECOMPENSA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-reward">Recompensa</label>
+                    <span class="text-danger">*</span>
                     <select id="input-reward" name="reward" class="form-control">
                         <option value="">...</option>
                         <% data.rewards.forEach( r=> { %>
@@ -130,6 +117,7 @@
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-duration">Duracion estimada</label>
+                    <span class="text-danger">*</span>
                     <select id="input-duration" name="duration" class="form-control">
                         <option value="no lo sé">No lo sé</option>
                         <option value="corta">Corta</option>
