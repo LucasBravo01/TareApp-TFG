@@ -395,6 +395,8 @@ class ControllerTask {
         // Cuantos
         let numRem = 0;
         switch (form.reminders) {
+            case "10 minutos antes": numRem = 1; break;
+            case "1 hora antes": numRem = 1; break;
             case "1 día antes": numRem = 1; break;
             case "Desde 2 días antes": numRem = 2; break;
             case "Desde 1 semana antes": numRem = 7; break;
@@ -403,12 +405,21 @@ class ControllerTask {
         }
         for (let i = 1; i <= numRem; i++) {
             let reminderDate = new Date(form.date);
-            reminderDate.setDate(date.getDate() - i);
-            reminderDate.setHours(8, 0, 0, 0);
-
-
-
-            if (reminderDate <= currentDate) {
+            let timeParts = form.time.split(":");
+            let hour = parseInt(timeParts[0]);
+            let minute = parseInt(timeParts[1]);
+    
+            if(form.reminders === "10 minutos antes"){
+                reminderDate.setHours(hour, minute, 0, 0);
+                reminderDate.setMinutes(reminderDate.getMinutes() - 10);
+            }else if(form.reminders === "1 hora antes"){
+                reminderDate.setHours(hour, minute, 0, 0);
+                reminderDate.setHours(reminderDate.getHours() - 1);
+            }else{
+                reminderDate.setDate(date.getDate() - i);
+                reminderDate.setHours(8, 0, 0, 0);
+            }
+            if (reminderDate <= currentDate && form.reminders !== "1 hora antes" && form.reminders !== "10 minutos antes" ) {
                 continue;
             }
             let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));

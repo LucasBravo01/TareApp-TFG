@@ -37,7 +37,7 @@ function routerConfig(conTas, conRem) {
         check("duration", "1").notEmpty(),
         // Campos de enums válidos
         check("reminders", "2").custom((recType) => {
-            return (recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+            return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
         check("duration", "3").custom((durType) => {
             return (durType === "no lo sé" || durType === "corta" || durType === "media" || durType === "larga")

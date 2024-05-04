@@ -123,7 +123,7 @@ CREATE TABLE activity (
   date DATE NOT NULL,
   time TIME NOT NULL,
   description VARCHAR(255),
-  reminder ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
+  reminder ENUM('10 minutos antes','1 hora antes','1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   category VARCHAR(255) NOT NULL,
   id_subject INT,
 
