@@ -408,13 +408,15 @@ class ControllerTask {
             let timeParts = form.time.split(":");
             let hour = parseInt(timeParts[0]);
             let minute = parseInt(timeParts[1]);
-    
+            let message;
             if(form.reminders === "10 minutos antes"){
                 reminderDate.setHours(hour, minute, 0, 0);
                 reminderDate.setMinutes(reminderDate.getMinutes() - 10);
+                message = `¡Solo quedan 10 minutos para la tarea "${form.title}"! ¡No te distraigas!`;
             }else if(form.reminders === "1 hora antes"){
                 reminderDate.setHours(hour, minute, 0, 0);
                 reminderDate.setHours(reminderDate.getHours() - 1);
+                message = `¡Recuerda que en 1 hora tienes la tarea "${form.title}"! ¡No lo olvides!`;
             }else{
                 reminderDate.setDate(date.getDate() - i);
                 reminderDate.setHours(8, 0, 0, 0);
@@ -422,12 +424,15 @@ class ControllerTask {
             if (reminderDate <= currentDate && form.reminders !== "1 hora antes" && form.reminders !== "10 minutos antes" ) {
                 continue;
             }
-            let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));
-            let message;
-            if (daysDifference > 1)
-                message = `¡Ánimo! Aún te quedan ${daysDifference} días para terminar la tarea "${form.title}"`;
-            else
-                message = `Mañana termina el plazo para la tarea "${form.title}"¡A por ello, tú puedes!`;
+
+            if(form.reminders !== "10 minutos antes" && form.reminders !== "1 hora antes"){
+                let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));
+        
+                if (daysDifference > 1)
+                    message = `¡Ánimo! Aún te quedan ${daysDifference} días para terminar la tarea "${form.title}"`;
+                else
+                    message = `Mañana termina el plazo para la tarea "${form.title}"¡A por ello, tú puedes!`;
+            }
 
             let reminder = {
                 id: form.id,
