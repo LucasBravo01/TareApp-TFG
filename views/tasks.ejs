@@ -182,10 +182,19 @@
                         <a href="/tareas/tarea/<%= t.id %>">
                             <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
                                 <div class="d-flex justify-content-center">
+                                    <% console.log("-------------------------",t.subject_icon, t.category_icon, t) %> <!--NO SE COGEN BIEN LOS DATOS DE LOS ICONOS-->
                                     <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                        <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                        <% if(t.subject_icon){ %>
+                                            <span style="font-size: 2rem;">   <%- t.subject_icon %>  </span>
+                                        <% }else{ %>
+                                            <span style="font-size: 2rem;">  <%- t.category_icon %>  </span>
+                                        <% }%>
                                     <% } else { %> 
-                                        <img src="/images/subjects-categories/<% if (t.subject_photo) { %> <%= t.subject_photo %> <% } else { %> <%= t.category_photo %> <% } %>" alt="Icono categoría" width="15"/>
+                                        <% if(t.subject_photo){ %>
+                                            <img src="/images/subjects-categories/<%= t.subject_photo %>" alt="Icono categoría" width="15"/>
+                                        <% }else{ %>
+                                            <img src="/images/subjects-categories/<%= t.category_photo %>" alt="Icono categoría" width="15"/>
+                                        <% }%>
                                     <% } %>
                                 </div>
                                 <div class="d-flex justify-content-between">
