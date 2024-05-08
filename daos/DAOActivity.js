@@ -21,7 +21,7 @@ class DAOActivity {
             }
             else {
                 // Construir objeto 
-                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? ORDER BY TAR.completed;"
+                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? ORDER BY TAR.completed;"
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
