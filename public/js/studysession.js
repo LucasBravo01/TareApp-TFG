@@ -1,72 +1,55 @@
 "use strict"
 
 // Variables
-var seconds = 0;
-var minutes = 0;
-
-var secondsDiv = document.getElementById("div-secsTimer")
-var minutesDiv = document.getElementById("div-minsTimer")
-var startButton = document.getElementById("input-startTimer");
-var stopButton = document.getElementById("input-stopTimer");
-var resumeButton = document.getElementById("input-resumeTimer");
-var resetButton = document.getElementById("input-resetTimer");
+var startTime = 5 * 60
+var timeLeft = startTime;
+var control;
 
 function startTimer() {
     control = setInterval(timer, 1000);
 
-    startButton.disabled = true;
-    stopButton.disabled = false;
-    resumeButton.disabled = true;
-    resetButton.disabled = false;
+    $("#input-startTimer").attr("disabled", true);
+    $("#input-stopTimer").attr("disabled", false);
+    $("#input-resumeTimer").attr("disabled", true);
+    $("#input-resetTimer").attr("disabled", false);
 }
 
 function stopTimer() {
     clearInterval(control);
 
-    startButton.disabled = true;
-    stopButton.disabled = true;
-    resumeButton.disabled = false;
-    resetButton.disabled = false;
+    $("#input-startTimer").attr("disabled", true);
+    $("#input-stopTimer").attr("disabled", true);
+    $("#input-resumeTimer").attr("disabled", false);
+    $("#input-resetTimer").attr("disabled", false);
 }
 
 function resetTimer() {
     clearInterval(control);
+    timeLeft = startTime;
 
-    secondsDiv.innerHTML = "00";
-    minutesDiv.innerHTML = "00";
+    $("#div-minsTimer").text(formatTime(startTime / 60));
+    $("#div-secsTimer").text("00");
 
-    startButton.disabled = false;
-    stopButton.disabled = true;
-    resumeButton.disabled = true;
-    resetButton.disabled = true;
+    $("#input-startTimer").attr("disabled", false);
+    $("#input-stopTimer").attr("disabled", true);
+    $("#input-resumeTimer").attr("disabled", true);
+    $("#input-resetTimer").attr("disabled", true);
 }
 
 function timer() {
-    if (seconds > 0) {
-        seconds--;
+    var minutes = Math.floor(timeLeft / 60);
+    var seconds = timeLeft % 60;
 
-        if(seconds < 10) {
-            seconds = "0" + seconds;
-        }
+    $("#div-minsTimer").text(formatTime(minutes));
+    $("#div-secsTimer").text(formatTime(seconds));
 
-        secondsDiv.innerHTML = seconds;
-    }
-
-    if (seconds == 0) {
-        seconds = 60;
-    }
-
-    if (seconds == 60) {
-        minutes--;
-
-        if(minutes < 10) {
-            minutes = "0" + minutes;
-        }
-
-        minutesDiv.innerHTML = minutes;
-    }
-
-    if (minutes == 0) {
+    if(timeLeft > 0) {
+        timeLeft--;
+    } else {
         clearInterval(control);
     }
+}
+
+function formatTime(time) {
+    return time < 10 ? '0' + time : time;
 }
