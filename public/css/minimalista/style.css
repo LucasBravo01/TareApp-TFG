@@ -207,6 +207,16 @@ button {
     background-color: #F2ACAC !important;
 }
 
+.div-timer {
+    font-size: 4rem;
+    margin: 4rem;
+    border: 1rem solid #404040;
+    border-radius: 50%;
+    width: 20rem;
+    height: 20rem;
+    place-items: center;
+}
+
 /*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
 .rojo {
     background-color: #F2ACAC;

@@ -208,6 +208,16 @@ button {
     background-color: #D9183B !important;
 }
 
+.div-timer {
+    font-size: 4rem;
+    margin: 4rem;
+    border: 1rem solid #8898FA;
+    border-radius: 50%;
+    width: 20rem;
+    height: 20rem;
+    place-items: center;
+}
+
 /*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
 .rojo {
     background-color: #D9183B;

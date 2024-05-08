@@ -20,55 +20,92 @@
             </h1>
         </div>
 
-        <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
-        <form id="formStudySession">
-            <div class="row justify-content-center mt-3 mb-3">
-                <!--NOMBRE-->
-                <div class="col-4 text-center mt-3">
-                    <label for="input-name">Sesión de estudio</label>
-                    <select id="input-name" name="name" class="form-control">
-                        <option value="">...</option>
-                        <% studySessions.forEach( s=> { %>
-                            <option value="<%= s.name %>"><%= s.name %></option>
-                        <% }); %>
-                    </select>
-                </div>
+        <div class="d-flex">
+            <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
+            <div class="col-5">
+                <form id="formStudySession">
+                    <div class="row justify-content-center mt-3 mb-3">
+                        <!--NOMBRE-->
+                        <div class="text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Sesión de estudio</label>
+                            <select id="input-name" name="name" class="form-control">
+                                <option value="">Nueva</option>
+                                <% studySessions.forEach( s=> { %>
+                                    <option value="<%= s.name %>"><%= s.name %></option>
+                                <% }); %>
+                            </select>
+                        </div>
+    
+                        <!--TIEMPO DE ESTUDIO-->
+                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Duración periodo de estudio (minutos) *</label>
+                            <input type="number" id="input-study-slot" name="study-slot" min="5" max="90" step="5" class="form-control">
+                        </div>
+    
+                        <!--TIEMPO DE DESCANSO-->
+                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Duración periodo de descanso (minutos) *</label>
+                            <input type="number" id="input-brake-slot" name="brake-slot" min="5" max="90" step="5" class="form-control">
+                        </div>
+    
+                        <!--NÚMERO DE PERIODOS-->
+                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Número de periodos *</label>
+                            <input type="number" id="input-number-slots" name="number-slots" min="1" max="10" step="1" class="form-control">
+                        </div>
+    
+                        <!--TIEMPO DE DESCANSO LARGO-->
+                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Duración periodo descanso largo (minutos)</label>
+                            <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="5" max="90" step="5" class="form-control">
+                        </div>
+    
+                        <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
+                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Cada cuántos periodos se realiza uno largo *</label>
+                            <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="1" max="10" step="1" class="form-control">
+                        </div>
+                    </div>
+    
+                    <div class="d-flex justify-content-center mt-3 mb-3">
+                        <div class="text-center me-3">
+                            <button type="submit" id="input-sb-selectStudySession" class="main-button">Seleccionar</button>
+                        </div>
+    
+                        <div class="text-center me-3">
+                            <button type="" id="input-sb-createStudySession" class="main-button">Crear</button>
+                        </div>
+                    </div>
+                </form>    
+            </div>
 
-                <div class="col-4 text-center mt-3">
-                    <button type="submit" id="input-sb-selectStudySession" class="main-button">Seleccionar Sesión de Estudio</button>
+            <!--TEMPORIZADOR-->
+            <div class="col-7 d-flex flex-column align-items-center">
+                <div class="d-flex justify-content-center div-timer">
+                    <div id="div-minsTimer">00</div>
+                    <div>:</div>
+                    <div id="div-secsTimer">00</div>
                 </div>
-
-                <div class="col-4 text-center mt-3">
-                    <button type="" id="input-sb-createStudySession" class="main-button">Nueva Sesión de Estudio</button>
+    
+                <div class="d-flex justify-content-center">
+                    <div class="me-1">
+                        <button type="" id="input-startTimer" class="view-non-selected-button">Iniciar</button>
+                    </div>
+    
+                    <div class="me-1">
+                        <button type="" id="input-stopTimer" class="view-selected-button" disabled>Pausar</button>
+                    </div>
+    
+                    <div class="me-1">
+                        <button type="" id="input-resumeTimer" class="view-non-selected-button" disabled>Reiniciar</button>
+                    </div>
+    
+                    <div>
+                        <button type="" id="input-resetTimer" class="dangerous-button" disabled>Parar</button>
+                    </div>
                 </div>
             </div>
-        </form>
-
-        <!--TEMPORIZADOR-->
-        <div>
-            <div id="div-minsTimer">00</div>
-            <div>:</div>
-            <div id="div-secsTimer">00</div>
         </div>
-
-        <div>
-            <div class="col-3 text-center mt-3">
-                <button type="" id="input-startTimer" class="view-non-selected-button">Iniciar</button>
-            </div>
-
-            <div class="col-3 text-center mt-3">
-                <button type="" id="input-stopTimer" class="view-selected-button" disabled>Pausar</button>
-            </div>
-
-            <div class="col-3 text-center mt-3">
-                <button type="" id="input-resumeTimer" class="view-non-selected-button" disabled>Reiniciar</button>
-            </div>
-
-            <div class="col-3 text-center mt-3">
-                <button type="" id="input-resetTimer" class="dangerous-button" disabled>Parar</button>
-            </div>
-        </div>
-
     </div>
 </body>
 
