@@ -21,14 +21,14 @@
         </div>
 
         <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
-        <form id="formStudySession" action="" method="post">
+        <form id="formStudySession">
             <div class="row justify-content-center mt-3 mb-3">
                 <!--NOMBRE-->
                 <div class="col-4 text-center mt-3">
                     <label for="input-name">Sesión de estudio</label>
                     <select id="input-name" name="name" class="form-control">
                         <option value="">...</option>
-                        <% data.studySessions.forEach( s=> { %>
+                        <% studySessions.forEach( s=> { %>
                             <option value="<%= s.name %>"><%= s.name %></option>
                         <% }); %>
                     </select>
