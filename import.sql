@@ -329,6 +329,17 @@ INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES
 (5, 20, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
 (5, 20, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00');
 
+-- Sesiones de estudio
+INSERT INTO studysession (name, id_user, study_slot, brake_slot, long_brake_slot, num_slots) VALUES
+('Predeterminada', 1, 25, 5, NULL, 1),
+('Predeterminada', 2, 25, 5, NULL, 1),
+('Predeterminada', 3, 25, 5, NULL, 1),
+('Predeterminada', 4, 25, 5, NULL, 1),
+('Predeterminada', 5, 25, 5, NULL, 1),
+('Predeterminada', 6, 25, 5, NULL, 1),
+('Predeterminada', 7, 25, 5, NULL, 1),
+('Predeterminada', 8, 25, 5, NULL, 1);
+
 -- ------ Añadir fotos ------
 
 -- Usuario

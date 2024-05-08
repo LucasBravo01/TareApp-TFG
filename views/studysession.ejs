@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
+</head>
+
+<body>
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %>
+    <!-- Importar nav -->
+    <%- include("fragments/nav") %>
+
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <h1 class="title">
+                SESIÓN DE ESTUDIO
+            </h1>
+        </div>
+
+        <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
+        <form id="formStudySession" action="" method="post">
+            <div class="row justify-content-center mt-3 mb-3">
+                <!--NOMBRE-->
+                <div class="col-4 text-center mt-3">
+                    <label for="input-name">Sesión de estudio</label>
+                    <select id="input-name" name="name" class="form-control">
+                        <option value="">...</option>
+                        <% data.studySessions.forEach( s=> { %>
+                            <option value="<%= s.name %>"><%= s.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="col-4 text-center mt-3">
+                    <button type="submit" id="input-sb-selectStudySession" class="main-button">Seleccionar Sesión de Estudio</button>
+                </div>
+
+                <div class="col-4 text-center mt-3">
+                    <button type="" id="input-sb-createStudySession" class="main-button">Nueva Sesión de Estudio</button>
+                </div>
+            </div>
+        </form>
+
+        <!--TEMPORIZADOR-->
+        <div>
+            <div id="div-minsTimer">00</div>
+            <div>:</div>
+            <div id="div-secsTimer">00</div>
+        </div>
+
+        <div>
+            <div class="col-3 text-center mt-3">
+                <button type="" id="input-startTimer" class="view-non-selected-button">Iniciar</button>
+            </div>
+
+            <div class="col-3 text-center mt-3">
+                <button type="" id="input-stopTimer" class="view-selected-button" disabled>Pausar</button>
+            </div>
+
+            <div class="col-3 text-center mt-3">
+                <button type="" id="input-resumeTimer" class="view-non-selected-button" disabled>Reiniciar</button>
+            </div>
+
+            <div class="col-3 text-center mt-3">
+                <button type="" id="input-resetTimer" class="dangerous-button" disabled>Parar</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
