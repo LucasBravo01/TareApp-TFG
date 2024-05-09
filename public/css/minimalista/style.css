@@ -103,6 +103,11 @@ button {
         filter: brightness(85%);
     }
 
+    button:disabled {
+        opacity: 50%;
+        cursor: not-allowed;
+    }
+
 .main-button {
     border: 1px #C2C2C2 solid;
     background-color: #C2C2C2;
