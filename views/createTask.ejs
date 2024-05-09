@@ -82,21 +82,17 @@
 
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-duration">Duracion estimada</label>
+                    <label for="input-duration">Duración estimada (minuto)</label>
                     <% if (!task.id) { %>
                         <span class="text-danger">*</span>
                     <% } %>
-                    <select id="input-duration" name="duration" class="form-control">
-                        <option value="no lo sé">No lo sé</option>
-                        <option value="corta">Corta</option>
-                        <option value="media">Media</option>
-                        <option value="larga">Larga</option>
-                    </select>
+                    <input id="input-duration" name="duration" type="number" class="form-control" value="<%= task.time %>" placeholder="Ej: 20">
                 </div>
+                
 
                 <!--CATEGORIA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-category">Categoria</label>
+                    <label for="input-category">Categoría</label>
                     <% if (!task.id) { %>
                         <span class="text-danger">*</span>
                     <% } %>

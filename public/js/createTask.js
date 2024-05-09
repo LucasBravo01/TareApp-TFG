@@ -5,7 +5,7 @@ function validateParams(params, currentDate) {
     let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
     // Campos no vacíos
-    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === "") {
+    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === ""|| params.duration === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
@@ -99,7 +99,8 @@ $(() => {
             hour: inputHour.val(),
             category: inputCategory.val(),
             subject: inputSubject.val(),
-            reward: inputReward.val()
+            reward: inputReward.val(),
+            duration: inputDuration.val()
         };
         // Validar
         let error = validateParams(params, currentDate);
