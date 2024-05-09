@@ -31,7 +31,7 @@
                         <div class="text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                             <label for="input-name">Sesión de estudio</label>
                             <select id="input-name" name="name" class="form-control">
-                                <option value="">Nueva</option>
+                                <option value="Nueva">Nueva</option>
                                 <% studySessions.forEach( (s, i) => { %>
                                     <option value="<%= i %>"><%= s.name %></option>
                                 <% }); %>
@@ -59,23 +59,23 @@
                         <!--TIEMPO DE DESCANSO LARGO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                             <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
-                            <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="5" max="90" step="5" class="form-control">
+                            <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
                         </div>
     
                         <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo *</label>
-                            <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="1" max="10" step="1" class="form-control">
+                            <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
+                            <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
                         </div>
                     </div>
     
                     <div class="d-flex justify-content-center mt-3 mb-3">
                         <div class="text-center me-3">
-                            <button type="submit" id="input-sb-selectStudySession" class="main-button">Seleccionar</button>
+                            <button type="submit" id="input-sb-selectStudySession" class="main-button">Iniciar</button>
                         </div>
     
                         <div class="text-center me-3">
-                            <button type="" id="input-sb-createStudySession" class="main-button">Crear</button>
+                            <button type="" id="input-sb-createStudySession" class="main-button">Iniciar y guardar</button>
                         </div>
                     </div>
                 </form>    
@@ -97,7 +97,7 @@
                     </div>
     
                     <div class="me-1">
-                        <button type="" id="input-resumeTimer" onclick="startTimer();" class="view-non-selected-button" disabled>Reiniciar</button>
+                        <button type="" id="input-resumeTimer" onclick="startTimer();" class="view-non-selected-button" disabled>Continuar</button>
                     </div>
     
                     <div>

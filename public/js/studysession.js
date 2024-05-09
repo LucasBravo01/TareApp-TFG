@@ -10,9 +10,9 @@ function startTimer() {
     control = setInterval(timer, 1000);
 
     $("#input-startTimer").attr("disabled", true);
-    $("#input-stopTimer").attr("disabled", false);
+    $("#input-stopTimer").removeAttr("disabled");
     $("#input-resumeTimer").attr("disabled", true);
-    $("#input-resetTimer").attr("disabled", false);
+    $("#input-resetTimer").removeAttr("disabled");
 }
 
 function stopTimer() {
@@ -20,8 +20,8 @@ function stopTimer() {
 
     $("#input-startTimer").attr("disabled", true);
     $("#input-stopTimer").attr("disabled", true);
-    $("#input-resumeTimer").attr("disabled", false);
-    $("#input-resetTimer").attr("disabled", false);
+    $("#input-resumeTimer").removeAttr("disabled");
+    $("#input-resetTimer").removeAttr("disabled");
 }
 
 function resetTimer() {
@@ -31,7 +31,7 @@ function resetTimer() {
     $("#div-minsTimer").text(formatTime(startTime / 60));
     $("#div-secsTimer").text("00");
 
-    $("#input-startTimer").attr("disabled", false);
+    $("#input-startTimer").removeAttr("disabled");
     $("#input-stopTimer").attr("disabled", true);
     $("#input-resumeTimer").attr("disabled", true);
     $("#input-resetTimer").attr("disabled", true);
@@ -57,15 +57,45 @@ function formatTime(time) {
 
 // FUNCIONALIDAD FORMULARIO
 $(() => {
-    const studySessions = $("body").data("studySessions");;
-    $('#input-name').change(function() {
-        let selectedSession = $(this).val();
-        let session = studySessions[selectedSession];
+    const studySessions = $("body").data("studySessions");
 
-        $('#input-study-slot').val(session.studyTime);
-        $('#input-brake-slot').val(session.breakTime);
-        $('#input-number-slots').val(session.breakTime);
-        $('#input-long-brake-slot').val(session.breakTime);
-        $('#input-number-long-brake-slots').val(session.breakTime);
+    // Elementos HTML
+    const inputName = $('#input-name');
+    const inputStudySlot = $('#input-study-slot');
+    const inputBrakeSlot = $('#input-brake-slot');
+    const inputNumberSlots = $('#input-number-slots');
+    const inputLongBrakeSlot = $('#input-long-brake-slot');
+    const inputNumberLongBrakeSlot = $('#input-number-long-brake-slots');
+
+    inputName.on("change", () => {
+        let selectedSession = inputName.val();
+
+        if (selectedSession === "Nueva") {
+            inputStudySlot.val("");
+            inputBrakeSlot.val("");
+            inputNumberSlots.val("");
+            inputLongBrakeSlot.val("");
+            inputNumberLongBrakeSlot.val("");
+
+            inputStudySlot.removeAttr("disabled");
+            inputBrakeSlot.removeAttr("disabled");
+            inputNumberSlots.removeAttr("disabled");
+            inputLongBrakeSlot.removeAttr("disabled");
+            inputNumberLongBrakeSlot.removeAttr("disabled");
+        } else {
+            let session = studySessions[selectedSession];
+
+            inputStudySlot.val(session.study_slot);
+            inputBrakeSlot.val(session.brake_slot);
+            inputNumberSlots.val(session.num_slots);
+            inputLongBrakeSlot.val(session.long_brake_slot);
+            inputNumberLongBrakeSlot.val(session.num_long_slots);
+
+            inputStudySlot.attr("disabled", true);
+            inputBrakeSlot.attr("disabled", true);
+            inputNumberSlots.attr("disabled", true);
+            inputLongBrakeSlot.attr("disabled", true);
+            inputNumberLongBrakeSlot.attr("disabled", true);
+        }
     });
 });

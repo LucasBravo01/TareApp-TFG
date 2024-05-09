@@ -33,7 +33,8 @@ class DAOStudySession {
                                 study_slot: row.study_slot,
                                 brake_slot: row.brake_slot,
                                 long_brake_slot: row.long_brake_slot,
-                                num_slots: row.num_slots
+                                num_slots: row.num_slots,
+                                num_long_slots: row.num_long_slots
                             }
                             studysessions.push(studysession);
                         });
