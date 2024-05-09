@@ -9,7 +9,7 @@
     <script src="/js/studysession.js"></script>
 </head>
 
-<body>
+<body data-response="<%= JSON.stringify(response) %>" data-studySessions="<%= JSON.stringify(studySessions) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
@@ -25,46 +25,46 @@
         <div class="d-flex">
             <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
             <div class="col-5">
-                <form id="formStudySession">
+                <form id="form-studySession">
                     <div class="row justify-content-center mt-3 mb-3">
                         <!--NOMBRE-->
                         <div class="text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                             <label for="input-name">Sesión de estudio</label>
                             <select id="input-name" name="name" class="form-control">
                                 <option value="">Nueva</option>
-                                <% studySessions.forEach( s=> { %>
-                                    <option value="<%= s.name %>"><%= s.name %></option>
+                                <% studySessions.forEach( (s, i) => { %>
+                                    <option value="<%= i %>"><%= s.name %></option>
                                 <% }); %>
                             </select>
                         </div>
     
                         <!--TIEMPO DE ESTUDIO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Duración periodo de estudio (minutos) *</label>
+                            <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
                             <input type="number" id="input-study-slot" name="study-slot" min="5" max="90" step="5" class="form-control">
                         </div>
     
                         <!--TIEMPO DE DESCANSO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Duración periodo de descanso (minutos) *</label>
+                            <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
                             <input type="number" id="input-brake-slot" name="brake-slot" min="5" max="90" step="5" class="form-control">
                         </div>
     
                         <!--NÚMERO DE PERIODOS-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Número de periodos *</label>
+                            <label for="input-number-slots">Número de periodos *</label>
                             <input type="number" id="input-number-slots" name="number-slots" min="1" max="10" step="1" class="form-control">
                         </div>
     
                         <!--TIEMPO DE DESCANSO LARGO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Duración periodo descanso largo (minutos)</label>
+                            <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
                             <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="5" max="90" step="5" class="form-control">
                         </div>
     
                         <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Cada cuántos periodos se realiza uno largo *</label>
+                            <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo *</label>
                             <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="1" max="10" step="1" class="form-control">
                         </div>
                     </div>

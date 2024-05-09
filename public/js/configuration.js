@@ -47,6 +47,7 @@ $(() => {
                     $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
+                    $("#img-nav-studysession").attr('src', `/images/${themeSelect.val()}/studysession.png`);
                     
                     const hasPic = $("body").data("user").hasProfilePic;
                     console.log("Pic: ",hasPic);

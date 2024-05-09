@@ -1,10 +1,11 @@
 "use strict"
 
-// Variables
-var startTime = 5 * 60
-var timeLeft = startTime;
-var control;
+// VARIABLES TEMPORIZADOR
+let startTime = 5 * 60;
+let timeLeft = startTime;
+let control;
 
+// FUNCIONALIDAD TEMPORIZADOR
 function startTimer() {
     control = setInterval(timer, 1000);
 
@@ -37,8 +38,8 @@ function resetTimer() {
 }
 
 function timer() {
-    var minutes = Math.floor(timeLeft / 60);
-    var seconds = timeLeft % 60;
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
 
     $("#div-minsTimer").text(formatTime(minutes));
     $("#div-secsTimer").text(formatTime(seconds));
@@ -53,3 +54,18 @@ function timer() {
 function formatTime(time) {
     return time < 10 ? '0' + time : time;
 }
+
+// FUNCIONALIDAD FORMULARIO
+$(() => {
+    const studySessions = $("body").data("studySessions");;
+    $('#input-name').change(function() {
+        let selectedSession = $(this).val();
+        let session = studySessions[selectedSession];
+
+        $('#input-study-slot').val(session.studyTime);
+        $('#input-brake-slot').val(session.breakTime);
+        $('#input-number-slots').val(session.breakTime);
+        $('#input-long-brake-slot').val(session.breakTime);
+        $('#input-number-long-brake-slots').val(session.breakTime);
+    });
+});
