@@ -49,7 +49,6 @@ $(() => {
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
                     
                     const hasPic = $("body").data("user").hasProfilePic;
-                    console.log("Pic: ",hasPic);
                     if(!hasPic) {
                         $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
                     }
