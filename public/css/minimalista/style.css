@@ -297,7 +297,7 @@ button {
 
 /* Monitores laptop - XL */
 @media (max-width: 1199.98px) {
-
+    
 }
 
 /* Tablets - LG */
@@ -309,5 +309,9 @@ button {
 @media (max-width: 767.98px) {
     .card-task {
         width: 75%;
-      }
+    }
+
+    .not-mobile {
+        display: none;
+    }
 }

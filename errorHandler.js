@@ -108,6 +108,11 @@ function generateError(cod) {
             title = "Campos no modificados";
             message = "Los campos de la configuración no han sido modificados.";
         } break;
+        case 18: {
+            code = 400;
+            title = "Tipos no válidos";
+            message = "Revisa los campos, hay algunos que no cumplen con un tipo correcto.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";

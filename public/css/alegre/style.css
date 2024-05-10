@@ -289,6 +289,15 @@ button {
     border-radius: 50%;
 }
 
+#img-profile {
+    width: 16rem;
+}
+
+.div-profile {
+    display: flex;
+    flex-direction: row;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
@@ -302,17 +311,27 @@ button {
 
 /* Monitores laptop - XL */
 @media (max-width: 1199.98px) {
-
+    
 }
 
 /* Tablets - LG */
 @media (max-width: 991.98px) {
-    
+    #img-profile {
+        width: 10rem;
+    }    
 }
 
 /* Móviles - MD */
 @media (max-width: 767.98px) {
     .card-task {
         width: 75%;
-      }
+    }
+
+    .not-mobile {
+        display: none;
+    }
+
+    .div-profile {
+        flex-direction: column;
+    }
 }

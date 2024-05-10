@@ -19,16 +19,16 @@
         <!--BOTONES DE NUEVA TAREA Y ELECCIÓN DE VISTA-->
         <div class="row mt-5">
             <div class="col-4 text-start">
-                <a href="/tareas/crearTarea" class="new-task-button">
+                <button onclick="window.location.href='/tareas/crearTarea'" class="new-task-button">
                     <span>Nueva tarea</span>
-                </a>
+                </button>
             </div>
         
             <div class="col-8 text-end"> 
                 <a id="a-home-list" href="/inicio" class="mx-2">
                     <span class="material-symbols-outlined">Lista</span>
                 </a>
-                <a id="a-home-week" href="" class="mx-2">
+                <a id="a-home-week" href="" class="mx-2 not-mobile">
                     <span class="material-symbols-outlined">Semana</span>
                 </a>
                 

@@ -1,7 +1,13 @@
 "use strict"
 
+function scroll(hour8Element){
+    if (hour8Element) {
+        hour8Element.scrollIntoView();
+    }
+}
+
 // Cuando cargue el DOM
-$(() => {
+$(document).ready(() => {
     let currentDate = new Date();
     currentDate = formatDate(currentDate);
 
@@ -14,9 +20,9 @@ $(() => {
         let currentDay = formatString(day.date);
 
         let previous = new Date(currentDay);
-        previous.setDate(currentDay.getDate() - 1);
+        previous.setDate(previous.getDate() - 1);
         let next = new Date(currentDay);
-        next.setDate(currentDay.getDate() + 1);
+        next.setDate(next.getDate() + 1);
 
         let previousDay = formatDate(previous);
         let nextDay = formatDate(next);
@@ -25,9 +31,11 @@ $(() => {
         $("#a-next-day").attr("href", `/diaria/${nextDay}`);
 
         // CAMBIAR CLASES BOTONES
-        $("#a-home-list").attr("class", "me-1 view-non-selected-button");
-        $("#a-home-week").attr("class", "me-1 view-non-selected-button");
-        $("#a-home-daily").attr("class", "me-1 view-selected-button");
+        $("#a-home-list").removeClass("view-selected-button").addClass("view-non-selected-button");
+        $("#a-home-week").removeClass("view-selected-button").addClass("view-non-selected-button");
+        $("#a-home-daily").removeClass("view-non-selected-button").addClass("view-selected-button");
+
+        scroll(document.getElementById('8'));
     }
 
     const week = $("body").data("week");
@@ -36,9 +44,9 @@ $(() => {
         let currentDay = formatString(week[0].date);
 
         let previous = new Date(currentDay);
-        previous.setDate(currentDay.getDate() - 7);
+        previous.setDate(previous.getDate() - 7);
         let next = new Date(currentDay);
-        next.setDate(currentDay.getDate() + 7);
+        next.setDate(next.getDate() + 7);
 
         let previousWeek = formatDate(previous);
         let nextWeek = formatDate(next);
@@ -47,15 +55,17 @@ $(() => {
         $("#a-next-week").attr("href", `/semanal/${nextWeek}`);
 
         // CAMBIAR CLASES BOTONES
-        $("#a-home-list").attr("class", "me-1 view-non-selected-button");
-        $("#a-home-week").attr("class", "me-1 view-selected-button");
-        $("#a-home-daily").attr("class", "me-1 view-non-selected-button");
+        $("#a-home-list").removeClass("view-selected-button").addClass("view-non-selected-button");
+        $("#a-home-week").removeClass("view-non-selected-button").addClass("view-selected-button");
+        $("#a-home-daily").removeClass("view-selected-button").addClass("view-non-selected-button");
+
+        scroll(document.getElementById('8'));
     }
 
     if (!day && !week) {
         // CAMBIAR CLASES BOTONES
-        $("#a-home-list").attr("class", "me-1 view-selected-button");
-        $("#a-home-week").attr("class", "me-1 view-non-selected-button");
-        $("#a-home-daily").attr("class", "me-1 view-non-selected-button");
+        $("#a-home-list").removeClass("view-non-selected-button").addClass("view-selected-button");
+        $("#a-home-week").removeClass("view-selected-button").addClass("view-non-selected-button");
+        $("#a-home-daily").removeClass("view-non-selected-button").addClass("view-non-selected-button");
     }
 });
