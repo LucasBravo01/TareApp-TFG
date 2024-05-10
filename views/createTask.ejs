@@ -31,55 +31,53 @@
                 <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
                 <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
 
+                <!--TAREA COMPLETADA-->
+                <% if (task.id) { %>
+                    <div class="col-12 text-center mt-3">
+                        <label for="input-completed">Completar tarea</label>
+                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                    </div>
+                <% } %>
+
                 <!--TITULO-->
-                <div class="col-6 text-center mt-3">
-                    <label for="input-title">Título</label>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
                 </div>
 
-                <!--PROPIETARIO-->
-                <div class="col-3 text-center mt-3">
-                    <% if (session.currentUser.hasProfilePic) { %>
-                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="50">
-                        </button>
-                    <% } else { %>
-                        <button id="button-nav-profile" title="Desplegable del perfil" class="ms-1" style="border-radius: 50%;" disabled>
-                            <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50">
-                        </button>
-                    <% } %>
-                    <% if (session.currentUser) { %>
-                        <p class="ms-3">
-                            <%=session.currentUser.name%>
-                        </p>
-                    <% }else{ %>
-                        <p>Propietario</p>
-                    <% } %>
-                </div>
-
-                <!--TAREA COMPLETADA-->
-                <div class="col-3 text-center mt-3">
-                    <% if (task.id) { %>
-                        <label for="input-completed">Completar tarea</label>
-                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
-                    <% } %>
+                 <!--RECOMPENSA-->
+                <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-reward">Recompensa<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="input-reward" name="reward" class="form-control">
+                        <option value="">...</option>
+                        <% data.rewards.forEach( r=> { %>
+                            <option value="<%= r.id %>"><%= r.title %></option>
+                        <% }); %>
+                    </select>
                 </div>
 
                 <!--FECHA DE ENTREGA-->
-                <div class="col-6 text-center mt-3">
-                    <label for="input-date">Fecha de entrega</label>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-date">Fecha de entrega<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
-                <div class="col-6 text-center mt-3">
-                    <label for="input-hour">Hora:</label>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-hour">Hora:<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
+                <!--DURACIÓN ESTIMADA-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
+                </div>
+                
+
                 <!--CATEGORIA-->
-                <div class="col-4 text-center mt-3">
-                    <label for="input-category">Categoria</label>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
@@ -89,8 +87,9 @@
                 </div>
     
                 <!--ASIGNATURA-->
-                <div class="col-4 text-center mt-3">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-subject">Asignatura</label>
+                    <span id="subject-asterisk" class="text-danger d-none">*</span>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
@@ -100,9 +99,11 @@
                 </div>
 
                 <!--RECORDATORIOS-->
-                <div class="col-4 text-center mt-3">
-                    <label for="input-reminder">Recordatorios</label>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-reminder" name="reminders" class="form-control">
+                        <option value="10 minutos antes">10 minutos antes</option>
+                        <option value="1 hora antes">1 hora antes</option>
                         <option value="1 día antes">1 día antes</option>
                         <option value="Desde 2 días antes">Desde 2 días antes</option>
                         <option value="Desde 1 semana antes">Desde 1 semana antes</option>
@@ -111,40 +112,18 @@
                 </div>
 
                 <!--DESCRIPCIÓN-->
-                <div class="col-12 text-center mt-3">
+                <div class="col-sm-12 col-10 text-center mt-3">
                     <label for="input-description">Descripción</label>
                     <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>
 
-                <!--RECOMPENSA-->
-                <div class="col-4 text-center mt-3">
-                    <label for="input-reward">Recompensa</label>
-                    <select id="input-reward" name="reward" class="form-control">
-                        <option value="">...</option>
-                        <% data.rewards.forEach( r=> { %>
-                            <option value="<%= r.id %>"><%= r.title %></option>
-                        <% }); %>
-                    </select>
-                </div>
-
-                <!--DURACIÓN ESTIMADA-->
-                <div class="col-4 text-center mt-3">
-                    <label for="input-duration">Duracion estimada</label>
-                    <select id="input-duration" name="duration" class="form-control">
-                        <option value="no lo sé">No lo sé</option>
-                        <option value="corta">Corta</option>
-                        <option value="media">Media</option>
-                        <option value="larga">Larga</option>
-                    </select>
-                </div>
-
                 <!--BOTÓN CREAR TAREA-->
-                <div class="col-6 text-center mt-5">
-                    <% if (task.id) { %>
-                    <% } else { %>
+                <% if (!task.id) { %>
+                    <div class="col-6 text-center mt-5">
                         <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
-                    <% } %>
-                </div>
+                    </div>
+                <% } %>
+
             </div>
         </form>
     </div>

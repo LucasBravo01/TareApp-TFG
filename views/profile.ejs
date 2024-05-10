@@ -14,35 +14,40 @@
     <%- include("fragments/nav") %>
 
     <div class="container">
-        <div class="row justify-content-center mt-5 mb-3">
-            <!--FOTO-->
-            <div class="col-3 text-center mt-5">
-                <% if (session.currentUser.hasProfilePic) { %>
-                    <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" width="150">
-                <% } else { %>
-                    <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="150">
-                <% } %>
-            </div>
+        <div class="row justify-content-center mt-4 mb-3">
+           
+            <div class="div-profile">
+                <!--FOTO-->
+                <div class="col-md-6 col-12 text-center mt-2 me-3">
+                    <% if (session.currentUser.hasProfilePic) { %>
+                        <img id="img-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil">
+                    <% } else { %>
+                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil">
+                    <% } %>
+                </div>
 
-            <!--NOMBRE-->
-            <div class="col-3 text-center mt-5">
-                <label for="nameUser" class="form-label" style="font-weight: bold";>Nombre completo</label>
-                <input id="input-user" name="nameUser" type="text" class="form-control" value="<%= user.name %>"
-                    disabled>
+                <!--NOMBRE-->
+                <div class="col-md-6 col-12 text-center mt-5">
+                    <label for="nameUser" class="form-label" style="font-weight: bold;">Nombre completo</label>
+                    <input id="input-user" name="nameUser" type="text" class="form-control"
+                        value="<%= user.name %> <%= user.lastname1 %> <%= user.lastname2 %>" disabled>
+                </div>
             </div>
-            
-            <!--USUARIO-->
-            <div class="col-3 text-center mt-5">
-                <label for="user" class="form-label" style="font-weight: bold";>Usuario</label>
-                <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
-                    disabled>
+            <div class="div-profile">
+                <!--USUARIO-->
+                <div class="col-md-6 col-12 text-center mt-5 me-3">
+                    <label for="user" class="form-label" style="font-weight: bold;">Usuario</label>
+                    <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
+                        disabled>
+                </div>
+
+                <!--ROL-->
+                <div class="col-md-6 col-12 text-center mt-5">
+                    <label for="rol" class="form-label" style="font-weight: bold;">Rol</label>
+                    <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>"
+                        disabled>
+                </div>
             </div>
-            
-            <!--ROL-->
-            <div class="col-3 text-center mt-5">
-                <label for="rol" class="form-label" style="font-weight: bold";>Rol</label>
-                <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>" disabled>
-            </div>           
 
             <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
@@ -53,30 +58,31 @@
             <div class="row align-items-center justify-content-center">
                 <!--RECOMPENSAS-->
                 <% for (let i = 0; i < userRewards.length; i++) { %>
-                    <div class="col-3 text-center mt-3">
-                        <div class="card card-recompensa">
-                            <div class="card-header card-header-recompensa">
-                                <img src="/images/rewards/<%= userRewards[i].icon %>.png" alt="Icono de la recompensa <%= userRewards[i].title %>" width="100">
-                            </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-3">
+                    <div class="card card-recompensa">
+                        <div class="card-header card-header-recompensa">
+                            <img src="/images/rewards/<%= userRewards[i].icon %>.png"
+                                alt="Icono de la recompensa <%= userRewards[i].title %>" width="100">
+                        </div>
 
-                            <div class="card-body card-body-recompensa">
-                                <h5 class="card-title mt-2"><%= userRewards[i].title %></h5>
-                                <% if (userRewards[i].message) { %>
-                                    <p class="card-text mt-2"><%= userRewards[i].message %></p>
-                                <% } %>
-                            </div>
+                        <div class="card-body card-body-recompensa">
+                            <h5 class="card-title mt-2"><%= userRewards[i].title %></h5>
+                            <% if (userRewards[i].message) { %>
+                            <p class="card-text mt-2"><%= userRewards[i].message %></p>
+                            <% } %>
+                        </div>
 
-                            <div class="card-footer card-footer-recompensa">
-                                <% if (userRewards[i].count === 0) { %>
-                                    <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
-                                <% } else { %>
-                                    <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
-                                <% } %>
-                            </div>
+                        <div class="card-footer card-footer-recompensa">
+                            <% if (userRewards[i].count === 0) { %>
+                            <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
+                            <% } else { %>
+                            <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
+                            <% } %>
                         </div>
                     </div>
+                </div>
                 <% } %>
-            </div>            
+            </div>
         </div>
     </div>
 </body>

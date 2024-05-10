@@ -5,7 +5,7 @@ function validateParams(params, currentDate) {
     let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
     // Campos no vacíos
-    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === "") {
+    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === ""|| params.duration === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
@@ -81,9 +81,11 @@ $(() => {
         // Si la opción seleccionada es "Escolar", habilitamos el select de asignatura
         if (inputCategory.val() === "Escolar") {
             inputSubject.removeAttr("disabled");
+            $('#subject-asterisk').removeClass('d-none'); // Mostrar el asterisco rojo
         } else {
             // Si no, deshabilitamos el select de asignatura y lo reseteamos
             inputSubject.attr("disabled", "true");
+            $('#subject-asterisk').addClass('d-none'); // Ocultar el asterisco rojo
             inputSubject.val(""); // Esto establece la opción por defecto
         }
     });
@@ -97,7 +99,8 @@ $(() => {
             hour: inputHour.val(),
             category: inputCategory.val(),
             subject: inputSubject.val(),
-            reward: inputReward.val()
+            reward: inputReward.val(),
+            duration: inputDuration.val()
         };
         // Validar
         let error = validateParams(params, currentDate);

@@ -146,7 +146,7 @@ app.get("/login", userAlreadyLogged, (req, res, next) => {
 // Inicio
 app.get(["/", "/inicio"], userLogged, conRem.unreadReminders, conTas.getTasks);
 
-//Calendario semanal
+// Calendario semanal
 app.get("/semanal/:day",
   check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
@@ -156,7 +156,7 @@ app.get("/semanal/:day",
   conTas.getWeeklyTasks
 );
 
-//Calendario diario
+// Calendario diario
 app.get("/diaria/:day",
   check("day", "-2").custom((day) => {
     return moment(day, 'YYYY-MM-DD', true).isValid()
@@ -180,7 +180,7 @@ app.post("/logout", conUse.logout);
 
 // --- Otras funciones ---
 // Programar la tarea para que se ejecute todos los días a las 8 de la mañana
-cron.schedule('0 8 * * *', () => {
+cron.schedule('* * * * *', () => {
   conRem.sendNotifications();
 });
 

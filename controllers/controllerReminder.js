@@ -108,7 +108,7 @@ class controllerReminder {
         };
 
         let currentDate = new Date();
-        currentDate.setHours(8, 0, 0, 0);
+        currentDate.setSeconds(0, 0);
 
 
         this.daoRem.readRemindersByDate(currentDate, (error, notifications) => {

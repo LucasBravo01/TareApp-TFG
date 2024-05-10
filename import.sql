@@ -72,6 +72,7 @@ CREATE TABLE subject (
   name VARCHAR(255) NOT NULL,
   grade VARCHAR(255) NOT NULL,
   subject_icon VARCHAR(255) NOT NULL,
+  subject_photo VARCHAR(255) NOT NULL,
   subject_color VARCHAR(255) NOT NULL,
 
   CONSTRAINT UC_subject UNIQUE(id_teacher, name, grade),
@@ -103,6 +104,7 @@ CREATE TABLE study (
 CREATE TABLE category (
   name  VARCHAR(255) NOT NULL PRIMARY KEY,
   category_icon VARCHAR(255) NOT NULL,
+  category_photo VARCHAR(255) NOT NULL,
   category_color VARCHAR(255) NOT NULL
 );
 
@@ -124,7 +126,7 @@ CREATE TABLE activity (
   date DATE NOT NULL,
   time TIME NOT NULL,
   description VARCHAR(255),
-  reminder ENUM('1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
+  reminder ENUM('10 minutos antes','1 hora antes','1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   category VARCHAR(255) NOT NULL,
   id_subject INT,
 
@@ -147,7 +149,7 @@ CREATE TABLE event (
 CREATE TABLE task (
   id_activity INT NOT NULL PRIMARY KEY,
   completed INT NOT NULL DEFAULT 0,
-  duration ENUM('corta', 'media', 'larga', 'no lo sé') NOT NULL,
+  duration INT NOT NULL,
   id_event INT,
   id_reward INT NOT NULL,
 
@@ -202,22 +204,22 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
 -- SesiónEstudio
 
 -- Asignatura
-INSERT INTO subject (id_teacher, name, grade, subject_icon, subject_color) VALUES 
-(7, 'Matemáticas', '1 ESO', '&#128290;', 'naranja'),
-(7, 'Literatura', '1 ESO', '&#128214;', 'azul'),
-(8, 'Historia', '1 ESO', '&#128506;', 'rojo'),
-(8, 'Ciencias', '1 ESO', '&#129514;', 'verde');
+INSERT INTO subject (id_teacher, name, grade, subject_icon, subject_photo, subject_color) VALUES 
+(7, 'Matemáticas', '1 ESO', '&#128290;', 'maths.png', 'naranja'),
+(7, 'Literatura', '1 ESO', '&#128214;', 'literature.png', 'azul'),
+(8, 'Historia', '1 ESO', '&#128506;', 'history.png', 'rojo'),
+(8, 'Ciencias', '1 ESO', '&#129514;', 'science.png', 'verde');
 
 -- Orden
 
 -- Cursa
 
 -- Categoría
-INSERT INTO category (name, category_icon, category_color) VALUES
-('Escolar', '&#128218;', 'rojo'),
-('Ocio', '&#x1F389;', 'morado'),
-('Extraescolar', '&#127934;', 'verde'),
-('Casa', '&#127968;', 'rosa');
+INSERT INTO category (name, category_icon, category_photo, category_color) VALUES
+('Escolar', '&#128218;', 'school.png', 'rojo'),
+('Ocio', '&#x1F389;', 'free-time.png', 'morado'),
+('Extraescolar', '&#127934;', 'after-school.png', 'verde'),
+('Casa', '&#127968;', 'home.png', 'rosa');
 
 -- Recompensa
 INSERT INTO reward (title, message, icon) VALUES
@@ -258,30 +260,31 @@ INSERT INTO activity (id_creator, id_receiver, title, date, time, description, r
 
 -- Tarea
 INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
-(1, false, 'no lo sé', 1),
-(2, false, 'corta', 1),
-(3, true, 'media', 4),
-(4, true, 'larga', 4),
+(1, false, 1, 1),
+(2, false, 30, 1),
+(3, true, 60, 4),
+(4, true, 120, 4),
 
-(5, false, 'no lo sé', 1),
-(6, false, 'corta', 1),
-(7, true, 'media', 4),
-(8, true, 'larga', 4),
+(5, false, 1, 1),
+(6, false, 30, 1),
+(7, true, 60, 4),
+(8, true, 120, 4),
 
-(9, false, 'no lo sé', 1),
-(10, false, 'corta', 1),
-(11, true, 'media', 4),
-(12, true, 'larga', 4),
+(9, false, 1, 1),
+(10, false, 30, 1),
+(11, true, 60, 4),
+(12, true, 120, 4),
 
-(13, false, 'no lo sé', 1),
-(14, false, 'corta', 1),
-(15, true, 'media', 4),
-(16, true, 'larga', 4),
+(13, false, 1, 1),
+(14, false, 30, 1),
+(15, true, 60, 4),
+(16, true, 120, 4),
 
-(17, false, 'no lo sé', 1),
-(18, false, 'corta', 1),
-(19, true, 'media', 4),
-(20, true, 'larga', 4);
+(17, false, 1, 1),
+(18, false, 30, 1),
+(19, true, 60, 4),
+(20, true, 120, 4);
+
 
 -- Recordatorio
 INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES 
