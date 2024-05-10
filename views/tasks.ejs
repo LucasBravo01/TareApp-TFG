@@ -43,7 +43,7 @@
             <!--FLECHAS Y DÍA-->
             <div class="row mt-5">
                 <div class="col-3 text-start">
-                    <a id="a-previous-day" href="" class="view-selected-button">
+                    <a id="a-previous-day" href="" class="arrow-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="col-6 text-center"><%= homeInfo.day.dayName %> <%= homeInfo.day.dayNumber %></div>
 
                 <div class="col-3 text-end">
-                    <a id="a-next-day" href=""  class="view-selected-button">
+                    <a id="a-next-day" href=""  class="arrow-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                     </a>
                 </div>
@@ -67,14 +67,20 @@
                                 <% tasks[hour].forEach(t => { %>
                                     <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
-                                            <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
-                                                <div class="d-flex justify-content-center">
-                                                    <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                            <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
+                                                    <div class="d-flex justify-content-center">
+                                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                    </div>
+                                                    <div>
+                                                        <span><%= t.title %></span>
+                                                    </div>
                                                 </div>
-                                                <div>
+                                            <% } else { %>
+                                                <div class="align-items-center">
                                                     <span><%= t.title %></span>
                                                 </div>
-                                            </div>
+                                            <% } %>
                                         </a>
                                     </div>       
                                 <% }) %>
@@ -91,7 +97,7 @@
             <!--FLECHAS Y SEMANA-->
             <div class="d-grid mt-5" style="grid-template-columns: 5% 91% 4%;">
                 <div class="text-start">
-                    <a id="a-previous-week" href="" class="view-selected-button">
+                    <a id="a-previous-week" href="" class="arrow-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
@@ -105,7 +111,7 @@
                 </div>
 
                 <div class="text-end">
-                    <a id="a-next-week" href=""  class="view-selected-button">
+                    <a id="a-next-week" href=""  class="arrow-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
                     </a>
                 </div>
@@ -129,17 +135,23 @@
                                         <% let t = day.tasks[j] %>
                                         <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
                                             <a href="/tareas/tarea/<%= t.id %>">
-                                                <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
-                                                    <div class="d-flex justify-content-center">
-                                                        <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                                <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                    <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                        </div>
+                                                        <div>
+                                                            <span><%= t.title %></span>
+                                                        </div>
                                                     </div>
-                                                    <div>
+                                                <% } else { %>
+                                                    <div class="align-items-center">
                                                         <span><%= t.title %></span>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                <% } %>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
                                     <% j++; %>
                                 <% } else { %>
                                     <div id="<%= hour %>" class="div-hour"></div>
@@ -178,14 +190,21 @@
                     <% primeraCompletada = true; } %>
                     
                     
-                    <div class="card-task <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                    <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
                         <a href="/tareas/tarea/<%= t.id %>">
                             <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
                                 <div class="d-flex justify-content-center">
-                                    <span style="font-size: 2rem;"><% if (t.subject_icon) { %> <%- t.subject_icon %> <% } else { %> <%- t.category_icon %> <% } %></span>
+                                    <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                    <% } else { %>
+                                        <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
+                                    <% } %>
                                 </div>
-                                <div>
+                                <div class="d-flex justify-content-between">
                                     <span><%= t.title %></span>
+                                    <a href="/tareas/tarea/<%= t.id %>" class="arrow-task-button">
+                                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
+                                    </a>
                                 </div>
                             </div>
                         </a>
