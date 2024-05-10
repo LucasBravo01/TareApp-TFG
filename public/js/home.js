@@ -8,27 +8,6 @@ function scroll(hour8Element){
 
 // Cuando cargue el DOM
 $(document).ready(() => {
-    // Función para detectar si el usuario está en un dispositivo móvil
-    function isMobileDevice() {
-        return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-    }
-
-    // Función para mostrar u ocultar la opción de día según el dispositivo
-    function toggleDayOption() {
-        var dayLink = $("#a-home-week");
-        if (isMobileDevice()) {
-            // Si es un dispositivo móvil, ocultar la opción de día
-            dayLink.hide();
-        } else {
-            // Si es un ordenador, mostrar la opción de día
-            dayLink.show();
-        }
-    }
-
-    // Llamar a la función al cargar la página
-    toggleDayOption();
-
-    /////////
     let currentDate = new Date();
     currentDate = formatDate(currentDate);
 

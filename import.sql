@@ -257,27 +257,27 @@ INSERT INTO activity (id_creator, id_receiver, title, date, time, description, r
 
 -- Tarea
 INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
-(1, false, 0, 1),
+(1, false, 1, 1),
 (2, false, 30, 1),
 (3, true, 60, 4),
 (4, true, 120, 4),
 
-(5, false, 0, 1),
+(5, false, 1, 1),
 (6, false, 30, 1),
 (7, true, 60, 4),
 (8, true, 120, 4),
 
-(9, false, 0, 1),
+(9, false, 1, 1),
 (10, false, 30, 1),
 (11, true, 60, 4),
 (12, true, 120, 4),
 
-(13, false, 0, 1),
+(13, false, 1, 1),
 (14, false, 30, 1),
 (15, true, 60, 4),
 (16, true, 120, 4),
 
-(17, false, 0, 1),
+(17, false, 1, 1),
 (18, false, 30, 1),
 (19, true, 60, 4),
 (20, true, 120, 4);

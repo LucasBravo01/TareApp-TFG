@@ -40,20 +40,14 @@
                 <% } %>
 
                 <!--TITULO-->
-                <div class="col-6 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-title">Título</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
                 </div>
 
                  <!--RECOMPENSA-->
-                <div class="col-lg-6 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-reward">Recompensa</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-reward">Recompensa<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-reward" name="reward" class="form-control">
                         <option value="">...</option>
                         <% data.rewards.forEach( r=> { %>
@@ -63,39 +57,27 @@
                 </div>
 
                 <!--FECHA DE ENTREGA-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-date">Fecha de entrega</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-date">Fecha de entrega<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-hour">Hora:</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-hour">Hora:<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
                 <!--DURACIÓN ESTIMADA-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-duration">Duración estimada (minuto)</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<%= task.time %>" placeholder="Ej: 20">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
                 </div>
                 
 
                 <!--CATEGORIA-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-category">Categoría</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
@@ -105,7 +87,7 @@
                 </div>
     
                 <!--ASIGNATURA-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-subject">Asignatura</label>
                     <span id="subject-asterisk" class="text-danger d-none">*</span>
                     <select id="input-subject" name="subject" class="form-control" disabled>
@@ -117,11 +99,8 @@
                 </div>
 
                 <!--RECORDATORIOS-->
-                <div class="col-lg-4 col-md-6 col-sm-6 text-center mt-3">
-                    <label for="input-reminder">Recordatorios</label>
-                    <% if (!task.id) { %>
-                        <span class="text-danger">*</span>
-                    <% } %>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
+                    <label for="input-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-reminder" name="reminders" class="form-control">
                         <option value="10 minutos antes">10 minutos antes</option>
                         <option value="1 hora antes">1 hora antes</option>
@@ -133,7 +112,7 @@
                 </div>
 
                 <!--DESCRIPCIÓN-->
-                <div class="col-12 text-center mt-3">
+                <div class="col-sm-12 col-10 text-center mt-3">
                     <label for="input-description">Descripción</label>
                     <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>

@@ -15,37 +15,38 @@
 
     <div class="container">
         <div class="row justify-content-center mt-4 mb-3">
-            <!--FOTO-->
-<div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-2">
-    <% if (session.currentUser.hasProfilePic) { %>
-    <img id="img-nav-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>"
-        alt="Foto de perfil">
-    <% } else { %>
-    <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png"
-        alt="Foto de perfil">
-    <% } %>
-</div>
+           
+            <div class="div-profile">
+                <!--FOTO-->
+                <div class="col-md-6 col-12 text-center mt-2 me-3">
+                    <% if (session.currentUser.hasProfilePic) { %>
+                        <img id="img-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil">
+                    <% } else { %>
+                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil">
+                    <% } %>
+                </div>
 
-
-            <!--NOMBRE-->
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-5">
-                <label for="nameUser" class="form-label" style="font-weight: bold;">Nombre completo</label>
-                <input id="input-user" name="nameUser" type="text" class="form-control"
-                    value="<%= user.name %> <%= user.lastname1 %> <%= user.lastname2 %>" disabled>
+                <!--NOMBRE-->
+                <div class="col-md-6 col-12 text-center mt-5">
+                    <label for="nameUser" class="form-label" style="font-weight: bold;">Nombre completo</label>
+                    <input id="input-user" name="nameUser" type="text" class="form-control"
+                        value="<%= user.name %> <%= user.lastname1 %> <%= user.lastname2 %>" disabled>
+                </div>
             </div>
+            <div class="div-profile">
+                <!--USUARIO-->
+                <div class="col-md-6 col-12 text-center mt-5 me-3">
+                    <label for="user" class="form-label" style="font-weight: bold;">Usuario</label>
+                    <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
+                        disabled>
+                </div>
 
-            <!--USUARIO-->
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-5">
-                <label for="user" class="form-label" style="font-weight: bold;">Usuario</label>
-                <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
-                    disabled>
-            </div>
-
-            <!--ROL-->
-            <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-5">
-                <label for="rol" class="form-label" style="font-weight: bold;">Rol</label>
-                <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>"
-                    disabled>
+                <!--ROL-->
+                <div class="col-md-6 col-12 text-center mt-5">
+                    <label for="rol" class="form-label" style="font-weight: bold;">Rol</label>
+                    <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>"
+                        disabled>
+                </div>
             </div>
 
             <!--SECCIÓN RECOMPENSAS-->
