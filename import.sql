@@ -71,6 +71,7 @@ CREATE TABLE subject (
   name VARCHAR(255) NOT NULL,
   grade VARCHAR(255) NOT NULL,
   subject_icon VARCHAR(255) NOT NULL,
+  subject_photo VARCHAR(255) NOT NULL,
   subject_color VARCHAR(255) NOT NULL,
 
   CONSTRAINT UC_subject UNIQUE(id_teacher, name, grade),
@@ -102,6 +103,7 @@ CREATE TABLE study (
 CREATE TABLE category (
   name  VARCHAR(255) NOT NULL PRIMARY KEY,
   category_icon VARCHAR(255) NOT NULL,
+  category_photo VARCHAR(255) NOT NULL,
   category_color VARCHAR(255) NOT NULL
 );
 
@@ -201,22 +203,22 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
 -- SesiónEstudio
 
 -- Asignatura
-INSERT INTO subject (id_teacher, name, grade, subject_icon, subject_color) VALUES 
-(7, 'Matemáticas', '1 ESO', '&#128290;', 'naranja'),
-(7, 'Literatura', '1 ESO', '&#128214;', 'azul'),
-(8, 'Historia', '1 ESO', '&#128506;', 'rojo'),
-(8, 'Ciencias', '1 ESO', '&#129514;', 'verde');
+INSERT INTO subject (id_teacher, name, grade, subject_icon, subject_photo, subject_color) VALUES 
+(7, 'Matemáticas', '1 ESO', '&#128290;', 'maths.png', 'naranja'),
+(7, 'Literatura', '1 ESO', '&#128214;', 'literature.png', 'azul'),
+(8, 'Historia', '1 ESO', '&#128506;', 'history.png', 'rojo'),
+(8, 'Ciencias', '1 ESO', '&#129514;', 'science.png', 'verde');
 
 -- Orden
 
 -- Cursa
 
 -- Categoría
-INSERT INTO category (name, category_icon, category_color) VALUES
-('Escolar', '&#128218;', 'rojo'),
-('Ocio', '&#x1F389;', 'morado'),
-('Extraescolar', '&#127934;', 'verde'),
-('Casa', '&#127968;', 'rosa');
+INSERT INTO category (name, category_icon, category_photo, category_color) VALUES
+('Escolar', '&#128218;', 'school.png', 'rojo'),
+('Ocio', '&#x1F389;', 'free-time.png', 'morado'),
+('Extraescolar', '&#127934;', 'after-school.png', 'verde'),
+('Casa', '&#127968;', 'home.png', 'rosa');
 
 -- Recompensa
 INSERT INTO reward (title, message, icon) VALUES

@@ -21,7 +21,7 @@ class DAOActivity {
             }
             else {
                 // Construir objeto 
-                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_color, SUB.name, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? ORDER BY TAR.completed;"
+                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? ORDER BY TAR.completed;"
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -55,11 +55,13 @@ class DAOActivity {
                                 // Category
                                 category_icon: row.category_icon,
                                 category_color: row.category_color,
+                                category_photo: row.category_photo,
 
                                 // Subject
                                 name: row.name,
                                 subject_icon: row.subject_icon,
-                                subject_color: row.subject_color
+                                subject_color: row.subject_color,
+                                subject_photo: row.subject_photo
                             }
                             activities.push(activity);
                         });

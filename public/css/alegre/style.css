@@ -152,6 +152,22 @@ button {
         filter: brightness(85%);
     }
 
+.arrow-button {
+    padding: .5rem;
+    border: 1px #8898FA solid;
+    border-radius: .7rem;
+    background-color: #8898FA;
+    color: #F1F2F6;
+}
+    
+    .arrow-button:hover {
+        filter: brightness(85%);
+    }
+
+.arrow-task-button {
+    display: none;
+}
+
 /*ELEMENTOS*/
 .card-task {
     margin: 1rem auto;
