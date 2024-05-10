@@ -7,6 +7,8 @@ class DAOStudySession {
 
         // SELECTs
         this.readStudySessionsByIdUser = this.readStudySessionsByIdUser.bind(this);
+        // INSERTs
+        this.insertStudySession = this.insertStudySession.bind(this);
     }
 
     // SELECTs
@@ -44,6 +46,27 @@ class DAOStudySession {
             }
         });
     }
+
+    // INSERTs
+    // Crear una nueva sesión de estudio
+    insertStudySession(studysession, callback) {
+        this.pool.getConnection((error, connection) => {
+            if(error) {
+                callback(-1);
+            } else {
+                let querySQL = "INSERT INTO studysessions (name, id_user, study_slot, brake_slot, long_brake_slot, num_slots, num_long_slots) VALUES (?, ?, ?, ?, ?, ?, ?);"
+                connection.query(querySQL, [studysession.name, studysession.id_user, studysession.study_slot, studysession.brake_slot, studysession.long_brake_slot, studysession.num_slots, studysession.num_long_slots], (error, result) => {
+                    connection.release();
+                    if(error) {
+                        callback(-1);
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+
 }
 
 module.exports = DAOStudySession;

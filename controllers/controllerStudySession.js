@@ -12,6 +12,9 @@ class ControllerStudySession {
 
         // GETs
         this.getStudySessions = this.getStudySessions.bind(this);
+
+        // POSTs
+        this.createStudySession = this.createStudySession.bind(this);
     }
 
     // GETs
@@ -35,6 +38,41 @@ class ControllerStudySession {
                 });
             }
         });
+    }
+
+    // POSTs
+    // Crear sesión de estudio
+    createStudySession(req, res, next) {
+        const errors = validationResult(req);
+
+        if(errors.isEmpty()) {
+            let studysession = {
+                name: req.body.name,
+                id_user: req.session.currentUser.id,
+                study_slot: req.body.study_slot,
+                brake_slot: req.body.brake_slot,
+                long_brake_slot: req.body.long_brake_slot,
+                num_slots: req.body.num_slots,
+                num_long_slots: req.body.num_long_slots
+            }
+
+            this.daoStu.insertStudySession(studysession, (error) => {
+                if (error) {
+                    errorHandler.manageAJAXError(error, next);
+                } else {
+                    next({
+                        ajax: true,
+                        error: false,
+                        img: false,
+                        data: {
+                            code: 200,
+                            title: "Sesión de estudio creada con éxito.",
+                            message: "Enhorabuena se ha creado correctamente la sesión de estudio."
+                        }
+                    });
+                }
+            });
+        }
     }
 }
 

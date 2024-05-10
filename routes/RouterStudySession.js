@@ -13,6 +13,10 @@ function routerConfig(conStu, conRem) {
     // --- Peticiones GET ---
     // Mostrar sesión de estudio
     RouterStudySession.get("/sesionEstudio", conRem.unreadReminders, conStu.getStudySessions);
+
+    // --- Peticiones POST ---
+    // Crear sesión de estudio
+    RouterStudySession.post("/nuevaSesionEstudio", conRem.unreadReminders, conStu.createStudySession);
 }
 
 module.exports = {

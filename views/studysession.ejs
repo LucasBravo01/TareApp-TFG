@@ -9,7 +9,7 @@
     <script src="/js/studysession.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>" data-studySessions="<%= JSON.stringify(studySessions) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-sessions="<%= JSON.stringify(studySessions) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
@@ -39,7 +39,7 @@
                         </div>
 
                         <!--NOMBRE-->
-                        <div id="div-input-name" class="col-6 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                        <div class="col-6 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                             <label for="input-name">Nombre nueva sesión *</label>
                             <input type="text" id="input-name" name="name" class="form-control">
                         </div>
@@ -79,11 +79,11 @@
     
                     <div class="d-flex justify-content-center mt-3 mb-3">
                         <div class="text-center me-3">
-                            <button type="submit" id="input-sb-selectStudySession" class="main-button">Configurar temporizador</button>
+                            <button type="" id="input-sb-selectStudySession" class="main-button">Configurar temporizador</button>
                         </div>
     
                         <div class="text-center me-3">
-                            <button type="" id="input-sb-createStudySession" class="main-button">Configurar y guardar</button>
+                            <button type="submit" id="input-sb-createStudySession" class="main-button">Configurar y guardar</button>
                         </div>
                     </div>
                 </form>    
