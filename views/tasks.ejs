@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <%- include("../public/utils/head.html") %>
+    <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
+    <!-- Importar JS específicos -->
+    <script src="/js/home.js"></script>
+</head>
+
+<body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>">
+    <!-- Importar modal error -->
+    <%- include("../public/utils/modal.html") %>
+    <!-- Importar nav -->
+    <%- include("fragments/nav", { generalInfo: generalInfo }) %>
+
+    <div class="container">
+        <!--BOTONES DE NUEVA TAREA Y ELECCIÓN DE VISTA-->
+        <div class="row mt-5">
+            <div class="col-4 text-start">
+                <button onclick="window.location.href='/tareas/crearTarea'" class="new-task-button">
+                    <span>Nueva tarea</span>
+                </button>
+            </div>
+        
+            <div class="col-8 text-end"> 
+                <a id="a-home-list" href="/inicio" class="mx-2">
+                    <span class="material-symbols-outlined">Lista</span>
+                </a>
+                <a id="a-home-week" href="" class="mx-2 not-mobile">
+                    <span class="material-symbols-outlined">Semana</span>
+                </a>
+                
+                <a id="a-home-daily" href="" class="mx-2">
+                    <span class="material-symbols-outlined">Día</span>
+                </a>
+            </div>
+        </div>
+
+        <!--VISTA DIARIA-->
+        <% if (homeInfo.day) { %>
+            <!--FLECHAS Y DÍA-->
+            <div class="row mt-5">
+                <div class="col-3 text-start">
+                    <a id="a-previous-day" href="" class="arrow-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                    </a>
+                </div>
+
+                <div class="col-6 text-center"><%= homeInfo.day.dayName %> <%= homeInfo.day.dayNumber %></div>
+
+                <div class="col-3 text-end">
+                    <a id="a-next-day" href=""  class="arrow-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                    </a>
+                </div>
+            </div>
+
+            <!--HORAS Y TAREAS-->
+            <scroll-container class="mt-3 scroll-container-day">
+                <% for(let hour = 0; hour < 24; hour++) { %>
+                    <div class="div-hour"><%= hour %>:00</div>
+                    <div>
+                        <% if (tasks[hour] && tasks[hour].length > 0) { %> 
+                            <div id="<%= hour %>">
+                                <% tasks[hour].forEach(t => { %>
+                                    <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                        <a href="/tareas/tarea/<%= t.id %>">
+                                            <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
+                                                    <div class="d-flex justify-content-center">
+                                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                    </div>
+                                                    <div>
+                                                        <span><%= t.title %></span>
+                                                    </div>
+                                                </div>
+                                            <% } else { %>
+                                                <div class="align-items-center">
+                                                    <span><%= t.title %></span>
+                                                </div>
+                                            <% } %>
+                                        </a>
+                                    </div>       
+                                <% }) %>
+                            </div>
+                        <% } else { %>
+                            <div id="<%= hour %>"></div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </scroll-container> 
+
+        <!--VISTA SEMANAL-->
+        <% } else if (homeInfo.week) { %>
+            <!--FLECHAS Y SEMANA-->
+            <div class="d-grid mt-5" style="grid-template-columns: 5% 91% 4%;">
+                <div class="text-start">
+                    <a id="a-previous-week" href="" class="arrow-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                    </a>
+                </div>
+
+                <div class="text-center d-flex">
+                    <% homeInfo.week.forEach(day => { %>
+                        <div class="col day-column">
+                            <div class="day-header"><%= day.dayName[0] %> <%= day.dayNumber %></div>
+                        </div>                                
+                    <% }) %>
+                </div>
+
+                <div class="text-end">
+                    <a id="a-next-week" href=""  class="arrow-button">
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                    </a>
+                </div>
+            </div>
+
+            <!--HORAS Y TAREAS-->
+            <scroll-container class="mt-3 scroll-container-week">
+                <div> <!--COLUMNA DÍA-->
+                    <% for(let hour = 0; hour < 24; hour++) { %>
+                        <div class="div-hour"><%= hour %>:00</div>
+                    <% } %>
+                </div>
+                
+                <% homeInfo.week.forEach(day => { %>
+                    <% let j = 0; %>
+                    <div class="d-grid" style="grid-template-columns: 100%;"> <!--COLUMNA DÍA-->
+                        <% for(let hour = 0; hour < 24; hour++) { %>
+                            <div class="div-hour">
+                                <% if (j < day.tasks.length && day.tasks[j].time.split(':')[0] == hour) { %> 
+                                    <div id="<%= hour %>">
+                                        <% let t = day.tasks[j] %>
+                                        <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                            <a href="/tareas/tarea/<%= t.id %>">
+                                                <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                    <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                        </div>
+                                                        <div>
+                                                            <span><%= t.title %></span>
+                                                        </div>
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="align-items-center">
+                                                        <span><%= t.title %></span>
+                                                    </div>
+                                                <% } %>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <% j++; %>
+                                <% } else { %>
+                                    <div id="<%= hour %>" class="div-hour"></div>
+                                <% } %>
+                            </div>
+                        <% } %> 
+                    </div>                               
+                <% }) %>
+
+                <!--COLUMNA EXTRA PARA IGUALAR LOS DÍAS CON LAS COLUMNAS DE TAREAS-->
+                <div>
+                    <div class="div-hour"></div>
+                </div>
+            </scroll-container>
+
+        <!--VISTA LISTA-->
+        <% } else { %>
+            <div class="mt-4 justify-content-center">
+                <% let primeraNoCompletada = false;
+                let primeraCompletada = false; %>
+                <% tasks.forEach( t=> { %>
+                    <% if(!primeraNoCompletada && !t.completed) { %>
+                        <!--SECCIÓN NO COMPLETADAS-->
+                        <div class="col-12 text-center mt-3">
+                            <p class="text-start subtitle">No completadas</p>
+                            <hr class="separator-line" />
+                        </div>
+                    <% primeraNoCompletada = true; } %>
+    
+                    <% if(!primeraCompletada && t.completed) { %>
+                        <!--SECCIÓN COMPLETADAS-->
+                        <div class="col-12 text-center mt-3">
+                            <p class="text-start subtitle">Completadas</p>
+                            <hr class="separator-line" />
+                        </div>
+                    <% primeraCompletada = true; } %>
+                    
+                    
+                    <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
+                        <a href="/tareas/tarea/<%= t.id %>">
+                            <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                                <div class="d-flex justify-content-center">
+                                    <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                    <% } else { %>
+                                        <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
+                                    <% } %>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><%= t.title %></span>
+                                    <a href="/tareas/tarea/<%= t.id %>" class="arrow-task-button">
+                                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+        
+        <!-- text to voice button -->
+</body>
+
+</html>

@@ -1,8 +1,9 @@
-"use strict";
+"use strict"
 
 // --- Importar módulos ---
 // Core
 const path = require("path");
+const moment = require('moment');
 
 // Paquete
 const express = require("express");
@@ -10,14 +11,29 @@ const mysql = require("mysql");
 const session = require("express-session");
 const sessionMySql = require("express-mysql-session");
 const morgan = require("morgan");
+const { check, validationResult } = require("express-validator");
 const cron = require('node-cron');
 
 // Fichero
+// DAOS
 const connection = require("./daos/connection");
-const DAOTareas = require("./daos/DAOTareas");
-const DAOSuscripción = require("./daos/DAOSuscripción");
-const ControllerPrototipo = require("./controllers/controllerPrototipo");
-const routerPrototipo = require("./routes/RouterPrototipo");
+const DAOActivity = require("./daos/DAOActivity");
+const DAOCategory = require("./daos/DAOCategory");
+const DAOReminder = require("./daos/DAOReminder");
+const DAOReward = require("./daos/DAOReward");
+const DAOSubject = require("./daos/DAOSubject");
+const DAOSubscription = require("./daos/DAOSubscription");
+const DAOTask = require("./daos/DAOTask");
+const DAOUser = require("./daos/DAOUser");
+const DAOConfiguration = require("./daos/DAOConfiguration");
+// Controllers
+const ControllerReminder = require("./controllers/controllerReminder");
+const ControllerTask = require("./controllers/controllerTask");
+const ControllerUser = require("./controllers/controllerUser");
+// Routers
+const routerTask = require("./routes/RouterTask");
+const routerUser = require("./routes/RouterUser");
+const routerReminder = require("./routes/RouterReminder");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -50,131 +66,160 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-
+// TODO Que hace esto?
 app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
-
-// --- Web-Push ---
-const webpush = require('web-push'); // Importar web-push
-// Configuración de web-push (debes configurar tus propias claves)
-// Configura tus propias claves VAPID
-// const vapidKeys = webpush.generateVAPIDKeys();
-// console.log("Clave pública VAPID:", vapidKeys.publicKey);
-// console.log("Clave privada VAPID:", vapidKeys.privateKey);
-const publicVapidKey = 'BLCnzXg8xUoWfMEHgv6LvbweKvD8gPFnhDFa_itdDK-k7UvZhthfW9KyIRopraMi5mhaXqEMXitX22g-4kJNs7g';
-const privateVapidKey = 'RQL25CNQAqpZHFJuCVKmP2kpDpeuRKZhNbK-N1Ijouc';
-webpush.setVapidDetails('mailto:your_email@example.com', publicVapidKey, privateVapidKey);
-
-
 
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
 
 // --- DAOs y Controllers ---
 // Crear instancias de los DAOs
-const daoTar = new DAOTareas(pool);
-const daoSus = new DAOSuscripción(pool);
+const daoAct = new DAOActivity(pool);
+const daoCat = new DAOCategory(pool);
+const daoCon = new DAOConfiguration(pool);
+const daoRem = new DAOReminder(pool);
+const daoRew = new DAOReward(pool);
+const daoSub = new DAOSubject(pool);
+const daoSubs = new DAOSubscription(pool);
+const daoTas = new DAOTask(pool);
+const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
-const conPro = new ControllerPrototipo(daoTar, daoSus);
+const conRem = new ControllerReminder(daoRem, daoSubs);
+const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
+const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
+
+// --- Middlewares ---
+// Comprobar que el usuario ha iniciado sesión
+function userLogged(req, res, next) {
+  if (req.session.currentUser) {
+    next();
+  }
+  else {
+    res.redirect("/login");
+  }
+};
+
+// Comprobar que el usuario no había iniciado sesión
+function userAlreadyLogged(req, res, next) {
+  if (req.session.currentUser) {
+    res.redirect("/inicio");
+  }
+  else {
+    next();
+  }
+};
 
 // --- Routers ---
-routerPrototipo.routerConfig(conPro);
+routerTask.routerConfig(conTas, conRem);
+routerUser.routerConfig(conUse, conRem);
+routerReminder.routerConfig(conRem);
 
-app.use("/prototipo", routerPrototipo.RouterPrototipo);
+app.use("/tareas", userLogged, routerTask.RouterTask);
+app.use("/usuario", userLogged, routerUser.RouterUser);
+app.use("/recordatorio", userLogged, routerReminder.RouterReminder);
 
 // --- Peticiones GET ---
 // - Enrutamientos -
-app.get(['/', '/vistaView'], (req, res) => {
-  res.render('vistaView');
-});
-
-app.get('/listarTareasView', (req, res) => {
-  res.render('listarTareasView');
-});
-
-// --- POSTS ---
-
-// Ruta para recibir y guardar la suscripción desde el cliente
-app.post('/guardar-suscripcion', (req, res) => {
-  const subscription = req.body.subscription;
-  console.log('Ha peido enviar notificaciones')
-  daoSus.guardarSuscripcion(subscription, (err) => {
-    if (err) {
-      console.error('Error al guardar la suscripción:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
+// Login
+app.get("/login", userAlreadyLogged, (req, res, next) => {
+  next({
+    ajax: false,
+    status: 200,
+    redirect: "login",
+    data: {
+      user: "",
+      response: undefined
     }
-    res.status(200).json({ message: 'Suscripción guardada correctamente' });
   });
 });
 
-// Ruta para enviar notificaciones push
-app.post('/enviar-notificacion', (req, res) => {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: 'path_to_icon.png' // Ruta al icono de la notificación
-    }
-  };
+// Inicio
+app.get(["/", "/inicio"], userLogged, conRem.unreadReminders, conTas.getTasks);
 
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      res.status(500).json({ error: 'Error interno del servidor' });
-      return;
-    }
+// Calendario semanal
+app.get("/semanal/:day",
+  check("day", "-2").custom((day) => {
+    return moment(day, 'YYYY-MM-DD', true).isValid()
+  }),
+  userLogged,
+  conRem.unreadReminders,
+  conTas.getWeeklyTasks
+);
 
-    Promise.all(subscriptions.map(sub => webpush.sendNotification(sub, JSON.stringify(notificationPayload))))
-      .then(() => {
-        console.log('Notificaciones enviadas con éxito');
-        res.status(200).json({ message: 'Notificaciones enviadas con éxito' });
-      })
-      .catch(err => {
-        console.error('Error al enviar notificaciones:', err);
-        res.status(500).json({ error: 'Error interno del servidor' });
-      });
-  });
-});
+// Calendario diario
+app.get("/diaria/:day",
+  check("day", "-2").custom((day) => {
+    return moment(day, 'YYYY-MM-DD', true).isValid()
+  }),
+  userLogged,
+  conRem.unreadReminders,
+  conTas.getDailyTasks
+);
 
+// --- Peticiones POST ---
+// Login
+app.post("/login",
+  // Ninguno de los campos vacíos 
+  check("user", "1").notEmpty(),
+  check("password", "1").notEmpty(),
+  conUse.login
+);
+
+// Logout
+app.post("/logout", conUse.logout);
 
 // --- Otras funciones ---
-
-// Función para enviar notificaciones cada 5 segundos
-function enviarNotificacionAutomatica() {
-  const notificationPayload = {
-    notification: {
-      title: '¡Nuevo mensaje!',
-      body: '¡Tienes un nuevo mensaje!',
-      icon: '/images/icon-192x192.png' // Ruta al icono de la notificación
-    }
-  };
-
-  daoSus.getAllSubscriptions((err, subscriptions) => {
-    if (err) {
-      console.error('Error al obtener suscripciones:', err);
-      return;
-    }
-
-    subscriptions.forEach(subscription => {
-      webpush.sendNotification(subscription, JSON.stringify(notificationPayload))
-        .then(() => console.log('Notificación enviada con éxito a', subscription.endpoint))
-        .catch(err => console.error('Error al enviar notificación a', subscription.endpoint, ':', err));
-    });
-  });
-}
-
-// Programar la tarea para enviar notificaciones cada 9 segundos
-cron.schedule('*/9 * * * * *', () => {
-  console.log('Enviando notificaciones...');
-  enviarNotificacionAutomatica();
+// Programar la tarea para que se ejecute todos los días a las 8 de la mañana
+cron.schedule('* * * * *', () => {
+  conRem.sendNotifications();
 });
 
-// --- Arrancar el servidor ---
-app.listen(connection.port, function (err) {
-  if (err) {
-    console.log("ERROR al iniciar el servidor"); //Error al iniciar el servidor
-  } else { console.log(`Servidor arrancado en el puerto localhost:${connection.port}`); } //Exito al iniciar el servidor
+// --- Middlewares de respuestas y errores ---
+// Error 404
+app.use((req, res, next) => {
+  next({
+    ajax: false,
+    status: 404,
+    redirect: "error",
+    data: {
+      code: 404,
+      title: "Oops! Página no encontrada :(",
+      message: "La página a la que intentas acceder no existe."
+    }
+  });
+});
+
+// Manejador de respuestas 
+app.use((responseData, req, res, next) => {
+  // Respuestas AJAX
+  if (responseData.ajax) {
+    if (responseData.error) {
+      res.status(responseData.status).send(responseData.error);
+      res.end();
+    }
+    else if (responseData.img) {
+      res.end(responseData.img);
+    }
+    else {
+      res.json(responseData.data);
+    }
+  }
+  // Respuestas no AJAX
+  else {
+    res.status(responseData.status);
+    res.render(responseData.redirect, responseData.data);
+  }
+});
+
+// --- Iniciar el servidor ---
+app.listen(connection.port, (error) => {
+  if (error) {
+    console.error(`Se ha producido un error al iniciar el servidor: ${error.message}`);
+  }
+  else {
+    console.log(`Se ha arrancado el servidor en el puerto ${connection.port}`);
+  }
 });

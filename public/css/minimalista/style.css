@@ -1,0 +1,317 @@
+/*GENERAL*/
+/*El color de los iconos es #404040*/
+* {
+    font-family: "Bitter", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #F4F4F2;
+    color: #000000;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+    a:hover {
+        filter: brightness(85%);
+    }
+
+img {
+    object-fit: cover;
+}
+
+hr {
+    height: 0.1rem;
+    opacity: 80%;
+}
+
+/*NAVBAR*/
+nav {
+    padding: 0.6rem 2rem;
+}
+
+nav button {
+    border: none;
+    background: none;
+}
+
+.menu-element {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    align-items: center;
+    justify-items: start;
+    margin: 1.5rem 0rem;
+}
+
+/*MODAL*/
+.modal-confirm-button {
+    border: 1px #C2C2C2 solid;
+    background-color: #C2C2C2;
+    color: #000000;
+}
+
+.modal-close-window-button {
+    border: none;
+    background-color: #FFFFFF;
+}
+
+/*BACKGROUND*/
+.main-background {
+    background-color: #F4F4F2;
+}
+
+.second-background {
+    background-color: #F4F4F2;
+}
+
+/*TEXTOS*/
+.normal { /*Tiene que estar en español para la BD*/
+    font-size: 1rem;
+}
+
+.grande { /*Tiene que estar en español para la BD*/
+    font-size: 1.5rem;
+}
+
+.title {
+    margin: 1rem 0rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.subtitle {
+    font-weight: bold;
+    color:#404040;
+}
+
+.second-text {
+    color: #000000;
+}
+
+/*BOTONES*/
+button {
+    padding: .5rem;
+    border-radius: .7rem;
+}
+
+    button:hover {
+        filter: brightness(85%);
+    }
+
+.main-button {
+    border: 1px #C2C2C2 solid;
+    background-color: #C2C2C2;
+}
+
+.second-button {
+    border: 1px #D4E3BD solid;
+    background-color: #D4E3BD;
+}
+
+.dangerous-button {
+    border: 1px #F2ACAC solid;
+    background-color: #F2ACAC;
+}
+
+.new-task-button {
+    padding: .5rem;
+    border: 1px #D4E3BD solid;
+    border-radius: .7rem;
+    background-color: #D4E3BD;
+}
+
+    .new-task-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-selected-button {
+    padding: .5rem;
+    border: 1px #C2C3C4 solid;
+    border-radius: .7rem;
+    background-color: #C2C3C4;
+}
+
+    .view-selected-button:hover {
+        filter: brightness(85%);
+    }
+
+.view-non-selected-button {
+    padding: .5rem;
+    border: 1px #C2C3C4 solid;
+    border-radius: .7rem;
+    background-color: #F4F4F2;
+}
+
+    .view-non-selected-button:hover {
+        filter: brightness(85%);
+    }
+
+.arrow-button {
+    background-color: none;
+}
+
+    .arrow-button:hover {
+        filter: brightness(85%);
+    }
+
+.arrow-task-button {
+    display: flex;
+}
+
+/*ELEMENTOS*/
+.card-task {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 50%;
+    border-radius: 1.6rem;
+    color: #000000;
+}
+
+    .card-task:hover {
+        filter: brightness(85%);
+    }
+
+.card-notification {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 50%;
+    border-radius: 1.6rem;
+    color: #000000;
+    background-color: #D1EAED;
+}
+    
+    .card-notification:hover {
+        filter: brightness(85%);
+    }
+
+.card-recompensa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 20rem;
+    padding: .5rem;  
+    border: 2px #404040 solid;
+    border-radius: 1rem;
+    background-color: #F4F4F2;
+}
+
+.card-header-recompensa, .card-footer-recompensa {
+    border: none;
+    background-color: #F4F4F2;
+}
+
+.card-body-recompensa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.separator-line {
+    border-color: grey;
+}
+
+.notifications-badge {
+    background-color: #F2ACAC !important;
+}
+
+/*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
+.rojo {
+    background-color: #F2ACAC;
+}
+
+.azul {
+    background-color: #D1EAED;
+}
+
+.verde {
+    background-color: #D4E3BD;
+}
+
+.naranja {
+    background-color: #E0A36B;
+}
+
+.morado {
+    background-color: #D095E0;
+}
+
+.rosa {
+    background-color: #E074AD;
+}
+
+/*CALENDARIO DIARIO*/
+.scroll-container-day {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.div-hour {
+    min-height: 4rem;
+}
+
+.card-task-calendar {
+    margin: auto;
+    padding: .5rem;
+    width: 90%;
+    border-radius: 1.6rem;
+    color: #000000;
+}
+
+    .card-task-calendar:hover {
+        filter: brightness(85%);
+    }
+
+/*CALENDARIO SEMANAL*/
+.scroll-container-week {
+    display: grid;
+    grid-template-columns: 5% 13% 13% 13% 13% 13% 13% 13% 4%;
+    text-align: center;
+    height: 25rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.user-pic {
+    border-radius: 50%;
+}
+
+/* --- RESPONSIVENESS --- */
+/* Monitores más largos */
+@media (max-width: 1919.98px) {
+    
+}
+
+/* Monitores largos - XXL */
+@media (max-width: 1399.98px) {
+
+}
+
+/* Monitores laptop - XL */
+@media (max-width: 1199.98px) {
+    
+}
+
+/* Tablets - LG */
+@media (max-width: 991.98px) {
+    
+}
+
+/* Móviles - MD */
+@media (max-width: 767.98px) {
+    .card-task {
+        width: 75%;
+    }
+
+    .not-mobile {
+        display: none;
+    }
+}
