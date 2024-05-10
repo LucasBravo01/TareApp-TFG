@@ -1,8 +1,12 @@
 "use strict"
 
 // VARIABLES TEMPORIZADOR
-let startTime = 5 * 60;
-let timeLeft = startTime;
+let studyTime = 5 * 60;
+let brakeTime;
+let numSlots;
+let longBrakeTime;
+let numLongBrakeSlots;
+let timeLeft = studyTime;
 let control;
 
 // FUNCIONALIDAD TEMPORIZADOR
@@ -26,9 +30,9 @@ function stopTimer() {
 
 function resetTimer() {
     clearInterval(control);
-    timeLeft = startTime;
+    timeLeft = studyTime;
 
-    $("#div-minsTimer").text(formatTime(startTime / 60));
+    $("#div-minsTimer").text(formatTime(studyTime / 60));
     $("#div-secsTimer").text("00");
 
     $("#input-startTimer").removeAttr("disabled");
@@ -57,8 +61,6 @@ function formatTime(time) {
 
 // FUNCIONALIDAD FORMULARIO
 $(() => {
-    const studySessions = $("body").data("studySessions");
-
     // Elementos HTML
     const inputStudySession = $("#input-study-session");
     const inputName = $("#input-name");
@@ -68,7 +70,10 @@ $(() => {
     const inputNumberSlots = $("#input-number-slots");
     const inputLongBrakeSlot = $("#input-long-brake-slot");
     const inputNumberLongBrakeSlot = $("#input-number-long-brake-slots");
-    const buttonCreateStudySession = $("input-sb-createStudySession");
+    const buttonStartStudySession = $("#input-sb-selectStudySession");
+    const buttonCreateStudySession = $("#input-sb-createStudySession");
+
+    const studySessions = $("body").data("studySessions");
 
     inputStudySession.on("change", () => {
         let selectedSession = inputStudySession.val();
@@ -81,13 +86,13 @@ $(() => {
             inputLongBrakeSlot.val("");
             inputNumberLongBrakeSlot.val("");
 
-            divInputName.attr("style", "display: block;")
-            inputStudySlot.removeAttr("disabled");
-            inputBrakeSlot.removeAttr("disabled");
-            inputNumberSlots.removeAttr("disabled");
-            inputLongBrakeSlot.removeAttr("disabled");
-            inputNumberLongBrakeSlot.removeAttr("disabled");
-            buttonCreateStudySession.removeAttr("disabled");
+            divInputName.prop("style", "display: block;");
+            inputStudySlot.prop("disabled", false);
+            inputBrakeSlot.prop("disabled", false);
+            inputNumberSlots.prop("disabled", false);
+            inputLongBrakeSlot.prop("disabled", false);
+            inputNumberLongBrakeSlot.prop("disabled", false);
+            buttonCreateStudySession.prop("disabled", false);
         } else {
             let session = studySessions[selectedSession];
 
@@ -97,13 +102,23 @@ $(() => {
             inputLongBrakeSlot.val(session.long_brake_slot);
             inputNumberLongBrakeSlot.val(session.num_long_slots);
 
-            divInputName.attr("style", "display: none;")
-            inputStudySlot.attr("disabled", true);
-            inputBrakeSlot.attr("disabled", true);
-            inputNumberSlots.attr("disabled", true);
-            inputLongBrakeSlot.attr("disabled", true);
-            inputNumberLongBrakeSlot.attr("disabled", true);
-            buttonCreateStudySession.attr("disabled", true);
+            divInputName.prop("style", "display: none;")
+            inputStudySlot.prop("disabled", true);
+            inputBrakeSlot.prop("disabled", true);
+            inputNumberSlots.prop("disabled", true);
+            inputLongBrakeSlot.prop("disabled", true);
+            inputNumberLongBrakeSlot.prop("disabled", true);
+            buttonCreateStudySession.prop("disabled", true);
         }
     });
+
+    buttonStartStudySession.on("click", (event) => {
+        event.preventDefault();
+
+        studyTime = inputStudySlot.val();
+        brakeTime = inputBrakeSlot.val();
+        numSlots = inputNumberSlots.val();
+        longBrakeTime = inputLongBrakeSlot.val();
+        numLongBrakeSlots = inputNumberLongBrakeSlot.val();
+    })
 });
