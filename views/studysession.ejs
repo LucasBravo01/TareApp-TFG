@@ -27,17 +27,25 @@
             <div class="col-5">
                 <form id="form-studySession">
                     <div class="row justify-content-center mt-3 mb-3">
-                        <!--NOMBRE-->
-                        <div class="text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Sesión de estudio</label>
-                            <select id="input-name" name="name" class="form-control">
+                        <!--SELECCIONAR SESIÓN DE ESTUDIO-->
+                        <div class="col-6 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-study-session">Sesión de estudio</label>
+                            <select id="input-study-session" name="study-session" class="form-control">
                                 <option value="Nueva">Nueva</option>
                                 <% studySessions.forEach( (s, i) => { %>
                                     <option value="<%= i %>"><%= s.name %></option>
                                 <% }); %>
                             </select>
                         </div>
-    
+
+                        <!--NOMBRE-->
+                        <div id="div-input-name" class="col-6 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                            <label for="input-name">Nombre nueva sesión *</label>
+                            <input type="text" id="input-name" name="name" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="row justify-content-center mt-3 mb-3">
                         <!--TIEMPO DE ESTUDIO-->
                         <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                             <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
