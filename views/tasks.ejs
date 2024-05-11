@@ -65,7 +65,7 @@
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <div id="<%= hour %>">
                                 <% tasks[hour].forEach(t => { %>
-                                    <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                    <div class="card-task-calendar mb-2 <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
@@ -126,35 +126,51 @@
                 </div>
                 
                 <% homeInfo.week.forEach(day => { %>
-                    <% let j = 0; %>
                     <div class="d-grid" style="grid-template-columns: 100%;"> <!--COLUMNA DÍA-->
                         <% for(let hour = 0; hour < 24; hour++) { %>
                             <div class="div-hour">
-                                <% if (j < day.tasks.length && day.tasks[j].time.split(':')[0] == hour) { %> 
-                                    <div id="<%= hour %>">
-                                        <% let t = day.tasks[j] %>
-                                        <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
-                                            <a href="/tareas/tarea/<%= t.id %>">
-                                                <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                                    <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
-                                                        <div class="d-flex justify-content-center">
-                                                            <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                <% if (day.tasks[hour] && day.tasks[hour].length > 0) { %> 
+                                    <% if (day.tasks[hour].length > 1) { %>
+                                        <div id="<%= hour %>">
+                                            <div class="card-task-calendar azul">
+                                                <a href="/diaria/<%= day.date %>">
+                                                    <div class="d-grid align-items-center" style="grid-template-columns: 100%;">
+                                                        <div class="position-relative">
+                                                            <span>Ver más</span>
+                                                            <span class="position-absolute num-tasks top-0 start-100 translate-middle badge rounded-pill bg-danger notifications-badge" title="Correos no leídos">
+                                                                <%= day.tasks[hour].length %>
+                                                            </span>
                                                         </div>
-                                                        <div>
-                                                            <span><%= t.title %></span>
-                                                        </div>
-                                                    </div>
-                                                <% } else { %>
-                                                    <div class="align-items-center">
-                                                        <span><%= t.title %></span>
-                                                    </div>
-                                                <% } %>
+                                                    </div>  
                                                 </a>
                                             </div>
                                         </div>
-                                    <% j++; %>
+                                    <% } else { %>
+                                        <div id="<%= hour %>">
+                                            <% day.tasks[hour].forEach(t => { %>
+                                                <div class="card-task-calendar <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
+                                                    <a href="/tareas/tarea/<%= t.id %>">
+                                                        <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                            <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                                <div class="d-flex justify-content-center">
+                                                                    <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                                </div>
+                                                                <div>
+                                                                    <span><%= t.title %></span>
+                                                                </div>
+                                                            </div>
+                                                        <% } else { %>
+                                                            <div class="align-items-center">
+                                                                <span><%= t.title %></span>
+                                                            </div>
+                                                        <% } %>
+                                                    </a>
+                                                </div>       
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
                                 <% } else { %>
-                                    <div id="<%= hour %>" class="div-hour"></div>
+                                    <div id="<%= hour %>"></div>
                                 <% } %>
                             </div>
                         <% } %> 
