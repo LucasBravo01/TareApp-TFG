@@ -217,7 +217,8 @@ class ControllerTask {
 
     // Obtener tareas no completadas
     getNotCompletedTasks(req, res, next) {
-        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+        console.log("HOLA");
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
