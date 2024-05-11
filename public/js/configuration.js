@@ -41,7 +41,7 @@ $(() => {
                 method: "POST",
                 url: "/usuario/guardarConfiguracion",
                 data: params,
-                success: (data, statusText, jqXHR) => { // TODO revisar
+                success: (data, statusText, jqXHR) => {
                     // Reemplazar el archivo CSS actual e imágenes por el nuevo
                     $("#css-link").attr('href', `/css/${themeSelect.val()}/style.css`);
                     $("#img-nav-burger").attr('src', `/images/${themeSelect.val()}/menu.png`);
@@ -66,7 +66,7 @@ $(() => {
                     user.configuration.font_size = params.font_size;
                     user.configuration.theme = params.theme;
                     user.configuration.time_preference = params.time_preference;
-                    user.reward = params.reward;
+                    user.configuration.reward_type = params.reward;
 
                     // Aplicar configuración
                     setConfiguration(fontSizeSelect.val());

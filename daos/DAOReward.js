@@ -30,7 +30,6 @@ class DAOReward {
                         rows.forEach(row => {
                             let reward = {
                                 id: row.id,
-                                title: row.title,
                                 icon: row.icon,
                                 message: row.message
                             }
@@ -61,7 +60,6 @@ class DAOReward {
                         rows.forEach(row => {
                             let reward = {
                                 id: row.id,
-                                title: row.title,
                                 message: row.message,
                                 icon: row.icon,
                                 count: row.count
@@ -114,7 +112,6 @@ class DAOReward {
                         callback(-1);
                     } else { 
                         let reward = {
-                            title: rows[0].title,
                             message: rows[0].message,
                             icon: rows[0].icon,
                         }   

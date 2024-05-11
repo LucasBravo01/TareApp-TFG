@@ -34,7 +34,7 @@ function routerConfig(conTas, conRem) {
         check("category", "1").notEmpty(),
         check("reminders", "1").notEmpty(),
         check("duration", "1").notEmpty(),
-        // TODO revisar - Comprobar tipos correctos
+        // Comprobar tipos correctos
         check("date", "18").isDate(),
         check("time", "18").isTime(),
         check("duration", "18").isNumeric(),

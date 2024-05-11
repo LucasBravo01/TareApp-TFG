@@ -35,7 +35,7 @@ function routerConfig(conUse, conRem) {
         check("theme", "6").custom((theme) => {
             return (theme === "alegre" || theme === "minimalista")
         }),
-        check("time_preference", "7").custom((timeP) => { // TODO Borrar?
+        check("time_preference", "7").custom((timeP) => {
             return (timeP === "corto" || timeP === "largo")
         }),
         check("reward", "19").custom((reward) => {

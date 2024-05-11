@@ -53,7 +53,7 @@ function generateError(cod) {
             title = "Elección del tema";
             message = "El campo del tema no es válido. Por favor, introduce uno adecuado.";
         } break;
-        case 7: { // TODO Borrar?
+        case 7: {
             code = 400;
             title = "Elección de la preferencia de tiempo";
             message = "El campo de la preferencia de tiempo no es válido. Por favor, introduce uno adecuado.";

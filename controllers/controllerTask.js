@@ -356,7 +356,7 @@ class ControllerTask {
                                                 if (checked === 1) {
                                                     data.title = "Tarea completada";
                                                     if (req.session.currentUser.configuration.reward_type === 'mensaje') {
-                                                        data.message = `${reward.title} ${reward.message}`;
+                                                        data.message = `${reward.message}`;
                                                     } else {
                                                         data.message = `¡Enhorabuena! Has conseguido una nueva medalla, ve a tu perfil a verla.`;
                                                     }

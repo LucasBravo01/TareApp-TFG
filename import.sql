@@ -111,8 +111,7 @@ CREATE TABLE category (
 -- Recompensa
 CREATE TABLE reward (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  message VARCHAR(255),
+  message VARCHAR(255) NOT NULL,
   icon VARCHAR(255) NOT NULL
 );
 
@@ -222,12 +221,12 @@ INSERT INTO category (name, category_icon, category_photo, category_color) VALUE
 ('Casa', '&#127968;', 'home.png', 'rosa');
 
 -- Recompensa
-INSERT INTO reward (title, message, icon) VALUES
-('¡Bien hecho, campeón!', 'Eres una máquina, ¡sigue así!', 'good-job'),
-('¡Guau, qué genial!', 'Tienes talento, ¡sigue brillando!', 'awesome'),
-('¡Felicidades, lo has clavado!', 'Eres increíble, ¡seguiré aplaudiendo!', 'lets-go'),
-('¡Increíble, qué crack!', 'Sigue así, ¡eres un ganador!', 'supercat'),
-('¡Eres una estrella!', 'Brillas como nunca, ¡continúa brillando!', 'star-medal');
+INSERT INTO reward (message, icon) VALUES
+('¡Bien hecho, campeón! Eres una máquina, ¡sigue así!', 'good-job'),
+('¡Guau, qué genial! Tienes talento, ¡sigue brillando!', 'awesome'),
+('¡Felicidades, lo has clavado! Eres increíble, ¡seguiré aplaudiendo!', 'lets-go'),
+('¡Increíble, qué crack! Sigue así, ¡eres un ganador!', 'supercat'),
+('¡Eres una estrella! Brillas como nunca, ¡continúa brillando!', 'star-medal');
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category) VALUES
