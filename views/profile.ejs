@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
 </head>
 
-<body>
+<body data-response="<%= JSON.stringify(response) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->

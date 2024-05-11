@@ -50,23 +50,23 @@ $(() => {
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
                     
-                    const hasPic = $("body").data("user").hasProfilePic;
-                    if(!hasPic) {
+                    const user = $("body").data("user");
+                    if(!user.hasProfilePic) {
                         $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
                     }
 
                     let params = {
-                        id_user: $("body").data("user").id,
+                        id_user: user.id,
                         font_size: fontSizeSelect.val(),
                         theme: themeSelect.val(),
                         time_preference: timeSelect.val(),
                         reward: rewardSelect.val(),
                     };
 
-                    $("body").data("user").configuration.font_size = params.font_size;
-                    $("body").data("user").configuration.theme = params.theme;
-                    $("body").data("user").configuration.time_preference = params.time_preference;
-                    $("body").data("user").configuration.reward = params.reward;
+                    user.configuration.font_size = params.font_size;
+                    user.configuration.theme = params.theme;
+                    user.configuration.time_preference = params.time_preference;
+                    user.reward = params.reward;
 
                     // Aplicar configuración
                     setConfiguration(fontSizeSelect.val());

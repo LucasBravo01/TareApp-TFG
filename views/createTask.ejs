@@ -9,7 +9,7 @@
     <script src="/js/createTask.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
