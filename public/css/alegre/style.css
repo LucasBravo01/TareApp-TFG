@@ -245,6 +245,11 @@ button {
     align-items: center;
 }
 
+.accordeon-task {
+    border-radius: 1rem;
+    color: #F1F2F6;
+}
+
 /*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
 .rojo {
     background-color: #D9183B;
