@@ -9,20 +9,29 @@ let longBrakeTime;
 let numLongBrakeSlots;
 
 // Variables de funcionalidad
-let timeLeft = studyTime;
+let timeLeft;
 let contSlots = 0;
 let isStudytime = true;
 let control;
 
 // FUNCIONALIDAD TEMPORIZADOR
-function initializeTimer() {
-    studyTime = inputStudySlot.val() * 60;
-    brakeTime = inputBrakeSlot.val() * 60;
-    numSlots = inputNumberSlots.val();
-    longBrakeTime = inputLongBrakeSlot.val() * 60;
-    numLongBrakeSlots = inputNumberLongBrakeSlot.val();
+function initializeTimer(params) {
+    studyTime = params.study_slot * 60;
+    brakeTime = params.brake_slot * 60;
+    numSlots = params.num_slots;
+    timeLeft = studyTime;
 
-    $("#div-minsTimer").text(formatTime(studyTime / 60));
+    if(params.long_brake_slot !== "") {
+        longBrakeTime = params.long_brake_slot * 60;
+        numLongBrakeSlots = params.num_long_slots;
+    }
+
+    $("#span-minsTimer").text(formatTime(studyTime / 60));
+    $("#span-whichPeriod").text("Periodo de estudio");
+    $("#span-numSlot").text("Número de periodo: " + contSlots);
+    $("#div-form-studySession").hidden();
+    $("#div-timer").show();
+    $("#div-tasks").show();
 }
 
 function startTimer() {
@@ -47,8 +56,8 @@ function resetTimer() {
     clearInterval(control);
     timeLeft = studyTime;
 
-    $("#div-minsTimer").text(formatTime(studyTime / 60));
-    $("#div-secsTimer").text("00");
+    $("#span-minsTimer").text(formatTime(studyTime / 60));
+    $("#span-secsTimer").text("00");
 
     $("#input-startTimer").removeAttr("disabled");
     $("#input-stopTimer").attr("disabled", true);
@@ -60,13 +69,36 @@ function timer() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
 
-    $("#div-minsTimer").text(formatTime(minutes));
-    $("#div-secsTimer").text(formatTime(seconds));
+    $("#span-minsTimer").text(formatTime(minutes));
+    $("#span-secsTimer").text(formatTime(seconds));
 
     if(timeLeft > 0) {
         timeLeft--;
     } else {
         clearInterval(control);
+
+        if (isStudytime) {
+            contSlots++;
+            isStudytime = false;
+            $("#span-whichPeriod").text("Periodo de descanso");
+            $("#span-numSlot").text("Número de periodo: " + contSlots);
+
+            if(contSlots !== numSlots) {
+                if (longBrakeTime !== "" && contSlots % numLongBrakeSlots === 0) {
+                    timeLeft = longBrakeTime;
+                } 
+                else{
+                    timeleft = brakeTime;
+                }
+                startTimer();
+            }
+        }
+        else {
+            isStudytime = true;
+            timeleft = studyTime;
+            $("#span-whichPeriod").text("Periodo de estudio");
+            startTimer();
+        }
     }
 }
 
@@ -156,12 +188,20 @@ $(() => {
 
     buttonStartStudySession.on("click", (event) => {
         event.preventDefault();
-        initializeTimer();
+
+        let params = {
+            study_slot: inputStudySlot.val(),
+            brake_slot: inputBrakeSlot.val(),
+            long_brake_slot: inputLongBrakeSlot.val(),
+            num_slots: inputNumberSlots.val(),
+            num_long_slots: inputNumberLongBrakeSlot.val()
+        }
+
+        initializeTimer(params);
     });
 
     buttonCreateStudySession.on("click", (event) => {
         event.preventDefault();
-        initializeTimer();
 
         let params = {
             name: inputName.val(),
@@ -190,5 +230,7 @@ $(() => {
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
+
+        initializeTimer(params);
     });
 });

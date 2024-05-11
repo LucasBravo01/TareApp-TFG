@@ -121,7 +121,7 @@ function userAlreadyLogged(req, res, next) {
 routerTask.routerConfig(conTas, conRem);
 routerUser.routerConfig(conUse, conRem);
 routerReminder.routerConfig(conRem);
-routerStudySession.routerConfig(conStu, conRem);
+routerStudySession.routerConfig(conTas, conStu, conRem);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 app.use("/usuario", userLogged, routerUser.RouterUser);

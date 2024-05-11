@@ -9,10 +9,10 @@ const { check, validationResult } = require("express-validator");
 const RouterStudySession = express.Router();
 
 // Obtener pool
-function routerConfig(conStu, conRem) {
+function routerConfig(conTas, conStu, conRem) {
     // --- Peticiones GET ---
     // Mostrar sesión de estudio
-    RouterStudySession.get("/sesionEstudio", conRem.unreadReminders, conStu.getStudySessions);
+    RouterStudySession.get("/sesionEstudio", conRem.unreadReminders, conTas.getNotCompletedTasks, conStu.getStudySessions);
 
     // --- Peticiones POST ---
     // Crear sesión de estudio

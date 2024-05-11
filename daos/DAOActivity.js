@@ -73,6 +73,65 @@ class DAOActivity {
         });
     }
 
+    readActivityByIdUserCompleted(idUser, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                // Construir objeto 
+                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND TAR.completed = 1;"
+                connection.query(querySQL, [idUser], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+
+                        let activities = new Array();
+                        rows.forEach(row => {
+                            let activity = {
+                                // Activity
+                                id: row.id,
+                                enabled: row.enabled,
+                                id_creator: row.id_creator,
+                                id_receiver: row.id_receiver,
+                                title: row.title,
+                                date: row.date,
+                                time: row.time,
+                                description: row.description,
+                                reminder: row.reminder,
+                                category: row.category,
+                                id_subject: row.id_subject,
+
+                                // Task
+                                id_activity: row.id_activity,
+                                completed: row.completed,
+                                duration: row.duration,
+                                id_event: row.id_event,
+                                id_reward: row.id_reward,
+
+                                // Category
+                                category_icon: row.category_icon,
+                                category_color: row.category_color,
+                                category_photo: row.category_photo,
+
+                                // Subject
+                                name: row.name,
+                                subject_icon: row.subject_icon,
+                                subject_color: row.subject_color,
+                                subject_photo: row.subject_photo
+                            }
+                            activities.push(activity);
+                        });
+                        callback(null, activities);
+                    }
+                });
+
+            }
+        });
+    }
+
     // Leer actividad repetida
     readActivity(form, callback) {
         this.pool.getConnection((error, connection) => {

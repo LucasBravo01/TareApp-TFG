@@ -188,6 +188,28 @@ class ControllerTask {
         }
     }
 
+    // Obtener tareas no completadas
+    getNotCompletedTasks(req, res, next) {
+        this.daoAct.readActivityByIdUserCompleted(req.session.currentUser.id, (error, callback) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            } else {
+                next({
+                    ajax: false,
+                    status: 200,
+                    redirect: "studysession",
+                    data: {
+                        response: undefined,
+                        generalInfo: {
+                            remindersUnread: req.unreadReminders
+                        },
+                        tasks: tasks
+                    }
+                });
+            }
+        });
+    }
+
     // POSTs
     // Crear tarea
     createTask(req, res, next) {
