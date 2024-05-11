@@ -29,7 +29,9 @@ function initializeTimer(params) {
     $("#span-minsTimer").text(formatTime(studyTime / 60));
     $("#span-whichPeriod").text("Periodo de estudio");
     $("#span-numSlot").text("Número de periodo: " + contSlots);
+
     $("#div-form-studySession").hide();
+    $("#div-sb-backToForm").show();
     $("#div-timer").show();
     $("#div-tasks").show();
 }
@@ -135,8 +137,28 @@ function validateParams(params) {
     }
 }
 
+function completeTask(idTask) {
+        let params = {
+            id: idTask,
+            checkbox: $("#input-study-", idTask).prop("checked") ? 1 : 0
+        };
+        $.ajax({
+            method: "POST",
+            url: "/sesionEstudio/completarTarea",
+            data: params,
+            success: (data, statusText, jqXHR) => {
+                // Mostrar modal
+                showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+            },
+            error: (jqXHR, statusText, errorThrown) => {
+                showModal(jqXHR.responseJSON, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+            }
+        });
+}
+
 $(() => {
     // Elementos HTML
+    const formStudySession = $("#form-studySession");
     const inputStudySession = $("#input-study-session");
     const inputName = $("#input-name");
     const inputStudySlot = $("#input-study-slot");
@@ -145,6 +167,7 @@ $(() => {
     const inputLongBrakeSlot = $("#input-long-brake-slot");
     const inputNumberLongBrakeSlot = $("#input-number-long-brake-slots");
 
+    const buttonBackToForm = $("#input-sb-backToForm");
     const buttonStartStudySession = $("#input-sb-selectStudySession");
     const buttonCreateStudySession = $("#input-sb-createStudySession");
 
@@ -154,12 +177,7 @@ $(() => {
         let selectedSession = inputStudySession.val();
 
         if (selectedSession === "Nueva") {
-            inputName.val("");
-            inputStudySlot.val("");
-            inputBrakeSlot.val("");
-            inputNumberSlots.val("");
-            inputLongBrakeSlot.val("");
-            inputNumberLongBrakeSlot.val("");
+            formStudySession[0].reset();
 
             inputName.prop("disabled", false);
             inputStudySlot.prop("disabled", false);
@@ -185,6 +203,25 @@ $(() => {
             inputNumberLongBrakeSlot.prop("disabled", true);
             buttonCreateStudySession.prop("disabled", true);
         }
+    });
+
+    buttonBackToForm.on("click", (event) => {
+        event.preventDefault();
+
+        $("#div-form-studySession").show();
+        $("#div-sb-backToForm").hide();
+        $("#div-timer").hide();
+        $("#div-tasks").hide();
+
+        // Resetear formulario
+        formStudySession[0].reset();
+        inputName.prop("disabled", false);
+        inputStudySlot.prop("disabled", false);
+        inputBrakeSlot.prop("disabled", false);
+        inputNumberSlots.prop("disabled", false);
+        inputLongBrakeSlot.prop("disabled", false);
+        inputNumberLongBrakeSlot.prop("disabled", false);
+        buttonCreateStudySession.prop("disabled", false);
     });
 
     buttonStartStudySession.on("click", (event) => {

@@ -16,8 +16,11 @@
     <%- include("fragments/nav") %>
 
     <div class="container">
-        <div class="d-flex justify-content-center">
-            <h1 class="title">
+        <div>
+            <div id="div-sb-backToForm" style="display: none;" class="float-start">
+                <button type="" id="input-sb-backToForm" class="main-button">Atrás</button> 
+            </div>
+            <h1 class="title" style="text-align: center;">
                 SESIÓN DE ESTUDIO
             </h1>
         </div>
@@ -161,6 +164,10 @@
                                         <% } else { %>
                                             <span><strong>Descripción:</strong> <%= t.description %></span>
                                         <% } %>
+                                        <div>
+                                            <label for="input-completed-<%= t.id %>"><strong>Completar tarea</strong></label>
+                                            <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" onchange="completeTask(t.id)" class="form-check-input mx-2" <%= t.done ? 'checked' : '' %>>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
