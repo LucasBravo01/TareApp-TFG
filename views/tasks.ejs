@@ -171,15 +171,26 @@
         <% } else { %>
             <div class="mt-4 justify-content-center">
                 <% let primeraNoCompletada = false;
-                let primeraCompletada = false; %>
-                <% tasks.forEach( t=> { %>
-                    <% if(!primeraNoCompletada && !t.completed) { %>
+                let primeraCompletada = false;
+                let noIncompleted = true;
+                let noCompleted = true; 
+                let showNoIncompleted = false; %>
+                <% tasks.forEach( (t, index)=> { %>
+                    <% index + 1%>   
+                    <% if(!primeraNoCompletada ) { %>
                         <!--SECCIÓN NO COMPLETADAS-->
                         <div class="col-12 text-center mt-3">
                             <p class="text-start subtitle">No completadas</p>
                             <hr class="separator-line" />
                         </div>
+                        <% if(!t.completed) {noIncompleted = false;} %>
                     <% primeraNoCompletada = true; } %>
+
+                    <%  if(noIncompleted && showNoIncompleted===false){ %>
+                            <div class="col-12 text-center mt-3">
+                                <p>No hay tareas por completar</p>
+                            </div>
+                    <% showNoIncompleted = true} %>
     
                     <% if(!primeraCompletada && t.completed) { %>
                         <!--SECCIÓN COMPLETADAS-->
@@ -187,8 +198,8 @@
                             <p class="text-start subtitle">Completadas</p>
                             <hr class="separator-line" />
                         </div>
+                        <% if(t.completed ) {noCompleted = false;} %>
                     <% primeraCompletada = true; } %>
-                    
                     
                     <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
                         <a href="/tareas/tarea/<%= t.id %>">
@@ -209,6 +220,15 @@
                             </div>
                         </a>
                     </div>
+
+                    <% if((noCompleted && index == tasks.length - 1)) { %>
+                        <!--SECCIÓN COMPLETADAS VACIA-->
+                        <div class="col-12 text-center mt-3">
+                            <p class="text-start subtitle">Completadas</p>
+                            <hr class="separator-line" />
+                            <p>No hay tareas completadas</p>
+                        </div>
+                    <% } %>
                     
                 <% }); %>
             </div>
