@@ -195,6 +195,9 @@ class ControllerTask {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
+                tasks.forEach( t => {
+                    t.date = utils.formatDate(t.date);
+                });
                 req.tasks = tasks
                 next();
             }

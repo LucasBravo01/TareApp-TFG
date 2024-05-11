@@ -117,7 +117,7 @@ function validateParams(params) {
         return error;
     }
     // Si se pone un descanso largo indicar número de slots de descansos largos
-    else if (params.long_brake_slot !== "" && params.num_long_slots === "") {
+    else if (params.long_brake_slot !== 0 && params.num_long_slots === 0) {
         error.code = 400;
         error.title = "Campos vacíos de periodo largo";
         error.message = "Asegúrate de rellenar todos los campos de los periodos largos.";
@@ -214,9 +214,9 @@ $(() => {
             name: inputName.val(),
             study_slot: parseInt(inputStudySlot.val()),
             brake_slot: parseInt(inputBrakeSlot.val()),
-            long_brake_slot: null,
+            long_brake_slot: 0,
             num_slots: parseInt(inputNumberSlots.val()),
-            num_long_slots: null
+            num_long_slots: 0
         }
 
         if(inputLongBrakeSlot.val() !== "") {
