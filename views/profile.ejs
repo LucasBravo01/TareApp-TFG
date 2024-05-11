@@ -49,6 +49,7 @@
                 </div>
             </div>
 
+            <%if(session.currentUser.configuration.reward_type == "medalla"){ %>
             <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
                 <p class="text-start subtitle">Recompensas</p>
@@ -83,6 +84,7 @@
                 </div>
                 <% } %>
             </div>
+            <%}%>
         </div>
     </div>
 </body>

@@ -113,6 +113,11 @@ function generateError(cod) {
             title = "Tipos no válidos";
             message = "Revisa los campos, hay algunos que no cumplen con un tipo correcto.";
         } break;
+        case 19: {
+            code = 400;
+            title = "Elección del tipo de recompensa";
+            message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";

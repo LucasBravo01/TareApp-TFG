@@ -100,6 +100,30 @@ class DAOReward {
             }
         });
     }
+
+    // Leer recompensas dado un id_reward de una tarea
+    readRewardsByTask(id, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "SELECT * FROM reward where id = ?;";
+                connection.query(querySQL, [id], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else { 
+                        let reward = {
+                            title: rows[0].title,
+                            message: rows[0].message,
+                            icon: rows[0].icon,
+                        }   
+                        callback(null, reward);
+                    }
+                }); 
+            }
+        });
+    } 
 }
 
 module.exports = DAOReward;

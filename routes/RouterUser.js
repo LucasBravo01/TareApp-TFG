@@ -38,6 +38,9 @@ function routerConfig(conUse, conRem) {
         check("time_preference", "7").custom((timeP) => { // TODO Borrar?
             return (timeP === "corto" || timeP === "largo")
         }),
+        check("reward", "19").custom((reward) => {
+            return (reward === "mensaje" || reward === "medalla")
+        }),
         conRem.unreadReminders,
         conUse.updateConfiguration
     );

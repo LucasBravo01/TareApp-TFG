@@ -39,7 +39,8 @@ class DAOConfiguration {
                                 id_user: rows[0].id_user,
                                 font_size: rows[0].font_size,
                                 theme: rows[0].theme,
-                                time_preference: rows[0].time_preference
+                                time_preference: rows[0].time_preference,
+                                reward_type:  rows[0].reward_type,
                             }
                             callback(null, configuration);
                         }
@@ -56,8 +57,8 @@ class DAOConfiguration {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "UPDATE configuration SET font_size = ?, theme = ?, time_preference = ? WHERE id_user = ?;";
-                connection.query(querySQL, [config.font_size, config.theme, config.time_preference, config.id_user], (error) => {
+                let querySQL = "UPDATE configuration SET font_size = ?, theme = ?, time_preference = ?,reward_type = ? WHERE id_user = ?;";
+                connection.query(querySQL, [config.font_size, config.theme, config.time_preference, config.reward ,config.id_user], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1);
