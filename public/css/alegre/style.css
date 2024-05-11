@@ -61,7 +61,7 @@ nav button {
 }
 
 .second-background {
-    background-color: #8898FA;
+    background-color: #6e76aa;
 }
 
 /*TEXTOS*/
@@ -189,11 +189,18 @@ button {
     color: #F1F2F6;
     background-color: #3D53E2;
 }
-        
-    .card-notification:hover {
+
+.link-task{
+    background-color: #8898FA;
+    padding: 0.2rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+}
+
+    .link-task:hover{
         filter: brightness(85%);
     }
-
+        
 .card-recompensa {
     display: flex;
     flex-direction: column;
