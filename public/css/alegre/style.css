@@ -239,6 +239,12 @@ button {
     place-items: center;
 }
 
+.display-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
 .rojo {
     background-color: #D9183B;

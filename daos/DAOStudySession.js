@@ -54,7 +54,7 @@ class DAOStudySession {
             if(error) {
                 callback(-1);
             } else {
-                let querySQL = "INSERT INTO studysessions (name, id_user, study_slot, brake_slot, long_brake_slot, num_slots, num_long_slots) VALUES (?, ?, ?, ?, ?, ?, ?);"
+                let querySQL = "INSERT INTO studysession (name, id_user, study_slot, brake_slot, long_brake_slot, num_slots, num_long_slots) VALUES (?, ?, ?, ?, ?, ?, ?);"
                 connection.query(querySQL, [studysession.name, studysession.id_user, studysession.study_slot, studysession.brake_slot, studysession.long_brake_slot, studysession.num_slots, studysession.num_long_slots], (error, result) => {
                     connection.release();
                     if(error) {

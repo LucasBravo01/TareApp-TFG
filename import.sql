@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- ------ Borrar BBDD anterior si existe ------
 DROP DATABASE IF EXISTS TareApp;
 

@@ -22,6 +22,7 @@ class ControllerTask {
         this.getDailyTasks = this.getDailyTasks.bind(this);
         this.getFormTask = this.getFormTask.bind(this);
         this.getTask = this.getTask.bind(this);
+        this.getNotCompletedTasks = this.getNotCompletedTasks.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
@@ -190,22 +191,12 @@ class ControllerTask {
 
     // Obtener tareas no completadas
     getNotCompletedTasks(req, res, next) {
-        this.daoAct.readActivityByIdUserCompleted(req.session.currentUser.id, (error, callback) => {
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "studysession",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            remindersUnread: req.unreadReminders
-                        },
-                        tasks: tasks
-                    }
-                });
+                req.tasks = tasks
+                next();
             }
         });
     }

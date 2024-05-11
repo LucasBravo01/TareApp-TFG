@@ -33,7 +33,8 @@ class ControllerStudySession {
                         generalInfo: {
                             remindersUnread: req.unreadReminders
                         },
-                        studySessions: studySessions
+                        studySessions: studySessions,
+                        tasks: req.tasks
                     }
                 });
             }
@@ -44,8 +45,12 @@ class ControllerStudySession {
     // Crear sesión de estudio
     createStudySession(req, res, next) {
         const errors = validationResult(req);
-
         if(errors.isEmpty()) {
+
+            if(req.body.long_brake_slot !== null && req.body.num_long_slots === null) {
+                errorHandler.manageAJAXError("1", next);
+            }
+
             let studysession = {
                 name: req.body.name,
                 id_user: req.session.currentUser.id,
@@ -72,6 +77,9 @@ class ControllerStudySession {
                     });
                 }
             });
+        }
+        else {
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }
     }
 }

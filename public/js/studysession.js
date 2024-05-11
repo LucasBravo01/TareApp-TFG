@@ -29,7 +29,7 @@ function initializeTimer(params) {
     $("#span-minsTimer").text(formatTime(studyTime / 60));
     $("#span-whichPeriod").text("Periodo de estudio");
     $("#span-numSlot").text("Número de periodo: " + contSlots);
-    $("#div-form-studySession").hidden();
+    $("#div-form-studySession").hide();
     $("#div-timer").show();
     $("#div-tasks").show();
 }
@@ -88,14 +88,14 @@ function timer() {
                     timeLeft = longBrakeTime;
                 } 
                 else{
-                    timeleft = brakeTime;
+                    timeLeft = brakeTime;
                 }
                 startTimer();
             }
         }
         else {
             isStudytime = true;
-            timeleft = studyTime;
+            timeLeft = studyTime;
             $("#span-whichPeriod").text("Periodo de estudio");
             startTimer();
         }
@@ -108,6 +108,7 @@ function formatTime(time) {
 
 // FUNCIONALIDAD FORMULARIO
 function validateParams(params) {
+    let error = {};
     // Campos no vacíos
     if(params.name === "" || params.study_slot === "" || params.brake_slot === "" || params.num_slots === "") {
         error.code = 400;
@@ -197,7 +198,13 @@ $(() => {
             num_long_slots: inputNumberLongBrakeSlot.val()
         }
 
-        initializeTimer(params);
+        let error = validateParams(params);
+        if(!error) {
+            initializeTimer(params);
+        }
+        else {
+            showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+        }
     });
 
     buttonCreateStudySession.on("click", (event) => {
@@ -205,11 +212,16 @@ $(() => {
 
         let params = {
             name: inputName.val(),
-            study_slot: inputStudySlot.val(),
-            brake_slot: inputBrakeSlot.val(),
-            long_brake_slot: inputLongBrakeSlot.val(),
-            num_slots: inputNumberSlots.val(),
-            num_long_slots: inputNumberLongBrakeSlot.val()
+            study_slot: parseInt(inputStudySlot.val()),
+            brake_slot: parseInt(inputBrakeSlot.val()),
+            long_brake_slot: null,
+            num_slots: parseInt(inputNumberSlots.val()),
+            num_long_slots: null
+        }
+
+        if(inputLongBrakeSlot.val() !== "") {
+            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
+            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
         }
 
         let error = validateParams(params);
@@ -221,6 +233,7 @@ $(() => {
                 success: (data, statusText, jqXHR) => {
                     // Mostrar modal
                     showModal(data, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
+                    initializeTimer(params);
                 },
                 error: (jqXHR, statusText, errorThrown) => {
                     showModal(jqXHR.responseJSON, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
@@ -230,7 +243,5 @@ $(() => {
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
-
-        initializeTimer(params);
     });
 });
