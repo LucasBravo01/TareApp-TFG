@@ -140,7 +140,7 @@ function validateParams(params) {
 function completeTask(idTask) {
         let params = {
             id: idTask,
-            checkbox: $("#input-study-", idTask).prop("checked") ? 1 : 0
+            checkbox: $("#input-completed-" + idTask).prop("checked") ? 1 : 0
         };
         $.ajax({
             method: "POST",
