@@ -445,22 +445,23 @@ class ControllerTask {
             let minute = parseInt(timeParts[1]);
             let message;
             if(form.reminders === "10 minutos antes"){
-                reminderDate.setHours(hour, minute, 0, 0);
-                reminderDate.setMinutes(reminderDate.getMinutes() - 10);
+                reminderDate.setHours(hour, minute - 10, 0, 0);
+                if (reminderDate <= currentDate)
+                    continue;
                 message = `¡Solo quedan 10 minutos para la tarea "${form.title}"! ¡No te distraigas!`;
             }else if(form.reminders === "1 hora antes"){
-                reminderDate.setHours(hour, minute, 0, 0);
-                reminderDate.setHours(reminderDate.getHours() - 1);
+                reminderDate.setHours(hour - 1, minute, 0, 0);
+                if (reminderDate <= currentDate)
+                    continue;
                 message = `¡Recuerda que en 1 hora tienes la tarea "${form.title}"! ¡No lo olvides!`;
             }else{
                 reminderDate.setDate(date.getDate() - i);
-                reminderDate.setHours(8, 0, 0, 0);
+                reminderDate.setHours(hour, minute, 0, 0);
             }
-            if (reminderDate <= currentDate && form.reminders !== "1 hora antes" && form.reminders !== "10 minutos antes" ) {
-                continue;
-            }
-
             if(form.reminders !== "10 minutos antes" && form.reminders !== "1 hora antes"){
+                if (reminderDate <= currentDate)
+                    continue;
+
                 let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));
         
                 if (daysDifference > 1)

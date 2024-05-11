@@ -112,7 +112,6 @@ class DAOActivity {
             if (error) {
                 callback(-1);
             } else {
-                console.log("Insert actividad")
                 let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES (?,?,?,?,?,?,?,?,?);";
                 connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.subject], (error, result) => {
                     connection.release();
