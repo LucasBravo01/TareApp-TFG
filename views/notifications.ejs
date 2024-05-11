@@ -24,41 +24,44 @@
             <% let primeraHoy = false;
             let primeraAnterior = false; 
             let currentDate = new Date(); %>
-            <% reminders.forEach( r=> { %>
-                <% if(!primeraHoy && r.sent_date.getDate() === currentDate.getDate()) { %>
-                    <!--SECCIÓN HOY-->
-                    <div class="col-12 text-center mt-3">
-                        <p class="text-start subtitle">Hoy</p>
-                        <hr class="separator-line" />
-                    </div>
-                <% primeraHoy = true; } %>
-
-                <% if(!primeraAnterior && r.sent_date.getDate() !== currentDate.getDate()) { %>
-                    <!--SECCIÓN ANTERIORES-->
-                    <div class="col-12 text-center mt-3">
-                        <p class="text-start subtitle">Anteriores</p>
-                        <hr class="separator-line" />
-                    </div>
-                <% primeraAnterior = true; } %>
-
-                <div class="card-notification">
-                    <a href="/tareas/tarea/<%= r.idActivity %>">
-                        <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                            <div class="d-flex justify-content-center">
-                                <img src="/images/logos/logo-no-background-no-text.png" height="50px">
-                            </div>
-                            <div>
-                                <span><%= r.message %></span>
-                            </div>
-                        </div>
-                    </a>
+            <% if(reminders.length == 0) {%>
+                <div class="col-12 text-center mt-3">
+                    <p>No hay notificaciones</p>
                 </div>
-                
-            <% }); %>
+            <% }else{ %>
+                <% reminders.forEach( r=> { %>
+                    <% if(!primeraHoy && r.sent_date.getDate() === currentDate.getDate()) { %>
+                        <!--SECCIÓN HOY-->
+                        <div class="col-12 text-center mt-3">
+                            <p class="text-start subtitle">Hoy</p>
+                            <hr class="separator-line" />
+                        </div>
+                    <% primeraHoy = true; } %>
+    
+                    <% if(!primeraAnterior && r.sent_date.getDate() !== currentDate.getDate()) { %>
+                        <!--SECCIÓN ANTERIORES-->
+                        <div class="col-12 text-center mt-3">
+                            <p class="text-start subtitle">Anteriores</p>
+                            <hr class="separator-line" />
+                        </div>
+                    <% primeraAnterior = true; } %>
+    
+                    <div class="card-notification">
+                        <a href="/tareas/tarea/<%= r.idActivity %>">
+                            <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                                <div class="d-flex justify-content-center">
+                                    <img src="/images/logos/logo-no-background-no-text.png" height="50px">
+                                </div>
+                                <div>
+                                    <span><%= r.message %></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            <% } %>
         </div>
-
     </div>
-        
     <!-- text to voice button -->
 </body>
 
