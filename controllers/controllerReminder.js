@@ -53,7 +53,7 @@ class controllerReminder {
 
     // POSTs
     // Activar las notificaciones
-    subscribe(req, res, next) { // TODO Revisar otras opciones
+    subscribe(req, res, next) { // TODO  Revisar otras opciones
         const subscription = req.body.subscription;
         this.daoSubs.insertSubscription(req.session.currentUser.id, subscription, (error) => {
             if (error) {
@@ -108,7 +108,7 @@ class controllerReminder {
         };
 
         let currentDate = new Date();
-        currentDate.setHours(8, 0, 0, 0);
+        currentDate.setSeconds(0, 0);
 
 
         this.daoRem.readRemindersByDate(currentDate, (error, notifications) => {
