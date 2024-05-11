@@ -88,7 +88,7 @@ const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
-const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
+const conTas = new ControllerTask(daoAct, daoCat, daoCon, daoRem, daoRew, daoSub, daoTas, daoUse);
 const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
 
 // --- Middlewares ---
