@@ -24,7 +24,7 @@ class DAOReminder {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE REM.enabled = 1 AND REM.sent_date=? AND REM.id_sender IS NULL ORDER BY REM.id_receiver;"; // TODO GROUP BY para mandar solo una. Hablar con el grupo
+                let querySQL = "SELECT * FROM reminder AS REM JOIN subscription AS SUB ON REM.id_receiver = SUB.id_user WHERE REM.enabled = 1 AND REM.sent_date=? AND REM.id_sender IS NULL ORDER BY REM.id_receiver;";
                 connection.query(querySQL, [date], (error, rows) => {
                     connection.release();
                     if (error) {

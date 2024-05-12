@@ -42,13 +42,21 @@
                     </select>
                 </div>
 
-                <!-- TODO Borrar? -->
                 <!--PREFERENCIA DE TIEMPO-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
                     <select id="timeSelect" name="time" class="form-control">
                         <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
                         <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
+                    </select>
+                </div>
+
+                <!--RECOMPENSA-->
+                <div class="col-6 text-center mt-3">
+                    <label class="form-label" style="font-weight: bold";>Tipo de Recompensa</label>
+                    <select id="rewardSelect" name="reward" class="form-control">
+                        <option value="mensaje" <%if(configuration.reward_type == "mensaje"){ %>selected <%}%>>Mensaje</option>
+                        <option value="medalla" <%if(configuration.reward_type == "medalla"){ %>selected <%}%>>Medalla</option>
                     </select>
                 </div>
 
