@@ -159,6 +159,9 @@ $(() => {
         inputDate.removeAttr("disabled");
         inputHour.removeAttr("disabled");
         inputCategory.removeAttr("disabled");
+        if(task.idSubject){
+            inputSubject.removeAttr("disabled");
+        }
         inputReminder.removeAttr("disabled");
         inputDescription.removeAttr("disabled");
         inputDuration.removeAttr("disabled");

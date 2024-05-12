@@ -78,7 +78,6 @@
                 <!--ASIGNATURA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <span id="subject-asterisk" class="text-danger d-none">*</span>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
