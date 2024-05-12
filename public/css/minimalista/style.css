@@ -189,8 +189,15 @@ button {
     color: #000000;
     background-color: #D1EAED;
 }
-    
-    .card-notification:hover {
+
+.link-task{
+    background-color: #7eb7bd;
+    padding: 0.2rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+}
+
+    .link-task:hover{
         filter: brightness(85%);
     }
 

@@ -116,17 +116,17 @@ class ControllerUser {
                                 delete (user.password);
                                 // Iniciar sesión
                                 req.session.currentUser = user;
-                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+                                this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                                     if (error) {
                                         errorHandler.manageError(error, {}, "error", next);
                                     }
                                     else {
-                                        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                        req.session.currentUser.configuration = configuration;
+                                        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
                                             if (error) {
                                                 errorHandler.manageError(error, {}, "error", next);
                                             }
                                             else {
-                                                req.session.currentUser.configuration = configuration;
                                                 // Obtener notificaciones no leídas
                                                 this.daoRem.unreadReminders(req.session.currentUser.id, (error, numunreadReminders) => {
                                                     if (error) {

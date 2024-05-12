@@ -7,14 +7,16 @@ const utils = require("../utils");
 
 class ControllerTask {
     // Constructor
-    constructor(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse) {
+    constructor(daoAct, daoCat, daoCon, daoRem, daoRew, daoSub, daoTas, daoUse) {
         this.daoAct = daoAct;
         this.daoCat = daoCat;
+        this.daoCon = daoCon;
         this.daoRem = daoRem;
         this.daoRew = daoRew;
         this.daoSub = daoSub;
         this.daoTas = daoTas;
         this.daoUse = daoUse;
+        
 
         // GETs
         this.getTasks = this.getTasks.bind(this);
@@ -35,28 +37,36 @@ class ControllerTask {
     // GETs
     // Cargar vista de lista de tareas
     getTasks(req, res, next) {
-        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             }
             else {
-                next({
-                    ajax: false,
-                    status: 200,
-                    redirect: "tasks",
-                    data: {
-                        response: undefined,
-                        generalInfo: {
-                            remindersUnread: req.unreadReminders
-                        },
-                        homeInfo: {
-                            day: undefined,
-                            week: undefined
-                        },
-                        tasks: tasks
+                req.session.currentUser.configuration = configuration;
+                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                    if (error) {
+                        errorHandler.manageError(error, {}, "error", next);
                     }
-                });
-            }
+                    else {
+                        next({
+                            ajax: false,
+                            status: 200,
+                            redirect: "tasks",
+                            data: {
+                                response: undefined,
+                                generalInfo: {
+                                    remindersUnread: req.unreadReminders
+                                },
+                                homeInfo: {
+                                    day: undefined,
+                                    week: undefined
+                                },
+                                tasks: tasks
+                            }
+                        });
+                    }
+            });
+        }
         });
     }
 
@@ -64,30 +74,38 @@ class ControllerTask {
     getWeeklyTasks(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+            this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    let week = utils.getWeeklyInfo(req.params.day, tasks);
-
-                    next({
-                        ajax: false,
-                        status: 200,
-                        redirect: "tasks",
-                        data: {
-                            response: undefined,
-                            generalInfo: {
-                                remindersUnread: req.unreadReminders
-                            },
-                            homeInfo: {
-                                day: undefined,
-                                week: week,
-                            }
+                    req.session.currentUser.configuration = configuration;
+                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                        if (error) {
+                            errorHandler.manageError(error, {}, "error", next);
+                        }
+                        else {
+                            let week = utils.getWeeklyInfo(req.params.day, tasks);
+        
+                            next({
+                                ajax: false,
+                                status: 200,
+                                redirect: "tasks",
+                                data: {
+                                    response: undefined,
+                                    generalInfo: {
+                                        remindersUnread: req.unreadReminders
+                                    },
+                                    homeInfo: {
+                                        day: undefined,
+                                        week: week,
+                                    }
+                                }
+                            });
                         }
                     });
                 }
-            });
+            })
         }
         else {
             errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
@@ -98,31 +116,39 @@ class ControllerTask {
     getDailyTasks(req, res, next) {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
-            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+            this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    let info = utils.getDailyInfo(req.params.day, tasks);
-
-                    next({
-                        ajax: false,
-                        status: 200,
-                        redirect: "tasks",
-                        data: {
-                            response: undefined,
-                            generalInfo: {
-                                remindersUnread: req.unreadReminders
-                            },
-                            homeInfo: {
-                                day: info.day,
-                                week: undefined
-                            },
-                            tasks: info.tasks
+                    req.session.currentUser.configuration = configuration;
+                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                        if (error) {
+                            errorHandler.manageError(error, {}, "error", next);
+                        }
+                        else {
+                            let info = utils.getDailyInfo(req.params.day, tasks);
+        
+                            next({
+                                ajax: false,
+                                status: 200,
+                                redirect: "tasks",
+                                data: {
+                                    response: undefined,
+                                    generalInfo: {
+                                        remindersUnread: req.unreadReminders
+                                    },
+                                    homeInfo: {
+                                        day: info.day,
+                                        week: undefined
+                                    },
+                                    tasks: info.tasks
+                                }
+                            });
                         }
                     });
                 }
-            });
+            })
         }
         else {
             errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
@@ -191,7 +217,8 @@ class ControllerTask {
 
     // Obtener tareas no completadas
     getNotCompletedTasks(req, res, next) {
-        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+        console.log("HOLA");
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
@@ -267,29 +294,38 @@ class ControllerTask {
                                                                 else {
                                                                     this.createReminders(form, task.id)
                                                                         .then(() => {
-                                                                            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
+                                                                            this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                                                                                 if (error) {
                                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                                 }
                                                                                 else {
-                                                                                    next({
-                                                                                        ajax: false,
-                                                                                        status: 200,
-                                                                                        redirect: "tasks",
-                                                                                        data: {
-                                                                                            response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
-                                                                                            generalInfo: {
-                                                                                                remindersUnread: req.unreadReminders
-                                                                                            },
-                                                                                            homeInfo: {
-                                                                                                day: undefined,
-                                                                                                week: undefined
-                                                                                            },
-                                                                                            tasks: tasks
+                                                                                    req.session.currentUser.configuration = configuration;
+                                                                                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                                                        if (error) {
+                                                                                            errorHandler.manageError(error, {}, "error", next);
+                                                                                        }
+                                                                                        else {
+                                                                                            next({
+                                                                                                ajax: false,
+                                                                                                status: 200,
+                                                                                                redirect: "tasks",
+                                                                                                data: {
+                                                                                                    response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
+                                                                                                    generalInfo: {
+                                                                                                        remindersUnread: req.unreadReminders
+                                                                                                    },
+                                                                                                    homeInfo: {
+                                                                                                        day: undefined,
+                                                                                                        week: undefined
+                                                                                                    },
+                                                                                                    tasks: tasks
+                                                                                                }
+                                                                                            });
                                                                                         }
                                                                                     });
                                                                                 }
-                                                                            });
+                                                                        });
+
                                                                         })
                                                                         .catch((error) => {
                                                                             errorHandler.manageError(error, {}, "error", next);
