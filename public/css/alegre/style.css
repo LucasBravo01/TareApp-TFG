@@ -210,7 +210,7 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 20rem;
+    min-height: 10rem;
     padding: .5rem;  
     border: 2px #404040 solid;
     border-radius: 1rem;
@@ -329,6 +329,10 @@ button {
 .div-profile {
     display: flex;
     flex-direction: row;
+}
+
+.num-tasks {
+    font-size: 1rem;
 }
 
 /* --- RESPONSIVENESS --- */

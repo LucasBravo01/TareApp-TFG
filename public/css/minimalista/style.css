@@ -317,6 +317,19 @@ button {
     border-radius: 50%;
 }
 
+#img-profile {
+    width: 16rem;
+}
+
+.div-profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.num-tasks {
+    font-size: 1rem;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {

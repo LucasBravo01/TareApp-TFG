@@ -9,7 +9,7 @@
     <script src="/js/notifications.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
