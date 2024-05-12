@@ -193,7 +193,7 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
 (2, 'normal', 'alegre', 'corto'),
 (3, 'normal', 'alegre', 'corto'),
 (4, 'normal', 'alegre', 'corto'),
-(5, 'normal', 'alegre', 'corto'),
+(5, 'grande', 'alegre', 'corto'),
 (6, 'normal', 'alegre', 'corto'),
 (7, 'normal', 'alegre', 'corto'),
 (8, 'normal', 'alegre', 'corto');
