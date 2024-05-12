@@ -220,25 +220,6 @@ $(() => {
         }
     });
 
-    buttonBackToForm.on("click", (event) => {
-        event.preventDefault();
-
-        $("#div-form-studySession").show();
-        $("#div-sb-backToForm").hide();
-        $("#div-timer").hide();
-        $("#div-tasks").hide();
-
-        // Resetear formulario
-        formStudySession[0].reset();
-        inputName.prop("disabled", false);
-        inputStudySlot.prop("disabled", false);
-        inputBrakeSlot.prop("disabled", false);
-        inputNumberSlots.prop("disabled", false);
-        inputLongBrakeSlot.prop("disabled", false);
-        inputNumberLongBrakeSlot.prop("disabled", false);
-        buttonCreateStudySession.prop("disabled", false);
-    });
-
     buttonStartStudySession.on("click", (event) => {
         event.preventDefault();
 
