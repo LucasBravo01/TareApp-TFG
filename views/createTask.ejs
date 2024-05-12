@@ -71,7 +71,7 @@
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
+                    <input id="input-duration" name="duration" type="number" class="form-check-input"  value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
                 </div>
                 
 
