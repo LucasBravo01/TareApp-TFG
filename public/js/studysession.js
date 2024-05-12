@@ -182,9 +182,10 @@ $(() => {
     const inputLongBrakeSlot = $("#input-long-brake-slot");
     const inputNumberLongBrakeSlot = $("#input-number-long-brake-slots");
 
-    const buttonBackToForm = $("#input-sb-backToForm");
     const buttonStartStudySession = $("#input-sb-selectStudySession");
     const buttonCreateStudySession = $("#input-sb-createStudySession");
+
+    const checkBoxes = $(".checkbox-completedTask");
 
     const studySessions = $("body").data("sessions");
 
@@ -290,5 +291,12 @@ $(() => {
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
+    });
+
+    checkBoxes.each(function(i, check) {
+        $(check).on("change", () => {
+            let id = $(check).data("task").id;
+            completeTask(id);
+        });
     });
 });
