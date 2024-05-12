@@ -204,7 +204,7 @@ $(() => {
         inputDuration.attr("disabled", "true");
     });
 
-    // POST crear Tarea
+    // POST modificar Tarea
     buttonSave.on("click", (event) => {
         event.preventDefault();
         let params = {

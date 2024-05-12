@@ -26,9 +26,9 @@ class ControllerTask {
         this.getTask = this.getTask.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
+        this.modifyTask = this.modifyTask.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
-        this.modifyTask = this.modifyTask.bind(this);
         // OTROS
         this.dataForm = this.dataForm.bind(this);
         // PROPIAS
@@ -332,30 +332,30 @@ class ControllerTask {
         if (errors.isEmpty()) {
             this.daoAct.readActivity(req.body, (error, result) => {
                 if (error) {
-                    errorHandler.manageError(error, {}, "error", next);
+                    errorHandler.manageAJAXError(error, next);
                 } else if (!result) {
-                    errorHandler.manageError(10, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                    errorHandler.manageAJAXError(10, next);
                 } else {
                     if (req.body.category === "" && req.body.subject !== undefined) {
-                        errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                        errorHandler.manageAJAXError(11, next);
                     } else {
                         let currentDate = new Date();
                         let taskDate = new Date(`${req.body.date}T${req.body.hour}:00`);
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (taskDate <= currentDate) {
-                            errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                            errorHandler.manageAJAXError(12, next);
                         } else {
                             this.daoCat.readCategoryByName(req.body.category, (error, result) => {
                                 if (error) {
-                                    errorHandler.manageError(error, {}, "error", next);
+                                    errorHandler.manageAJAXError(error, next);
                                 } else if (!result) {
-                                    errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                    errorHandler.manageAJAXError(13, next);
                                 } else {
                                     this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                         if (error) {
-                                            errorHandler.manageError(error, {}, "error", next);
+                                            errorHandler.manageAJAXError(error, next);
                                         } else if (!result && req.body.category === "Escolar") {
-                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                            errorHandler.manageAJAXError(14, next);
                                         } else {
                                             let form = {
                                                 id: req.body.id,
@@ -372,30 +372,30 @@ class ControllerTask {
                                             }
                                             this.daoAct.updateActivity(form, (error, task) => {
                                                 if (error) {
-                                                    errorHandler.manageError(error, {}, "error", next);
+                                                    errorHandler.manageAJAXError(error, next);
                                                 }
                                                 else {
                                                     this.daoTas.updateTask(task, (error) => {
                                                         if (error) {
-                                                            errorHandler.manageError(error, {}, "error", next);
+                                                            errorHandler.manageAJAXError(error, next);
                                                         }
                                                         else {
                                                             this.daoRem.deleteRemindersByTaskId(form.idTaskModify, (error) => {
                                                                 if (error) {
-                                                                    errorHandler.manageError(error, {}, "error", next);
+                                                                    errorHandler.manageAJAXError(error, next);
                                                                 }
                                                                 else {
                                                                    this.createReminders(form, task.id)
                                                                     .then(() => {
                                                                         this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
                                                                             if (error) {
-                                                                                errorHandler.manageError(error, {}, "error", next);
+                                                                                errorHandler.manageAJAXError(error, next);
                                                                             }
                                                                             else {
                                                                                 req.session.currentUser.configuration = configuration;
                                                                                 this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
                                                                                     if (error) {
-                                                                                        errorHandler.manageError(error, {}, "error", next);
+                                                                                        errorHandler.manageAJAXError(error, next);
                                                                                     }
                                                                                     else {
                                                                                         next({
@@ -415,7 +415,7 @@ class ControllerTask {
     
                                                                     })
                                                                     .catch((error) => {
-                                                                        errorHandler.manageError(error, {}, "error", next);
+                                                                        errorHandler.manageAJAXError(error, next);
                                                                     });
                                                                 }
                                                             });
@@ -434,7 +434,7 @@ class ControllerTask {
         }
         else {
             console.log(parseInt(errors.array()[0].msg));
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }
     }
 
@@ -517,7 +517,7 @@ class ControllerTask {
                 else {
                     this.daoRew.readRewardsByTask(task.idReward, (error, reward) => {
                         if (error) {
-                            errorHandler.manageError(error, {}, "error", next);
+                            errorHandler.manageAJAXError(error, next);
                         } else {
                             this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
                                 if (error) {
