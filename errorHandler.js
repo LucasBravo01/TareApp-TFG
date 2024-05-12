@@ -22,6 +22,11 @@ function generateError(cod) {
             title = "Acceso no permitido";
             message = "No sé a dónde estabas intentando acceder, pero no puedes!";
         } break;
+        case -4: {
+            code = 400;
+            title = "Tarea no existente";
+            message = "La tarea que intentas modificar no existe.";
+        } break;
         // Bad Request
         case 1: {
             code = 400;
@@ -70,50 +75,40 @@ function generateError(cod) {
         } break;
         case 10: {
             code = 400;
-            title = "Tarea no existente";
-            message = "La tarea que intentas modificar no existe.";
-        } break;
-        case 11: {
-            code = 400;
             title = "Tarea ya existente";
             message = "Ya existe una tarea con el mismo título para el mismo momento.";
         } break;
-        case 12: {
+        case 11: {
             code = 400;
             title = "Asignatura vacía";
             message = "Asegúrate de rellenar la asignatura para una tarea escolar.";
         } break;
-        case 13: {
+        case 12: {
             code = 400;
             title = "Fecha y/o hora no válidas";
             message = "Asegúrate de que la fecha y hora no sean anteriores a la actual.";
         } break;
-        case 14: {
+        case 13: {
             code = 400;
             title = "Categoría no existente";
             message = "La categoría asignada a la tarea no existe.";
         } break;
-        case 15: {
-            code = 400;
-            title = "Recompensa no existente";
-            message = "La recompensa asignada a la tarea no existe.";
-        } break;
-        case 16: {
+        case 14: {
             code = 400;
             title = "Asignatura no existente";
             message = "La asignatura asignada a la tarea no existe.";
         } break;
-        case 17: {
+        case 15: {
             code = 400;
             title = "Campos no modificados";
             message = "Los campos de la configuración no han sido modificados.";
         } break;
-        case 18: {
+        case 16: {
             code = 400;
             title = "Tipos no válidos";
             message = "Revisa los campos, hay algunos que no cumplen con un tipo correcto.";
         } break;
-        case 19: {
+        case 17: {
             code = 400;
             title = "Elección del tipo de recompensa";
             message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";
