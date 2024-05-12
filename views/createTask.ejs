@@ -14,7 +14,10 @@
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
     <%- include("fragments/nav", { generalInfo: generalInfo }) %>
-
+    <!-- Importar modal confirmación -->
+    <% const url = '/tareas/borrarTarea/' + task.id; %>
+    <%- include("fragments/confirmationModal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
+    
     <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">
@@ -109,7 +112,8 @@
                 <!--BOTÓN CREAR TAREA-->
                 <% if (task.id) { %>
                     <div class="col-6 text-center mt-5">
-                        <button type="button" onclick="window.location.href='/tareas/borrarTarea/<%= task.id %>'" class="dangerous-button">Borrar Tarea</button>
+                        <button type="button"  data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                        <!-- <button type="button" onclick="window.location.href='/tareas/borrarTarea/<%= task.id %>'" class="dangerous-button">Borrar Tarea</button> -->
                     </div>
                 <% } else { %>                    
                     <div class="col-6 text-center mt-5">
