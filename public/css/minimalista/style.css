@@ -341,7 +341,9 @@ button {
 
 /*SESION DE ESTUDIO*/
 
-.bodyContainer{
+/*SESION DE ESTUDIO*/
+
+.subTemp{
     display: flex;
 }
 
@@ -428,17 +430,12 @@ button {
     .accordion-text {
         font-size: 1rem;
     }
+   
 
-    .div-timer {
-        font-size: 4rem;
-        margin: 4rem;
-        margin-left: 6rem;
-        border: 1rem solid #404040;
-        border-radius: 50%;
-        width: 20rem;
-        height: 20rem;
-        place-items: center;
-    }    
+    .subTemp{
+        display: flex;
+        flex-direction: column;
+    }
 
     .bodyContainer{
         display: flex;
