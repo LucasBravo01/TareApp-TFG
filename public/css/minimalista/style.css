@@ -357,7 +357,19 @@ button {
 
 /* Tablets - LG */
 @media (max-width: 991.98px) {
-    
+    #img-profile {
+        width: 10rem;
+    }
+
+    .div-timer {
+        font-size: 3rem;
+        margin: 3rem;
+        border: .75rem solid #404040;
+        border-radius: 50%;
+        width: 15rem;
+        height: 15rem;
+        place-items: center;
+    }
 }
 
 /* Móviles - MD */
@@ -368,5 +380,19 @@ button {
 
     .not-mobile {
         display: none;
+    }
+
+    .div-profile {
+        flex-direction: column;
+    }
+
+    .div-timer {
+        font-size: 2rem;
+        margin: 2rem;
+        border: .5rem solid #404040;
+        border-radius: 50%;
+        width: 10rem;
+        height: 10rem;
+        place-items: center;
     }
 }

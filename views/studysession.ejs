@@ -45,76 +45,75 @@
             </div>
         </div>
 
-        <div class="d-flex">
-            <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
-            <div id="div-form-studySession" class="mb-4 justify-content-center">
-                <form id="form-studySession">
-                    <div class="row justify-content-center mt-3 mb-3">
-                        <!--SELECCIONAR SESIÓN DE ESTUDIO-->
-                        <div class="col-3 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-study-session">Sesión de estudio</label>
-                            <select id="input-study-session" name="study-session" class="form-control">
-                                <option value="Nueva">Nueva</option>
-                                <% studySessions.forEach( (s, i) => { %>
-                                    <option value="<%= i %>"><%= s.name %></option>
-                                <% }); %>
-                            </select>
-                        </div>
+        <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
+        <form id="form-studySession">
+            <div class="row justify-content-center mt-3 mb-3">
+                <!--SELECCIONAR SESIÓN DE ESTUDIO-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-study-session">Seleccionar sesión de estudio</label>
+                    <select id="input-study-session" name="study-session" class="form-control">
+                        <option value="Nueva">Nueva</option>
+                        <% studySessions.forEach( (s, i) => { %>
+                            <option value="<%= i %>"><%= s.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
 
-                        <!--NOMBRE-->
-                        <div class="col-3 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name" id="label-input-name">Nombre nueva sesión *</label>
-                            <input type="text" id="input-name" name="name" class="form-control">
-                        </div>
-                    </div>
+                <!--NOMBRE-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-name" id="label-input-name">Nombre nueva sesión *</label>
+                    <input type="text" id="input-name" name="name" class="form-control">
+                </div>
+            </div>
+                
+            <div class="row justify-content-center mt-3 mb-3">
+                <!--TIEMPO DE ESTUDIO-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
+                    <input type="number" id="input-study-slot" name="study-slot" min="1" max="90" step="5" class="form-control">
+                </div>
+
+                <!--TIEMPO DE DESCANSO-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
+                    <input type="number" id="input-brake-slot" name="brake-slot" min="1" max="90" step="5" class="form-control">
+                </div>
+
+                <!--NÚMERO DE PERIODOS-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-number-slots">Número de periodos *</label>
+                    <input type="number" id="input-number-slots" name="number-slots" min="1" max="10" step="1" class="form-control">
+                </div>
                     
-                    <div class="row justify-content-center mt-3 mb-3">
-                        <!--TIEMPO DE ESTUDIO-->
-                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
-                            <input type="number" id="input-study-slot" name="study-slot" min="1" max="90" step="5" class="form-control">
-                        </div>
-    
-                        <!--TIEMPO DE DESCANSO-->
-                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
-                            <input type="number" id="input-brake-slot" name="brake-slot" min="1" max="90" step="5" class="form-control">
-                        </div>
-    
-                        <!--NÚMERO DE PERIODOS-->
-                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-number-slots">Número de periodos *</label>
-                            <input type="number" id="input-number-slots" name="number-slots" min="1" max="10" step="1" class="form-control">
-                        </div>
-                        
-                        <!--TIEMPO DE DESCANSO LARGO-->
-                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
-                            <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
-                        </div>
-    
-                        <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
-                        <div class="col-4 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
-                            <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
-                        </div>
-                    </div>
-    
-                    <div class="d-flex justify-content-center mt-3 mb-3">
-                        <div class="text-center me-3">
-                            <button type="button" id="input-sb-selectStudySession" class="button main-button">Configurar temporizador</button>
-                        </div>
-    
-                        <div class="text-center me-3">
-                            <button type="submit" id="input-sb-createStudySession" class="button main-button">Configurar y guardar</button>
-                        </div>
-                    </div>
-                </form>    
+                <!--TIEMPO DE DESCANSO LARGO-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
+                    <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
+                </div>
+
+                <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
+                <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
+                    <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
+                    <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
+                </div>
             </div>
 
+            <div class="row justify-content-center mt-3 mb-3">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-10 text-center mt-3 me-3">
+                    <button type="button" id="input-sb-selectStudySession" class="button main-button">Configurar temporizador</button>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6 col-10 text-center mt-3 me-3">
+                    <button type="submit" id="input-sb-createStudySession" class="button main-button">Configurar y guardar</button>
+                </div>
+            </div>
+        </form>    
+        
+
+        <div class="row justify-content-center mt-3 mb-3">
             <!--TEMPORIZADOR-->
-            <div id="div-timer" class="col-7 me-4 mb-4 display-timer" style="display: none;">
-                <!--SUBTITULO TAREAS PENDIENTES-->
+            <div id="div-timer" class="col-lg-6 col-md-6 col-sm-6 col-7 me-4 mb-4 display-timer" style="display: none;">
+                <!--SUBTITULO TEMPORIZADOR-->
                 <div class="col-12 text-center mt-3">
                     <p class="text-start subtitle">Temporizador</p>
                     <hr class="separator-line" />
@@ -151,7 +150,7 @@
             </div>
 
             <!--TAREAS-->
-            <div id="div-tasks" style="display: none;" class="col-5 mb-4">
+            <div id="div-tasks" style="display: none;" class="col-lg-5 col-md-6 col-sm-6 col-5 mb-4">
                 <!--SUBTITULO TAREAS PENDIENTES-->
                 <div class="col-12 text-center mt-3">
                     <p class="text-start subtitle">Tareas pendientes</p>

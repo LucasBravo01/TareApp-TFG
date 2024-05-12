@@ -30,7 +30,7 @@ function initializeTimer(params) {
     $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
     $("#span-numSlot").text("Periodo actual: " + contSlots);
 
-    $("#div-form-studySession").hide();
+    $("#form-studySession").hide();
     $("#div-sb-backToForm").show();
     $("#div-timer").show();
     $("#div-tasks").show();
