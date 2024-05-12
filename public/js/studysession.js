@@ -57,6 +57,8 @@ function stopTimer() {
 function resetTimer() {
     clearInterval(control);
     timeLeft = studyTime;
+    contSlots = 1;
+    isStudytime = true;
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
     $("#span-secsTimer").text("00");
@@ -78,6 +80,7 @@ function timer() {
         timeLeft--;
     } else {
         clearInterval(control);
+        $('#audio-endTimer')[0].play();
 
         if (isStudytime) {
             contSlots++;
@@ -99,6 +102,7 @@ function timer() {
             else {
                 $("#span-whichPeriod").text("¡Enhorabuena! Has completado tu sesión de estudio");
                 $("#span-numSlot").text("");
+                resetTimer();
             }
         }
         else {
