@@ -30,7 +30,6 @@ class DAOReward {
                         rows.forEach(row => {
                             let reward = {
                                 id: row.id,
-                                title: row.title,
                                 icon: row.icon,
                                 message: row.message
                             }
@@ -61,7 +60,6 @@ class DAOReward {
                         rows.forEach(row => {
                             let reward = {
                                 id: row.id,
-                                title: row.title,
                                 message: row.message,
                                 icon: row.icon,
                                 count: row.count
@@ -100,6 +98,29 @@ class DAOReward {
             }
         });
     }
+
+    // Leer recompensas dado un id_reward de una tarea
+    readRewardsByTask(id, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "SELECT * FROM reward where id = ?;";
+                connection.query(querySQL, [id], (error, rows) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else { 
+                        let reward = {
+                            message: rows[0].message,
+                            icon: rows[0].icon,
+                        }   
+                        callback(null, reward);
+                    }
+                }); 
+            }
+        });
+    } 
 }
 
 module.exports = DAOReward;

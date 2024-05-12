@@ -5,7 +5,7 @@ function validateParams(params, currentDate) {
     let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
     // Campos no vacíos
-    if (params.title === "" || params.date === "" || params.hour === "" || params.category === "" || params.reward === ""|| params.duration === "") {
+    if (params.title === "" || params.date === "" || params.hour === "" || params.category === ""|| params.duration === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
@@ -39,7 +39,6 @@ $(() => {
     const inputSubject = $("#input-subject");
     const inputReminder = $("#input-reminder");
     const inputDescription = $("#input-description");
-    const inputReward = $("#input-reward");
     const inputDuration = $("#input-duration");
     const submitButton = $("#input-sb-createTask");
     const inputIdtask = $("#input-id-task");
@@ -54,7 +53,6 @@ $(() => {
         inputCategory.val(task.category);
         inputSubject.val(task.idSubject);
         inputReminder.val(task.reminder);
-        inputReward.val(task.idReward);
         inputDuration.val(task.duration);
 
         // Deshabilitar campos
@@ -65,7 +63,6 @@ $(() => {
         inputSubject.attr("disabled", "true");
         inputReminder.attr("disabled", "true");
         inputDescription.attr("disabled", "true");
-        inputReward.attr("disabled", "true");
         inputDuration.attr("disabled", "true");
 
     }
@@ -99,7 +96,6 @@ $(() => {
             hour: inputHour.val(),
             category: inputCategory.val(),
             subject: inputSubject.val(),
-            reward: inputReward.val(),
             duration: inputDuration.val()
         };
         // Validar

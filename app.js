@@ -69,12 +69,6 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-// TODO Que hace esto?
-app.use((req, res, next) => {
-  res.locals.session = req.session;
-  next();
-});
-
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
 
@@ -116,6 +110,12 @@ function userAlreadyLogged(req, res, next) {
     next();
   }
 };
+
+// Proporciona acceso a la sesión actual en los ejs
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
 
 // --- Routers ---
 routerTask.routerConfig(conTas, conRem);
