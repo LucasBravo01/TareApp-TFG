@@ -62,6 +62,8 @@ function resetTimer() {
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
     $("#span-secsTimer").text("00");
+    $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+    $("#span-numSlot").text("Periodo actual: " + contSlots);
 
     $("#input-startTimer").removeAttr("disabled");
     $("#input-stopTimer").attr("disabled", true);
@@ -130,7 +132,7 @@ function validateParams(params) {
         return error;
     }
     // Si se pone un descanso largo indicar número de slots de descansos largos
-    else if (params.long_brake_slot !== 0 && params.num_long_slots === 0) {
+    else if (params.long_brake_slot !== "" && params.num_long_slots === "") {
         error.code = 400;
         error.title = "Campos vacíos de periodo largo";
         error.message = "Asegúrate de rellenar todos los campos de los periodos largos.";
@@ -224,15 +226,21 @@ $(() => {
         event.preventDefault();
 
         let params = {
-            study_slot: parseInt(inputStudySlot.val()),
-            brake_slot: parseInt(inputBrakeSlot.val()),
-            long_brake_slot: parseInt(inputLongBrakeSlot.val()),
-            num_slots: parseInt(inputNumberSlots.val()),
-            num_long_slots: parseInt(inputNumberLongBrakeSlot.val())
+            study_slot: inputStudySlot.val(),
+            brake_slot: inputBrakeSlot.val(),
+            long_brake_slot: inputLongBrakeSlot.val(),
+            num_slots: inputNumberSlots.val(),
+            num_long_slots: inputNumberLongBrakeSlot.val()
         }
 
         let error = validateParams(params);
         if(!error) {
+            params.study_slot = parseInt(inputStudySlot.val());
+            params.brake_slot = parseInt(inputBrakeSlot.val());
+            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
+            params.num_slots = parseInt(inputNumberSlots.val());
+            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
+
             initializeTimer(params);
         }
         else {
@@ -245,20 +253,26 @@ $(() => {
 
         let params = {
             name: inputName.val(),
-            study_slot: parseInt(inputStudySlot.val()),
-            brake_slot: parseInt(inputBrakeSlot.val()),
+            study_slot: inputStudySlot.val(),
+            brake_slot: inputBrakeSlot.val(),
             long_brake_slot: 0,
-            num_slots: parseInt(inputNumberSlots.val()),
+            num_slots: inputNumberSlots.val(),
             num_long_slots: 0
         }
 
         if(inputLongBrakeSlot.val() !== "") {
-            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
-            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
+            params.long_brake_slot = inputLongBrakeSlot.val();
+            params.num_long_slots = inputNumberLongBrakeSlot.val();
         }
 
         let error = validateParams(params);
         if(!error) {
+            params.study_slot = parseInt(inputStudySlot.val());
+            params.brake_slot = parseInt(inputBrakeSlot.val());
+            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
+            params.num_slots = parseInt(inputNumberSlots.val());
+            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
+
             $.ajax({
                 method: "POST",
                 url: "/sesionEstudio/nuevaSesionEstudio",
