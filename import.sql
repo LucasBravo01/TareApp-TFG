@@ -57,9 +57,9 @@ CREATE TABLE studySession (
   id_user INT NOT NULL,
   study_slot INT NOT NULL,
   brake_slot INT NOT NULL,
-  long_brake_slot INT,
+  long_brake_slot INT NOT NULL,
   num_slots INT NOT NULL,
-  num_long_slots INT,
+  num_long_slots INT NOT NULL,
 
   CONSTRAINT UC_studySession UNIQUE(name, id_user),
   FOREIGN KEY (id_user) REFERENCES user(id)
@@ -333,17 +333,6 @@ INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES
 (5, 19, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 3"', '2024-04-18 08:00:00'),
 (5, 20, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
 (5, 20, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00');
-
--- Sesiones de estudio
-INSERT INTO studysession (name, id_user, study_slot, brake_slot, long_brake_slot, num_slots, num_long_slots) VALUES
-('Predeterminada', 1, 25, 5, NULL, 1, NULL),
-('Predeterminada', 2, 25, 5, NULL, 1, NULL),
-('Predeterminada', 3, 25, 5, NULL, 1, NULL),
-('Predeterminada', 4, 25, 5, NULL, 1, NULL),
-('Predeterminada', 5, 25, 5, NULL, 1, NULL),
-('Predeterminada', 6, 25, 5, NULL, 1, NULL),
-('Predeterminada', 7, 25, 5, NULL, 1, NULL),
-('Predeterminada', 8, 25, 5, NULL, 1, NULL);
 
 -- ------ Añadir fotos ------
 

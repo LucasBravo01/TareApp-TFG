@@ -197,6 +197,7 @@ class ControllerTask {
             } else {
                 tasks.forEach( t => {
                     t.date = utils.formatDate(t.date);
+                    t.time = utils.formatHour(t.time);
                 });
                 req.tasks = tasks
                 next();

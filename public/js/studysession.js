@@ -10,7 +10,7 @@ let numLongBrakeSlots;
 
 // Variables de funcionalidad
 let timeLeft;
-let contSlots = 0;
+let contSlots = 1;
 let isStudytime = true;
 let control;
 
@@ -27,8 +27,8 @@ function initializeTimer(params) {
     }
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
-    $("#span-whichPeriod").text("Periodo de estudio");
-    $("#span-numSlot").text("Número de periodo: " + contSlots);
+    $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+    $("#span-numSlot").text("Periodo actual: " + contSlots);
 
     $("#div-form-studySession").hide();
     $("#div-sb-backToForm").show();
@@ -82,23 +82,30 @@ function timer() {
         if (isStudytime) {
             contSlots++;
             isStudytime = false;
-            $("#span-whichPeriod").text("Periodo de descanso");
-            $("#span-numSlot").text("Número de periodo: " + contSlots);
 
-            if(contSlots !== numSlots) {
+            if(contSlots <= numSlots) {
                 if (longBrakeTime !== "" && contSlots % numLongBrakeSlots === 0) {
                     timeLeft = longBrakeTime;
+                    $("#span-whichPeriod").text("Toca un descanso largo");
+                    $("#span-numSlot").text("Siguiente periodo: " + contSlots);
                 } 
                 else{
                     timeLeft = brakeTime;
+                    $("#span-whichPeriod").text("Un descanso merecido");
+                    $("#span-numSlot").text("Siguiente periodo: " + contSlots);
                 }
                 startTimer();
+            }
+            else {
+                $("#span-whichPeriod").text("¡Enhorabuena! Has completado tu sesión de estudio");
+                $("#span-numSlot").text("");
             }
         }
         else {
             isStudytime = true;
             timeLeft = studyTime;
-            $("#span-whichPeriod").text("Periodo de estudio");
+            $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+            $("#span-numSlot").text("Periodo actual: " + contSlots);
             startTimer();
         }
     }
@@ -159,6 +166,8 @@ function completeTask(idTask) {
 $(() => {
     // Elementos HTML
     const formStudySession = $("#form-studySession");
+    const labelInputName = $("#label-input-name");
+
     const inputStudySession = $("#input-study-session");
     const inputName = $("#input-name");
     const inputStudySlot = $("#input-study-slot");
@@ -179,7 +188,8 @@ $(() => {
         if (selectedSession === "Nueva") {
             formStudySession[0].reset();
 
-            inputName.prop("disabled", false);
+            inputName.show();
+            labelInputName.show();
             inputStudySlot.prop("disabled", false);
             inputBrakeSlot.prop("disabled", false);
             inputNumberSlots.prop("disabled", false);
@@ -195,7 +205,8 @@ $(() => {
             inputLongBrakeSlot.val(session.long_brake_slot);
             inputNumberLongBrakeSlot.val(session.num_long_slots);
 
-            inputName.prop("disabled", true);
+            inputName.hide();
+            labelInputName.hide();
             inputStudySlot.prop("disabled", true);
             inputBrakeSlot.prop("disabled", true);
             inputNumberSlots.prop("disabled", true);
@@ -228,11 +239,11 @@ $(() => {
         event.preventDefault();
 
         let params = {
-            study_slot: inputStudySlot.val(),
-            brake_slot: inputBrakeSlot.val(),
-            long_brake_slot: inputLongBrakeSlot.val(),
-            num_slots: inputNumberSlots.val(),
-            num_long_slots: inputNumberLongBrakeSlot.val()
+            study_slot: parseInt(inputStudySlot.val()),
+            brake_slot: parseInt(inputBrakeSlot.val()),
+            long_brake_slot: parseInt(inputLongBrakeSlot.val()),
+            num_slots: parseInt(inputNumberSlots.val()),
+            num_long_slots: parseInt(inputNumberLongBrakeSlot.val())
         }
 
         let error = validateParams(params);

@@ -43,7 +43,7 @@
 
                         <!--NOMBRE-->
                         <div class="col-3 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                            <label for="input-name">Nombre nueva sesión *</label>
+                            <label for="input-name" id="label-input-name">Nombre nueva sesión *</label>
                             <input type="text" id="input-name" name="name" class="form-control">
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                 <div class="accordion" id="accordionExample">
                     <% tasks.forEach( t=> { %>
                         <% if (!t.completed) { %>
-                            <div>
+                            <div class="mb-3">
                                 <button class="accordion-button collapsed accordeon-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
                                     <% if(session.currentUser.configuration.theme === "alegre") { %>
                                         <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
