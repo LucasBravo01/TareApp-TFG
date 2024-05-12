@@ -87,7 +87,7 @@ function timer() {
             isStudytime = false;
 
             if(contSlots <= numSlots) {
-                if (longBrakeTime !== "" && contSlots % numLongBrakeSlots === 0) {
+                if (longBrakeTime !== 0 && (contSlots - 1) % numLongBrakeSlots === 0) {
                     timeLeft = longBrakeTime;
                     $("#span-whichPeriod").text("Toca un descanso largo");
                     $("#span-numSlot").text("Siguiente periodo: " + contSlots);
