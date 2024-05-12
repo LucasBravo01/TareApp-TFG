@@ -433,7 +433,6 @@ class ControllerTask {
             });
         }
         else {
-            console.log(parseInt(errors.array()[0].msg));
             errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
         }
     }
@@ -616,7 +615,6 @@ class ControllerTask {
             case "No recordarmelo": numRem = 0; break;
             default: numRem = 0; break;
         }
-        console.log(numRem);
         for (let i = 1; i <= numRem; i++) {
             let reminderDate = new Date(form.date);
             let timeParts = form.time.split(":");

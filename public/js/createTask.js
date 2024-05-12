@@ -4,11 +4,6 @@
 function validateParams(params, currentDate, task) {
     let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
-    if(task !==null&&params.subject === "" && task.idSubject === null){
-        console.log(params.subject) ;
-        console.log(task.idSubject);
-    }
-    
     // Campos no vacíos
     if (params.title === "" || params.date === "" || params.hour === "" || params.category === ""|| params.duration === "") {
         error.code = 400;
