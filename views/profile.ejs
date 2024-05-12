@@ -49,6 +49,7 @@
                 </div>
             </div>
 
+            <% if(session.currentUser.configuration.reward_type === "medalla") { %>
             <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
                 <p class="text-start subtitle">Recompensas</p>
@@ -62,14 +63,7 @@
                     <div class="card card-recompensa">
                         <div class="card-header card-header-recompensa">
                             <img src="/images/rewards/<%= userRewards[i].icon %>.png"
-                                alt="Icono de la recompensa <%= userRewards[i].title %>" width="100">
-                        </div>
-
-                        <div class="card-body card-body-recompensa">
-                            <h5 class="card-title mt-2"><%= userRewards[i].title %></h5>
-                            <% if (userRewards[i].message) { %>
-                            <p class="card-text mt-2"><%= userRewards[i].message %></p>
-                            <% } %>
+                                alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
                         </div>
 
                         <div class="card-footer card-footer-recompensa">
@@ -83,6 +77,7 @@
                 </div>
                 <% } %>
             </div>
+            <%}%>
         </div>
     </div>
 </body>
