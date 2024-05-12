@@ -26,6 +26,7 @@ class ControllerTask {
         this.getTask = this.getTask.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
         // OTROS
         this.dataForm = this.dataForm.bind(this);
@@ -64,8 +65,8 @@ class ControllerTask {
                             }
                         });
                     }
-            });
-        }
+                });
+            }
         });
     }
 
@@ -223,34 +224,34 @@ class ControllerTask {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
-                    errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                    errorHandler.manageError(10, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                 } else {
                     if (req.body.category === "" && req.body.subject !== undefined) {
-                        errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                        errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                     } else {
                         let currentDate = new Date();
                         let taskDate = new Date(`${req.body.date}T${req.body.time}:00`);
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (taskDate <= currentDate) {
-                            errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                            errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                         } else {
                             this.daoCat.readCategoryByName(req.body.category, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
-                                    errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                    errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                 } else {
                                     this.daoRew.readRewardsById(req.body.reward, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result) {
-                                            errorHandler.manageError(15, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                         } else {
                                             this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
                                                 } else if (!result && req.body.category === "Escolar") {
-                                                    errorHandler.manageError(16, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                                    errorHandler.manageError(15, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                                 } else {
                                                     let form = {
                                                         id: req.body.id,
@@ -332,6 +333,73 @@ class ControllerTask {
         }
     }
 
+    // Borrar tarea
+    deleteTask(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            this.daoTas.readTaskById(req.params.id, (error, task) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    if (task.idDestination !== req.session.currentUser.id) {
+                        errorHandler.manageError(-3, {}, "error", next);
+                    }
+                    else {
+                        this.daoAct.deleteActivity(task.id, true, (error) => {
+                            if (error) {
+                                errorHandler.manageError(error, {}, "error", next);
+                            }
+                            else {
+                                this.daoRem.updateReminders(task.id, true, (error) => {
+                                    if (error) {
+                                        errorHandler.manageError(error, {}, "error", next);
+                                    }
+                                    else {
+                                        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                            if (error) {
+                                                errorHandler.manageError(error, {}, "error", next);
+                                            }
+                                            else {
+                                                req.session.currentUser.configuration = configuration;
+                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                    if (error) {
+                                                        errorHandler.manageError(error, {}, "error", next);
+                                                    }
+                                                    else {
+                                                        next({
+                                                            ajax: false,
+                                                            status: 200,
+                                                            redirect: "tasks",
+                                                            data: {
+                                                                response: { code: 200, title: "Tarea borrada", message: `La tarea "${task.title}" ha sido borrada con éxito`},
+                                                                generalInfo: {
+                                                                    remindersUnread: req.unreadReminders
+                                                                },
+                                                                homeInfo: {
+                                                                    day: undefined,
+                                                                    week: undefined
+                                                                },
+                                                                tasks: tasks
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
+    }
+
     // Marcar o desmarcar tarea como completada
     markTaskAsCompleted(req, res, next) {
         const errors = validationResult(req);
@@ -342,40 +410,35 @@ class ControllerTask {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
-                    if (!task) {
-                        errorHandler.manageAJAXError(10, next);
-                    }
-                    else {
-                        this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
-                            if (error) {
-                                errorHandler.manageAJAXError(error, next);
-                            }
-                            else {
-                                this.daoRem.updateReminders(req.body.id, checked, (error) => {
-                                    if (error) {
-                                        errorHandler.manageAJAXError(error, next);
+                    this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
+                        if (error) {
+                            errorHandler.manageAJAXError(error, next);
+                        }
+                        else {
+                            this.daoRem.updateReminders(req.body.id, checked, (error) => {
+                                if (error) {
+                                    errorHandler.manageAJAXError(error, next);
+                                }
+                                else {
+                                    let data = { code: 200 };
+                                    if (checked === 1) {
+                                        data.title = "Tarea completada";
+                                        data.message = `¡Enhorabuena! Has completado la tarea "${task.title}"`;
                                     }
                                     else {
-                                        let data = { code: 200 };
-                                        if (checked === 1) {
-                                            data.title = "Tarea completada";
-                                            data.message = `¡Enhorabuena! Has completado la tarea "${task.title}"`;
-                                        }
-                                        else {
-                                            data.title = "Tarea pendiente";
-                                            data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
-                                        }
-                                        next({
-                                            ajax: true,
-                                            error: false,
-                                            img: false,
-                                            data: data
-                                        });
+                                        data.title = "Tarea pendiente";
+                                        data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
                                     }
-                                });
-                            }
-                        });
-                    }
+                                    next({
+                                        ajax: true,
+                                        error: false,
+                                        img: false,
+                                        data: data
+                                    });
+                                }
+                            });
+                        }
+                    });                    
                 }
             });
         }

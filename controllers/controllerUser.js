@@ -200,7 +200,7 @@ class ControllerUser {
                     if (form.font_size === req.session.currentUser.configuration.font_size 
                         && form.theme === req.session.currentUser.configuration.theme 
                         && form.time_preference === req.session.currentUser.configuration.time_preference) {
-                            errorHandler.manageAJAXError(17, next);
+                            errorHandler.manageAJAXError(16, next);
                     }
                     else {
                         req.session.currentUser.configuration = form;

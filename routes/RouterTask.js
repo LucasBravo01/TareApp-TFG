@@ -23,6 +23,16 @@ function routerConfig(conTas, conRem) {
         conTas.getTask
     );
 
+    // Borrar tarea
+    RouterTask.get("/borrarTarea/:id",
+        // Ninguno de los campos vacíos
+        check("id", "1").notEmpty(),
+        // Comprobar tipos correctos
+        check("id", "17").isNumeric(),
+        conRem.unreadReminders,
+        conTas.deleteTask
+    );
+
     // --- Peticiones POST ---
     // Crear Tarea 
     RouterTask.post("/crearTareaForm",
@@ -35,10 +45,11 @@ function routerConfig(conTas, conRem) {
         check("reminders", "1").notEmpty(),
         check("reward", "1").notEmpty(),
         check("duration", "1").notEmpty(),
-        // TODO revisar - Comprobar tipos correctos
-        check("date", "18").isDate(),
-        check("time", "18").isTime(),
-        check("duration", "18").isNumeric(),
+        // Comprobar tipos correctos
+        check("id", "17").isNumeric(),
+        check("date", "17").isDate(),
+        check("time", "17").isTime(),
+        check("duration", "17").isNumeric(),
         // Campos de enums válidos
         check("reminders", "2").custom((recType) => {
             return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
