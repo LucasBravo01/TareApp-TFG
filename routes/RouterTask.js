@@ -28,7 +28,7 @@ function routerConfig(conTas, conRem) {
         // Ninguno de los campos vacíos
         check("id", "1").notEmpty(),
         // Comprobar tipos correctos
-        check("id", "17").isNumeric(),
+        check("id", "16").isNumeric(),
         conRem.unreadReminders,
         conTas.deleteTask
     );
@@ -45,10 +45,10 @@ function routerConfig(conTas, conRem) {
         check("reminders", "1").notEmpty(),
         check("duration", "1").notEmpty(),
         // Comprobar tipos correctos
-        check("id", "17").isNumeric(),
-        check("date", "17").isDate(),
-        check("time", "17").isTime(),
-        check("duration", "17").isNumeric(),
+        check("id", "16").isNumeric(),
+        check("date", "16").isDate(),
+        check("time", "16").isTime(),
+        check("duration", "16").isNumeric(),
         // Campos de enums válidos
         check("reminders", "2").custom((recType) => {
             return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")

@@ -202,7 +202,7 @@ class ControllerUser {
                         && form.theme === req.session.currentUser.configuration.theme 
                         && form.time_preference === req.session.currentUser.configuration.time_preference
                         && form.reward_type === req.session.currentUser.configuration.reward_type ) {
-                            errorHandler.manageAJAXError(16, next);
+                            errorHandler.manageAJAXError(15, next);
                     }
                     else {
                         req.session.currentUser.configuration = form;

@@ -38,7 +38,7 @@ function routerConfig(conUse, conRem) {
         check("time_preference", "7").custom((timeP) => {
             return (timeP === "corto" || timeP === "largo")
         }),
-        check("reward", "19").custom((reward) => {
+        check("reward", "17").custom((reward) => {
             return (reward === "mensaje" || reward === "medalla")
         }),
         conRem.unreadReminders,

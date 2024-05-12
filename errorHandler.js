@@ -95,25 +95,20 @@ function generateError(cod) {
         } break;
         case 14: {
             code = 400;
-            title = "Recompensa no existente";
-            message = "La recompensa asignada a la tarea no existe.";
-        } break;
-        case 15: {
-            code = 400;
             title = "Asignatura no existente";
             message = "La asignatura asignada a la tarea no existe.";
         } break;
-        case 16: {
+        case 15: {
             code = 400;
             title = "Campos no modificados";
             message = "Los campos de la configuración no han sido modificados.";
         } break;
-        case 17: {
+        case 16: {
             code = 400;
             title = "Tipos no válidos";
             message = "Revisa los campos, hay algunos que no cumplen con un tipo correcto.";
         } break;
-        case 19: {
+        case 17: {
             code = 400;
             title = "Elección del tipo de recompensa";
             message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";

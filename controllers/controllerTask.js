@@ -245,7 +245,7 @@ class ControllerTask {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result && req.body.category === "Escolar") {
-                                            errorHandler.manageError(15, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                         } else {
                                             let form = {
                                                 id: req.body.id,
@@ -402,46 +402,45 @@ class ControllerTask {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
-                        this.daoRew.readRewardsByTask(task.idReward, (error, reward) => {
-                            if (error) {
-                                errorHandler.manageError(error, {}, "error", next);
-                            } else {
-                                this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
-                                    if (error) {
-                                        errorHandler.manageAJAXError(error, next);
-                                    }
-                                    else {
-                                        this.daoRem.updateReminders(req.body.id, checked, (error) => {
-                                            if (error) {
-                                                errorHandler.manageAJAXError(error, next);
+                    this.daoRew.readRewardsByTask(task.idReward, (error, reward) => {
+                        if (error) {
+                            errorHandler.manageError(error, {}, "error", next);
+                        } else {
+                            this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
+                                if (error) {
+                                    errorHandler.manageAJAXError(error, next);
+                                }
+                                else {
+                                    this.daoRem.updateReminders(req.body.id, checked, (error) => {
+                                        if (error) {
+                                            errorHandler.manageAJAXError(error, next);
+                                        }
+                                        else {
+                                            let data = { code: 200 };
+                                            if (checked === 1) {
+                                                data.title = "Tarea completada";
+                                                if (req.session.currentUser.configuration.reward_type === 'mensaje') {
+                                                    data.message = `${reward.message}`;
+                                                } else {
+                                                    data.message = `¡Enhorabuena! Has conseguido una nueva medalla, ve a tu perfil a verla.`;
+                                                }
                                             }
                                             else {
-                                                let data = { code: 200 };
-                                                if (checked === 1) {
-                                                    data.title = "Tarea completada";
-                                                    if (req.session.currentUser.configuration.reward_type === 'mensaje') {
-                                                        data.message = `${reward.message}`;
-                                                    } else {
-                                                        data.message = `¡Enhorabuena! Has conseguido una nueva medalla, ve a tu perfil a verla.`;
-                                                    }
-                                                }
-                                                else {
-                                                    data.title = "Tarea pendiente";
-                                                    data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
-                                                }
-                                                next({
-                                                    ajax: true,
-                                                    error: false,
-                                                    img: false,
-                                                    data: data
-                                                });
+                                                data.title = "Tarea pendiente";
+                                                data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
                                             }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    
+                                            next({
+                                                ajax: true,
+                                                error: false,
+                                                img: false,
+                                                data: data
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });                    
                 }
             });
         }
