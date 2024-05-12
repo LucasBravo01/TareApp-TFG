@@ -257,6 +257,15 @@ button {
     color: #F1F2F6;
 }
 
+.checkbox-completedTask {
+    transform: scale(1.5);
+}
+
+    .checkbox-completedTask:checked {
+        border-color: #51A644;
+        background-color: #51A644;
+    }
+
 /*COLORES ASIGNATURAS Y CATEGORIAS: tienen que estar en español para la BD*/
 .rojo {
     background-color: #D9183B;

@@ -188,7 +188,7 @@
                                         <% } %>
                                         <div>
                                             <label for="input-completed-<%= t.id %>"><strong>Completar tarea</strong></label>
-                                            <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" onchange=completeTask(<%= t.id %>) class="form-check-input mx-2" <%= t.done ? 'checked' : '' %>>
+                                            <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" onchange=completeTask(<%= t.id %>) class="form-check-input checkbox-completedTask mx-2" <%= t.done ? 'checked' : '' %>>
                                         </div>
                                     </div>
                                 </div>
