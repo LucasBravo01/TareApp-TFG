@@ -14,7 +14,10 @@
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
     <%- include("fragments/nav", { generalInfo: generalInfo }) %>
-
+    <!-- Importar modal confirmación -->
+    <% const url = '/tareas/borrarTarea/' + task.id; %>
+    <%- include("fragments/confirmationModal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
+    
     <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">
@@ -60,7 +63,7 @@
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
+                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" >
                 </div>
                 
 
@@ -107,12 +110,16 @@
                 </div>
 
                 <!--BOTÓN CREAR TAREA-->
-                <% if (!task.id) { %>
+                <% if (task.id) { %>
+                    <div class="col-6 text-center mt-5">
+                        <button type="button"  data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                        <!-- <button type="button" onclick="window.location.href='/tareas/borrarTarea/<%= task.id %>'" class="dangerous-button">Borrar Tarea</button> -->
+                    </div>
+                <% } else { %>                    
                     <div class="col-6 text-center mt-5">
                         <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
                     </div>
                 <% } %>
-
             </div>
         </form>
     </div>

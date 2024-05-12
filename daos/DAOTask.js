@@ -23,7 +23,7 @@ class DAOTask {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ?;";
+                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ? AND ACT.enabled = 1;";
                 connection.query(querySQL, [idTask], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -31,7 +31,7 @@ class DAOTask {
                     }
                     else {
                         if (rows.length != 1) {
-                            callback(-1);
+                            callback(-4);
                         }
                         else {
                             // Construir objeto

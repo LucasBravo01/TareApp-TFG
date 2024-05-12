@@ -40,7 +40,7 @@ $(() => {
     const inputReminder = $("#input-reminder");
     const inputDescription = $("#input-description");
     const inputDuration = $("#input-duration");
-    const submitButton = $("#input-sb-createTask");
+    const buttonCreate = $("#input-sb-createTask");
     const inputIdtask = $("#input-id-task");
     const inputCompleted = $("#input-completed");
 
@@ -88,7 +88,7 @@ $(() => {
     });
 
     // POST crear Tarea
-    submitButton.on("click", (event) => {
+    buttonCreate.on("click", (event) => {
         event.preventDefault();
         let params = {
             title: inputTitle.val(),
@@ -108,6 +108,7 @@ $(() => {
         }
     });
 
+    // POST marcar/desmarcar como completada
     inputCompleted.on("change", (event) => {
         event.preventDefault();
         let params = {
