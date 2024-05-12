@@ -128,20 +128,20 @@
                     <span id="span-minsTimer">00</span>:<span id="span-secsTimer">00</span>
                 </div>
     
-                <div class="d-flex justify-content-center">
-                    <div class="me-1">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-lg-2 col-md-4 col-sm-6 col-10 text-center mt-1 me-1">
                         <button type="button" id="input-startTimer" onclick="startTimer();" class="button view-non-selected-button">Iniciar</button>
                     </div>
     
-                    <div class="me-1">
+                    <div class="col-lg-2 col-md-4 col-sm-6 col-10 text-center mt-1 me-1">
                         <button type="button" id="input-stopTimer" onclick="stopTimer();" class="button view-selected-button" disabled>Pausar</button>
                     </div>
     
-                    <div class="me-1">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-10 text-center mt-1 me-1">
                         <button type="button" id="input-resumeTimer" onclick="startTimer();" class="button view-non-selected-button" disabled>Continuar</button>
                     </div>
     
-                    <div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-10 text-center mt-1 me-1">
                         <button type="button" id="input-resetTimer" onclick="resetTimer();" class="button dangerous-button" disabled>Resetear</button>
                     </div>
                 </div>
@@ -158,21 +158,21 @@
                 </div>
 
                 <!--LISTA DE TAREAS PENDIENTES-->
-                <div class="accordion" id="accordionExample">
+                <div id="accordion-tasksNotCompleted" class="accordion">
                     <% tasks.forEach( t=> { %>
                         <% if (!t.completed) { %>
                             <div class="mb-3">
-                                <button class="accordion-button collapsed accordeon-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
+                                <button class="accordion-button collapsed accordion-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
                                     <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                        <span class="accordion-icon"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                     <% } else { %>
-                                        <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
+                                        <img class="accordion-img" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
                                     <% } %>
                                     
-                                    <span class="mx-5"><%= t.title %></span>
+                                    <span class="accordion-text mx-2"><%= t.title %></span>
                                 </button>
 
-                                <div id="collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div id="collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#accordion-tasksNotCompleted">
                                     <div class="accordion-body d-flex flex-column">
                                         <span><strong>Fecha y hora de entrega:</strong> <%= t.date %> <%= t.time %></span>
                                         <% if(t.category === "Escolar") { %>

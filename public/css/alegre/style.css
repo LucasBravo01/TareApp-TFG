@@ -252,7 +252,7 @@ button {
     align-items: center;
 }
 
-.accordeon-task {
+.accordion-task {
     border-radius: 1rem;
     color: #F1F2F6;
 }
@@ -374,7 +374,20 @@ button {
         width: 15rem;
         height: 15rem;
         place-items: center;
-    }    
+    }
+
+    .accordion-icon {
+        font-size: 2rem !important;
+    }
+
+    .accordion-img {
+        height: 30px; 
+        width: 30px;
+    }   
+
+    .accordion-text {
+        font-size: 1rem;
+    } 
 }
 
 /* Móviles - MD */
@@ -399,5 +412,18 @@ button {
         width: 10rem;
         height: 10rem;
         place-items: center;
+    }
+
+    .accordion-icon {
+        font-size: 1rem !important;
+    }
+
+    .accordion-img {
+        height: 15px; 
+        width: 15px;
+    }
+
+    .accordion-text {
+        font-size: .6rem;
     }
 }
