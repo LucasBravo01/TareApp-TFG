@@ -43,7 +43,6 @@ function routerConfig(conTas, conRem) {
         check("time", "1").notEmpty(),
         check("category", "1").notEmpty(),
         check("reminders", "1").notEmpty(),
-        check("reward", "1").notEmpty(),
         check("duration", "1").notEmpty(),
         // Comprobar tipos correctos
         check("id", "17").isNumeric(),

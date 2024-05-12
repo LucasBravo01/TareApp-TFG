@@ -9,7 +9,7 @@
     <script src="/js/home.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->

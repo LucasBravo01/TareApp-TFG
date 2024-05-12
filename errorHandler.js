@@ -58,7 +58,7 @@ function generateError(cod) {
             title = "Elección del tema";
             message = "El campo del tema no es válido. Por favor, introduce uno adecuado.";
         } break;
-        case 7: { // TODO Borrar?
+        case 7: {
             code = 400;
             title = "Elección de la preferencia de tiempo";
             message = "El campo de la preferencia de tiempo no es válido. Por favor, introduce uno adecuado.";
@@ -112,6 +112,11 @@ function generateError(cod) {
             code = 400;
             title = "Tipos no válidos";
             message = "Revisa los campos, hay algunos que no cumplen con un tipo correcto.";
+        } break;
+        case 19: {
+            code = 400;
+            title = "Elección del tipo de recompensa";
+            message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";
         } break;
         default: {
             code = 500;
