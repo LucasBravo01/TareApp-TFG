@@ -347,6 +347,10 @@ button {
     display: flex;
 }
 
+.ctrlButton{
+    margin-left: .5rem;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
@@ -360,7 +364,9 @@ button {
 
 /* Monitores laptop - XL */
 @media (max-width: 1199.98px) {
-    
+    .ctrlButton{
+        margin-left: 1.33rem;
+    }
 }
 
 /* Tablets - LG */
@@ -390,6 +396,15 @@ button {
 
     .accordion-text {
         font-size: 1rem;
+    }
+
+    .ctrlButton{
+        margin: 5rem, 5rem, 5rem, 5rem;
+    }
+
+    .ctrlButton{
+        margin: 0;
+        padding: 0;
     }
 
 }
