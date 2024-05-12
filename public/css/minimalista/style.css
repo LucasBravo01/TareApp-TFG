@@ -317,6 +317,12 @@ button {
     border-radius: 50%;
 }
 
+/*SESION DE ESTUDIO*/
+
+.bodyContainer{
+    display: flex;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
@@ -346,5 +352,22 @@ button {
 
     .not-mobile {
         display: none;
+    }
+
+    .div-timer {
+        font-size: 4rem;
+        margin: 4rem;
+        margin-left: 6rem;
+        border: 1rem solid #404040;
+        border-radius: 50%;
+        width: 20rem;
+        height: 20rem;
+        place-items: center;
+    }    
+
+    .bodyContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
