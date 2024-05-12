@@ -14,6 +14,7 @@ class DAOReminder {
         // UPDATEs
         this.markReminderAsRead = this.markReminderAsRead.bind(this);
         this.updateReminders = this.updateReminders.bind(this);
+        this.deleteRemindersByTaskId = this.deleteRemindersByTaskId.bind(this);
     }
 
     // SELECTs
@@ -173,6 +174,26 @@ class DAOReminder {
             }
         });
     }
+
+    //Borrar Recordatorios
+    deleteRemindersByTaskId(taskId, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "DELETE FROM reminder WHERE id_activity = ?;";
+                connection.query(querySQL, [taskId], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+    
 }
 
 
