@@ -190,7 +190,8 @@ class ControllerUser {
                 id_user: req.session.currentUser.id,
                 font_size: req.body.font_size,
                 theme: req.body.theme,
-                time_preference: req.body.time_preference
+                time_preference: req.body.time_preference,
+                reward_type: req.body.reward,
             }
             this.daoCon.updateConfiguration(form, (error) => {
                 if (error) {
@@ -199,8 +200,9 @@ class ControllerUser {
                 else {
                     if (form.font_size === req.session.currentUser.configuration.font_size 
                         && form.theme === req.session.currentUser.configuration.theme 
-                        && form.time_preference === req.session.currentUser.configuration.time_preference) {
-                            errorHandler.manageAJAXError(17, next);
+                        && form.time_preference === req.session.currentUser.configuration.time_preference
+                        && form.reward_type === req.session.currentUser.configuration.reward_type ) {
+                            errorHandler.manageAJAXError(15, next);
                     }
                     else {
                         req.session.currentUser.configuration = form;

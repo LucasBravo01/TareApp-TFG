@@ -16,7 +16,7 @@ class ControllerTask {
         this.daoSub = daoSub;
         this.daoTas = daoTas;
         this.daoUse = daoUse;
-        
+
 
         // GETs
         this.getTasks = this.getTasks.bind(this);
@@ -24,8 +24,11 @@ class ControllerTask {
         this.getDailyTasks = this.getDailyTasks.bind(this);
         this.getFormTask = this.getFormTask.bind(this);
         this.getTask = this.getTask.bind(this);
+        this.getNotCompletedTasks = this.getNotCompletedTasks.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
+        this.modifyTask = this.modifyTask.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
         // OTROS
         this.dataForm = this.dataForm.bind(this);
@@ -64,8 +67,8 @@ class ControllerTask {
                             }
                         });
                     }
-            });
-        }
+                });
+            }
         });
     }
 
@@ -85,7 +88,7 @@ class ControllerTask {
                         }
                         else {
                             let week = utils.getWeeklyInfo(req.params.day, tasks);
-        
+
                             next({
                                 ajax: false,
                                 status: 200,
@@ -127,7 +130,7 @@ class ControllerTask {
                         }
                         else {
                             let info = utils.getDailyInfo(req.params.day, tasks);
-        
+
                             next({
                                 ajax: false,
                                 status: 200,
@@ -214,6 +217,22 @@ class ControllerTask {
         }
     }
 
+    // Obtener tareas no completadas
+    getNotCompletedTasks(req, res, next) {
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            } else {
+                tasks.forEach( t => {
+                    t.date = utils.formatDate(t.date);
+                    t.time = utils.formatHour(t.time);
+                });
+                req.tasks = tasks
+                next();
+            }
+        });
+    }
+
     // POSTs
     // Crear tarea
     createTask(req, res, next) {
@@ -223,97 +242,89 @@ class ControllerTask {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
-                    errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                    errorHandler.manageError(10, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                 } else {
                     if (req.body.category === "" && req.body.subject !== undefined) {
-                        errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                        errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                     } else {
                         let currentDate = new Date();
                         let taskDate = new Date(`${req.body.date}T${req.body.time}:00`);
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (taskDate <= currentDate) {
-                            errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                            errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                         } else {
                             this.daoCat.readCategoryByName(req.body.category, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
-                                    errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                    errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                 } else {
-                                    this.daoRew.readRewardsById(req.body.reward, (error, result) => {
+                                    this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
-                                        } else if (!result) {
-                                            errorHandler.manageError(15, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                        } else if (!result && req.body.category === "Escolar") {
+                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
                                         } else {
-                                            this.daoSub.readSubjectById(req.body.subject, (error, result) => {
+                                            let form = {
+                                                id: req.body.id,
+                                                title: req.body.title,
+                                                time: req.body.time,
+                                                date: req.body.date,
+                                                description: req.body.description,
+                                                category: req.body.category,
+                                                subject: req.body.subject,
+                                                reminders: req.body.reminders,
+                                                reward: Math.floor(Math.random() * 5) + 1,
+                                                duration: req.body.duration
+                                            }
+                                            this.daoAct.insertActivity(form, (error, task) => {
                                                 if (error) {
                                                     errorHandler.manageError(error, {}, "error", next);
-                                                } else if (!result && req.body.category === "Escolar") {
-                                                    errorHandler.manageError(16, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
-                                                } else {
-                                                    let form = {
-                                                        id: req.body.id,
-                                                        title: req.body.title,
-                                                        time: req.body.time,
-                                                        date: req.body.date,
-                                                        description: req.body.description,
-                                                        category: req.body.category,
-                                                        subject: req.body.subject,
-                                                        reminders: req.body.reminders,
-                                                        reward: req.body.reward,
-                                                        duration: req.body.duration
-                                                    }
-                                                    this.daoAct.insertActivity(form, (error, task) => {
+                                                }
+                                                else {
+                                                    this.daoTas.insertTask(task, (error) => {
                                                         if (error) {
                                                             errorHandler.manageError(error, {}, "error", next);
                                                         }
                                                         else {
-                                                            this.daoTas.insertTask(task, (error) => {
-                                                                if (error) {
-                                                                    errorHandler.manageError(error, {}, "error", next);
-                                                                }
-                                                                else {
-                                                                    this.createReminders(form, task.id)
-                                                                        .then(() => {
-                                                                            this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                                            this.createReminders(form, task.id)
+                                                                .then(() => {
+                                                                    this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                                                        if (error) {
+                                                                            errorHandler.manageError(error, {}, "error", next);
+                                                                        }
+                                                                        else {
+                                                                            req.session.currentUser.configuration = configuration;
+                                                                            this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
                                                                                 if (error) {
                                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                                 }
                                                                                 else {
-                                                                                    req.session.currentUser.configuration = configuration;
-                                                                                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
-                                                                                        if (error) {
-                                                                                            errorHandler.manageError(error, {}, "error", next);
-                                                                                        }
-                                                                                        else {
-                                                                                            next({
-                                                                                                ajax: false,
-                                                                                                status: 200,
-                                                                                                redirect: "tasks",
-                                                                                                data: {
-                                                                                                    response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
-                                                                                                    generalInfo: {
-                                                                                                        remindersUnread: req.unreadReminders
-                                                                                                    },
-                                                                                                    homeInfo: {
-                                                                                                        day: undefined,
-                                                                                                        week: undefined
-                                                                                                    },
-                                                                                                    tasks: tasks
-                                                                                                }
-                                                                                            });
+                                                                                    next({
+                                                                                        ajax: false,
+                                                                                        status: 200,
+                                                                                        redirect: "tasks",
+                                                                                        data: {
+                                                                                            response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
+                                                                                            generalInfo: {
+                                                                                                remindersUnread: req.unreadReminders
+                                                                                            },
+                                                                                            homeInfo: {
+                                                                                                day: undefined,
+                                                                                                week: undefined
+                                                                                            },
+                                                                                            tasks: tasks
                                                                                         }
                                                                                     });
                                                                                 }
-                                                                        });
+                                                                            });
+                                                                        }
+                                                                    });
 
-                                                                        })
-                                                                        .catch((error) => {
-                                                                            errorHandler.manageError(error, {}, "error", next);
-                                                                        });
-                                                                }
-                                                            });
+                                                                })
+                                                                .catch((error) => {
+                                                                    errorHandler.manageError(error, {}, "error", next);
+                                                                });
                                                         }
                                                     });
                                                 }
@@ -332,6 +343,184 @@ class ControllerTask {
         }
     }
 
+    // Mofificar tarea
+    modifyTask(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            this.daoAct.readActivity(req.body, (error, result) => {
+                if (error) {
+                    errorHandler.manageAJAXError(error, next);
+                } else if (!result) {
+                    errorHandler.manageAJAXError(10, next);
+                } else {
+                    if (req.body.category === "" && req.body.subject !== undefined) {
+                        errorHandler.manageAJAXError(11, next);
+                    } else {
+                        let currentDate = new Date();
+                        let taskDate = new Date(`${req.body.date}T${req.body.hour}:00`);
+                        // Comprobar si la fecha y hora son posteriores a la actual
+                        if (taskDate <= currentDate) {
+                            errorHandler.manageAJAXError(12, next);
+                        } else {
+                            this.daoCat.readCategoryByName(req.body.category, (error, result) => {
+                                if (error) {
+                                    errorHandler.manageAJAXError(error, next);
+                                } else if (!result) {
+                                    errorHandler.manageAJAXError(13, next);
+                                } else {
+                                    this.daoSub.readSubjectById(req.body.subject, (error, result) => {
+                                        if (error) {
+                                            errorHandler.manageAJAXError(error, next);
+                                        } else if (!result && req.body.category === "Escolar") {
+                                            errorHandler.manageAJAXError(14, next);
+                                        } else {
+                                            let form = {
+                                                id: req.body.id,
+                                                title: req.body.title,
+                                                time: req.body.hour,
+                                                date: req.body.date,
+                                                description: req.body.description,
+                                                category: req.body.category,
+                                                subject: req.body.subject,
+                                                reminders: req.body.reminder,
+                                                reward: Math.floor(Math.random() * 5) + 1,
+                                                duration: req.body.duration,
+                                                idTaskModify: req.body.idTask
+                                            }
+                                            this.daoAct.updateActivity(form, (error, task) => {
+                                                if (error) {
+                                                    errorHandler.manageAJAXError(error, next);
+                                                }
+                                                else {
+                                                    this.daoTas.updateTask(task, (error) => {
+                                                        if (error) {
+                                                            errorHandler.manageAJAXError(error, next);
+                                                        }
+                                                        else {
+                                                            this.daoRem.deleteRemindersByTaskId(form.idTaskModify, (error) => {
+                                                                if (error) {
+                                                                    errorHandler.manageAJAXError(error, next);
+                                                                }
+                                                                else {
+                                                                   this.createReminders(form, task.id)
+                                                                    .then(() => {
+                                                                        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                                                            if (error) {
+                                                                                errorHandler.manageAJAXError(error, next);
+                                                                            }
+                                                                            else {
+                                                                                req.session.currentUser.configuration = configuration;
+                                                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                                                    if (error) {
+                                                                                        errorHandler.manageAJAXError(error, next);
+                                                                                    }
+                                                                                    else {
+                                                                                        next({
+                                                                                            ajax: true,
+                                                                                            error: false,
+                                                                                            img: false,
+                                                                                            data: {
+                                                                                                code: 200,
+                                                                                                title: "Tarea Modificada Con Éxito.",
+                                                                                                message: "Enhorabuena tu tarea ha sido modificada correctamente."
+                                                                                            }
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+    
+                                                                    })
+                                                                    .catch((error) => {
+                                                                        errorHandler.manageAJAXError(error, next);
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);
+        }
+    }
+
+    // Borrar tarea
+    deleteTask(req, res, next) {
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            this.daoTas.readTaskById(req.params.id, (error, task) => {
+                if (error) {
+                    errorHandler.manageError(error, {}, "error", next);
+                }
+                else {
+                    if (task.idDestination !== req.session.currentUser.id) {
+                        errorHandler.manageError(-3, {}, "error", next);
+                    }
+                    else {
+                        this.daoAct.deleteActivity(task.id, true, (error) => {
+                            if (error) {
+                                errorHandler.manageError(error, {}, "error", next);
+                            }
+                            else {
+                                this.daoRem.updateReminders(task.id, true, (error) => {
+                                    if (error) {
+                                        errorHandler.manageError(error, {}, "error", next);
+                                    }
+                                    else {
+                                        this.daoCon.readConfigurationByIdUser(req.session.currentUser.id, (error, configuration) => {
+                                            if (error) {
+                                                errorHandler.manageError(error, {}, "error", next);
+                                            }
+                                            else {
+                                                req.session.currentUser.configuration = configuration;
+                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                    if (error) {
+                                                        errorHandler.manageError(error, {}, "error", next);
+                                                    }
+                                                    else {
+                                                        next({
+                                                            ajax: false,
+                                                            status: 200,
+                                                            redirect: "tasks",
+                                                            data: {
+                                                                response: { code: 200, title: "Tarea borrada", message: `La tarea "${task.title}" ha sido borrada con éxito`},
+                                                                generalInfo: {
+                                                                    remindersUnread: req.unreadReminders
+                                                                },
+                                                                homeInfo: {
+                                                                    day: undefined,
+                                                                    week: undefined
+                                                                },
+                                                                tasks: tasks
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else {
+            errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
+        }
+    }
+
     // Marcar o desmarcar tarea como completada
     markTaskAsCompleted(req, res, next) {
         const errors = validationResult(req);
@@ -342,40 +531,45 @@ class ControllerTask {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
-                    if (!task) {
-                        errorHandler.manageAJAXError(10, next);
-                    }
-                    else {
-                        this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
-                            if (error) {
-                                errorHandler.manageAJAXError(error, next);
-                            }
-                            else {
-                                this.daoRem.updateReminders(req.body.id, checked, (error) => {
-                                    if (error) {
-                                        errorHandler.manageAJAXError(error, next);
-                                    }
-                                    else {
-                                        let data = { code: 200 };
-                                        if (checked === 1) {
-                                            data.title = "Tarea completada";
-                                            data.message = `¡Enhorabuena! Has completado la tarea "${task.title}"`;
+                    this.daoRew.readRewardsByTask(task.idReward, (error, reward) => {
+                        if (error) {
+                            errorHandler.manageAJAXError(error, next);
+                        } else {
+                            this.daoTas.markTaskAsCompleted(req.body.id, checked, (error) => {
+                                if (error) {
+                                    errorHandler.manageAJAXError(error, next);
+                                }
+                                else {
+                                    this.daoRem.updateReminders(req.body.id, checked, (error) => {
+                                        if (error) {
+                                            errorHandler.manageAJAXError(error, next);
                                         }
                                         else {
-                                            data.title = "Tarea pendiente";
-                                            data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
+                                            let data = { code: 200 };
+                                            if (checked === 1) {
+                                                data.title = "Tarea completada";
+                                                if (req.session.currentUser.configuration.reward_type === 'mensaje') {
+                                                    data.message = `${reward.message}`;
+                                                } else {
+                                                    data.message = `¡Enhorabuena! Has conseguido una nueva medalla, ve a tu perfil a verla.`;
+                                                }
+                                            }
+                                            else {
+                                                data.title = "Tarea pendiente";
+                                                data.message = `Los recordatorios pendientes de esta tarea se han reanudado`;
+                                            }
+                                            next({
+                                                ajax: true,
+                                                error: false,
+                                                img: false,
+                                                data: data
+                                            });
                                         }
-                                        next({
-                                            ajax: true,
-                                            error: false,
-                                            img: false,
-                                            data: data
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
+                                    });
+                                }
+                            });
+                        }
+                    });                    
                 }
             });
         }
@@ -444,26 +638,26 @@ class ControllerTask {
             let hour = parseInt(timeParts[0]);
             let minute = parseInt(timeParts[1]);
             let message;
-            if(form.reminders === "10 minutos antes"){
+            if (form.reminders === "10 minutos antes") {
                 reminderDate.setHours(hour, minute - 10, 0, 0);
                 if (reminderDate <= currentDate)
                     continue;
                 message = `¡Solo quedan 10 minutos para la tarea "${form.title}"! ¡No te distraigas!`;
-            }else if(form.reminders === "1 hora antes"){
+            } else if (form.reminders === "1 hora antes") {
                 reminderDate.setHours(hour - 1, minute, 0, 0);
                 if (reminderDate <= currentDate)
                     continue;
                 message = `¡Recuerda que en 1 hora tienes la tarea "${form.title}"! ¡No lo olvides!`;
-            }else{
+            } else {
                 reminderDate.setDate(date.getDate() - i);
                 reminderDate.setHours(hour, minute, 0, 0);
             }
-            if(form.reminders !== "10 minutos antes" && form.reminders !== "1 hora antes"){
+            if (form.reminders !== "10 minutos antes" && form.reminders !== "1 hora antes") {
                 if (reminderDate <= currentDate)
                     continue;
 
                 let daysDifference = Math.floor((date.getDate() - reminderDate.getDate()));
-        
+
                 if (daysDifference > 1)
                     message = `¡Ánimo! Aún te quedan ${daysDifference} días para terminar la tarea "${form.title}"`;
                 else

@@ -13,6 +13,7 @@ class DAOTask {
         this.insertTask = this.insertTask.bind(this);
         // UPDATEs
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
+        this.updateTask = this.updateTask.bind(this);
     }
 
     // SELECTs
@@ -23,7 +24,7 @@ class DAOTask {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ?;";
+                let querySQL = "SELECT * FROM task AS TAR JOIN activity AS ACT ON TAR.id_activity=ACT.id WHERE ACT.id = ? AND ACT.enabled = 1;";
                 connection.query(querySQL, [idTask], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -31,7 +32,7 @@ class DAOTask {
                     }
                     else {
                         if (rows.length != 1) {
-                            callback(-1);
+                            callback(-4);
                         }
                         else {
                             // Construir objeto
@@ -82,6 +83,25 @@ class DAOTask {
     }
 
     // UPDATEs
+    //Actualizar Tarea
+    updateTask(task, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "UPDATE task SET duration = ?, id_reward = ? WHERE id_activity = ?;";
+                connection.query(querySQL, [task.duration, task.reward, task.id], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1); 
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+    
     // Marcar/Desmarcar tarea como completada
     markTaskAsCompleted(idTask, checked, callback) {
         this.pool.getConnection((error, connection) => {

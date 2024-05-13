@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- ------ Borrar BBDD anterior si existe ------
 DROP DATABASE IF EXISTS TareApp;
 
@@ -34,6 +35,7 @@ CREATE TABLE configuration (
   font_size ENUM('grande', 'normal') NOT NULL,
   theme  ENUM('alegre', 'minimalista') NOT NULL,
   time_preference ENUM('largo', 'corto') NOT NULL,
+  reward_type ENUM('mensaje', 'medalla') NOT NULL,
 
   FOREIGN KEY (id_user) REFERENCES user(id)
 );
@@ -56,8 +58,9 @@ CREATE TABLE studySession (
   id_user INT NOT NULL,
   study_slot INT NOT NULL,
   brake_slot INT NOT NULL,
-  long_brake_slot INT,
+  long_brake_slot INT NOT NULL,
   num_slots INT NOT NULL,
+  num_long_slots INT NOT NULL,
 
   CONSTRAINT UC_studySession UNIQUE(name, id_user),
   FOREIGN KEY (id_user) REFERENCES user(id)
@@ -110,8 +113,7 @@ CREATE TABLE category (
 -- Recompensa
 CREATE TABLE reward (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(255) NOT NULL,
-  message VARCHAR(255),
+  message VARCHAR(255) NOT NULL,
   icon VARCHAR(255) NOT NULL
 );
 
@@ -188,15 +190,15 @@ INSERT INTO user (access_user, first_name, last_name1, last_name2, password, use
 ('raquelHB', 'Raquel', 'Hervás', 'Ballesteros', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'profesor');
 
 -- Configuración
-INSERT INTO configuration (id_user, font_size, theme, time_preference) VALUES
-(1, 'normal', 'alegre', 'corto'),
-(2, 'normal', 'alegre', 'corto'),
-(3, 'normal', 'alegre', 'corto'),
-(4, 'normal', 'alegre', 'corto'),
-(5, 'grande', 'alegre', 'corto'),
-(6, 'normal', 'alegre', 'corto'),
-(7, 'normal', 'alegre', 'corto'),
-(8, 'normal', 'alegre', 'corto');
+INSERT INTO configuration (id_user, font_size, theme, time_preference, reward_type) VALUES
+(1, 'normal', 'alegre', 'corto', 'medalla'),
+(2, 'normal', 'alegre', 'corto', 'medalla'),
+(3, 'normal', 'alegre', 'corto', 'medalla'),
+(4, 'normal', 'alegre', 'corto', 'medalla'),
+(5, 'grande', 'alegre', 'corto', 'medalla'),
+(6, 'normal', 'alegre', 'corto', 'medalla'),
+(7, 'normal', 'alegre', 'corto', 'medalla'),
+(8, 'normal', 'alegre', 'corto', 'medalla');
 
 -- Suscripción
 
@@ -221,12 +223,12 @@ INSERT INTO category (name, category_icon, category_photo, category_color) VALUE
 ('Casa', '&#127968;', 'home.png', 'rosa');
 
 -- Recompensa
-INSERT INTO reward (title, message, icon) VALUES
-('¡Ánimo!', null, 'lets-go'),
-('¡Genial!', null, 'awesome'),
-('¡Increíble!', 'Este supergato te felicita', 'supercat'),
-('¡Buen trabajo!', 'Vas por buen camino', 'good-job'),
-('¡Enhorabuena!', 'Has ganado una medalla espacial', 'star-medal');
+INSERT INTO reward (message, icon) VALUES
+('¡Bien hecho, campeón! Eres una máquina, ¡sigue así!', 'good-job'),
+('¡Guau, qué genial! Tienes talento, ¡sigue brillando!', 'awesome'),
+('¡Felicidades, lo has clavado! Eres increíble, ¡seguiré aplaudiendo!', 'lets-go'),
+('¡Increíble, qué crack! Sigue así, ¡eres un ganador!', 'supercat'),
+('¡Eres una estrella! Brillas como nunca, ¡continúa brillando!', 'star-medal');
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES
