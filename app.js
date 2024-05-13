@@ -26,14 +26,17 @@ const DAOSubscription = require("./daos/DAOSubscription");
 const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
 const DAOConfiguration = require("./daos/DAOConfiguration");
+const DAOStudySession = require("./daos/DAOStudySession");
 // Controllers
 const ControllerReminder = require("./controllers/controllerReminder");
 const ControllerTask = require("./controllers/controllerTask");
 const ControllerUser = require("./controllers/controllerUser");
+const ControllerStudySession = require("./controllers/controllerStudySession");
 // Routers
 const routerTask = require("./routes/RouterTask");
 const routerUser = require("./routes/RouterUser");
 const routerReminder = require("./routes/RouterReminder");
+const routerStudySession = require("./routes/RouterStudySession");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -66,12 +69,6 @@ const middlewareSession = session({
 });
 app.use(middlewareSession);
 
-// TODO Que hace esto?
-app.use((req, res, next) => {
-  res.locals.session = req.session;
-  next();
-});
-
 // Crear pool de conexiones
 const pool = mysql.createPool(connection.mysqlConfig);
 
@@ -86,10 +83,12 @@ const daoSub = new DAOSubject(pool);
 const daoSubs = new DAOSubscription(pool);
 const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
+const daoStu = new DAOStudySession(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
-const conTas = new ControllerTask(daoAct, daoCat, daoRem, daoRew, daoSub, daoTas, daoUse);
+const conTas = new ControllerTask(daoAct, daoCat, daoCon, daoRem, daoRew, daoSub, daoTas, daoUse);
 const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
+const conStu = new ControllerStudySession(daoStu);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -112,14 +111,22 @@ function userAlreadyLogged(req, res, next) {
   }
 };
 
+// Proporciona acceso a la sesión actual en los ejs
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
+
 // --- Routers ---
 routerTask.routerConfig(conTas, conRem);
 routerUser.routerConfig(conUse, conRem);
 routerReminder.routerConfig(conRem);
+routerStudySession.routerConfig(conTas, conStu, conRem);
 
 app.use("/tareas", userLogged, routerTask.RouterTask);
 app.use("/usuario", userLogged, routerUser.RouterUser);
 app.use("/recordatorio", userLogged, routerReminder.RouterReminder);
+app.use("/sesionEstudio", userLogged, routerStudySession.RouterStudySession);
 
 // --- Peticiones GET ---
 // - Enrutamientos -

@@ -10,18 +10,26 @@ class DAOActivity {
         this.readActivity = this.readActivity.bind(this);
         // INSERTs
         this.insertActivity = this.insertActivity.bind(this);
+        // UPDATEs
+        this.deleteActivity = this.deleteActivity.bind(this);
+        this.updateActivity = this.updateActivity.bind(this);
     }
 
     // SELECTs
     // Leer actividades dado un id de usuario
-    readActivityByIdUser(idUser, callback) {
+    readActivityByIdUser(idUser, userTPreference, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
                 // Construir objeto 
-                let querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? ORDER BY TAR.completed;"
+                let querySQL = "";
+                if(userTPreference === "largo"){
+                    querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND ACT.enabled = 1 ORDER BY TAR.completed asc, TAR.duration desc;"
+                }else if(userTPreference === "corto"){
+                    querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND ACT.enabled = 1 ORDER BY TAR.completed, TAR.duration asc;"
+                }
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -80,7 +88,7 @@ class DAOActivity {
                 callback(-1);
             }
             else {
-                let querySQL = "SELECT COUNT(*) AS count FROM activity WHERE title = ? AND date = ? AND time = ? AND id_receiver = ?;";
+                let querySQL = "SELECT COUNT(*) AS count FROM activity WHERE title = ? AND date = ? AND time = ? AND id_receiver = ? AND enabled = 1;";
                 connection.query(querySQL, [form.title, form.date, form.time, form.id], (error, rows) => {
                     connection.release();
                     if (error) {
@@ -118,6 +126,54 @@ class DAOActivity {
                             reward: form.reward
                         };
                         callback(null, task);
+                    }
+                });
+            }
+        });
+    }
+
+    // UPDATEs
+    //Actualizar Tarea
+    updateActivity(form, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                const subject = form.subject ? form.subject : undefined;
+                const querySQL = "UPDATE activity SET id_creator = ?, id_receiver = ?, title = ?, date = ?, time = ?, description = ?, reminder = ?, category = ?, id_subject = ? WHERE id = ?;";
+                const queryParams = [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, subject, form.idTaskModify];
+                connection.query(querySQL, queryParams, (error, result) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else {
+                        let task = {
+                            id: form.idTaskModify,
+                            duration: form.duration,
+                            reward: form.reward
+                        };
+                        callback(null, task);
+                    }
+                });
+            }
+        });
+    }
+    // Borrar actividad
+    deleteActivity(idActivity, checked, callback) {
+        checked = checked ? 0 : 1;
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            }
+            else {
+                let querySQL = "UPDATE activity SET enabled = ? WHERE id = ?;";
+                connection.query(querySQL, [checked, idActivity], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    }
+                    else {
+                        callback(null);
                     }
                 });
             }

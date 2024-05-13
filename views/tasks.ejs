@@ -9,7 +9,7 @@
     <script src="/js/home.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-day="<%= JSON.stringify(homeInfo.day) %>" data-week="<%= JSON.stringify(homeInfo.week) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
@@ -65,7 +65,7 @@
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <div id="<%= hour %>">
                                 <% tasks[hour].forEach(t => { %>
-                                    <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
+                                    <div class="card-task-calendar mb-2 <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
@@ -126,35 +126,51 @@
                 </div>
                 
                 <% homeInfo.week.forEach(day => { %>
-                    <% let j = 0; %>
                     <div class="d-grid" style="grid-template-columns: 100%;"> <!--COLUMNA DÍA-->
                         <% for(let hour = 0; hour < 24; hour++) { %>
                             <div class="div-hour">
-                                <% if (j < day.tasks.length && day.tasks[j].time.split(':')[0] == hour) { %> 
-                                    <div id="<%= hour %>">
-                                        <% let t = day.tasks[j] %>
-                                        <div class="card-task-calendar <% if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } %>">
-                                            <a href="/tareas/tarea/<%= t.id %>">
-                                                <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                                    <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
-                                                        <div class="d-flex justify-content-center">
-                                                            <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                <% if (day.tasks[hour] && day.tasks[hour].length > 0) { %> 
+                                    <% if (day.tasks[hour].length > 1) { %>
+                                        <div id="<%= hour %>">
+                                            <div class="card-task-calendar azul">
+                                                <a href="/diaria/<%= day.date %>">
+                                                    <div class="d-grid align-items-center" style="grid-template-columns: 100%;">
+                                                        <div class="position-relative">
+                                                            <span>Ver más</span>
+                                                            <span class="position-absolute num-tasks top-0 start-100 translate-middle badge rounded-pill bg-danger notifications-badge" title="Correos no leídos">
+                                                                <%= day.tasks[hour].length %>
+                                                            </span>
                                                         </div>
-                                                        <div>
-                                                            <span><%= t.title %></span>
-                                                        </div>
-                                                    </div>
-                                                <% } else { %>
-                                                    <div class="align-items-center">
-                                                        <span><%= t.title %></span>
-                                                    </div>
-                                                <% } %>
+                                                    </div>  
                                                 </a>
                                             </div>
                                         </div>
-                                    <% j++; %>
+                                    <% } else { %>
+                                        <div id="<%= hour %>">
+                                            <% day.tasks[hour].forEach(t => { %>
+                                                <div class="card-task-calendar <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
+                                                    <a href="/tareas/tarea/<%= t.id %>">
+                                                        <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                                            <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                                <div class="d-flex justify-content-center">
+                                                                    <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                                </div>
+                                                                <div>
+                                                                    <span><%= t.title %></span>
+                                                                </div>
+                                                            </div>
+                                                        <% } else { %>
+                                                            <div class="align-items-center">
+                                                                <span><%= t.title %></span>
+                                                            </div>
+                                                        <% } %>
+                                                    </a>
+                                                </div>       
+                                            <% }) %>
+                                        </div>
+                                    <% } %>
                                 <% } else { %>
-                                    <div id="<%= hour %>" class="div-hour"></div>
+                                    <div id="<%= hour %>"></div>
                                 <% } %>
                             </div>
                         <% } %> 
@@ -171,50 +187,93 @@
         <% } else { %>
             <div class="mt-4 justify-content-center">
                 <% let primeraNoCompletada = false;
-                let primeraCompletada = false; %>
-                <% tasks.forEach( t=> { %>
-                    <% if(!primeraNoCompletada && !t.completed) { %>
-                        <!--SECCIÓN NO COMPLETADAS-->
-                        <div class="col-12 text-center mt-3">
-                            <p class="text-start subtitle">No completadas</p>
-                            <hr class="separator-line" />
-                        </div>
-                    <% primeraNoCompletada = true; } %>
-    
-                    <% if(!primeraCompletada && t.completed) { %>
-                        <!--SECCIÓN COMPLETADAS-->
-                        <div class="col-12 text-center mt-3">
-                            <p class="text-start subtitle">Completadas</p>
-                            <hr class="separator-line" />
-                        </div>
-                    <% primeraCompletada = true; } %>
-                    
-                    
-                    <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
-                        <a href="/tareas/tarea/<%= t.id %>">
-                            <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                                <div class="d-flex justify-content-center">
-                                    <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
-                                    <% } else { %>
-                                        <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
-                                    <% } %>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span><%= t.title %></span>
-                                    <a href="/tareas/tarea/<%= t.id %>" class="arrow-task-button">
-                                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
-                                    </a>
-                                </div>
-                            </div>
-                        </a>
+                let primeraCompletada = false;
+                let noIncompleted = true;
+                let noCompleted = true; 
+                let showNoIncompleted = false; %>
+                <% if(tasks.length === 0){ %>
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">No completadas</p>
+                        <hr class="separator-line" />
+                        <p>No hay tareas por completar</p>
                     </div>
-                    
-                <% }); %>
+                    <div class="col-12 text-center mt-3">
+                        <p class="text-start subtitle">Completadas</p>
+                        <hr class="separator-line" />
+                        <p>No hay tareas completadas</p>
+                    </div>
+                <% } else {%>
+                    <% tasks.forEach( (t, index)=> { %>
+                        <% index + 1%>   
+                        <% if(!primeraNoCompletada ) { %>
+                            <!--SECCIÓN NO COMPLETADAS-->
+                            <div class="col-12 text-center mt-3">
+                                <p class="text-start subtitle">No completadas</p>
+                                <hr class="separator-line" />
+                            </div>
+                            <% if(!t.completed) {noIncompleted = false;} %>
+                        <% primeraNoCompletada = true; } %>
+    
+                        <%  if(noIncompleted && showNoIncompleted===false){ %>
+                                <div class="col-12 text-center mt-3">
+                                    <p>No hay tareas por completar</p>
+                                </div>
+                        <% showNoIncompleted = true} %>
+        
+                        <% if(!primeraCompletada && t.completed) { %>
+                            <!--SECCIÓN COMPLETADAS-->
+                            <div class="col-12 text-center mt-3">
+                                <p class="text-start subtitle">Completadas</p>
+                                <hr class="separator-line" />
+                            </div>
+                            <% if(t.completed ) {noCompleted = false;} %>
+                        <% primeraCompletada = true; } %>
+                        
+                        <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
+                            <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                <a href="/tareas/tarea/<%= t.id %>" class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                                    <div class="d-flex justify-content-center">
+                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span><%= t.title %></span>
+                                        <span class="arrow-task-button">
+                                            <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
+                                        </span>
+                                    </div>
+                                </a>
+                            <% } else { %>
+                                <a href="/tareas/tarea/<%= t.id %>">
+                                    <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
+                                        <div class="d-flex justify-content-center">
+                                            <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <span><%= t.title %></span>
+                                            <a href="/tareas/tarea/<%= t.id %>" class="arrow-task-button">
+                                                <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </a>
+                            <% } %>
+                        </div>
+                        
+    
+                        <% if((noCompleted && index == tasks.length - 1)) { %>
+                            <!--SECCIÓN COMPLETADAS VACIA-->
+                            <div class="col-12 text-center mt-3">
+                                <p class="text-start subtitle">Completadas</p>
+                                <hr class="separator-line" />
+                                <p>No hay tareas completadas</p>
+                            </div>
+                        <% } %>
+                        
+                    <% }); %>
+                <% } %>
             </div>
         <% } %>
     </div>
-        
         <!-- text to voice button -->
 </body>
 

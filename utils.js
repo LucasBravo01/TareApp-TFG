@@ -35,20 +35,12 @@ function getWeeklyInfo(date, tasks) {
 
     let week = [];
     for (let date = startOfWeek; date <= endOfWeek; date.setDate(date.getDate() + 1)) {
-        let dailyTasks = tasks.filter(task => {
-            let taskDate = new Date(task.date);
-            return taskDate.getFullYear() === date.getFullYear() &&
-                taskDate.getMonth() === date.getMonth() &&
-                taskDate.getDate() === date.getDate();
-        });
-
-        dailyTasks.sort((a, b) => a.time.localeCompare(b.time));
-
+        let day = getDailyInfo(formatDate(date), tasks);
         week.push({
-            dayName: getDayName(date),
-            dayNumber: date.getDate(),
-            date: formatDate(date),
-            tasks: dailyTasks
+            dayName: day.day.dayName,
+            dayNumber: day.day.dayNumber,
+            date: day.day.date,
+            tasks: day.tasks
         });
     }
 
@@ -59,14 +51,13 @@ function getDailyInfo(date, tasks) {
     let currentDateFormat = formatString(date);
 
     let hourlyTasks = {};
-    for (let hour = 0; hour < 24; hour++) {
-        hourlyTasks[hour] = [];
-    }
-
     if (tasks) {
         tasks.forEach(task => {
             if (formatDate(task.date) === date) {
-                hourlyTasks[parseInt(task.time.split(':')[0])].push(task);
+                if (hourlyTasks[parseInt(task.time.split(':')[0])])
+                    hourlyTasks[parseInt(task.time.split(':')[0])].push(task);
+                else
+                    hourlyTasks[parseInt(task.time.split(':')[0])] = [task];
             }
         });
     }

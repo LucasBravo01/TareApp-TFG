@@ -9,12 +9,15 @@
     <script src="/js/createTask.js"></script>
 </head>
 
-<body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>">
+<body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
     <!-- Importar modal error -->
     <%- include("../public/utils/modal.html") %>
     <!-- Importar nav -->
     <%- include("fragments/nav", { generalInfo: generalInfo }) %>
-
+    <!-- Importar modal confirmación -->
+    <% const url = '/tareas/borrarTarea/' + task.id; %>
+    <%- include("fragments/confirmationModal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
+    
     <div class="container">
         <div class="d-flex justify-content-center">
             <h1 class="title">
@@ -28,14 +31,14 @@
 
         <form id="formTask" action="/tareas/crearTareaForm" method="post">
             <div class="row justify-content-center mt-3 mb-3">
-                <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
+                <input type="hidden" id="input-id-task" name="idTask" value="<%= task.id %>">
                 <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
 
                 <!--TAREA COMPLETADA-->
                 <% if (task.id) { %>
-                    <div class="col-12 text-center mt-3">
+                    <div class="col-12 text-center mt-3" id="div-completed">
                         <label for="input-completed">Completar tarea</label>
-                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= task.done ? 'checked' : '' %>>
                     </div>
                 <% } %>
 
@@ -43,17 +46,6 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
-                </div>
-
-                 <!--RECOMPENSA-->
-                <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-reward">Recompensa<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-reward" name="reward" class="form-control">
-                        <option value="">...</option>
-                        <% data.rewards.forEach( r=> { %>
-                            <option value="<%= r.id %>"><%= r.title %></option>
-                        <% }); %>
-                    </select>
                 </div>
 
                 <!--FECHA DE ENTREGA-->
@@ -71,7 +63,7 @@
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.time %><% } %>" min="1" >
+                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" >
                 </div>
                 
 
@@ -88,8 +80,7 @@
     
                 <!--ASIGNATURA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-subject">Asignatura</label>
-                    <span id="subject-asterisk" class="text-danger d-none">*</span>
+                    <label for="input-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
@@ -118,12 +109,21 @@
                 </div>
 
                 <!--BOTÓN CREAR TAREA-->
-                <% if (!task.id) { %>
+                <% if (task.id) { %>
+                    <div class="col-12 text-center mt-5">
+                        <button type="button" id="input-sb-modify" name="modify_button" class="main-button me-2 mb-4">Modificar Tarea</button>
+                        <button type="button" id="input-sb-delete" data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                    </div> 
+
+                    <div class="col-12 text-center">
+                        <button type="button" id="input-sb-save" name="input-sb-save" class="main-button me-2 mb-4">Guardar Cambios</button>
+                        <button type="button" id="input-sb-cancel"  class="dangerous-button ">Cancelar Cambios</button>
+                    </div>
+                <% } else { %>                    
                     <div class="col-6 text-center mt-5">
                         <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
                     </div>
                 <% } %>
-
             </div>
         </form>
     </div>

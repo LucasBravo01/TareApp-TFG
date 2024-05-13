@@ -23,6 +23,16 @@ function routerConfig(conTas, conRem) {
         conTas.getTask
     );
 
+    // Borrar tarea
+    RouterTask.get("/borrarTarea/:id",
+        // Ninguno de los campos vacíos
+        check("id", "1").notEmpty(),
+        // Comprobar tipos correctos
+        check("id", "16").isNumeric(),
+        conRem.unreadReminders,
+        conTas.deleteTask
+    );
+
     // --- Peticiones POST ---
     // Crear Tarea 
     RouterTask.post("/crearTareaForm",
@@ -33,12 +43,12 @@ function routerConfig(conTas, conRem) {
         check("time", "1").notEmpty(),
         check("category", "1").notEmpty(),
         check("reminders", "1").notEmpty(),
-        check("reward", "1").notEmpty(),
         check("duration", "1").notEmpty(),
-        // TODO revisar - Comprobar tipos correctos
-        check("date", "18").isDate(),
-        check("time", "18").isTime(),
-        check("duration", "18").isNumeric(),
+        // Comprobar tipos correctos
+        check("id", "16").isNumeric(),
+        check("date", "16").isDate(),
+        check("time", "16").isTime(),
+        check("duration", "16").isNumeric(),
         // Campos de enums válidos
         check("reminders", "2").custom((recType) => {
             return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
@@ -46,6 +56,30 @@ function routerConfig(conTas, conRem) {
         conRem.unreadReminders,
         conTas.dataForm,
         conTas.createTask
+    );
+
+    // Modificar Tarea 
+    RouterTask.post("/modificarTarea",
+        // Ninguno de los campos vacíos 
+        check("title", "1").notEmpty(),
+        check("id", "1").notEmpty(),
+        check("date", "1").notEmpty(),
+        check("hour", "1").notEmpty(),
+        check("category", "1").notEmpty(),
+        check("reminder", "1").notEmpty(),
+        check("duration", "1").notEmpty(), 
+        // Comprobar tipos correctos
+        check("id", "16").isNumeric(),
+        check("date", "16").isDate(),
+        check("hour", "16").isTime(),
+        check("duration", "16").isNumeric(),
+        // Campos de enums válidos
+        check("reminder", "2").custom((recType) => {
+            return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+        }),
+        conRem.unreadReminders,
+        conTas.dataForm, 
+        conTas.modifyTask
     );
 
     // Marcar tarea como completada
