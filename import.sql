@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- ------ Borrar BBDD anterior si existe ------
 DROP DATABASE IF EXISTS TareApp;
 
@@ -57,8 +58,9 @@ CREATE TABLE studySession (
   id_user INT NOT NULL,
   study_slot INT NOT NULL,
   brake_slot INT NOT NULL,
-  long_brake_slot INT,
+  long_brake_slot INT NOT NULL,
   num_slots INT NOT NULL,
+  num_long_slots INT NOT NULL,
 
   CONSTRAINT UC_studySession UNIQUE(name, id_user),
   FOREIGN KEY (id_user) REFERENCES user(id)

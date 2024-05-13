@@ -38,7 +38,7 @@
                 <% if (task.id) { %>
                     <div class="col-12 text-center mt-3">
                         <label for="input-completed">Completar tarea</label>
-                        <input id="input-completed" name="completed" type="checkbox" <%= task.done ? 'checked' : '' %>>
+                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= task.done ? 'checked' : '' %>>
                     </div>
                 <% } %>
 
