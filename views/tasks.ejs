@@ -70,7 +70,7 @@
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
                                                     <div class="d-flex justify-content-center">
-                                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                        <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                                     </div>
                                                     <div>
                                                         <span><%= t.title %></span>
@@ -151,9 +151,9 @@
                                                 <div class="card-task-calendar <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
                                                     <a href="/tareas/tarea/<%= t.id %>">
                                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                                            <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                            <div class="d-flex flex-column align-items-center">
                                                                 <div class="d-flex justify-content-center">
-                                                                    <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                                    <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                                                 </div>
                                                                 <div>
                                                                     <span><%= t.title %></span>

@@ -292,7 +292,7 @@ INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
 (19, true, 5, 3),
 (20, true, 20, 4),
 (21, true, 45, 5),
-(22, false, 90, 1),
+(22, true, 90, 1),
 (23, false, 60, 2),
 (24, false, 120, 3),
 (25, false, 5, 4);
