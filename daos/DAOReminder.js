@@ -60,7 +60,7 @@ class DAOReminder {
             }
             else {
 
-                let querySQL = "SELECT * FROM reminder AS REM WHERE REM.enabled = 1 AND REM.id_receiver = ? AND REM.sent_date <= CURRENT_TIMESTAMP;";
+                let querySQL = "SELECT * FROM reminder AS REM WHERE REM.enabled = 1 AND REM.id_receiver = ? AND REM.sent_date <= CURRENT_TIMESTAMP ORDER BY sent_date desc;";
                 connection.query(querySQL, [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
