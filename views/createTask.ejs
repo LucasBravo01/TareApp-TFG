@@ -31,12 +31,12 @@
 
         <form id="formTask" action="/tareas/crearTareaForm" method="post">
             <div class="row justify-content-center mt-3 mb-3">
-                <input type="hidden" id="input-id-task" name="id-task" value="<%= task.id %>">
+                <input type="hidden" id="input-id-task" name="idTask" value="<%= task.id %>">
                 <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
 
                 <!--TAREA COMPLETADA-->
                 <% if (task.id) { %>
-                    <div class="col-12 text-center mt-3">
+                    <div class="col-12 text-center mt-3" id="div-completed">
                         <label for="input-completed">Completar tarea</label>
                         <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= task.done ? 'checked' : '' %>>
                     </div>
@@ -80,8 +80,7 @@
     
                 <!--ASIGNATURA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-subject">Asignatura</label>
-                    <span id="subject-asterisk" class="text-danger d-none">*</span>
+                    <label for="input-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
@@ -111,9 +110,14 @@
 
                 <!--BOTÓN CREAR TAREA-->
                 <% if (task.id) { %>
-                    <div class="col-6 text-center mt-5">
-                        <button type="button"  data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
-                        <!-- <button type="button" onclick="window.location.href='/tareas/borrarTarea/<%= task.id %>'" class="dangerous-button">Borrar Tarea</button> -->
+                    <div class="col-12 text-center mt-5">
+                        <button type="button" id="input-sb-modify" name="modify_button" class="main-button me-2 mb-4">Modificar Tarea</button>
+                        <button type="button" id="input-sb-delete" data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                    </div> 
+
+                    <div class="col-12 text-center">
+                        <button type="button" id="input-sb-save" name="input-sb-save" class="main-button me-2 mb-4">Guardar Cambios</button>
+                        <button type="button" id="input-sb-cancel"  class="dangerous-button ">Cancelar Cambios</button>
                     </div>
                 <% } else { %>                    
                     <div class="col-6 text-center mt-5">

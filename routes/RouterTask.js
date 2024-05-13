@@ -58,6 +58,30 @@ function routerConfig(conTas, conRem) {
         conTas.createTask
     );
 
+    // Modificar Tarea 
+    RouterTask.post("/modificarTarea",
+        // Ninguno de los campos vacíos 
+        check("title", "1").notEmpty(),
+        check("id", "1").notEmpty(),
+        check("date", "1").notEmpty(),
+        check("hour", "1").notEmpty(),
+        check("category", "1").notEmpty(),
+        check("reminder", "1").notEmpty(),
+        check("duration", "1").notEmpty(), 
+        // Comprobar tipos correctos
+        check("id", "16").isNumeric(),
+        check("date", "16").isDate(),
+        check("hour", "16").isTime(),
+        check("duration", "16").isNumeric(),
+        // Campos de enums válidos
+        check("reminder", "2").custom((recType) => {
+            return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+        }),
+        conRem.unreadReminders,
+        conTas.dataForm, 
+        conTas.modifyTask
+    );
+
     // Marcar tarea como completada
     RouterTask.post("/marcarCompletada",
         check("id", "1").notEmpty(),

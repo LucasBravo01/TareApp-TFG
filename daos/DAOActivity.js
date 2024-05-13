@@ -12,6 +12,7 @@ class DAOActivity {
         this.insertActivity = this.insertActivity.bind(this);
         // UPDATEs
         this.deleteActivity = this.deleteActivity.bind(this);
+        this.updateActivity = this.updateActivity.bind(this);
     }
 
     // SELECTs
@@ -132,6 +133,31 @@ class DAOActivity {
     }
 
     // UPDATEs
+    //Actualizar Tarea
+    updateActivity(form, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                const subject = form.subject ? form.subject : undefined;
+                const querySQL = "UPDATE activity SET id_creator = ?, id_receiver = ?, title = ?, date = ?, time = ?, description = ?, reminder = ?, category = ?, id_subject = ? WHERE id = ?;";
+                const queryParams = [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, subject, form.idTaskModify];
+                connection.query(querySQL, queryParams, (error, result) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1);
+                    } else {
+                        let task = {
+                            id: form.idTaskModify,
+                            duration: form.duration,
+                            reward: form.reward
+                        };
+                        callback(null, task);
+                    }
+                });
+            }
+        });
+    }
     // Borrar actividad
     deleteActivity(idActivity, checked, callback) {
         checked = checked ? 0 : 1;

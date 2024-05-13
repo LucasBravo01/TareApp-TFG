@@ -13,6 +13,7 @@ class DAOTask {
         this.insertTask = this.insertTask.bind(this);
         // UPDATEs
         this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
+        this.updateTask = this.updateTask.bind(this);
     }
 
     // SELECTs
@@ -82,6 +83,25 @@ class DAOTask {
     }
 
     // UPDATEs
+    //Actualizar Tarea
+    updateTask(task, callback) {
+        this.pool.getConnection((error, connection) => {
+            if (error) {
+                callback(-1);
+            } else {
+                let querySQL = "UPDATE task SET duration = ?, id_reward = ? WHERE id_activity = ?;";
+                connection.query(querySQL, [task.duration, task.reward, task.id], (error) => {
+                    connection.release();
+                    if (error) {
+                        callback(-1); 
+                    } else {
+                        callback(null);
+                    }
+                });
+            }
+        });
+    }
+    
     // Marcar/Desmarcar tarea como completada
     markTaskAsCompleted(idTask, checked, callback) {
         this.pool.getConnection((error, connection) => {
