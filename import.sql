@@ -195,7 +195,7 @@ INSERT INTO configuration (id_user, font_size, theme, time_preference, reward_ty
 (2, 'normal', 'alegre', 'corto', 'medalla'),
 (3, 'normal', 'alegre', 'corto', 'medalla'),
 (4, 'normal', 'alegre', 'corto', 'medalla'),
-(5, 'grande', 'alegre', 'corto', 'medalla'),
+(5, 'normal', 'alegre', 'corto', 'medalla'),
 (6, 'normal', 'alegre', 'corto', 'medalla'),
 (7, 'normal', 'alegre', 'corto', 'medalla'),
 (8, 'normal', 'alegre', 'corto', 'medalla');
