@@ -45,7 +45,7 @@ class ControllerTask {
             }
             else {
                 req.session.currentUser.configuration = configuration;
-                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                     if (error) {
                         errorHandler.manageError(error, {}, "error", next);
                     }
@@ -82,7 +82,7 @@ class ControllerTask {
                 }
                 else {
                     req.session.currentUser.configuration = configuration;
-                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                         if (error) {
                             errorHandler.manageError(error, {}, "error", next);
                         }
@@ -124,7 +124,7 @@ class ControllerTask {
                 }
                 else {
                     req.session.currentUser.configuration = configuration;
-                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                    this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                         if (error) {
                             errorHandler.manageError(error, {}, "error", next);
                         }
@@ -219,7 +219,7 @@ class ControllerTask {
 
     // Obtener tareas no completadas
     getNotCompletedTasks(req, res, next) {
-        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
             if (error) {
                 errorHandler.manageError(error, {}, "error", next);
             } else {
@@ -295,7 +295,7 @@ class ControllerTask {
                                                                         }
                                                                         else {
                                                                             req.session.currentUser.configuration = configuration;
-                                                                            this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                                            this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                                                                                 if (error) {
                                                                                     errorHandler.manageError(error, {}, "error", next);
                                                                                 }
@@ -410,7 +410,7 @@ class ControllerTask {
                                                                             }
                                                                             else {
                                                                                 req.session.currentUser.configuration = configuration;
-                                                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id,  (error, tasks) => {
                                                                                     if (error) {
                                                                                         errorHandler.manageAJAXError(error, next);
                                                                                     }
@@ -483,7 +483,7 @@ class ControllerTask {
                                             }
                                             else {
                                                 req.session.currentUser.configuration = configuration;
-                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+                                                this.daoAct.readActivityByIdUser(req.session.currentUser.id, (error, tasks) => {
                                                     if (error) {
                                                         errorHandler.manageError(error, {}, "error", next);
                                                     }

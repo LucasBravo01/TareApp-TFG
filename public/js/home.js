@@ -8,6 +8,19 @@ function scroll(hour8Element){
 
 // Cuando cargue el DOM
 $(document).ready(() => {
+    const notCompleted = $("#div-not-completed");
+    const completed = $("#div-completed");
+    const notCompletedTasks = notCompleted.nextAll("div.card-task");
+    const completedTasks = completed.nextAll("div.card-task");
+
+    if (notCompletedTasks.length === 0) {
+        notCompleted.after(`<div class="col-12 text-center mt-3"><p>No hay tareas sin completar</p> </div>`);
+    }
+
+    if (completedTasks.length === 0) {
+        completed.after(`<div class="col-12 text-center mt-3"><p>No hay tareas completadas</p> </div>`);
+    }
+
     let currentDate = new Date();
     currentDate = formatDate(currentDate);
 

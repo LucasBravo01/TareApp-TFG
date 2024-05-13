@@ -2,6 +2,19 @@
 
 // Cuando cargue el DOM
 $(() => {
+    const todaySection = $("#div-today-notifications");
+    const pastSection = $("#div-past-notifications");
+    const todayNotifications = todaySection.nextAll("div.card-notification");
+    const pastNotifications = pastSection.nextAll("div.card-notification");
+
+    if (todayNotifications.length === 0) {
+        todaySection.after(`<div class="col-12 text-center mt-3"><p>No hay notificaciones de hoy</p> </div>`);
+    }
+
+    if (pastNotifications.length === 0) {
+        pastSection.after(`<div class="col-12 text-center mt-3"><p>No hay notificaciones pasadas</p> </div>`);
+    }
+
     // POST marcar mensaje como leído (AJAX)
     $.ajax({
         method: "POST",

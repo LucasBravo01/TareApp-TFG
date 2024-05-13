@@ -22,56 +22,26 @@
 
         <div class="justify-content-center">
             <% let currentDate = new Date(); %>
-            <% if(reminders.length == 0) {%>
-                <div class="col-12 text-center mt-3">
-                    <p>No hay notificaciones</p>
-                </div>
-            <% }else{ %>
-                <!--SECCIÓN HOY-->
-                <div class="col-12 text-center mt-3">
-                    <p class="text-start subtitle">Hoy</p>
-                    <hr class="separator-line" />
-                </div>
-                <% reminders.forEach( r=> { %>
-                    <% if(r.sent_date.getDate() === currentDate.getDate()) { %>
-                        <div class="card-notification">
-                            <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                                <div class="d-flex justify-content-center">
-                                    <img src="/images/logos/logo-no-background-no-text.png" height="50px">
-                                </div>
-                                <div>
-                                    <span><%= r.message %></span>
-                                    <a href="/tareas/tarea/<%= r.idActivity %>">
-                                    <p class="link-task text-center">Ir a la tarea</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
-                <% }); %>
-                <!--SECCIÓN ANTERIORES-->
-                <div class="col-12 text-center mt-3">
-                    <p class="text-start subtitle">Anteriores</p>
-                    <hr class="separator-line" />
-                </div>
-                <% reminders.forEach( r=> { %>
-                    <% if(r.sent_date.getDate() !== currentDate.getDate()) { %>
-                        <div class="card-notification">
-                            <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                                <div class="d-flex justify-content-center">
-                                    <img src="/images/logos/logo-no-background-no-text.png" height="50px">
-                                </div>
-                                <div>
-                                    <span><%= r.message %></span>
-                                    <a href="/tareas/tarea/<%= r.idActivity %>">
-                                    <p class="link-task text-center">Ir a la tarea</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
-                <% }); %>
-            <% } %>
+            <!--SECCIÓN HOY-->
+            <div id="div-today-notifications" class="col-12 text-center mt-3">
+                <p class="text-start subtitle">Hoy</p>
+                <hr class="separator-line" />
+            </div>
+            <% reminders.forEach( r=> { %>
+                <% if(r.sent_date.getDate() === currentDate.getDate()) { %>
+                    <%- include("fragments/cardNotification", { r: r }) %>
+                <% } %>
+            <% }); %>
+            <!--SECCIÓN ANTERIORES-->
+            <div id="div-past-notifications" class="col-12 text-center mt-3">
+                <p class="text-start subtitle">Anteriores</p>
+                <hr class="separator-line" />
+            </div>
+            <% reminders.forEach( r=> { %>
+                <% if(r.sent_date.getDate() !== currentDate.getDate()) { %>
+                    <%- include("fragments/cardNotification", { r: r }) %>
+                <% } %>
+            <% }); %>
         </div>
     </div>
     <!-- text to voice button -->

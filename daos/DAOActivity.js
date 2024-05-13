@@ -17,20 +17,13 @@ class DAOActivity {
 
     // SELECTs
     // Leer actividades dado un id de usuario
-    readActivityByIdUser(idUser, userTPreference, callback) {
+    readActivityByIdUser(idUser, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             }
             else {
-                // Construir objeto 
-                let querySQL = "";
-                if(userTPreference === "largo"){
-                    querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND ACT.enabled = 1 ORDER BY TAR.completed asc, TAR.duration desc;"
-                }else if(userTPreference === "corto"){
-                    querySQL = "SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND ACT.enabled = 1 ORDER BY TAR.completed, TAR.duration asc;"
-                }
-                connection.query(querySQL, [idUser], (error, rows) => {
+                connection.query("SELECT ACT.*, TAR.*, CAT.category_icon, CAT.category_photo, CAT.category_color, SUB.name, SUB.subject_photo, SUB.subject_icon, SUB.subject_color FROM ((activity AS ACT JOIN task AS TAR ON ACT.id = TAR.id_activity) JOIN category AS CAT ON ACT.category = CAT.name) LEFT JOIN subject AS SUB ON ACT.id_subject = SUB.id WHERE id_receiver = ? AND ACT.enabled = 1 ORDER BY ACT.date asc, ACT.time asc;", [idUser], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);
