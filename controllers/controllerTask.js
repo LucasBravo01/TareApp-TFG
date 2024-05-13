@@ -24,6 +24,7 @@ class ControllerTask {
         this.getDailyTasks = this.getDailyTasks.bind(this);
         this.getFormTask = this.getFormTask.bind(this);
         this.getTask = this.getTask.bind(this);
+        this.getNotCompletedTasks = this.getNotCompletedTasks.bind(this);
         // POSTs
         this.createTask = this.createTask.bind(this);
         this.modifyTask = this.modifyTask.bind(this);
@@ -214,6 +215,22 @@ class ControllerTask {
         else {
             errorHandler.manageError(parseInt(errors.array()[0].msg), {}, "error", next);
         }
+    }
+
+    // Obtener tareas no completadas
+    getNotCompletedTasks(req, res, next) {
+        this.daoAct.readActivityByIdUser(req.session.currentUser.id, req.session.currentUser.configuration.time_preference, (error, tasks) => {
+            if (error) {
+                errorHandler.manageError(error, {}, "error", next);
+            } else {
+                tasks.forEach( t => {
+                    t.date = utils.formatDate(t.date);
+                    t.time = utils.formatHour(t.time);
+                });
+                req.tasks = tasks
+                next();
+            }
+        });
     }
 
     // POSTs
