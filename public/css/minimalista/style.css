@@ -297,7 +297,7 @@ button {
 }
 
 .div-hour {
-    min-height: 4rem;
+    min-height: 8.5rem;
 }
 
 .card-task-calendar {
@@ -317,7 +317,7 @@ button {
     display: grid;
     grid-template-columns: 5% 13% 13% 13% 13% 13% 13% 13% 4%;
     text-align: center;
-    height: 25rem;
+    height: 35rem;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
@@ -341,8 +341,6 @@ button {
 
 /*SESION DE ESTUDIO*/
 
-/*SESION DE ESTUDIO*/
-
 .subTemp{
     display: flex;
 }
@@ -351,10 +349,15 @@ button {
     margin-left: .5rem;
 }
 
+.accordion-icon {
+    font-size: 2rem !important;
+}
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
-    
+    .scroll-container-week {
+        height: 25rem;
+    }
 }
 
 /* Monitores largos - XXL */
@@ -386,7 +389,7 @@ button {
     }
 
     .accordion-icon {
-        font-size: 2rem !important;
+        font-size: 1.5rem !important;
     }
 
     .accordion-img {
@@ -407,6 +410,9 @@ button {
         padding: 0;
     }
 
+    .card-notification {
+        width: 75%;
+    }
 }
 
 /* Móviles - MD */
@@ -434,7 +440,7 @@ button {
     }
 
     .accordion-icon {
-        font-size: 1rem !important;
+        font-size: 1.2rem !important;
     }
 
     .accordion-img {
