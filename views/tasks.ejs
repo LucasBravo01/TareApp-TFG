@@ -70,7 +70,7 @@
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
                                                     <div class="d-flex justify-content-center">
-                                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                        <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                                     </div>
                                                     <div>
                                                         <span><%= t.title %></span>
@@ -151,9 +151,9 @@
                                                 <div class="card-task-calendar <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
                                                     <a href="/tareas/tarea/<%= t.id %>">
                                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                                            <div class="d-grid align-items-center" style="grid-template-columns: 30% 70%;">
+                                                            <div class="d-flex flex-column align-items-center">
                                                                 <div class="d-flex justify-content-center">
-                                                                    <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                                    <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                                                 </div>
                                                                 <div>
                                                                     <span><%= t.title %></span>
@@ -186,91 +186,27 @@
         <!--VISTA LISTA-->
         <% } else { %>
             <div class="mt-4 justify-content-center">
-                <% let primeraNoCompletada = false;
-                let primeraCompletada = false;
-                let noIncompleted = true;
-                let noCompleted = true; 
-                let showNoIncompleted = false; %>
-                <% if(tasks.length === 0){ %>
-                    <div class="col-12 text-center mt-3">
-                        <p class="text-start subtitle">No completadas</p>
-                        <hr class="separator-line" />
-                        <p>No hay tareas por completar</p>
-                    </div>
-                    <div class="col-12 text-center mt-3">
-                        <p class="text-start subtitle">Completadas</p>
-                        <hr class="separator-line" />
-                        <p>No hay tareas completadas</p>
-                    </div>
-                <% } else {%>
-                    <% tasks.forEach( (t, index)=> { %>
-                        <% index + 1%>   
-                        <% if(!primeraNoCompletada ) { %>
-                            <!--SECCIÓN NO COMPLETADAS-->
-                            <div class="col-12 text-center mt-3">
-                                <p class="text-start subtitle">No completadas</p>
-                                <hr class="separator-line" />
-                            </div>
-                            <% if(!t.completed) {noIncompleted = false;} %>
-                        <% primeraNoCompletada = true; } %>
-    
-                        <%  if(noIncompleted && showNoIncompleted===false){ %>
-                                <div class="col-12 text-center mt-3">
-                                    <p>No hay tareas por completar</p>
-                                </div>
-                        <% showNoIncompleted = true} %>
-        
-                        <% if(!primeraCompletada && t.completed) { %>
-                            <!--SECCIÓN COMPLETADAS-->
-                            <div class="col-12 text-center mt-3">
-                                <p class="text-start subtitle">Completadas</p>
-                                <hr class="separator-line" />
-                            </div>
-                            <% if(t.completed ) {noCompleted = false;} %>
-                        <% primeraCompletada = true; } %>
-                        
-                        <div class="card-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } %>">
-                            <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                <a href="/tareas/tarea/<%= t.id %>" class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                                    <div class="d-flex justify-content-center">
-                                        <span style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span><%= t.title %></span>
-                                        <span class="arrow-task-button">
-                                            <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
-                                        </span>
-                                    </div>
-                                </a>
-                            <% } else { %>
-                                <a href="/tareas/tarea/<%= t.id %>">
-                                    <div class="d-grid align-items-center" style="grid-template-columns: 25% 75%;">
-                                        <div class="d-flex justify-content-center">
-                                            <img style="height: 30px; width: 30px;" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <span><%= t.title %></span>
-                                            <a href="/tareas/tarea/<%= t.id %>" class="arrow-task-button">
-                                                <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="15"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </a>
-                            <% } %>
-                        </div>
-                        
-    
-                        <% if((noCompleted && index == tasks.length - 1)) { %>
-                            <!--SECCIÓN COMPLETADAS VACIA-->
-                            <div class="col-12 text-center mt-3">
-                                <p class="text-start subtitle">Completadas</p>
-                                <hr class="separator-line" />
-                                <p>No hay tareas completadas</p>
-                            </div>
-                        <% } %>
-                        
-                    <% }); %>
-                <% } %>
+                <!--SECCIÓN NO COMPLETADAS-->
+                <div id="div-not-completed" class="col-12 text-center mt-3">
+                    <p class="text-start subtitle">No completadas</p>
+                    <hr class="separator-line" />
+                </div>
+                <% tasks.forEach( (t)=> { %>
+                    <% if (!t.completed) { %>
+                        <%- include("fragments/cardTask", { session: session, t: t }) %>
+                    <% } %>                        
+                <% }); %>
+
+                <!--SECCIÓN COMPLETADAS-->
+                <div id="div-completed" class="col-12 text-center mt-3">
+                    <p class="text-start subtitle">Completadas</p>
+                    <hr class="separator-line" />
+                </div>
+                <% tasks.forEach( (t)=> { %>
+                    <% if (t.completed) { %>
+                        <%- include("fragments/cardTask", { session: session, t: t }) %>
+                    <% } %>                        
+                <% }); %>              
             </div>
         <% } %>
     </div>
