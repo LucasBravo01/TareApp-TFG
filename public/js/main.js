@@ -62,8 +62,9 @@ async function sendSubscriptionToServer(subscription) {
 }
 
 // Mostrar el modal con respuesta/error
-function showModal(response, header, img, title, message, button, modal) {
+function showModal(response, header, img, title, message, button, modal, image) {
   // Título y mensaje
+  const bodyImage = $("#img-modal-body")
   title.text(response.title);
   message.text(response.message);
   // Success
@@ -71,6 +72,13 @@ function showModal(response, header, img, title, message, button, modal) {
     // Crear modal
     img.attr("src", "/images/modals/success.png");
     img.attr("alt", "Icono de éxito");
+    if (image) {
+      bodyImage.removeClass("d-none");
+      bodyImage.attr("src", image);
+    }
+    else {
+      bodyImage.addClass("d-none");
+    }
   }
   // Error
   else {

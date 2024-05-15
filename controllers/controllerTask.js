@@ -550,8 +550,16 @@ class ControllerTask {
                                                 data.title = "Tarea completada";
                                                 if (req.session.currentUser.configuration.reward_type === 'mensaje') {
                                                     data.message = `${reward.message}`;
-                                                } else {
-                                                    data.message = `¡Enhorabuena! Has conseguido una nueva medalla, ve a tu perfil a verla.`;
+                                                    data.image = null;
+                                                } else if (req.session.currentUser.configuration.reward_type === 'medalla') {
+                                                    data.message = `¡Enhorabuena! Has conseguido una nueva medalla. Puedes verlas todas en tu perfil.`;
+                                                    data.image = "/images/rewards/badges/" + reward.icon + ".png";
+                                                } else if (req.session.currentUser.configuration.reward_type === 'imagen') {
+                                                    data.message = `¡Enhorabuena, sigue así!`;
+                                                    data.image = "/images/rewards/images/" + reward.icon + ".png";
+                                                } else if (req.session.currentUser.configuration.reward_type === 'gif') {
+                                                    data.message = `¡Enhorabuena!`;
+                                                    data.image = "/images/rewards/gifs/" + reward.icon + ".gif";
                                                 }
                                             }
                                             else {
