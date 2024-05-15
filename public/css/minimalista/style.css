@@ -247,11 +247,6 @@ button {
     align-items: center;
 }
 
-.accordion-task {
-    border-radius: 1rem;
-    color: #000000;
-}
-
 .checkbox-completedTask {
     transform: scale(1.5);
 }
@@ -340,7 +335,6 @@ button {
 }
 
 /*SESION DE ESTUDIO*/
-
 .subTemp{
     display: flex;
 }
@@ -349,9 +343,20 @@ button {
     margin-left: .5rem;
 }
 
+.accordion-task {
+    border-radius: 1rem;
+    color: #000000;
+}
+
+.accordion-studySession {
+    border-radius: 1rem;
+    color: #000000;
+}
+
 .accordion-icon {
     font-size: 2rem !important;
 }
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {

@@ -31,6 +31,8 @@ function initializeTimer(params) {
     $("#span-numSlot").text("Periodo actual: " + contSlots);
 
     $("#form-studySession").hide();
+    $("#accordion-StudySessionList").hide();
+    $("#div-newStudySessionButton").hide();
     $("#div-sb-backToForm").show();
     $("#div-timer").show();
     $("#div-tasks").show();
@@ -169,86 +171,62 @@ function completeTask(idTask) {
         });
 }
 
-$(() => {
-    // Elementos HTML
-    const formStudySession = $("#form-studySession");
-    const labelInputName = $("#label-input-name");
+$(document).ready(() => {
+    // ELEMENTOS HTML
+    // Elementos listar sesiones de estudio
+    const divNewStudySessionButton = $("#div-newStudySessionButton");
+    const divStudySessionsList = $("#accordion-StudySessionList");
+    
+    const buttonNewStudySession = $("#input-sb-newStudySession");
+    const buttonsStartStudySession = $(".button-startStudySession");
 
-    const inputStudySession = $("#input-study-session");
+    // Elementos formulario
+    const formStudySession = $("#form-studySession");
     const inputName = $("#input-name");
     const inputStudySlot = $("#input-study-slot");
     const inputBrakeSlot = $("#input-brake-slot");
     const inputNumberSlots = $("#input-number-slots");
     const inputLongBrakeSlot = $("#input-long-brake-slot");
     const inputNumberLongBrakeSlot = $("#input-number-long-brake-slots");
-
-    const buttonStartStudySession = $("#input-sb-selectStudySession");
     const buttonCreateStudySession = $("#input-sb-createStudySession");
 
+    // Elementos listar tareas
     const checkBoxes = $(".checkbox-completedTask");
 
-    const studySessions = $("body").data("sessions");
-
-    inputStudySession.on("change", () => {
-        let selectedSession = inputStudySession.val();
-
-        if (selectedSession === "Nueva") {
-            formStudySession[0].reset();
-
-            inputName.show();
-            labelInputName.show();
-            inputStudySlot.prop("disabled", false);
-            inputBrakeSlot.prop("disabled", false);
-            inputNumberSlots.prop("disabled", false);
-            inputLongBrakeSlot.prop("disabled", false);
-            inputNumberLongBrakeSlot.prop("disabled", false);
-            buttonCreateStudySession.prop("disabled", false);
-        } else {
-            let session = studySessions[selectedSession];
-
-            inputStudySlot.val(session.study_slot);
-            inputBrakeSlot.val(session.brake_slot);
-            inputNumberSlots.val(session.num_slots);
-            inputLongBrakeSlot.val(session.long_brake_slot);
-            inputNumberLongBrakeSlot.val(session.num_long_slots);
-
-            inputName.hide();
-            labelInputName.hide();
-            inputStudySlot.prop("disabled", true);
-            inputBrakeSlot.prop("disabled", true);
-            inputNumberSlots.prop("disabled", true);
-            inputLongBrakeSlot.prop("disabled", true);
-            inputNumberLongBrakeSlot.prop("disabled", true);
-            buttonCreateStudySession.prop("disabled", true);
-        }
-    });
-
-    buttonStartStudySession.on("click", (event) => {
+    // Nueva sesión de estudio -> formulario vacio
+    buttonNewStudySession.on("click", (event) => {
         event.preventDefault();
 
-        let params = {
-            study_slot: inputStudySlot.val(),
-            brake_slot: inputBrakeSlot.val(),
-            long_brake_slot: inputLongBrakeSlot.val(),
-            num_slots: inputNumberSlots.val(),
-            num_long_slots: inputNumberLongBrakeSlot.val()
-        }
+        divNewStudySessionButton.hide();
+        divStudySessionsList.hide();
+        formStudySession.show();
+    });
+
+    // Iniciar sesión de estudio existente
+    buttonsStartStudySession.each(function(i, button) {
+        $(button).on("click", (event) => {
+            event.preventDefault();
+            let data = $(button).data("studysession");
+
+            let params = {
+                study_slot: data.study_slot,
+                brake_slot: data.brake_slot,
+                long_brake_slot: data.long_brake_slot,
+                num_slots: data.num_slots,
+                num_long_slots: data.num_long_slots
+            }
 
         let error = validateParams(params);
         if(!error) {
-            params.study_slot = parseInt(inputStudySlot.val());
-            params.brake_slot = parseInt(inputBrakeSlot.val());
-            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
-            params.num_slots = parseInt(inputNumberSlots.val());
-            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
-
             initializeTimer(params);
         }
         else {
             showModal(error, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
         }
+        });
     });
 
+    // Crear e iniciar sesión de estudio
     buttonCreateStudySession.on("click", (event) => {
         event.preventDefault();
 
@@ -293,6 +271,7 @@ $(() => {
         }
     });
 
+    // Completar tareas
     checkBoxes.each(function(i, check) {
         $(check).on("change", () => {
             let id = $(check).data("task").id;

@@ -252,11 +252,6 @@ button {
     align-items: center;
 }
 
-.accordion-task {
-    border-radius: 1rem;
-    color: #F1F2F6;
-}
-
 .checkbox-completedTask {
     transform: scale(1.5);
 }
@@ -345,13 +340,23 @@ button {
 }
 
 /*SESION DE ESTUDIO*/
-
 .subTemp{
     display: flex;
 }
 
 .ctrlButton{
     margin-left: .5rem;
+}
+
+.accordion-task {
+    border-radius: 1rem;
+    color: #F1F2F6;
+}
+
+.accordion-studySession {
+    border-radius: 1rem;
+    background-color: #8898FA;
+    color: #F1F2F6;
 }
 
 .accordion-icon {
