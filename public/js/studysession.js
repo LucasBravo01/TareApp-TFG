@@ -27,11 +27,12 @@ function initializeTimer(params) {
     }
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
-    $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+    $("#span-whichPeriod").html("&#128214;");
     $("#span-numSlot").text("Periodo actual: " + contSlots);
+    $(".div-timer").removeClass("rest-timer");
 
     $("#form-studySession").hide();
-    $("#accordion-StudySessionList").hide();
+    $("#accordion-StudySessionList").addClass("d-none");
     $("#div-newStudySessionButton").hide();
     $("#div-sb-backToForm").show();
     $("#div-timer").show();
@@ -64,8 +65,9 @@ function resetTimer() {
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
     $("#span-secsTimer").text("00");
-    $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+    $("#span-whichPeriod").html("&#128214;");
     $("#span-numSlot").text("Periodo actual: " + contSlots);
+    $(".div-timer").removeClass("rest-timer");
 
     $("#input-startTimer").removeAttr("disabled");
     $("#input-stopTimer").attr("disabled", true);
@@ -93,18 +95,20 @@ function timer() {
             if(contSlots <= numSlots) {
                 if (longBrakeTime !== 0 && (contSlots - 1) % numLongBrakeSlots === 0) {
                     timeLeft = longBrakeTime;
-                    $("#span-whichPeriod").text("Toca un descanso largo");
+                    $("#span-whichPeriod").html("&#128164;");;
                     $("#span-numSlot").text("Siguiente periodo: " + contSlots);
+                    $(".div-timer").addClass("rest-timer");
                 } 
                 else{
                     timeLeft = brakeTime;
-                    $("#span-whichPeriod").text("Un descanso merecido");
+                    $("#span-whichPeriod").html("&#128164;");;
                     $("#span-numSlot").text("Siguiente periodo: " + contSlots);
+                    $(".div-timer").addClass("rest-timer");
                 }
                 startTimer();
             }
             else {
-                $("#span-whichPeriod").text("¡Enhorabuena! Has completado tu sesión de estudio");
+                $("#span-whichPeriod").html("&#9989;");
                 $("#span-numSlot").text("");
                 resetTimer();
             }
@@ -112,8 +116,9 @@ function timer() {
         else {
             isStudytime = true;
             timeLeft = studyTime;
-            $("#span-whichPeriod").text("Toca estudiar ¡A por ello!");
+            $("#span-whichPeriod").html("&#128214;");
             $("#span-numSlot").text("Periodo actual: " + contSlots);
+            $(".div-timer").removeClass("rest-timer");
             startTimer();
         }
     }
@@ -171,7 +176,7 @@ function completeTask(idTask) {
         });
 }
 
-$(document).ready(() => {
+$(() => {
     // ELEMENTOS HTML
     // Elementos listar sesiones de estudio
     const divNewStudySessionButton = $("#div-newStudySessionButton");
@@ -196,9 +201,11 @@ $(document).ready(() => {
     // Nueva sesión de estudio -> formulario vacio
     buttonNewStudySession.on("click", (event) => {
         event.preventDefault();
+        console.log("New");
+        console.log("Div:", divStudySessionsList);
 
         divNewStudySessionButton.hide();
-        divStudySessionsList.hide();
+        divStudySessionsList.addClass("d-none");
         formStudySession.show();
     });
 

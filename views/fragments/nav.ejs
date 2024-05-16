@@ -7,7 +7,7 @@
         <button id="button-nav-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" title="Desplegable del menú">
             <img id="img-nav-burger" src="/images/<%= session.currentUser.configuration.theme %>/menu.png" alt="Menú" width="50">
         </button>
-        <div id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel" class="offcanvas offcanvas-start">
+        <div id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExample" class="offcanvas offcanvas-start">
             <div class="offcanvas-header main-background">
               <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close"></button>
             </div>
@@ -69,7 +69,7 @@
 
                 <div>
                     <form id="form-logout" method="POST" action="/logout">
-                        <a id="a-logout"><button class="button dangerous-button"><img id="img-nav-logout" src="/images/<%= session.currentUser.configuration.theme %>/logout.png" alt="Cerrar Sesión" width="30" class="ms-2 me-2"/> <span>Cerrar sesión</span></button></a>
+                        <a id="a-logout"><button class="button dangerous-button"><img id="img-nav-logout" src="/images/<%= session.currentUser.configuration.theme %>/logout.png" alt="Cerrar Sesión Actual" width="30" class="ms-2 me-2"/> <span>Cerrar sesión</span></button></a>
                     </form>
                 </div>
             </div>
