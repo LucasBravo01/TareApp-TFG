@@ -35,7 +35,7 @@ CREATE TABLE configuration (
   font_size ENUM('grande', 'normal') NOT NULL,
   theme  ENUM('alegre', 'minimalista') NOT NULL,
   time_preference ENUM('largo', 'corto') NOT NULL,
-  reward_type ENUM('mensaje', 'medalla') NOT NULL,
+  reward_type ENUM('mensaje', 'medalla', 'imagen', 'gif') NOT NULL,
 
   FOREIGN KEY (id_user) REFERENCES user(id)
 );

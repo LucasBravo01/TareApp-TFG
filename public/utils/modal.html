@@ -11,9 +11,9 @@
                 <div id="div-modal-response-header" class="modal-header d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <!-- Icono de error o éxito (jQuery) -->
-                        <img id="img-modal-response" src="" alt="" height="60" class="ms-3">
+                        <img id="img-modal-response" src="" alt="" height="40">
                         <!-- Título del error/mensaje (jQuery) -->
-                        <h1 id="h1-modal-response" class="modal-title ms-3 text-center">Error desconocido</h1>
+                        <h1 id="h1-modal-response" class="modal-title mx-1 text-center">Error desconocido</h1>
                     </div>                        
                     <!-- Botón para cerrar el modal -->
                     <button type="button" class="modal-close-window-button" data-bs-dismiss="modal" aria-label="Close">
@@ -23,8 +23,9 @@
                     </button>
                 </div>
                 <!-- Body (jQuery) -->
-                <div class="modal-body"> 
+                <div class="modal-body d-flex flex-column align-items-center"> 
                     <p id="p-modal-response" class="text-center">Si estás viendo esto, se ha producido un error desconocido.</p>
+                    <img id="img-modal-body" src="" alt="Recompensa" class="d-none" height="100">
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer d-flex justify-content-center">

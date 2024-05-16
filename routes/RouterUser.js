@@ -39,7 +39,7 @@ function routerConfig(conUse, conRem) {
             return (timeP === "corto" || timeP === "largo")
         }),
         check("reward", "17").custom((reward) => {
-            return (reward === "mensaje" || reward === "medalla")
+            return (reward === "mensaje" || reward === "medalla" || reward === "imagen" || reward === "gif")
         }),
         conRem.unreadReminders,
         conUse.updateConfiguration
