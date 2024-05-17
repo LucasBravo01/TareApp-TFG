@@ -4,6 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
     <script src="/js/study_session.js"></script>
@@ -72,13 +73,13 @@
             <div class="row justify-content-center mt-3 mb-3">
                 <!--NOMBRE-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-name">Nombre nueva sesión *</label>
+                    <label for="input-name">Nombre nueva sesión <span class="text-danger"> *</span></label>
                     <input id="input-name" name="name" type="text" class="form-control">
                 </div>
 
                 <!--NÚMERO DE PERIODOS-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-number-slots">Número de periodos *</label>
+                    <label for="input-number-slots">Número de periodos <span class="text-danger"> *</span></label>
                     <input id="input-number-slots" name="number-slots" type="number" min="1" max="10" step="1" class="form-control">
                 </div>
 
@@ -92,13 +93,13 @@
             <div class="row justify-content-center mt-3 mb-3">
                 <!--TIEMPO DE ESTUDIO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
+                    <label for="input-study-slot">Duración periodo de estudio (minutos) <span class="text-danger"> *</span></label>
                     <input id="input-study-slot" name="study-slot" type="number" min="1" max="90" step="5" class="form-control">
                 </div>
 
                 <!--TIEMPO DE DESCANSO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
+                    <label for="input-brake-slot">Duración periodo de descanso (minutos) <span class="text-danger"> *</span></label>
                     <input id="input-brake-slot" name="brake-slot" type="number" min="1" max="90" step="5" class="form-control">
                 </div>
                     
