@@ -40,7 +40,7 @@ class DAOStudySession {
                             }
                             studySessions.push(studySession);
                         });
-                        callback(null, studysessions);
+                        callback(null, studySessions);
                     }
                 });
             }
