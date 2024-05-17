@@ -19,13 +19,13 @@ function routerConfig(conTas, conStu, conRem) {
     RouterStudySession.post("/nuevaSesionEstudio",
         // Ninguno de los campos vacíos 
         check("name", "1").notEmpty(),
-        check("study_slot", "1").notEmpty(),
-        check("brake_slot", "1").notEmpty(),
-        check("num_slots", "1").notEmpty(),
+        check("studySlot", "1").notEmpty(),
+        check("brakeSlot", "1").notEmpty(),
+        check("numSlots", "1").notEmpty(),
         // Comprobar tipos correctos
-        check("study_slot", "1").isNumeric(),
-        check("brake_slot", "1").isNumeric(),
-        check("num_slots", "1").isNumeric(),
+        check("studySlot", "16").isNumeric(),
+        check("brakeSlot", "16").isNumeric(),
+        check("numSlots", "16").isNumeric(),
         conRem.unreadReminders, 
         conStu.createStudySession);
 

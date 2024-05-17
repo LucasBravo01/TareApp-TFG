@@ -2,8 +2,6 @@
 
 const { validationResult } = require("express-validator");
 const errorHandler = require("../errorHandler");
-const utils = require("../utils");
-const { response } = require("express");
 
 class ControllerStudySession {
     // Constructor
@@ -12,7 +10,6 @@ class ControllerStudySession {
 
         // GETs
         this.getStudySessions = this.getStudySessions.bind(this);
-
         // POSTs
         this.createStudySession = this.createStudySession.bind(this);
     }
@@ -27,7 +24,7 @@ class ControllerStudySession {
                 next({
                     ajax: false,
                     status: 200,
-                    redirect: "studysession",
+                    redirect: "study_session",
                     data: {
                         response: undefined,
                         generalInfo: {
@@ -47,18 +44,18 @@ class ControllerStudySession {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
 
-            if(req.body.long_brake_slot !== null && req.body.num_long_slots === null) {
+            if(req.body.longBrakeSlot !== null && req.body.numLongSlots === null) {
                 errorHandler.manageAJAXError("1", next);
             }
 
             let studysession = {
                 name: req.body.name,
-                id_user: req.session.currentUser.id,
-                study_slot: req.body.study_slot,
-                brake_slot: req.body.brake_slot,
-                long_brake_slot: req.body.long_brake_slot,
-                num_slots: req.body.num_slots,
-                num_long_slots: req.body.num_long_slots
+                idUser: req.session.currentUser.id,
+                studySlot: req.body.studySlot,
+                brakeSlot: req.body.brakeSlot,
+                longBrakeSlot: req.body.longBrakeSlot,
+                numSlots: req.body.numSlots,
+                numLongSlots: req.body.numLongSlots
             }
 
             this.daoStu.insertStudySession(studysession, (error) => {

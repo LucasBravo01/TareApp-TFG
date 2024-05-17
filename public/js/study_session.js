@@ -16,14 +16,14 @@ let control;
 
 // FUNCIONALIDAD TEMPORIZADOR
 function initializeTimer(params) {
-    studyTime = params.study_slot * 60;
-    brakeTime = params.brake_slot * 60;
-    numSlots = params.num_slots;
+    studyTime = params.studySlot * 60;
+    brakeTime = params.brakeSlot * 60;
+    numSlots = params.numSlots;
     timeLeft = studyTime;
 
-    if(params.long_brake_slot !== "") {
-        longBrakeTime = params.long_brake_slot * 60;
-        numLongBrakeSlots = params.num_long_slots;
+    if(params.longBrakeSlot !== "") {
+        longBrakeTime = params.longBrakeSlot * 60;
+        numLongBrakeSlots = params.numLongSlots;
     }
 
     $("#span-minsTimer").text(formatTime(studyTime / 60));
@@ -132,21 +132,21 @@ function formatTime(time) {
 function validateParams(params) {
     let error = {};
     // Campos no vacíos
-    if(params.name === "" || params.study_slot === "" || params.brake_slot === "" || params.num_slots === "") {
+    if(params.name === "" || params.studySlot === "" || params.brakeSlot === "" || params.numSlots === "") {
         error.code = 400;
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
         return error;
     }
     // Si se pone un descanso largo indicar número de slots de descansos largos
-    else if (params.long_brake_slot !== "" && params.num_long_slots === "") {
+    else if (params.longBrakeSlot !== "" && params.numLongSlots === "") {
         error.code = 400;
         error.title = "Campos vacíos de periodo largo";
         error.message = "Asegúrate de rellenar todos los campos de los periodos largos.";
         return error;
     }
     // El número de slots de descansos largos tiene que ser menor al número de slots de descansos
-    else if (params.num_long_slots > params.num_slots) {
+    else if (params.numLongSlots > params.numSlots) {
         error.code = 400;
         error.title = "Periodos de descansos largos no válidos";
         error.message = "El número de periodos de descansos largos tiene que ser menor al número de periodos de descansos.";
@@ -216,11 +216,11 @@ $(() => {
             let data = $(button).data("studysession");
 
             let params = {
-                study_slot: data.study_slot,
-                brake_slot: data.brake_slot,
-                long_brake_slot: data.long_brake_slot,
-                num_slots: data.num_slots,
-                num_long_slots: data.num_long_slots
+                studySlot: data.studySlot,
+                brakeSlot: data.brakeSlot,
+                longBrakeSlot: data.longBrakeSlot,
+                numSlots: data.numSlots,
+                numLongSlots: data.numLongSlots
             }
 
         let error = validateParams(params);
@@ -239,25 +239,25 @@ $(() => {
 
         let params = {
             name: inputName.val(),
-            study_slot: inputStudySlot.val(),
-            brake_slot: inputBrakeSlot.val(),
-            long_brake_slot: 0,
-            num_slots: inputNumberSlots.val(),
-            num_long_slots: 0
+            studySlot: inputStudySlot.val(),
+            brakeSlot: inputBrakeSlot.val(),
+            longBrakeSlot: 0,
+            numSlots: inputNumberSlots.val(),
+            numLongSlots: 0
         }
 
         if(inputLongBrakeSlot.val() !== "") {
-            params.long_brake_slot = inputLongBrakeSlot.val();
-            params.num_long_slots = inputNumberLongBrakeSlot.val();
+            params.longBrakeSlot = inputLongBrakeSlot.val();
+            params.numLongSlots = inputNumberLongBrakeSlot.val();
         }
 
         let error = validateParams(params);
         if(!error) {
-            params.study_slot = parseInt(inputStudySlot.val());
-            params.brake_slot = parseInt(inputBrakeSlot.val());
-            params.long_brake_slot = parseInt(inputLongBrakeSlot.val());
-            params.num_slots = parseInt(inputNumberSlots.val());
-            params.num_long_slots = parseInt(inputNumberLongBrakeSlot.val());
+            params.studySlot = parseInt(inputStudySlot.val());
+            params.brakeSlot = parseInt(inputBrakeSlot.val());
+            params.longBrakeSlot = parseInt(inputLongBrakeSlot.val());
+            params.numSlots = parseInt(inputNumberSlots.val());
+            params.numLongSlots = parseInt(inputNumberLongBrakeSlot.val());
 
             $.ajax({
                 method: "POST",

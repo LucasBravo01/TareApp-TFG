@@ -6,7 +6,7 @@
     <!-- Importar CSS específicos -->
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
-    <script src="/js/createTask.js"></script>
+    <script src="/js/create_task.js"></script>
 </head>
 
 <body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
@@ -16,7 +16,7 @@
     <%- include("fragments/nav", { generalInfo: generalInfo }) %>
     <!-- Importar modal confirmación -->
     <% const url = '/tareas/borrarTarea/' + task.id; %>
-    <%- include("fragments/confirmationModal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
+    <%- include("fragments/confirmation_modal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
     
     <div class="container">
         <div class="d-flex justify-content-center">
@@ -73,7 +73,7 @@
                     <select id="input-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
-                            <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.category_icon %> <% } %> <%= c.name %></option>
+                            <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.categoryIcon %> <% } %> <%= c.name %></option>
                         <% }); %>
                     </select>
                 </div>
@@ -84,7 +84,7 @@
                     <select id="input-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
-                            <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subject_icon %> <% } %> <%= s.name %></option>
+                            <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subjectIcon %> <% } %> <%= s.name %></option>
                         <% }); %>
                     </select>
                 </div>
@@ -111,7 +111,7 @@
                 <!--BOTÓN CREAR TAREA-->
                 <% if (task.id) { %>
                     <div class="col-12 text-center mt-5">
-                        <button type="button" id="input-sb-modify" name="modify_button" class="main-button me-2 mb-4">Modificar Tarea</button>
+                        <button type="button" id="input-sb-modify" class="main-button me-2 mb-4">Modificar Tarea</button>
                         <button type="button" id="input-sb-delete" data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
                     </div> 
 

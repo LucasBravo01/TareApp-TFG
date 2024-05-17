@@ -19,24 +19,24 @@ const cron = require('node-cron');
 const connection = require("./daos/connection");
 const DAOActivity = require("./daos/DAOActivity");
 const DAOCategory = require("./daos/DAOCategory");
+const DAOConfiguration = require("./daos/DAOConfiguration");
 const DAOReminder = require("./daos/DAOReminder");
 const DAOReward = require("./daos/DAOReward");
+const DAOStudySession = require("./daos/DAOStudySession");
 const DAOSubject = require("./daos/DAOSubject");
 const DAOSubscription = require("./daos/DAOSubscription");
 const DAOTask = require("./daos/DAOTask");
 const DAOUser = require("./daos/DAOUser");
-const DAOConfiguration = require("./daos/DAOConfiguration");
-const DAOStudySession = require("./daos/DAOStudySession");
 // Controllers
-const ControllerReminder = require("./controllers/controllerReminder");
-const ControllerTask = require("./controllers/controllerTask");
-const ControllerUser = require("./controllers/controllerUser");
-const ControllerStudySession = require("./controllers/controllerStudySession");
+const ControllerReminder = require("./controllers/ControllerReminder");
+const ControllerStudySession = require("./controllers/ControllerStudySession");
+const ControllerTask = require("./controllers/ControllerTask");
+const ControllerUser = require("./controllers/ControllerUser");
 // Routers
-const routerTask = require("./routes/RouterTask");
-const routerUser = require("./routes/RouterUser");
-const routerReminder = require("./routes/RouterReminder");
-const routerStudySession = require("./routes/RouterStudySession");
+const RouterReminder = require("./routes/RouterReminder");
+const RouterStudySession = require("./routes/RouterStudySession");
+const RouterTask = require("./routes/RouterTask");
+const RouterUser = require("./routes/RouterUser");
 
 // --- Crear aplicación Express ---
 const app = express();
@@ -79,16 +79,16 @@ const daoCat = new DAOCategory(pool);
 const daoCon = new DAOConfiguration(pool);
 const daoRem = new DAOReminder(pool);
 const daoRew = new DAOReward(pool);
+const daoStu = new DAOStudySession(pool);
 const daoSub = new DAOSubject(pool);
 const daoSubs = new DAOSubscription(pool);
 const daoTas = new DAOTask(pool);
 const daoUse = new DAOUser(pool);
-const daoStu = new DAOStudySession(pool);
 // Crear instancias de los Controllers
 const conRem = new ControllerReminder(daoRem, daoSubs);
+const conStu = new ControllerStudySession(daoStu);
 const conTas = new ControllerTask(daoAct, daoCat, daoCon, daoRem, daoRew, daoSub, daoTas, daoUse);
 const conUse = new ControllerUser(daoAct, daoCon, daoRem, daoRew, daoUse);
-const conStu = new ControllerStudySession(daoStu);
 
 // --- Middlewares ---
 // Comprobar que el usuario ha iniciado sesión
@@ -118,15 +118,15 @@ app.use((req, res, next) => {
 });
 
 // --- Routers ---
-routerTask.routerConfig(conTas, conRem);
-routerUser.routerConfig(conUse, conRem);
-routerReminder.routerConfig(conRem);
-routerStudySession.routerConfig(conTas, conStu, conRem);
+RouterReminder.routerConfig(conRem);
+RouterStudySession.routerConfig(conTas, conStu, conRem);
+RouterTask.routerConfig(conTas, conRem);
+RouterUser.routerConfig(conUse, conRem);
 
-app.use("/tareas", userLogged, routerTask.RouterTask);
-app.use("/usuario", userLogged, routerUser.RouterUser);
-app.use("/recordatorio", userLogged, routerReminder.RouterReminder);
-app.use("/sesionEstudio", userLogged, routerStudySession.RouterStudySession);
+app.use("/recordatorio", userLogged, RouterReminder.RouterReminder);
+app.use("/sesionEstudio", userLogged, RouterStudySession.RouterStudySession);
+app.use("/tareas", userLogged, RouterTask.RouterTask);
+app.use("/usuario", userLogged, RouterUser.RouterUser);
 
 // --- Peticiones GET ---
 // - Enrutamientos -

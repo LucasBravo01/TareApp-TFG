@@ -5,7 +5,7 @@
     - 2) Abrir XAMPP:
         - Activar Apache y MySQL y darle a "Admin" de MySQL
         - Ir a phpMyAdmin y copiar import.sql
-    - 3) Ejecutar "node app.js"
+    - 3) Ejecutar "node app.js" o "npm start"
     - 4) Abrir el navegador e ir a "localhost:3000"
     - 5) En caso de tener que reiniciar:
         - En el navegador pulsar F12 (o click derecho + Inspeccionar)

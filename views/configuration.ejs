@@ -28,8 +28,8 @@
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tamaño de letra</label>
                     <select id="fontSizeSelect" name="font-size" class="form-control">
-                        <option value="grande" <% if(configuration.font_size == "grande"){ %>selected <% }%> >Grande</option>
-                        <option value="normal" <% if(configuration.font_size == "normal"){ %>selected <% }%>>Normal</option>
+                        <option value="grande" <% if(configuration.fontSize == "grande"){ %>selected <% }%> >Grande</option>
+                        <option value="normal" <% if(configuration.fontSize == "normal"){ %>selected <% }%>>Normal</option>
                     </select>
                 </div>
 
@@ -46,8 +46,8 @@
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
                     <select id="timeSelect" name="time" class="form-control">
-                        <option value="corto" <% if(configuration.time_preference == "corto"){ %>selected <% }%> >Corto</option>
-                        <option value="largo" <% if(configuration.time_preference == "largo"){ %>selected <% }%>>Largo</option>
+                        <option value="corto" <% if(configuration.timePreference == "corto"){ %>selected <% }%> >Corto</option>
+                        <option value="largo" <% if(configuration.timePreference == "largo"){ %>selected <% }%>>Largo</option>
                     </select>
                 </div>
 
@@ -55,10 +55,10 @@
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tipo de Recompensa</label>
                     <select id="rewardSelect" name="reward" class="form-control">
-                        <option value="mensaje" <%if(configuration.reward_type == "mensaje"){ %>selected <%}%>>Mensaje</option>
-                        <option value="medalla" <%if(configuration.reward_type == "medalla"){ %>selected <%}%>>Medalla</option>
-                        <option value="imagen" <%if(configuration.reward_type == "imagen"){ %>selected <%}%>>Imágenes</option>
-                        <option value="gif" <%if(configuration.reward_type == "gif"){ %>selected <%}%>>Gifs</option>
+                        <option value="mensaje" <%if(configuration.rewardType == "mensaje"){ %>selected <%}%>>Mensaje</option>
+                        <option value="medalla" <%if(configuration.rewardType == "medalla"){ %>selected <%}%>>Medalla</option>
+                        <option value="imagen" <%if(configuration.rewardType == "imagen"){ %>selected <%}%>>Imágenes</option>
+                        <option value="gif" <%if(configuration.rewardType == "gif"){ %>selected <%}%>>Gifs</option>
                     </select>
                 </div>
 
@@ -87,9 +87,7 @@
             <button id="button-subscribe" class="main-button">Activar</button>
         </div>
 
-    </div>
-   
-    <!-- text to voice button -->  
+    </div> 
 </body>
 
 </html>

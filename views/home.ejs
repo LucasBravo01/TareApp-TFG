@@ -44,7 +44,7 @@
             <div class="row mt-5">
                 <div class="col-3 text-start">
                     <a id="a-previous-day" href="" class="arrow-button">
-                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left_arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
 
@@ -52,7 +52,7 @@
 
                 <div class="col-3 text-end">
                     <a id="a-next-day" href=""  class="arrow-button">
-                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right_arrow.png" alt="Siguiente" width="30"/>
                     </a>
                 </div>
             </div>
@@ -65,12 +65,12 @@
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
                             <div id="<%= hour %>">
                                 <% tasks[hour].forEach(t => { %>
-                                    <div class="card-task-calendar mb-2 <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
+                                    <div class="card-task-calendar mb-2 <% if (t.subjectColor) { %><%= t.subjectColor %><% } else { %><%= t.categoryColor %><% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                 <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
                                                     <div class="d-flex justify-content-center">
-                                                        <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                        <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                                     </div>
                                                     <div>
                                                         <span><%= t.title %></span>
@@ -98,7 +98,7 @@
             <div class="d-grid mt-5" style="grid-template-columns: 5% 91% 4%;">
                 <div class="text-start">
                     <a id="a-previous-week" href="" class="arrow-button">
-                        <img src="/images/<%= session.currentUser.configuration.theme %>/left-arrow.png" alt="Anterior" width="30"/>
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/left_arrow.png" alt="Anterior" width="30"/>
                     </a>
                 </div>
 
@@ -112,7 +112,7 @@
 
                 <div class="text-end">
                     <a id="a-next-week" href=""  class="arrow-button">
-                        <img src="/images/<%= session.currentUser.configuration.theme %>/right-arrow.png" alt="Siguiente" width="30"/>
+                        <img src="/images/<%= session.currentUser.configuration.theme %>/right_arrow.png" alt="Siguiente" width="30"/>
                     </a>
                 </div>
             </div>
@@ -148,12 +148,12 @@
                                     <% } else { %>
                                         <div id="<%= hour %>">
                                             <% day.tasks[hour].forEach(t => { %>
-                                                <div class="card-task-calendar <% if (t.subject_color) { %><%= t.subject_color %><% } else { %><%= t.category_color %><% } %>">
+                                                <div class="card-task-calendar <% if (t.subjectColor) { %><%= t.subjectColor %><% } else { %><%= t.categoryColor %><% } %>">
                                                     <a href="/tareas/tarea/<%= t.id %>">
                                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                             <div class="d-flex flex-column align-items-center">
                                                                 <div class="d-flex justify-content-center">
-                                                                    <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
+                                                                    <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                                                 </div>
                                                                 <div>
                                                                     <span><%= t.title %></span>
@@ -193,7 +193,7 @@
                 </div>
                 <% tasks.forEach( (t)=> { %>
                     <% if (!t.completed) { %>
-                        <%- include("fragments/cardTask", { session: session, t: t }) %>
+                        <%- include("fragments/card_task", { session: session, t: t }) %>
                     <% } %>                        
                 <% }); %>
 
@@ -204,13 +204,12 @@
                 </div>
                 <% tasks.forEach( (t)=> { %>
                     <% if (t.completed) { %>
-                        <%- include("fragments/cardTask", { session: session, t: t }) %>
+                        <%- include("fragments/card_task", { session: session, t: t }) %>
                     <% } %>                        
                 <% }); %>              
             </div>
         <% } %>
     </div>
-        <!-- text to voice button -->
 </body>
 
 </html>

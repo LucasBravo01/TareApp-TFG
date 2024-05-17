@@ -29,7 +29,7 @@
                     <a id="a-studysession" href="/sesionEstudio/sesionEstudio" class="second-text">
                         <div class="menu-element">
                             <div>
-                                <img id="img-nav-studysession" src="/images/<%= session.currentUser.configuration.theme %>/studysession.png" alt="Sesión de estudio" width="30"/>
+                                <img id="img-nav-studysession" src="/images/<%= session.currentUser.configuration.theme %>/study_session.png" alt="Sesión de estudio" width="30"/>
                             </div>
                             <div>
                                 Sesión de estudio
@@ -76,7 +76,7 @@
         </div>
         <!-- Inicio -->
         <a id="a-nav" href="/" class="d-flex align-items-center" title="Volver a inicio">
-            <img src="/images/logos/logo-no-background-no-text.png" alt="Logo TareApp" width="100">
+            <img src="/images/logos/logo_no_background_no_text.png" alt="Logo TareApp" width="100">
         </a>
         <!-- Botón de perfil normal -->
         <% if (session.currentUser.hasProfilePic) { %>
@@ -85,7 +85,7 @@
             </a>
         <% } else { %>
             <a href="/usuario/perfil" title="Ir al perfil">
-                <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil" width="50">
+                <img id="img-nav-profile" src="/images/<%= session.currentUser.configuration.theme %>/default_user.png" alt="Foto de perfil" width="50">
             </a>
         <% } %>
     </nav>

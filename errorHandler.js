@@ -27,7 +27,7 @@ function generateError(cod) {
             title = "Tarea no existente";
             message = "La tarea que intentas modificar no existe.";
         } break;
-        // Bad Request
+        // Respuesta erronea (Bad Request)
         case 1: {
             code = 400;
             title = "Campos vacíos";
@@ -138,7 +138,7 @@ function manageError(error, data, redirect, next) {
             data: errorObj
         });
     }
-    // Bad Request
+    //  Respuesta erronea (Bad Request)
     else {
         data.response = errorObj;
         next({

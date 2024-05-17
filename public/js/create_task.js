@@ -10,7 +10,7 @@ function validateParams(params, currentDate, task) {
         error.title = "Campos vacíos";
         error.message = "Asegúrate de rellenar todos los campos.";
         return error;
-    }//SI quieres modificar y no has hecho ningun cambio
+    }//Si quieres modificar y no has hecho ningun cambio
     else if (task !==null && params.title === task.title && params.date === task.date && params.hour === task.time && params.category === task.category&& parseInt(params.duration) === parseInt(task.duration) && params.description === task.description && params.reminder === task.reminder && ((params.subject !== "" && task.idSubject !== null && parseInt(params.subject) === parseInt(task.idSubject)) || (params.subject === "" && task.idSubject === null)) ) {
         error.code = 400;
         error.title = "Campos no modificados";

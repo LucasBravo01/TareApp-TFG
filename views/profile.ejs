@@ -22,7 +22,7 @@
                     <% if (session.currentUser.hasProfilePic) { %>
                         <img id="img-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil">
                     <% } else { %>
-                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil">
+                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default_user.png" alt="Foto de perfil">
                     <% } %>
                 </div>
 
@@ -30,7 +30,7 @@
                 <div class="col-md-6 col-12 text-center mt-5">
                     <label for="input-name" class="form-label" style="font-weight: bold;">Nombre completo</label>
                     <input id="input-name" name="nameUser" type="text" class="form-control"
-                        value="<%= user.name %> <%= user.lastname1 %> <%= user.lastname2 %>" disabled>
+                        value="<%= user.name %> <%= user.lastName1 %> <%= user.lastName2 %>" disabled>
                 </div>
             </div>
             <div class="div-profile">
@@ -55,7 +55,7 @@
                 <hr class="separator-line" />
             </div>
 
-            <% if(session.currentUser.configuration.reward_type === "medalla") { %>
+            <% if(session.currentUser.configuration.rewardType === "medalla") { %>
             <div class="row align-items-center justify-content-center">
                 <!--RECOMPENSAS-->
                 <% if (userRewards.length !== 0) { %>
