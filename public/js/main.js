@@ -117,7 +117,9 @@ $(() => {
   }
 
   const user = $("body").data("user");
-  setConfiguration(user.configuration.font_size);
+  if(user) {
+    setConfiguration(user.configuration.font_size);
+  }
 
   // Logout
   const buttonLogout = $("#a-logout");

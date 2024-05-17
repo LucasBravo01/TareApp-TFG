@@ -53,7 +53,7 @@ class controllerReminder {
 
     // POSTs
     // Activar las notificaciones
-    subscribe(req, res, next) { // TODO  Revisar otras opciones
+    subscribe(req, res, next) {
         const subscription = req.body.subscription;
         this.daoSubs.insertSubscription(req.session.currentUser.id, subscription, (error) => {
             if (error) {

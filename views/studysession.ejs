@@ -137,10 +137,10 @@
                 </div>
     
                 <div class="row justify-content-center align-items-center timer-buttons d-flex">
-                    <button type="button" id="input-startTimer" onclick="startTimer();" class="button view-non-selected-button timer-button">Iniciar</button>
-                    <button type="button" id="input-stopTimer" onclick="stopTimer();" class="button view-selected-button timer-button" disabled>Pausar</button>
-                    <button type="button" id="input-resumeTimer" onclick="startTimer();" class="button view-non-selected-button timer-button" disabled>Continuar</button>
-                    <button type="button" id="input-resetTimer" onclick="resetTimer();" class="button dangerous-button timer-button" disabled>Resetear</button>
+                    <button type="button" id="input-startTimer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.font_size === "grande") { %>timer-button-big<% } %>">Iniciar</button>
+                    <button type="button" id="input-stopTimer" onclick="stopTimer();" class="button view-selected-button timer-button <% if (session.currentUser.configuration.font_size === "grande") { %>timer-button-big<% } %>" disabled>Pausar</button>
+                    <button type="button" id="input-resumeTimer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.font_size === "grande") { %>timer-button-big<% } %>" disabled>Continuar</button>
+                    <button type="button" id="input-resetTimer" onclick="resetTimer();" class="button dangerous-button timer-button <% if (session.currentUser.configuration.font_size === "grande") { %>timer-button-big<% } %>" disabled>Resetear</button>
                 </div>
 
                 <audio id="audio-endTimer" src="/sounds/endTimerSound.mp3" preload="auto"></audio>
@@ -156,41 +156,45 @@
 
                 <!--LISTA DE TAREAS PENDIENTES-->
                 <div id="accordion-tasksNotCompleted" class="accordion">
-                    <% tasks.forEach( t=> { %>
-                        <% if (!t.completed) { %>
-                            <div class="mb-3">
-                                <button class="accordion-button collapsed accordion-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
-                                    <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                        <span class="accordion-icon"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
-                                    <% } else { %>
-                                        <img class="accordion-img" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
-                                    <% } %>
-                                    
-                                    <span class="accordion-text mx-2 "><%= t.title %></span>
-                                </button>
-
-                                <div id="collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#accordion-tasksNotCompleted">
-                                    <div class="accordion-body d-flex flex-column">
-                                        <span><strong>Fecha y hora de entrega:</strong> <%= t.date %> <%= t.time %></span>
-                                        <% if(t.category === "Escolar") { %>
-                                            <span><strong>Asignatura:</strong> <%= t.name %></span>
+                    <% if (tasks.length !== 0) { %>
+                        <% tasks.forEach( t=> { %>
+                            <% if (!t.completed) { %>
+                                <div class="mb-3">
+                                    <button class="accordion-button collapsed accordion-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subject_color) { %> <%= t.subject_color %> <% } else { %> <%= t.category_color %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
+                                        <% if(session.currentUser.configuration.theme === "alegre") { %>
+                                            <span class="accordion-icon"><% if(t.subject_icon){ %>   <%- t.subject_icon %>  <% }else{ %>  <%- t.category_icon %>  <% }%></span>
                                         <% } else { %>
-                                            <span><strong>Categoria:</strong> <%= t.category %></span>
+                                            <img class="accordion-img" src="/images/subjects-categories/<% if(t.subject_photo){ %><%= t.subject_photo %><% }else{ %><%= t.category_photo %><% }%>" alt="Icono categoría" width="15"/>
                                         <% } %>
-                                        <% if(t.description === "") { %>
-                                            <span>No hay descripción para esta tarea</span>
-                                        <% } else { %>
-                                            <span><strong>Descripción:</strong> <%= t.description %></span>
-                                        <% } %>
-                                        <div>
-                                            <label for="input-completed-<%= t.id %>"><strong>Completar tarea</strong></label>
-                                            <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= t.done ? 'checked' : '' %> data-task="<%= JSON.stringify(t) %>">
+                                        
+                                        <span class="accordion-text mx-2 "><%= t.title %></span>
+                                    </button>
+    
+                                    <div id="collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#accordion-tasksNotCompleted">
+                                        <div class="accordion-body d-flex flex-column">
+                                            <span><strong>Fecha y hora de entrega:</strong> <%= t.date %> <%= t.time %></span>
+                                            <% if(t.category === "Escolar") { %>
+                                                <span><strong>Asignatura:</strong> <%= t.name %></span>
+                                            <% } else { %>
+                                                <span><strong>Categoria:</strong> <%= t.category %></span>
+                                            <% } %>
+                                            <% if(t.description === "") { %>
+                                                <span>No hay descripción para esta tarea</span>
+                                            <% } else { %>
+                                                <span><strong>Descripción:</strong> <%= t.description %></span>
+                                            <% } %>
+                                            <div>
+                                                <label for="input-completed-<%= t.id %>"><strong>Completar tarea</strong></label>
+                                                <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= t.done ? 'checked' : '' %> data-task="<%= JSON.stringify(t) %>">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <% } %>
-                    <% }); %>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-12 text-center mt-3"><p>¡No tienes Tareas sin compeltar!</p> </div>
+                    <% } %>
                 </div>
             </div>
         </div>

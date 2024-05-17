@@ -10,8 +10,8 @@ function scroll(hour8Element){
 $(document).ready(() => {
     const notCompleted = $("#div-not-completed");
     const completed = $("#div-completed");
-    const notCompletedTasks = notCompleted.nextAll("div.card-task");
-    const completedTasks = completed.nextAll("div.card-task");
+    const notCompletedTasks = notCompleted.next("div.card-task");
+    const completedTasks = completed.next("div.card-task");
 
     if (notCompletedTasks.length === 0) {
         notCompleted.after(`<div class="col-12 text-center mt-3"><p>No hay tareas sin completar</p> </div>`);

@@ -4,8 +4,8 @@
 $(() => {
     const todaySection = $("#div-today-notifications");
     const pastSection = $("#div-past-notifications");
-    const todayNotifications = todaySection.nextAll("div.card-notification");
-    const pastNotifications = pastSection.nextAll("div.card-notification");
+    const todayNotifications = todaySection.next("div.card-notification");
+    const pastNotifications = pastSection.next("div.card-notification");
 
     if (todayNotifications.length === 0) {
         todaySection.after(`<div class="col-12 text-center mt-3"><p>No hay notificaciones de hoy</p> </div>`);

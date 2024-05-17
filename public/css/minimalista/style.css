@@ -370,6 +370,10 @@ button {
     margin: 0rem 0.5rem;
 }
 
+.timer-button-big {
+    width: 9rem !important;
+}
+
 #span-whichPeriod, #span-numSlot{
     font-size: 1.8rem;
 }
