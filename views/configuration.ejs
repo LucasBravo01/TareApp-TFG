@@ -4,7 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
-    <link id="css-link" rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
+    <link id="link-css" rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
     <script src="/js/configuration.js"></script>
 
@@ -21,13 +21,13 @@
             <h1 class="title">CONFIGURACIÓN</h1>
         </div>
         
-        <form id="formConfiguration">
+        <form>
             <div class="row justify-content-center mt-3 mb-3">
 
                 <!--TAMAÑO DE LETRA-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tamaño de letra</label>
-                    <select id="fontSizeSelect" name="font-size" class="form-control">
+                    <select id="select-font-size" name="font-size" class="form-control">
                         <option value="grande" <% if(configuration.fontSize == "grande"){ %>selected <% }%> >Grande</option>
                         <option value="normal" <% if(configuration.fontSize == "normal"){ %>selected <% }%>>Normal</option>
                     </select>
@@ -36,7 +36,7 @@
                 <!--TEMA-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tema</label>
-                    <select id="themeSelect" name="theme" class="form-control">
+                    <select id="select-theme" name="theme" class="form-control">
                         <option value="alegre" <%if(configuration.theme == "alegre"){ %>selected <%}%>>Alegre</option>
                         <option value="minimalista" <%if(configuration.theme == "minimalista"){ %>selected <%}%>>Minimalista</option>
                     </select>
@@ -45,7 +45,7 @@
                 <!--PREFERENCIA DE TIEMPO-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Preferencia de tiempo</label>
-                    <select id="timeSelect" name="time" class="form-control">
+                    <select id="select-time" name="time" class="form-control">
                         <option value="corto" <% if(configuration.timePreference == "corto"){ %>selected <% }%> >Corto</option>
                         <option value="largo" <% if(configuration.timePreference == "largo"){ %>selected <% }%>>Largo</option>
                     </select>
@@ -54,7 +54,7 @@
                 <!--RECOMPENSA-->
                 <div class="col-6 text-center mt-3">
                     <label class="form-label" style="font-weight: bold";>Tipo de Recompensa</label>
-                    <select id="rewardSelect" name="reward" class="form-control">
+                    <select id="select-reward" name="reward" class="form-control">
                         <option value="mensaje" <%if(configuration.rewardType == "mensaje"){ %>selected <%}%>>Mensaje</option>
                         <option value="medalla" <%if(configuration.rewardType == "medalla"){ %>selected <%}%>>Medalla</option>
                         <option value="imagen" <%if(configuration.rewardType == "imagen"){ %>selected <%}%>>Imágenes</option>
@@ -67,7 +67,7 @@
 
                 <!--BOTÓN DE CAMBIAR LA CONFIGURACIÓN-->
                 <div class="col-12 text-center mt-5">
-                    <button type="submit" id="input-sb-updateConfig" class="main-button">Cambiar configuración</button>
+                    <button type="submit" id="button-sb-updateConfig" class="main-button">Cambiar configuración</button>
                 </div>
 
                 <!--DIV AUX PARA MANTENERLO A LA IZQUIERDA EL ANTERIOR-->

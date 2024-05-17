@@ -4,15 +4,15 @@
 <body>
     <nav class="d-flex align-items-center justify-content-between main-background">
         <!-- Menú hamburguesa -->
-        <button id="button-nav-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" aria-expanded="false" title="Desplegable del menú">
+        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#div-offcanvasExample" aria-controls="div-offcanvasExample" aria-expanded="false" title="Desplegable del menú">
             <img id="img-nav-burger" src="/images/<%= session.currentUser.configuration.theme %>/menu.png" alt="Menú" width="50">
         </button>
-        <div id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExample" class="offcanvas offcanvas-start">
+        <div id="div-offcanvasExample" tabindex="-1" aria-labelledby="div-offcanvasExample" class="offcanvas offcanvas-start">
             <div class="offcanvas-header main-background">
               <button type="button" data-bs-dismiss="offcanvas" aria-label="Close" class="btn-close"></button>
             </div>
             <div class="offcanvas-body main-background">
-                <div id="functions" class="m-3">
+                <div class="m-3">
                     <!--CALENDARIO-->
                     <a id="a-calendar" href="/" class="second-text">
                         <div class="menu-element">
@@ -26,10 +26,10 @@
                     </a>
 
                     <!--SESIÓN DE ESTUDIO-->
-                    <a id="a-studysession" href="/sesionEstudio/sesionEstudio" class="second-text">
+                    <a href="/sesionEstudio/sesionEstudio" class="second-text">
                         <div class="menu-element">
                             <div>
-                                <img id="img-nav-studysession" src="/images/<%= session.currentUser.configuration.theme %>/study_session.png" alt="Sesión de estudio" width="30"/>
+                                <img id="img-nav-study-session" src="/images/<%= session.currentUser.configuration.theme %>/study_session.png" alt="Sesión de estudio" width="30"/>
                             </div>
                             <div>
                                 Sesión de estudio

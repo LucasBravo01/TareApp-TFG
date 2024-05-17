@@ -18,11 +18,11 @@ function validateParams(params) {
 
 $(() => {
     // Obtener elementos
-    const fontSizeSelect = $("#fontSizeSelect");
-    const themeSelect = $("#themeSelect");
-    const timeSelect = $("#timeSelect");
-    const rewardSelect = $("#rewardSelect");
-    const submitButton = $("#input-sb-updateConfig");
+    const fontSizeSelect = $("#select-font-size");
+    const themeSelect = $("#select-theme");
+    const timeSelect = $("#select-time");
+    const rewardSelect = $("#select-reward");
+    const submitButton = $("#button-sb-updateConfig");
 
 
     // POST login
@@ -43,13 +43,13 @@ $(() => {
                 data: params,
                 success: (data, statusText, jqXHR) => {
                     // Reemplazar el archivo CSS actual e imágenes por el nuevo
-                    $("#css-link").attr('href', `/css/${themeSelect.val()}/style.css`);
+                    $("#link-css").attr('href', `/css/${themeSelect.val()}/style.css`);
                     $("#img-nav-burger").attr('src', `/images/${themeSelect.val()}/menu.png`);
                     $("#img-nav-calendar").attr('src', `/images/${themeSelect.val()}/calendar.png`);
                     $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
-                    $("#img-nav-studysession").attr('src', `/images/${themeSelect.val()}/study_session.png`);
+                    $("#img-nav-study-session").attr('src', `/images/${themeSelect.val()}/study_session.png`);
                     
                     const user = $("body").data("user");
                     if(!user.hasProfilePic) {

@@ -6,7 +6,7 @@
     <!-- Importar CSS específicos -->
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
-    <script src="/js/create_task.js"></script>
+    <script src="/js/task.js"></script>
 </head>
 
 <body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
@@ -29,35 +29,35 @@
             </h1>
         </div>
 
-        <form id="formTask" action="/tareas/crearTareaForm" method="post">
+        <form id="form-task" action="/tareas/crearTareaForm" method="post">
             <div class="row justify-content-center mt-3 mb-3">
-                <input type="hidden" id="input-id-task" name="idTask" value="<%= task.id %>">
-                <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
+                <input id="input-id-task" type="hidden" name="idTask" value="<%= task.id %>">
+                <input id="input-id-user" type="hidden" name="id" value="<%= session.currentUser.id %>">
 
                 <!--TAREA COMPLETADA-->
                 <% if (task.id) { %>
-                    <div class="col-12 text-center mt-3" id="div-completed">
+                    <div id="div-completed" class="col-12 text-center mt-3">
                         <label for="input-completed">Completar tarea</label>
-                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= task.done ? 'checked' : '' %>>
+                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completed-task mx-2" <%= task.done ? 'checked' : '' %>>
                     </div>
                 <% } %>
 
                 <!--TITULO-->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
+                    <input id="input-title" type="text" name="title" class="form-control mt-1" value="<%= task.title %>">
                 </div>
 
                 <!--FECHA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-date">Fecha de entrega<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
+                    <input id="input-date" type="date" name="date" class="form-control" value="<%= task.date %>">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-hour">Hora:<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
+                    <input id="input-hour" type="time" name="time" class="form-control" value="<%= task.time %>">
                 </div>
 
                 <!--DURACIÓN ESTIMADA-->
@@ -69,8 +69,8 @@
 
                 <!--CATEGORIA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-category" name="category" class="form-control">
+                    <label for="select-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
                             <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.categoryIcon %> <% } %> <%= c.name %></option>
@@ -80,8 +80,8 @@
     
                 <!--ASIGNATURA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-subject" name="subject" class="form-control" disabled>
+                    <label for="select-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
                             <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subjectIcon %> <% } %> <%= s.name %></option>
@@ -91,8 +91,8 @@
 
                 <!--RECORDATORIOS-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-reminder" name="reminders" class="form-control">
+                    <label for="select-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-reminder" name="reminders" class="form-control">
                         <option value="10 minutos antes">10 minutos antes</option>
                         <option value="1 hora antes">1 hora antes</option>
                         <option value="1 día antes">1 día antes</option>
@@ -104,24 +104,24 @@
 
                 <!--DESCRIPCIÓN-->
                 <div class="col-sm-12 col-10 text-center mt-3">
-                    <label for="input-description">Descripción</label>
-                    <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
+                    <label for="textarea-description">Descripción</label>
+                    <textarea id="textarea-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>
 
                 <!--BOTÓN CREAR TAREA-->
                 <% if (task.id) { %>
                     <div class="col-12 text-center mt-5">
-                        <button type="button" id="input-sb-modify" class="main-button me-2 mb-4">Modificar Tarea</button>
-                        <button type="button" id="input-sb-delete" data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                        <button id="button-sb-modify" type="button" class="main-button me-2 mb-4">Modificar Tarea</button>
+                        <button id="button-sb-delete" type="button" data-bs-toggle="modal" data-bs-target="#div-modal-confirm" class="dangerous-button">Borrar Tarea</button> 
                     </div> 
 
                     <div class="col-12 text-center">
-                        <button type="button" id="input-sb-save" name="input-sb-save" class="main-button me-2 mb-4">Guardar Cambios</button>
-                        <button type="button" id="input-sb-cancel"  class="dangerous-button ">Cancelar Cambios</button>
+                        <button id="button-sb-save" type="button" class="main-button me-2 mb-4">Guardar Cambios</button>
+                        <button id="button-sb-cancel" type="button" class="dangerous-button ">Cancelar Cambios</button>
                     </div>
                 <% } else { %>                    
                     <div class="col-6 text-center mt-5">
-                        <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
+                        <button id="button-sb-create" type="submit" class="main-button">Crear Tarea</button>
                     </div>
                 <% } %>
             </div>

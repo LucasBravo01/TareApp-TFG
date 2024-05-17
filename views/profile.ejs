@@ -61,13 +61,13 @@
                 <% if (userRewards.length !== 0) { %>
                     <% for (let i = 0; i < userRewards.length; i++) { %>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-3">
-                            <div class="card card-recompensa">
-                                <div class="card-header card-header-recompensa">
+                            <div class="card card-reward">
+                                <div class="card-header card-header-reward">
                                     <img src="/images/rewards/badges/<%= userRewards[i].icon %>.png"
                                         alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
                                 </div>
         
-                                <div class="card-footer card-footer-recompensa">
+                                <div class="card-footer card-footer-reward">
                                     <% if (userRewards[i].count === 0) { %>
                                     <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
                                     <% } else { %>

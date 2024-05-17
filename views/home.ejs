@@ -63,7 +63,7 @@
                     <div class="div-hour"><%= hour %>:00</div>
                     <div>
                         <% if (tasks[hour] && tasks[hour].length > 0) { %> 
-                            <div id="<%= hour %>">
+                            <div>
                                 <% tasks[hour].forEach(t => { %>
                                     <div class="card-task-calendar mb-2 <% if (t.subjectColor) { %><%= t.subjectColor %><% } else { %><%= t.categoryColor %><% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
@@ -86,7 +86,7 @@
                                 <% }) %>
                             </div>
                         <% } else { %>
-                            <div id="<%= hour %>"></div>
+                            <div></div>
                         <% } %>
                     </div>
                 <% } %>
@@ -131,7 +131,7 @@
                             <div class="div-hour">
                                 <% if (day.tasks[hour] && day.tasks[hour].length > 0) { %> 
                                     <% if (day.tasks[hour].length > 1) { %>
-                                        <div id="<%= hour %>">
+                                        <div>
                                             <div class="card-task-calendar azul">
                                                 <a href="/diaria/<%= day.date %>">
                                                     <div class="d-grid align-items-center" style="grid-template-columns: 100%;">
@@ -146,7 +146,7 @@
                                             </div>
                                         </div>
                                     <% } else { %>
-                                        <div id="<%= hour %>">
+                                        <div>
                                             <% day.tasks[hour].forEach(t => { %>
                                                 <div class="card-task-calendar <% if (t.subjectColor) { %><%= t.subjectColor %><% } else { %><%= t.categoryColor %><% } %>">
                                                     <a href="/tareas/tarea/<%= t.id %>">
@@ -170,7 +170,7 @@
                                         </div>
                                     <% } %>
                                 <% } else { %>
-                                    <div id="<%= hour %>"></div>
+                                    <div></div>
                                 <% } %>
                             </div>
                         <% } %> 

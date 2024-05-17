@@ -26,15 +26,15 @@ function initializeTimer(params) {
         numLongBrakeSlots = params.numLongSlots;
     }
 
-    $("#span-minsTimer").text(formatTime(studyTime / 60));
-    $("#span-whichPeriod").html("&#128214;");
-    $("#span-numSlot").text("Periodo actual: " + contSlots);
+    $("#span-mins-timer").text(formatTime(studyTime / 60));
+    $("#span-which-period").html("&#128214;");
+    $("#span-num-slot").text("Periodo actual: " + contSlots);
     $(".div-timer").removeClass("rest-timer");
 
-    $("#form-studySession").hide();
-    $("#accordion-StudySessionList").addClass("d-none");
-    $("#div-newStudySessionButton").hide();
-    $("#div-sb-backToForm").show();
+    $("#form-study-session").hide();
+    $("#div-accordion-study-session-list").addClass("d-none");
+    $("#div-new-study-session-button").hide();
+    $("#div-sb-back-to-form").show();
     $("#div-timer").show();
     $("#div-tasks").show();
 }
@@ -42,19 +42,19 @@ function initializeTimer(params) {
 function startTimer() {
     control = setInterval(timer, 1000);
 
-    $("#input-startTimer").attr("disabled", true);
-    $("#input-stopTimer").removeAttr("disabled");
-    $("#input-resumeTimer").attr("disabled", true);
-    $("#input-resetTimer").removeAttr("disabled");
+    $("#input-start-timer").attr("disabled", true);
+    $("#input-stop-timer").removeAttr("disabled");
+    $("#input-resume-timer").attr("disabled", true);
+    $("#input-reset-timer").removeAttr("disabled");
 }
 
 function stopTimer() {
     clearInterval(control);
 
-    $("#input-startTimer").attr("disabled", true);
-    $("#input-stopTimer").attr("disabled", true);
-    $("#input-resumeTimer").removeAttr("disabled");
-    $("#input-resetTimer").removeAttr("disabled");
+    $("#input-start-timer").attr("disabled", true);
+    $("#input-stop-timer").attr("disabled", true);
+    $("#input-resume-timer").removeAttr("disabled");
+    $("#input-reset-timer").removeAttr("disabled");
 }
 
 function resetTimer() {
@@ -63,30 +63,30 @@ function resetTimer() {
     contSlots = 1;
     isStudytime = true;
 
-    $("#span-minsTimer").text(formatTime(studyTime / 60));
-    $("#span-secsTimer").text("00");
-    $("#span-whichPeriod").html("&#128214;");
-    $("#span-numSlot").text("Periodo actual: " + contSlots);
+    $("#span-mins-timer").text(formatTime(studyTime / 60));
+    $("#span-secs-timer").text("00");
+    $("#span-which-period").html("&#128214;");
+    $("#span-num-slot").text("Periodo actual: " + contSlots);
     $(".div-timer").removeClass("rest-timer");
 
-    $("#input-startTimer").removeAttr("disabled");
-    $("#input-stopTimer").attr("disabled", true);
-    $("#input-resumeTimer").attr("disabled", true);
-    $("#input-resetTimer").attr("disabled", true);
+    $("#input-start-timer").removeAttr("disabled");
+    $("#input-stop-timer").attr("disabled", true);
+    $("#input-resume-timer").attr("disabled", true);
+    $("#input-reset-timer").attr("disabled", true);
 }
 
 function timer() {
     let minutes = Math.floor(timeLeft / 60);
     let seconds = timeLeft % 60;
 
-    $("#span-minsTimer").text(formatTime(minutes));
-    $("#span-secsTimer").text(formatTime(seconds));
+    $("#span-mins-timer").text(formatTime(minutes));
+    $("#span-secs-timer").text(formatTime(seconds));
 
     if(timeLeft > 0) {
         timeLeft--;
     } else {
         clearInterval(control);
-        $('#audio-endTimer')[0].play();
+        $('#audio-end-timer')[0].play();
 
         if (isStudytime) {
             contSlots++;
@@ -95,29 +95,29 @@ function timer() {
             if(contSlots <= numSlots) {
                 if (longBrakeTime !== 0 && (contSlots - 1) % numLongBrakeSlots === 0) {
                     timeLeft = longBrakeTime;
-                    $("#span-whichPeriod").html("&#128164;");;
-                    $("#span-numSlot").text("Siguiente periodo: " + contSlots);
+                    $("#span-which-period").html("&#128164;");;
+                    $("#span-num-slot").text("Siguiente periodo: " + contSlots);
                     $(".div-timer").addClass("rest-timer");
                 } 
                 else{
                     timeLeft = brakeTime;
-                    $("#span-whichPeriod").html("&#128164;");;
-                    $("#span-numSlot").text("Siguiente periodo: " + contSlots);
+                    $("#span-which-period").html("&#128164;");;
+                    $("#span-num-slot").text("Siguiente periodo: " + contSlots);
                     $(".div-timer").addClass("rest-timer");
                 }
                 startTimer();
             }
             else {
-                $("#span-whichPeriod").html("&#9989;");
-                $("#span-numSlot").text("");
+                $("#span-which-period").html("&#9989;");
+                $("#span-num-slot").text("");
                 resetTimer();
             }
         }
         else {
             isStudytime = true;
             timeLeft = studyTime;
-            $("#span-whichPeriod").html("&#128214;");
-            $("#span-numSlot").text("Periodo actual: " + contSlots);
+            $("#span-which-period").html("&#128214;");
+            $("#span-num-slot").text("Periodo actual: " + contSlots);
             $(".div-timer").removeClass("rest-timer");
             startTimer();
         }
@@ -179,24 +179,24 @@ function completeTask(idTask) {
 $(() => {
     // ELEMENTOS HTML
     // Elementos listar sesiones de estudio
-    const divNewStudySessionButton = $("#div-newStudySessionButton");
-    const divStudySessionsList = $("#accordion-StudySessionList");
+    const divNewStudySessionButton = $("#div-new-study-session-button");
+    const divStudySessionsList = $("#div-accordion-study-session-list");
     
-    const buttonNewStudySession = $("#input-sb-newStudySession");
+    const buttonNewStudySession = $("#button-sb-new-study-session");
     const buttonsStartStudySession = $(".button-startStudySession");
 
     // Elementos formulario
-    const formStudySession = $("#form-studySession");
+    const formStudySession = $("#form-study-session");
     const inputName = $("#input-name");
     const inputStudySlot = $("#input-study-slot");
     const inputBrakeSlot = $("#input-brake-slot");
     const inputNumberSlots = $("#input-number-slots");
     const inputLongBrakeSlot = $("#input-long-brake-slot");
     const inputNumberLongBrakeSlot = $("#input-number-long-brake-slots");
-    const buttonCreateStudySession = $("#input-sb-createStudySession");
+    const buttonCreateStudySession = $("#button-sb-create-study-session");
 
     // Elementos listar tareas
-    const checkBoxes = $(".checkbox-completedTask");
+    const checkBoxes = $(".checkbox-completed-task");
 
     // Nueva sesión de estudio -> formulario vacio
     buttonNewStudySession.on("click", (event) => {

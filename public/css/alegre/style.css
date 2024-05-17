@@ -206,7 +206,7 @@ button {
         filter: brightness(85%);
     }
         
-.card-recompensa {
+.card-reward {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -217,12 +217,12 @@ button {
     background-color: #F4F4F2;
 }
 
-.card-header-recompensa, .card-footer-recompensa {
+.card-header-reward, .card-footer-reward {
     border: none;
     background-color: #F4F4F2;
 }
 
-.card-body-recompensa {
+.card-body-reward {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -256,11 +256,11 @@ button {
     align-items: center;
 }
 
-.checkbox-completedTask {
+.checkbox-completed-task {
     transform: scale(1.5);
 }
 
-    .checkbox-completedTask:checked {
+    .checkbox-completed-task:checked {
         border-color: #51A644;
         background-color: #51A644;
     }
@@ -357,7 +357,7 @@ button {
     color: #F1F2F6;
 }
 
-.accordion-studySession {
+.accordion-study-session {
     border-radius: 1rem;
     background-color: #8898FA;
     color: #F1F2F6;
@@ -380,7 +380,7 @@ button {
     width: 9rem !important;
 }
 
-#span-whichPeriod, #span-numSlot{
+#span-which-period, #span-num-slot{
     font-size: 2rem;
 }
 

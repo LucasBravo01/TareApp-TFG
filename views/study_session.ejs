@@ -20,8 +20,8 @@
     <div class="container">
         <!--TÍTULO Y BOTÓN DE ATRÁS-->
         <div>
-            <div id="div-sb-backToForm" style="display: none;" class="float-start">
-                <button type="button"  data-bs-toggle="modal" data-bs-target="#modal-confirm" class="main-button">Atrás</button> 
+            <div id="div-sb-back-to-form" style="display: none;" class="float-start">
+                <button type="button"  data-bs-toggle="modal" data-bs-target="#div-modal-confirm" class="main-button">Atrás</button> 
             </div>
             <h1 class="title" style="text-align: center;">
                 SESIÓN DE ESTUDIO
@@ -29,28 +29,28 @@
         </div>
 
         <!--NUEVA SESIÓN DE ESTUDIO-->
-        <div id="div-newStudySessionButton" class="row mt-5 mb-3">
+        <div id="div-new-study-session-button" class="row mt-5 mb-3">
             <div class="col-md-8 col-sm-10 col-12 text-start">
-                <button type="button" id="input-sb-newStudySession" class="new-task-button">
+                <button id="button-sb-new-study-session" type="button" class="new-task-button">
                     <span>Nueva sesión de estudio</span>
                 </button>
             </div>
         </div>
 
         <!--LISTAR SESIONES DE ESTUDIO-->
-        <div id="accordion-StudySessionList" class="accordion d-flex flex-column align-items-center">
+        <div id="div-accordion-study-session-list" class="accordion d-flex flex-column align-items-center">
             <% if(studySessions.length === 0) { %> 
                 <div class="col-12 text-center mt-3">
                     <p>No hay sesiones de estudio</p>
                 </div>
             <% } else { %> 
                 <% studySessions.forEach( (s, i) => { %>
-                    <div class="col-md-8 col-sm-10 col-12 mb-3 me-2"  type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= i %>" aria-expanded="false" aria-controls="collapse<%= i %>">
-                        <button class="accordion-button collapsed accordion-studySession">
+                    <div class="col-md-8 col-sm-10 col-12 mb-3 me-2"  type="button" data-bs-toggle="collapse" data-bs-target="#div-collapse<%= i %>" aria-expanded="false" aria-controls="div-collapse<%= i %>">
+                        <button class="accordion-button collapsed accordion-study-session">
                             <span class="accordion-text mx-2"><%= s.name %></span> 
                         </button>
     
-                        <div id="collapse<%= i %>" class="accordion-collapse collapse" data-bs-parent="#accordion-StudySessionList">
+                        <div id="div-collapse<%= i %>" class="accordion-collapse collapse" data-bs-parent="#div-accordion-study-session-list">
                             <div class="accordion-body d-flex flex-column">
                                 <span><strong>Tiempo de estudio:</strong> <%= s.studySlot %> minutos</span>
                                 <span><strong>Tiempo de descanso:</strong> <%= s.brakeSlot %> minutos</span>
@@ -58,7 +58,7 @@
                                 <span><strong>Tiempo de descanso largo:</strong> <%= s.longBrakeSlot %> minutos</span>
                                 <span><strong>Número de periodos para realizar un descanso largo:</strong> <%= s.numLongSlots %> periodos</span>
                                 <div class="mt-2 d-flex justify-content-center">
-                                    <button type="button" id="input-start-<%= i %>" class="button main-button button-startStudySession" data-studysession="<%= JSON.stringify(s) %>">Iniciar sesión de estudio</button>
+                                    <button type="button" class="button main-button button-startStudySession" data-studysession="<%= JSON.stringify(s) %>">Iniciar sesión de estudio</button>
                                 </div>
                             </div>
                         </div>
@@ -68,24 +68,24 @@
         </div>
 
         <!--SELECCIÓN/CREACIÓN DE SESIÓN DE ESTUDIO-->
-        <form id="form-studySession" style="display: none;">
+        <form id="form-study-session" style="display: none;">
             <div class="row justify-content-center mt-3 mb-3">
                 <!--NOMBRE-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-name" id="label-input-name">Nombre nueva sesión *</label>
-                    <input type="text" id="input-name" name="name" class="form-control">
+                    <label for="input-name">Nombre nueva sesión *</label>
+                    <input id="input-name" type="text" name="name" class="form-control">
                 </div>
 
                 <!--NÚMERO DE PERIODOS-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-number-slots">Número de periodos *</label>
-                    <input type="number" id="input-number-slots" name="number-slots" min="1" max="10" step="1" class="form-control">
+                    <input id="input-number-slots" type="number" name="number-slots" min="1" max="10" step="1" class="form-control">
                 </div>
 
                 <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
-                    <input type="number" id="input-number-long-brake-slots" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
+                    <input id="input-number-long-brake-slots" type="number" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
                 </div>
             </div>
                 
@@ -93,25 +93,25 @@
                 <!--TIEMPO DE ESTUDIO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
-                    <input type="number" id="input-study-slot" name="study-slot" min="1" max="90" step="5" class="form-control">
+                    <input id="input-study-slot" type="number" name="study-slot" min="1" max="90" step="5" class="form-control">
                 </div>
 
                 <!--TIEMPO DE DESCANSO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
-                    <input type="number" id="input-brake-slot" name="brake-slot" min="1" max="90" step="5" class="form-control">
+                    <input id="input-brake-slot" type="number" name="brake-slot" min="1" max="90" step="5" class="form-control">
                 </div>
                     
                 <!--TIEMPO DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
-                    <input type="number" id="input-long-brake-slot" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
+                    <input id="input-long-brake-slot" type="number" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
                 </div>
             </div>
 
             <div class="row justify-content-center mt-3 mb-3">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-10 text-center mt-3 me-3">
-                    <button type="submit" id="input-sb-createStudySession" class="button main-button">Iniciar y guardar sesión de estudio</button>
+                    <button id="button-sb-create-study-session" type="submit" class="button main-button">Iniciar y guardar sesión de estudio</button>
                 </div>
             </div>
         </form>    
@@ -128,22 +128,22 @@
 
                 <div class="d-flex flex-column justify-content-center div-timer">
                     <div>
-                        <span id="span-minsTimer">00</span>:<span id="span-secsTimer">00</span>
+                        <span id="span-mins-timer">00</span>:<span id="span-secs-timer">00</span>
                     </div>
                     <div class="subTemp text-center d-flex flex-column">
-                        <span id="span-whichPeriod" class="mx-3"></span>
-                        <span id="span-numSlot" class="mx-3"></span>
+                        <span id="span-which-period" class="mx-3"></span>
+                        <span id="span-num-slot" class="mx-3"></span>
                     </div>
                 </div>
     
                 <div class="row justify-content-center align-items-center timer-buttons d-flex">
-                    <button type="button" id="input-startTimer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>">Iniciar</button>
-                    <button type="button" id="input-stopTimer" onclick="stopTimer();" class="button view-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Pausar</button>
-                    <button type="button" id="input-resumeTimer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Continuar</button>
-                    <button type="button" id="input-resetTimer" onclick="resetTimer();" class="button dangerous-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Resetear</button>
+                    <button type="button" id="input-start-timer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>">Iniciar</button>
+                    <button type="button" id="input-stop-timer" onclick="stopTimer();" class="button view-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Pausar</button>
+                    <button type="button" id="input-resume-timer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Continuar</button>
+                    <button type="button" id="input-reset-timer" onclick="resetTimer();" class="button dangerous-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Resetear</button>
                 </div>
 
-                <audio id="audio-endTimer" src="/sounds/end_timer_sound.mp3" preload="auto"></audio>
+                <audio id="audio-end-timer" src="/sounds/end_timer_sound.mp3" preload="auto"></audio>
             </div>
 
             <!--TAREAS-->
@@ -155,12 +155,12 @@
                 </div>
 
                 <!--LISTA DE TAREAS PENDIENTES-->
-                <div id="accordion-tasksNotCompleted" class="accordion">
+                <div id="div-accordion-tasks-not-completed" class="accordion">
                     <% if (tasks.length !== 0) { %>
                         <% tasks.forEach( t=> { %>
                             <% if (!t.completed) { %>
                                 <div class="mb-3">
-                                    <button class="accordion-button collapsed accordion-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subjectColor) { %> <%= t.subjectColor %> <% } else { %> <%= t.categoryColor %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= t.id %>" aria-expanded="false" aria-controls="collapse<%= t.id %>">
+                                    <button class="accordion-button collapsed accordion-task <% if(session.currentUser.configuration.theme === "alegre") { if (t.subjectColor) { %> <%= t.subjectColor %> <% } else { %> <%= t.categoryColor %> <% } } else { %> main-background <% } %>" type="button" data-bs-toggle="collapse" data-bs-target="#div-collapse<%= t.id %>" aria-expanded="false" aria-controls="div-collapse<%= t.id %>">
                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
                                             <span class="accordion-icon"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                         <% } else { %>
@@ -170,7 +170,7 @@
                                         <span class="accordion-text mx-2 "><%= t.title %></span>
                                     </button>
     
-                                    <div id="collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#accordion-tasksNotCompleted">
+                                    <div id="div-collapse<%= t.id %>" class="accordion-collapse collapse" data-bs-parent="#div-accordion-tasks-not-completed">
                                         <div class="accordion-body d-flex flex-column">
                                             <span><strong>Fecha y hora de entrega:</strong> <%= t.date %> <%= t.time %></span>
                                             <% if(t.category === "Escolar") { %>
@@ -185,7 +185,7 @@
                                             <% } %>
                                             <div>
                                                 <label for="input-completed-<%= t.id %>"><strong>Completar tarea</strong></label>
-                                                <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= t.done ? 'checked' : '' %> data-task="<%= JSON.stringify(t) %>">
+                                                <input id="input-completed-<%= t.id %>" name="completed" type="checkbox" class="form-check-input checkbox-completed-task mx-2" <%= t.done ? 'checked' : '' %> data-task="<%= JSON.stringify(t) %>">
                                             </div>
                                         </div>
                                     </div>

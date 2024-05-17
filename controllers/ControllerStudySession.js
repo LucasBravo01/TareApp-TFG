@@ -48,7 +48,7 @@ class ControllerStudySession {
                 errorHandler.manageAJAXError("1", next);
             }
 
-            let studysession = {
+            let studySession = {
                 name: req.body.name,
                 idUser: req.session.currentUser.id,
                 studySlot: req.body.studySlot,
@@ -58,7 +58,7 @@ class ControllerStudySession {
                 numLongSlots: req.body.numLongSlots
             }
 
-            this.daoStu.insertStudySession(studysession, (error) => {
+            this.daoStu.insertStudySession(studySession, (error) => {
                 if (error) {
                     errorHandler.manageAJAXError(error, next);
                 } else {
