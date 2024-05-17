@@ -31,8 +31,8 @@
 
         <form id="form-task" action="/tareas/crearTareaForm" method="post">
             <div class="row justify-content-center mt-3 mb-3">
-                <input id="input-id-task" type="hidden" name="idTask" value="<%= task.id %>">
-                <input id="input-id-user" type="hidden" name="id" value="<%= session.currentUser.id %>">
+                <input id="input-id-task" name="idTask"  type="hidden" value="<%= task.id %>">
+                <input id="input-id-user" name="id" type="hidden" value="<%= session.currentUser.id %>">
 
                 <!--TAREA COMPLETADA-->
                 <% if (task.id) { %>
@@ -45,25 +45,25 @@
                 <!--TITULO-->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-title" type="text" name="title" class="form-control mt-1" value="<%= task.title %>">
+                    <input id="input-title" name="title" type="text" value="<%= task.title %>" class="form-control mt-1">
                 </div>
 
                 <!--FECHA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-date">Fecha de entrega<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-date" type="date" name="date" class="form-control" value="<%= task.date %>">  
+                    <input id="input-date" name="date" type="date" value="<%= task.date %>" class="form-control">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-hour">Hora:<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-hour" type="time" name="time" class="form-control" value="<%= task.time %>">
+                    <input id="input-hour" name="time" type="time" value="<%= task.time %>" class="form-control">
                 </div>
 
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" >
+                    <input id="input-duration" name="duration" type="number" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" class="form-control">
                 </div>
                 
 
@@ -112,7 +112,7 @@
                 <% if (task.id) { %>
                     <div class="col-12 text-center mt-5">
                         <button id="button-sb-modify" type="button" class="main-button me-2 mb-4">Modificar Tarea</button>
-                        <button id="button-sb-delete" type="button" data-bs-toggle="modal" data-bs-target="#div-modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                        <button id="button-sb-delete" type="button" class="dangerous-button" data-bs-toggle="modal" data-bs-target="#div-modal-confirm">Borrar Tarea</button> 
                     </div> 
 
                     <div class="col-12 text-center">

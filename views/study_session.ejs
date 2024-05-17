@@ -20,8 +20,8 @@
     <div class="container">
         <!--TÍTULO Y BOTÓN DE ATRÁS-->
         <div>
-            <div id="div-sb-back-to-form" style="display: none;" class="float-start">
-                <button type="button"  data-bs-toggle="modal" data-bs-target="#div-modal-confirm" class="main-button">Atrás</button> 
+            <div id="div-sb-back-to-form" class="float-start" style="display: none;">
+                <button type="button" class="main-button" data-bs-toggle="modal" data-bs-target="#div-modal-confirm">Atrás</button> 
             </div>
             <h1 class="title" style="text-align: center;">
                 SESIÓN DE ESTUDIO
@@ -73,19 +73,19 @@
                 <!--NOMBRE-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-name">Nombre nueva sesión *</label>
-                    <input id="input-name" type="text" name="name" class="form-control">
+                    <input id="input-name" name="name" type="text" class="form-control">
                 </div>
 
                 <!--NÚMERO DE PERIODOS-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-number-slots">Número de periodos *</label>
-                    <input id="input-number-slots" type="number" name="number-slots" min="1" max="10" step="1" class="form-control">
+                    <input id="input-number-slots" name="number-slots" type="number" min="1" max="10" step="1" class="form-control">
                 </div>
 
                 <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
-                    <input id="input-number-long-brake-slots" type="number" name="number-long-brake-slots" min="0" max="10" step="1" class="form-control">
+                    <input id="input-number-long-brake-slots" name="number-long-brake-slots" type="number" min="0" max="10" step="1" class="form-control">
                 </div>
             </div>
                 
@@ -93,19 +93,19 @@
                 <!--TIEMPO DE ESTUDIO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-study-slot">Duración periodo de estudio (minutos) *</label>
-                    <input id="input-study-slot" type="number" name="study-slot" min="1" max="90" step="5" class="form-control">
+                    <input id="input-study-slot" name="study-slot" type="number" min="1" max="90" step="5" class="form-control">
                 </div>
 
                 <!--TIEMPO DE DESCANSO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-brake-slot">Duración periodo de descanso (minutos) *</label>
-                    <input id="input-brake-slot" type="number" name="brake-slot" min="1" max="90" step="5" class="form-control">
+                    <input id="input-brake-slot" name="brake-slot" type="number" min="1" max="90" step="5" class="form-control">
                 </div>
                     
                 <!--TIEMPO DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
-                    <input id="input-long-brake-slot" type="number" name="long-brake-slot" min="0" max="90" step="5" class="form-control">
+                    <input id="input-long-brake-slot" name="long-brake-slot" type="number" min="0" max="90" step="5" class="form-control">
                 </div>
             </div>
 
@@ -137,10 +137,10 @@
                 </div>
     
                 <div class="row justify-content-center align-items-center timer-buttons d-flex">
-                    <button type="button" id="input-start-timer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>">Iniciar</button>
-                    <button type="button" id="input-stop-timer" onclick="stopTimer();" class="button view-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Pausar</button>
-                    <button type="button" id="input-resume-timer" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Continuar</button>
-                    <button type="button" id="input-reset-timer" onclick="resetTimer();" class="button dangerous-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Resetear</button>
+                    <button id="button-start-timer" type="button" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>">Iniciar</button>
+                    <button id="button-stop-timer" type="button" onclick="stopTimer();" class="button view-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Pausar</button>
+                    <button id="button-resume-timer" type="button" onclick="startTimer();" class="button view-non-selected-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Continuar</button>
+                    <button id="button-reset-timer" type="button" onclick="resetTimer();" class="button dangerous-button timer-button <% if (session.currentUser.configuration.fontSize === "grande") { %>timer-button-big<% } %>" disabled>Resetear</button>
                 </div>
 
                 <audio id="audio-end-timer" src="/sounds/end_timer_sound.mp3" preload="auto"></audio>
@@ -164,7 +164,7 @@
                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
                                             <span class="accordion-icon"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                         <% } else { %>
-                                            <img class="accordion-img" src="/images/subjects-categories/<% if(t.subjectPhoto){ %><%= t.subjectPhoto %><% }else{ %><%= t.categoryPhoto %><% }%>" alt="Icono categoría" width="15"/>
+                                            <img src="/images/subjects-categories/<% if(t.subjectPhoto){ %><%= t.subjectPhoto %><% }else{ %><%= t.categoryPhoto %><% }%>" alt="Icono categoría" width="15" class="accordion-img"/>
                                         <% } %>
                                         
                                         <span class="accordion-text mx-2 "><%= t.title %></span>

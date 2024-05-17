@@ -20,7 +20,7 @@
                 <!--FOTO-->
                 <div class="col-md-6 col-12 text-center mt-2 me-3">
                     <% if (session.currentUser.hasProfilePic) { %>
-                        <img id="img-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil">
+                        <img id="img-profile" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" class="user-pic">
                     <% } else { %>
                         <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default_user.png" alt="Foto de perfil">
                     <% } %>
@@ -29,23 +29,20 @@
                 <!--NOMBRE-->
                 <div class="col-md-6 col-12 text-center mt-5">
                     <label for="input-name" class="form-label" style="font-weight: bold;">Nombre completo</label>
-                    <input id="input-name" name="nameUser" type="text" class="form-control"
-                        value="<%= user.name %> <%= user.lastName1 %> <%= user.lastName2 %>" disabled>
+                    <input id="input-name" name="nameUser" type="text" value="<%= user.name %> <%= user.lastName1 %> <%= user.lastName2 %>" class="form-control" disabled>
                 </div>
             </div>
             <div class="div-profile">
                 <!--USUARIO-->
                 <div class="col-md-6 col-12 text-center mt-5 me-3">
                     <label for="input-user" class="form-label" style="font-weight: bold;">Usuario</label>
-                    <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
-                        disabled>
+                    <input id="input-user" name="user" type="text" value="<%= user.username %>" class="form-control" disabled>
                 </div>
 
                 <!--ROL-->
                 <div class="col-md-6 col-12 text-center mt-5">
                     <label for="input-rol" class="form-label" style="font-weight: bold;">Rol</label>
-                    <input id="input-rol" name="rol" type="text" class="form-control" value="<%= user.rol %>"
-                        disabled>
+                    <input id="input-rol" name="rol" type="text" value="<%= user.rol %>" class="form-control" disabled>
                 </div>
             </div>
 
@@ -63,8 +60,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-3">
                             <div class="card card-reward">
                                 <div class="card-header card-header-reward">
-                                    <img src="/images/rewards/badges/<%= userRewards[i].icon %>.png"
-                                        alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
+                                    <img src="/images/rewards/badges/<%= userRewards[i].icon %>.png" alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
                                 </div>
         
                                 <div class="card-footer card-footer-reward">

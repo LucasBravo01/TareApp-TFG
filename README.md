@@ -35,8 +35,6 @@
     4. Border – border, border-radius... 
     5. Color – background-color, color... 
     6. Otros 
-- En HTML, al indicar las clases que tiene un elemento, primero se ponen las clases propias creadas 
-por nosotros, luego se sigue el orden del punto anterior 
 - Orden de las etiquetas HTML: 
 1.  id 
 2. Otros 

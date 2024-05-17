@@ -42,19 +42,19 @@ function initializeTimer(params) {
 function startTimer() {
     control = setInterval(timer, 1000);
 
-    $("#input-start-timer").attr("disabled", true);
-    $("#input-stop-timer").removeAttr("disabled");
-    $("#input-resume-timer").attr("disabled", true);
-    $("#input-reset-timer").removeAttr("disabled");
+    $("#button-start-timer").attr("disabled", true);
+    $("#button-stop-timer").removeAttr("disabled");
+    $("#button-resume-timer").attr("disabled", true);
+    $("#button-reset-timer").removeAttr("disabled");
 }
 
 function stopTimer() {
     clearInterval(control);
 
-    $("#input-start-timer").attr("disabled", true);
-    $("#input-stop-timer").attr("disabled", true);
-    $("#input-resume-timer").removeAttr("disabled");
-    $("#input-reset-timer").removeAttr("disabled");
+    $("#button-start-timer").attr("disabled", true);
+    $("#button-stop-timer").attr("disabled", true);
+    $("#button-resume-timer").removeAttr("disabled");
+    $("#button-reset-timer").removeAttr("disabled");
 }
 
 function resetTimer() {
@@ -69,10 +69,10 @@ function resetTimer() {
     $("#span-num-slot").text("Periodo actual: " + contSlots);
     $(".div-timer").removeClass("rest-timer");
 
-    $("#input-start-timer").removeAttr("disabled");
-    $("#input-stop-timer").attr("disabled", true);
-    $("#input-resume-timer").attr("disabled", true);
-    $("#input-reset-timer").attr("disabled", true);
+    $("#button-start-timer").removeAttr("disabled");
+    $("#button-stop-timer").attr("disabled", true);
+    $("#button-resume-timer").attr("disabled", true);
+    $("#button-reset-timer").attr("disabled", true);
 }
 
 function timer() {
