@@ -53,6 +53,10 @@ function routerConfig(conTas, conRem) {
         check("reminders", "2").custom((recType) => {
             return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
         }),
+        // Duración mayor a 0
+        check("duration", "18").custom((duration) => {
+            return (duration > 0)
+        }),
         conRem.unreadReminders,
         conTas.dataForm,
         conTas.createTask
@@ -76,6 +80,10 @@ function routerConfig(conTas, conRem) {
         // Campos de enums válidos
         check("reminder", "2").custom((recType) => {
             return (recType === "10 minutos antes" || recType === "1 hora antes" ||recType === "1 día antes" || recType === "Desde 2 días antes" || recType === "Desde 1 semana antes" || recType === "No recordarmelo")
+        }),
+        // Duración mayor a 0
+        check("duration", "18").custom((duration) => {
+            return (duration > 0)
         }),
         conRem.unreadReminders,
         conTas.dataForm, 

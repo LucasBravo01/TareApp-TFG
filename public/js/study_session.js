@@ -201,9 +201,6 @@ $(() => {
     // Nueva sesión de estudio -> formulario vacio
     buttonNewStudySession.on("click", (event) => {
         event.preventDefault();
-        console.log("New");
-        console.log("Div:", divStudySessionsList);
-
         divNewStudySessionButton.hide();
         divStudySessionsList.addClass("d-none");
         formStudySession.show();

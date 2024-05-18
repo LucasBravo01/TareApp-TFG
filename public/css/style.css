@@ -206,6 +206,10 @@ button {
     font-size: 2rem !important;
 }
 
+.accordion-text {
+    font-size: 1.5rem;
+}
+
 .timer-buttons{
     flex-direction: row;
 }
@@ -333,10 +337,6 @@ button {
     .accordion-img {
         height: 15px; 
         width: 15px;
-    }
-
-    .accordion-text {
-        font-size: 1rem;
     }
 
     .subTemp{

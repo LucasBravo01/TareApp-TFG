@@ -113,6 +113,11 @@ function generateError(cod) {
             title = "Elección del tipo de recompensa";
             message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";
         } break;
+        case 18: {
+            code = 400;
+            title = "Duración estimada no válida";
+            message = "Asegúrate de que la duración estimada es mayor a 0.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";

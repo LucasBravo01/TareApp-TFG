@@ -4,6 +4,7 @@
 function validateParams(params, currentDate, task) {
     let taskDate = new Date(`${params.date}T${params.hour}:00`);
     let error = {};
+    console.log(params.duration);
     // Campos no vacíos
     if (params.title === "" || params.date === "" || params.hour === "" || params.category === ""|| params.duration === "") {
         error.code = 400;
@@ -29,6 +30,13 @@ function validateParams(params, currentDate, task) {
         error.code = 400;
         error.title = "Fecha y/o hora no válidas";
         error.message = "Asegúrate de que la fecha y hora no sean anteriores a la actual.";
+        return error;
+    }
+    // Comprobar si la fecha y hora son posteriores a la actual
+    else if (params.duration < 1) {
+        error.code = 400;
+        error.title = "Duración estimada no válida";
+        error.message = "Asegúrate de que la duración estimada es mayor a 0.";
         return error;
     }
     else {
