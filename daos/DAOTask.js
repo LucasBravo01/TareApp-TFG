@@ -12,8 +12,8 @@ class DAOTask {
         // INSERTs
         this.insertTask = this.insertTask.bind(this);
         // UPDATEs
-        this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
         this.updateTask = this.updateTask.bind(this);
+        this.markTaskAsCompleted = this.markTaskAsCompleted.bind(this);
     }
 
     // SELECTs
@@ -40,7 +40,7 @@ class DAOTask {
                                 id: rows[0].id,
                                 enabled: rows[0].enabled,
                                 idCreator: rows[0].id_creator,
-                                idDestination: rows[0].id_receiver,
+                                idReceiver: rows[0].id_receiver,
                                 title: rows[0].title,
                                 date: utils.formatDate(rows[0].date),
                                 time: utils.formatHour(rows[0].time),

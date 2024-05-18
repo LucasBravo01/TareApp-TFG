@@ -9,6 +9,7 @@ class DAOReward {
         this.readAllRewards = this.readAllRewards.bind(this);
         this.readRewardsByIdUser = this.readRewardsByIdUser.bind(this);
         this.readRewardsById = this.readRewardsById.bind(this);
+        this.readRewardsByTask = this.readRewardsByTask.bind(this);
     }
 
     // SELECTs
@@ -99,14 +100,14 @@ class DAOReward {
         });
     }
 
-    // Leer recompensas dado un id_reward de una tarea
-    readRewardsByTask(id, callback) {
+    // Leer recompensas dado un id de recompensa de una tarea
+    readRewardsByTask(idReward, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
                 let querySQL = "SELECT * FROM reward where id = ?;";
-                connection.query(querySQL, [id], (error, rows) => {
+                connection.query(querySQL, [idReward], (error, rows) => {
                     connection.release();
                     if (error) {
                         callback(-1);

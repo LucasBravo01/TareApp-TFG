@@ -138,7 +138,7 @@ class ControllerUser {
                                                         next({
                                                             ajax: false,
                                                             status: 200,
-                                                            redirect: "tasks",
+                                                            redirect: "home",
                                                             data: {
                                                                 response: undefined,
                                                                 generalInfo: {
@@ -187,21 +187,21 @@ class ControllerUser {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             let form = {
-                id_user: req.session.currentUser.id,
-                font_size: req.body.font_size,
+                idUser: req.session.currentUser.id,
+                fontSize: req.body.fontSize,
                 theme: req.body.theme,
-                time_preference: req.body.time_preference,
-                reward_type: req.body.reward,
+                timePreference: req.body.timePreference,
+                rewardType: req.body.rewardType,
             }
             this.daoCon.updateConfiguration(form, (error) => {
                 if (error) {
                     errorHandler.manageAJAXError(error, next);
                 }
                 else {
-                    if (form.font_size === req.session.currentUser.configuration.font_size 
+                    if (form.fontSize === req.session.currentUser.configuration.fontSize 
                         && form.theme === req.session.currentUser.configuration.theme 
-                        && form.time_preference === req.session.currentUser.configuration.time_preference
-                        && form.reward_type === req.session.currentUser.configuration.reward_type ) {
+                        && form.timePreference === req.session.currentUser.configuration.timePreference
+                        && form.rewardType === req.session.currentUser.configuration.rewardType ) {
                             errorHandler.manageAJAXError(15, next);
                     }
                     else {

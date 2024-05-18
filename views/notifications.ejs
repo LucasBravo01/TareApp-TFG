@@ -4,6 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
     <script src="/js/notifications.js"></script>
@@ -28,8 +29,8 @@
                 <hr class="separator-line" />
             </div>
             <% reminders.forEach( r=> { %>
-                <% if(r.sent_date.getDate() === currentDate.getDate()) { %>
-                    <%- include("fragments/cardNotification", { r: r }) %>
+                <% if(r.sentDate.getDate() === currentDate.getDate()) { %>
+                    <%- include("fragments/card_notification", { r: r }) %>
                 <% } %>
             <% }); %>
             <!--SECCIÓN ANTERIORES-->
@@ -38,13 +39,12 @@
                 <hr class="separator-line" />
             </div>
             <% reminders.forEach( r=> { %>
-                <% if(r.sent_date.getDate() !== currentDate.getDate()) { %>
-                    <%- include("fragments/cardNotification", { r: r }) %>
+                <% if(r.sentDate.getDate() !== currentDate.getDate()) { %>
+                    <%- include("fragments/card_notification", { r: r }) %>
                 <% } %>
             <% }); %>
         </div>
     </div>
-    <!-- text to voice button -->
 </body>
 
 </html>

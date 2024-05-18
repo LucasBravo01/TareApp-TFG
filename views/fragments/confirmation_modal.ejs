@@ -1,16 +1,16 @@
 <!--MODAL CONFIRMACIÓN-->
-<div class="modal fade" id="modal-confirm" tabindex="-1" aria-labelledby="modal-confirm" aria-hidden="true">
+<div id="div-modal-confirm" class="modal fade" tabindex="-1" aria-labelledby="div-modal-confirm" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel"><%= title %></h1>
+                <h1 class="modal-title fs-5"><%= title %></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <%= message %>
             </div>
             <div class="modal-footer">
-                <button type="button" data-bs-dismiss="modal" class="button main-button"><%= cancelOption %></button>
+                <button type="button" class="button main-button" data-bs-dismiss="modal"><%= cancelOption %></button>
                 <button type="button" onclick="window.location.href='<%= url %>'" class="button dangerous-button"><%= submitOption %></button>
             </div>
         </div>

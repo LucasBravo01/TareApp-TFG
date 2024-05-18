@@ -53,7 +53,7 @@ class controllerReminder {
 
     // POSTs
     // Activar las notificaciones
-    subscribe(req, res, next) { // TODO  Revisar otras opciones
+    subscribe(req, res, next) {
         const subscription = req.body.subscription;
         this.daoSubs.insertSubscription(req.session.currentUser.id, subscription, (error) => {
             if (error) {
@@ -103,7 +103,7 @@ class controllerReminder {
         const notificationPayload = {
             notification: {
                 title: 'TareApp',
-                icon: '/images/logos/logo-192x192.png' // Ruta al icono de la notificación
+                icon: '/images/logos/logo_192x192.png' // Ruta al icono de la notificación
             }
         };
 

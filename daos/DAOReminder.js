@@ -73,7 +73,7 @@ class DAOReminder {
                             let reminder = {
                                 message: row.message,
                                 idActivity: row.id_activity,
-                                sent_date: row.sent_date
+                                sentDate: row.sent_date
                             }
                             reminders.push(reminder);
                         });
@@ -119,7 +119,7 @@ class DAOReminder {
                 callback(-1);
             } else {
                 let querySQL = "INSERT INTO reminder (id_receiver, message, sent_date, id_activity) VALUES (?,?,?,?);";
-                connection.query(querySQL, [reminder.id, reminder.message, reminder.sent_date, reminder.idActivity], (error) => {
+                connection.query(querySQL, [reminder.id, reminder.message, reminder.sentDate, reminder.idActivity], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1);
@@ -176,13 +176,13 @@ class DAOReminder {
     }
 
     //Borrar Recordatorios
-    deleteRemindersByTaskId(taskId, callback) {
+    deleteRemindersByTaskId(idTask, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
                 let querySQL = "DELETE FROM reminder WHERE id_activity = ?;";
-                connection.query(querySQL, [taskId], (error) => {
+                connection.query(querySQL, [idTask], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1);

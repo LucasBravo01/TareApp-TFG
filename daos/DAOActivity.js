@@ -11,8 +11,8 @@ class DAOActivity {
         // INSERTs
         this.insertActivity = this.insertActivity.bind(this);
         // UPDATEs
-        this.deleteActivity = this.deleteActivity.bind(this);
         this.updateActivity = this.updateActivity.bind(this);
+        this.deleteActivity = this.deleteActivity.bind(this);
     }
 
     // SELECTs
@@ -36,33 +36,33 @@ class DAOActivity {
                                 // Activity
                                 id: row.id,
                                 enabled: row.enabled,
-                                id_creator: row.id_creator,
-                                id_receiver: row.id_receiver,
+                                idCreator: row.id_creator,
+                                idReceiver: row.id_receiver,
                                 title: row.title,
                                 date: row.date,
                                 time: row.time,
                                 description: row.description,
                                 reminder: row.reminder,
                                 category: row.category,
-                                id_subject: row.id_subject,
+                                idSubject: row.id_subject,
 
                                 // Task
-                                id_activity: row.id_activity,
+                                idActivity: row.id_activity,
                                 completed: row.completed,
                                 duration: row.duration,
-                                id_event: row.id_event,
-                                id_reward: row.id_reward,
+                                idEvent: row.id_event,
+                                idReward: row.id_reward,
 
                                 // Category
-                                category_icon: row.category_icon,
-                                category_color: row.category_color,
-                                category_photo: row.category_photo,
+                                categoryIcon: row.category_icon,
+                                categoryColor: row.category_color,
+                                categoryPhoto: row.category_photo,
 
                                 // Subject
                                 name: row.name,
-                                subject_icon: row.subject_icon,
-                                subject_color: row.subject_color,
-                                subject_photo: row.subject_photo
+                                subjectIcon: row.subject_icon,
+                                subjectColor: row.subject_color,
+                                subjectPhoto: row.subject_photo
                             }
                             activities.push(activity);
                         });

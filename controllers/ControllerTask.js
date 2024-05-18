@@ -53,7 +53,7 @@ class ControllerTask {
                         next({
                             ajax: false,
                             status: 200,
-                            redirect: "tasks",
+                            redirect: "home",
                             data: {
                                 response: undefined,
                                 generalInfo: {
@@ -92,7 +92,7 @@ class ControllerTask {
                             next({
                                 ajax: false,
                                 status: 200,
-                                redirect: "tasks",
+                                redirect: "home",
                                 data: {
                                     response: undefined,
                                     generalInfo: {
@@ -134,7 +134,7 @@ class ControllerTask {
                             next({
                                 ajax: false,
                                 status: 200,
-                                redirect: "tasks",
+                                redirect: "home",
                                 data: {
                                     response: undefined,
                                     generalInfo: {
@@ -162,7 +162,7 @@ class ControllerTask {
         next({
             ajax: false,
             status: 200,
-            redirect: "createTask",
+            redirect: "task",
             data: {
                 response: undefined,
                 generalInfo: {
@@ -183,7 +183,7 @@ class ControllerTask {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    if (task.idDestination !== req.session.currentUser.id) {
+                    if (task.idReceiver !== req.session.currentUser.id) {
                         errorHandler.manageError(-3, {}, "error", next);
                     }
                     else {
@@ -196,7 +196,7 @@ class ControllerTask {
                                 next({
                                     ajax: false,
                                     status: 200,
-                                    redirect: "createTask",
+                                    redirect: "task",
                                     data: {
                                         response: undefined,
                                         generalInfo: {
@@ -242,28 +242,28 @@ class ControllerTask {
                 if (error) {
                     errorHandler.manageError(error, {}, "error", next);
                 } else if (!result) {
-                    errorHandler.manageError(10, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                    errorHandler.manageError(10, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
                 } else {
                     if (req.body.category === "" && req.body.subject !== undefined) {
-                        errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                        errorHandler.manageError(11, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
                     } else {
                         let currentDate = new Date();
                         let taskDate = new Date(`${req.body.date}T${req.body.time}:00`);
                         // Comprobar si la fecha y hora son posteriores a la actual
                         if (taskDate <= currentDate) {
-                            errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                            errorHandler.manageError(12, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
                         } else {
                             this.daoCat.readCategoryByName(req.body.category, (error, result) => {
                                 if (error) {
                                     errorHandler.manageError(error, {}, "error", next);
                                 } else if (!result) {
-                                    errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                    errorHandler.manageError(13, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
                                 } else {
                                     this.daoSub.readSubjectById(req.body.subject, (error, result) => {
                                         if (error) {
                                             errorHandler.manageError(error, {}, "error", next);
                                         } else if (!result && req.body.category === "Escolar") {
-                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+                                            errorHandler.manageError(14, { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
                                         } else {
                                             let form = {
                                                 id: req.body.id,
@@ -303,7 +303,7 @@ class ControllerTask {
                                                                                     next({
                                                                                         ajax: false,
                                                                                         status: 200,
-                                                                                        redirect: "tasks",
+                                                                                        redirect: "home",
                                                                                         data: {
                                                                                             response: { code: 200, title: "Tarea Creada Con Éxito.", message: "Enhorabuena tu tarea ha sido creada correctamente." },
                                                                                             generalInfo: {
@@ -339,7 +339,7 @@ class ControllerTask {
             });
         }
         else {
-            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "createTask", next);
+            errorHandler.manageError(parseInt(errors.array()[0].msg), { response: undefined, generalInfo: { remindersUnread: req.unreadReminders }, data: req.dataTask, task: {} }, "task", next);
         }
     }
 
@@ -463,7 +463,7 @@ class ControllerTask {
                     errorHandler.manageError(error, {}, "error", next);
                 }
                 else {
-                    if (task.idDestination !== req.session.currentUser.id) {
+                    if (task.idReceiver !== req.session.currentUser.id) {
                         errorHandler.manageError(-3, {}, "error", next);
                     }
                     else {
@@ -491,7 +491,7 @@ class ControllerTask {
                                                         next({
                                                             ajax: false,
                                                             status: 200,
-                                                            redirect: "tasks",
+                                                            redirect: "home",
                                                             data: {
                                                                 response: { code: 200, title: "Tarea borrada", message: `La tarea "${task.title}" ha sido borrada con éxito`},
                                                                 generalInfo: {
@@ -548,16 +548,16 @@ class ControllerTask {
                                             let data = { code: 200 };
                                             if (checked === 1) {
                                                 data.title = "Tarea completada";
-                                                if (req.session.currentUser.configuration.reward_type === 'mensaje') {
+                                                if (req.session.currentUser.configuration.rewardType === 'mensaje') {
                                                     data.message = `${reward.message}`;
                                                     data.image = null;
-                                                } else if (req.session.currentUser.configuration.reward_type === 'medalla') {
+                                                } else if (req.session.currentUser.configuration.rewardType === 'medalla') {
                                                     data.message = `¡Enhorabuena! Has conseguido una nueva medalla. Puedes verlas todas en tu perfil.`;
                                                     data.image = "/images/rewards/badges/" + reward.icon + ".png";
-                                                } else if (req.session.currentUser.configuration.reward_type === 'imagen') {
+                                                } else if (req.session.currentUser.configuration.rewardType === 'imagen') {
                                                     data.message = `¡Enhorabuena, sigue así!`;
                                                     data.image = "/images/rewards/images/" + reward.icon + ".png";
-                                                } else if (req.session.currentUser.configuration.reward_type === 'gif') {
+                                                } else if (req.session.currentUser.configuration.rewardType === 'gif') {
                                                     data.message = `¡Enhorabuena!`;
                                                     data.image = "/images/rewards/gifs/" + reward.icon + ".gif";
                                                 }
@@ -674,7 +674,7 @@ class ControllerTask {
 
             let reminder = {
                 id: form.id,
-                sent_date: reminderDate,
+                sentDate: reminderDate,
                 message: message,
                 idActivity: idTask
             };

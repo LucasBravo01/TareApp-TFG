@@ -4,9 +4,10 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
     <!-- Importar JS específicos -->
-    <script src="/js/createTask.js"></script>
+    <script src="/js/task.js"></script>
 </head>
 
 <body data-response="<%= JSON.stringify(response) %>" data-task="<%= JSON.stringify(task) %>" data-user="<%= JSON.stringify(session.currentUser) %>">
@@ -16,7 +17,7 @@
     <%- include("fragments/nav", { generalInfo: generalInfo }) %>
     <!-- Importar modal confirmación -->
     <% const url = '/tareas/borrarTarea/' + task.id; %>
-    <%- include("fragments/confirmationModal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
+    <%- include("fragments/confirmation_modal", { title: "Borrar tarea", message: "¿Estás seguro de que quieres borrar la tarea?", cancelOption: "Cancelar", submitOption: "Borrar", url: url }) %>
     
     <div class="container">
         <div class="d-flex justify-content-center">
@@ -29,70 +30,70 @@
             </h1>
         </div>
 
-        <form id="formTask" action="/tareas/crearTareaForm" method="post">
+        <form id="form-task" action="/tareas/crearTareaForm" method="post">
             <div class="row justify-content-center mt-3 mb-3">
-                <input type="hidden" id="input-id-task" name="idTask" value="<%= task.id %>">
-                <input type="hidden" id="input-id-user" name="id" value="<%= session.currentUser.id %>">
+                <input id="input-id-task" name="idTask"  type="hidden" value="<%= task.id %>">
+                <input id="input-id-user" name="id" type="hidden" value="<%= session.currentUser.id %>">
 
                 <!--TAREA COMPLETADA-->
                 <% if (task.id) { %>
-                    <div class="col-12 text-center mt-3" id="div-completed">
+                    <div id="div-completed" class="col-12 text-center mt-3">
                         <label for="input-completed">Completar tarea</label>
-                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completedTask mx-2" <%= task.done ? 'checked' : '' %>>
+                        <input id="input-completed" name="completed" type="checkbox" class="form-check-input checkbox-completed-task mx-2" <%= task.done ? 'checked' : '' %>>
                     </div>
                 <% } %>
 
                 <!--TITULO-->
                 <div class="col-lg-6 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-title">Título<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="text" id="input-title" name="title" class="form-control mt-1" value="<%= task.title %>">
+                    <input id="input-title" name="title" type="text" value="<%= task.title %>" class="form-control mt-1">
                 </div>
 
                 <!--FECHA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-date">Fecha de entrega<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="date" id="input-date" name="date" class="form-control" value="<%= task.date %>">  
+                    <input id="input-date" name="date" type="date" value="<%= task.date %>" class="form-control">  
                 </div>
 
                 <!--HORA DE ENTREGA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-hour">Hora:<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input type="time" id="input-hour" name="time" class="form-control" value="<%= task.time %>">
+                    <input id="input-hour" name="time" type="time" value="<%= task.time %>" class="form-control">
                 </div>
 
                 <!--DURACIÓN ESTIMADA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
                     <label for="input-duration">Duración estimada (minutos)<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <input id="input-duration" name="duration" type="number" class="form-control" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" >
+                    <input id="input-duration" name="duration" type="number" value="<% if (!task.id) { %>5<% } else { %><%= task.duration %><% } %>" min="1" class="form-control">
                 </div>
                 
 
                 <!--CATEGORIA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-category" name="category" class="form-control">
+                    <label for="select-category">Categoría<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-category" name="category" class="form-control">
                         <option value="">...</option>
                         <% data.categories.forEach( c=> { %>
-                            <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.category_icon %> <% } %> <%= c.name %></option>
+                            <option value="<%= c.name %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- c.categoryIcon %> <% } %> <%= c.name %></option>
                         <% }); %>
                     </select>
                 </div>
     
                 <!--ASIGNATURA-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-subject" name="subject" class="form-control" disabled>
+                    <label for="select-subject">Asignatura <% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-subject" name="subject" class="form-control" disabled>
                         <option value="">...</option>
                         <% data.subjects.forEach( s=> { %>
-                            <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subject_icon %> <% } %> <%= s.name %></option>
+                            <option value="<%= s.id %>"><% if (session.currentUser.configuration.theme === "alegre") { %> <%- s.subjectIcon %> <% } %> <%= s.name %></option>
                         <% }); %>
                     </select>
                 </div>
 
                 <!--RECORDATORIOS-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3">
-                    <label for="input-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
-                    <select id="input-reminder" name="reminders" class="form-control">
+                    <label for="select-reminder">Recordatorios<% if (!task.id) { %><span class="text-danger"> *</span><% } %></label>
+                    <select id="select-reminder" name="reminders" class="form-control">
                         <option value="10 minutos antes">10 minutos antes</option>
                         <option value="1 hora antes">1 hora antes</option>
                         <option value="1 día antes">1 día antes</option>
@@ -104,24 +105,24 @@
 
                 <!--DESCRIPCIÓN-->
                 <div class="col-sm-12 col-10 text-center mt-3">
-                    <label for="input-description">Descripción</label>
-                    <textarea id="input-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
+                    <label for="textarea-description">Descripción</label>
+                    <textarea id="textarea-description" name="description" rows="4" class="form-control"><%= task.description %></textarea>
                 </div>
 
                 <!--BOTÓN CREAR TAREA-->
                 <% if (task.id) { %>
                     <div class="col-12 text-center mt-5">
-                        <button type="button" id="input-sb-modify" name="modify_button" class="main-button me-2 mb-4">Modificar Tarea</button>
-                        <button type="button" id="input-sb-delete" data-bs-toggle="modal" data-bs-target="#modal-confirm" class="dangerous-button">Borrar Tarea</button> 
+                        <button id="button-sb-modify" type="button" class="main-button me-2 mb-4">Modificar Tarea</button>
+                        <button id="button-sb-delete" type="button" class="dangerous-button" data-bs-toggle="modal" data-bs-target="#div-modal-confirm">Borrar Tarea</button> 
                     </div> 
 
                     <div class="col-12 text-center">
-                        <button type="button" id="input-sb-save" name="input-sb-save" class="main-button me-2 mb-4">Guardar Cambios</button>
-                        <button type="button" id="input-sb-cancel"  class="dangerous-button ">Cancelar Cambios</button>
+                        <button id="button-sb-save" type="button" class="main-button me-2 mb-4">Guardar Cambios</button>
+                        <button id="button-sb-cancel" type="button" class="dangerous-button ">Cancelar Cambios</button>
                     </div>
                 <% } else { %>                    
                     <div class="col-6 text-center mt-5">
-                        <button type="submit" id="input-sb-createTask" class="main-button">Crear Tarea</button>
+                        <button id="button-sb-create" type="submit" class="main-button">Crear Tarea</button>
                     </div>
                 <% } %>
             </div>

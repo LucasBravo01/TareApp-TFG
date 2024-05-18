@@ -5,7 +5,7 @@ function validateParams(params) {
     let error = {};
     let user = $("body").data("user");
     // Campos no modificados
-    if (params.font_size === user.configuration.font_size && params.theme === user.configuration.theme && params.time_preference === user.configuration.time_preference && params.reward === user.configuration.reward_type ) {
+    if (params.fontSize === user.configuration.fontSize && params.theme === user.configuration.theme && params.timePreference === user.configuration.timePreference && params.reward === user.configuration.rewardType ) {
         error.code = 400;
         error.title = "Campos no modificados";
         error.message = "Los campos de la configuración no han sido modificados.";
@@ -18,21 +18,21 @@ function validateParams(params) {
 
 $(() => {
     // Obtener elementos
-    const fontSizeSelect = $("#fontSizeSelect");
-    const themeSelect = $("#themeSelect");
-    const timeSelect = $("#timeSelect");
-    const rewardSelect = $("#rewardSelect");
-    const submitButton = $("#input-sb-updateConfig");
+    const fontSizeSelect = $("#select-font-size");
+    const themeSelect = $("#select-theme");
+    const timeSelect = $("#select-time");
+    const rewardSelect = $("#select-reward");
+    const submitButton = $("#button-sb-updateConfig");
 
 
     // POST login
     submitButton.on("click", (event) => {
         event.preventDefault();
         let params = {
-            font_size: fontSizeSelect.val(),
+            fontSize: fontSizeSelect.val(),
             theme: themeSelect.val(),
-            time_preference: timeSelect.val(),
-            reward: rewardSelect.val()
+            timePreference: timeSelect.val(),
+            rewardType: rewardSelect.val()
         };
         // Validar
         let error = validateParams(params);
@@ -43,31 +43,31 @@ $(() => {
                 data: params,
                 success: (data, statusText, jqXHR) => {
                     // Reemplazar el archivo CSS actual e imágenes por el nuevo
-                    $("#css-link").attr('href', `/css/${themeSelect.val()}/style.css`);
+                    $("#link-css").attr('href', `/css/${themeSelect.val()}/style.css`);
                     $("#img-nav-burger").attr('src', `/images/${themeSelect.val()}/menu.png`);
                     $("#img-nav-calendar").attr('src', `/images/${themeSelect.val()}/calendar.png`);
                     $("#img-nav-notifications").attr('src', `/images/${themeSelect.val()}/notifications.png`);
                     $("#img-nav-settings").attr('src', `/images/${themeSelect.val()}/settings.png`);
                     $("#img-nav-logout").attr('src', `/images/${themeSelect.val()}/logout.png`);
-                    $("#img-nav-studysession").attr('src', `/images/${themeSelect.val()}/studysession.png`);
+                    $("#img-nav-study-session").attr('src', `/images/${themeSelect.val()}/study_session.png`);
                     
                     const user = $("body").data("user");
                     if(!user.hasProfilePic) {
-                        $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default-user.png`);
+                        $("#img-nav-profile").attr('src', `/images/${themeSelect.val()}/default_user.png`);
                     }
 
                     let params = {
-                        id_user: user.id,
-                        font_size: fontSizeSelect.val(),
+                        idUser: user.id,
+                        fontSize: fontSizeSelect.val(),
                         theme: themeSelect.val(),
-                        time_preference: timeSelect.val(),
-                        reward: rewardSelect.val(),
+                        timePreference: timeSelect.val(),
+                        rewardType: rewardSelect.val(),
                     };
 
-                    user.configuration.font_size = params.font_size;
+                    user.configuration.fontSize = params.fontSize;
                     user.configuration.theme = params.theme;
-                    user.configuration.time_preference = params.time_preference;
-                    user.configuration.reward_type = params.reward;
+                    user.configuration.timePreference = params.timePreference;
+                    user.configuration.rewardType = params.rewardType;
 
                     // Aplicar configuración
                     setConfiguration(fontSizeSelect.val());

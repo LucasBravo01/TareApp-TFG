@@ -27,7 +27,7 @@ function generateError(cod) {
             title = "Tarea no existente";
             message = "La tarea que intentas modificar no existe.";
         } break;
-        // Bad Request
+        // Respuesta erronea (Bad Request)
         case 1: {
             code = 400;
             title = "Campos vacíos";
@@ -113,6 +113,11 @@ function generateError(cod) {
             title = "Elección del tipo de recompensa";
             message = "El tipo de recompensa no es válido. Por favor, introduce uno adecuado.";
         } break;
+        case 18: {
+            code = 400;
+            title = "Duración estimada no válida";
+            message = "Asegúrate de que la duración estimada es mayor a 0.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";
@@ -138,7 +143,7 @@ function manageError(error, data, redirect, next) {
             data: errorObj
         });
     }
-    // Bad Request
+    //  Respuesta erronea (Bad Request)
     else {
         data.response = errorObj;
         next({
