@@ -35,7 +35,7 @@ CREATE TABLE configuration (
   font_size ENUM('grande', 'normal') NOT NULL,
   theme  ENUM('alegre', 'minimalista') NOT NULL,
   time_preference ENUM('largo', 'corto') NOT NULL,
-  reward_type ENUM('mensaje', 'medalla') NOT NULL,
+  reward_type ENUM('mensaje', 'medalla', 'imagen', 'gif') NOT NULL,
 
   FOREIGN KEY (id_user) REFERENCES user(id)
 );
@@ -218,17 +218,17 @@ INSERT INTO subject (id_teacher, name, grade, subject_icon, subject_photo, subje
 -- Categoría
 INSERT INTO category (name, category_icon, category_photo, category_color) VALUES
 ('Escolar', '&#128218;', 'school.png', 'rojo'),
-('Ocio', '&#x1F389;', 'free-time.png', 'morado'),
-('Extraescolar', '&#127934;', 'after-school.png', 'verde'),
+('Ocio', '&#x1F389;', 'free_time.png', 'morado'),
+('Extraescolar', '&#127934;', 'after_school.png', 'verde'),
 ('Casa', '&#127968;', 'home.png', 'rosa');
 
 -- Recompensa
 INSERT INTO reward (message, icon) VALUES
-('¡Bien hecho, campeón! Eres una máquina, ¡sigue así!', 'good-job'),
+('¡Bien hecho, campeón! Eres una máquina, ¡sigue así!', 'good_job'),
 ('¡Guau, qué genial! Tienes talento, ¡sigue brillando!', 'awesome'),
-('¡Felicidades, lo has clavado! Eres increíble, ¡seguiré aplaudiendo!', 'lets-go'),
+('¡Felicidades, lo has clavado! Eres increíble, ¡seguiré aplaudiendo!', 'lets_go'),
 ('¡Increíble, qué crack! Sigue así, ¡eres un ganador!', 'supercat'),
-('¡Eres una estrella! Brillas como nunca, ¡continúa brillando!', 'star-medal');
+('¡Eres una estrella! Brillas como nunca, ¡continúa brillando!', 'star_medal');
 
 -- Actividad
 INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES

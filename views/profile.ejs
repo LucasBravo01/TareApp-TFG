@@ -4,6 +4,7 @@
 <head>
     <%- include("../public/utils/head.html") %>
     <!-- Importar CSS específicos -->
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/<%= session.currentUser.configuration.theme %>/style.css">
 </head>
 
@@ -20,64 +21,66 @@
                 <!--FOTO-->
                 <div class="col-md-6 col-12 text-center mt-2 me-3">
                     <% if (session.currentUser.hasProfilePic) { %>
-                        <img id="img-profile" class="user-pic" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil">
+                        <img id="img-profile" src="/usuario/fotoPerfil/<%= session.currentUser.id %>" alt="Foto de perfil" class="user-pic">
                     <% } else { %>
-                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default-user.png" alt="Foto de perfil">
+                        <img id="img-profile" src="/images/<%= session.currentUser.configuration.theme %>/default_user.png" alt="Foto de perfil">
                     <% } %>
                 </div>
 
                 <!--NOMBRE-->
                 <div class="col-md-6 col-12 text-center mt-5">
-                    <label for="nameUser" class="form-label" style="font-weight: bold;">Nombre completo</label>
-                    <input id="input-user" name="nameUser" type="text" class="form-control"
-                        value="<%= user.name %> <%= user.lastname1 %> <%= user.lastname2 %>" disabled>
+                    <label for="input-name" class="form-label bold">Nombre completo</label>
+                    <input id="input-name" name="nameUser" type="text" value="<%= user.name %> <%= user.lastName1 %> <%= user.lastName2 %>" class="form-control" disabled>
                 </div>
             </div>
             <div class="div-profile">
                 <!--USUARIO-->
                 <div class="col-md-6 col-12 text-center mt-5 me-3">
-                    <label for="user" class="form-label" style="font-weight: bold;">Usuario</label>
-                    <input id="input-user" name="user" type="text" class="form-control" value="<%= user.username %>"
-                        disabled>
+                    <label for="input-user" class="form-label bold">Usuario</label>
+                    <input id="input-user" name="user" type="text" value="<%= user.username %>" class="form-control" disabled>
                 </div>
 
                 <!--ROL-->
                 <div class="col-md-6 col-12 text-center mt-5">
-                    <label for="rol" class="form-label" style="font-weight: bold;">Rol</label>
-                    <input id="input-user" name="rol" type="text" class="form-control" value="<%= user.rol %>"
-                        disabled>
+                    <label for="input-rol" class="form-label bold">Rol</label>
+                    <input id="input-rol" name="rol" type="text" value="<%= user.rol %>" class="form-control" disabled>
                 </div>
             </div>
 
-            <% if(session.currentUser.configuration.reward_type === "medalla") { %>
             <!--SECCIÓN RECOMPENSAS-->
             <div class="col-12 text-center mt-5">
                 <p class="text-start subtitle">Recompensas</p>
                 <hr class="separator-line" />
             </div>
 
+            <% if(session.currentUser.configuration.rewardType === "medalla") { %>
             <div class="row align-items-center justify-content-center">
                 <!--RECOMPENSAS-->
-                <% for (let i = 0; i < userRewards.length; i++) { %>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-3">
-                    <div class="card card-recompensa">
-                        <div class="card-header card-header-recompensa">
-                            <img src="/images/rewards/<%= userRewards[i].icon %>.png"
-                                alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
+                <% if (userRewards.length !== 0) { %>
+                    <% for (let i = 0; i < userRewards.length; i++) { %>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-12 text-center mt-3">
+                            <div class="card card-reward">
+                                <div class="card-header card-header-reward">
+                                    <img src="/images/rewards/badges/<%= userRewards[i].icon %>.png" alt="Icono de la recompensa <%= userRewards[i].id %>" width="100">
+                                </div>
+        
+                                <div class="card-footer card-footer-reward">
+                                    <% if (userRewards[i].count === 0) { %>
+                                    <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
+                                    <% } else { %>
+                                    <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
+                                    <% } %>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="card-footer card-footer-recompensa">
-                            <% if (userRewards[i].count === 0) { %>
-                            <p class="card-text">¡Pronto obtendrás esta recompensa!</p>
-                            <% } else { %>
-                            <p class="card-text">Obtenidas: <%= userRewards[i].count %></p>
-                            <% } %>
-                        </div>
-                    </div>
-                </div>
+                    <% } %>
+                <% } else { %>
+                    <div class="col-12 text-center mt-3"><p>¡Pronto conseguirás tu primera medalla!</p> </div>
                 <% } %>
             </div>
-            <%}%>
+            <% } else { %>
+                <div class="col-12 text-center mt-3"><p>Activa las medallas en configuración para ver cuántas tienes</p> </div>
+            <% } %>
         </div>
     </div>
 </body>

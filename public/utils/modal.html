@@ -3,17 +3,17 @@
 
 <body>
     <!-- Botón escondido para abrir el modal cuando haya error -->
-    <button id="button-modal-response" type="button" hidden="true" data-bs-toggle="modal" data-bs-target="#modal-response">Helou</button>
-    <div id="modal-response" aria-labelledby="modal-response" aria-hidden="true" class="modal fade">
+    <button id="button-modal-response" type="button" hidden="true" data-bs-toggle="modal" data-bs-target="#div-modal-response">Helou</button>
+    <div id="div-modal-response" aria-labelledby="div-modal-response" aria-hidden="true" class="modal fade">
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <!-- Header -->
                 <div id="div-modal-response-header" class="modal-header d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <!-- Icono de error o éxito (jQuery) -->
-                        <img id="img-modal-response" src="" alt="" height="60" class="ms-3">
+                        <img id="img-modal-response" src="" alt="" height="40">
                         <!-- Título del error/mensaje (jQuery) -->
-                        <h1 id="h1-modal-response" class="modal-title ms-3 text-center">Error desconocido</h1>
+                        <h1 id="h1-modal-response" class="modal-title mx-1 text-center">Error desconocido</h1>
                     </div>                        
                     <!-- Botón para cerrar el modal -->
                     <button type="button" class="modal-close-window-button" data-bs-dismiss="modal" aria-label="Close">
@@ -23,8 +23,9 @@
                     </button>
                 </div>
                 <!-- Body (jQuery) -->
-                <div class="modal-body"> 
+                <div class="modal-body d-flex flex-column align-items-center"> 
                     <p id="p-modal-response" class="text-center">Si estás viendo esto, se ha producido un error desconocido.</p>
+                    <img id="img-modal-body" src="" alt="Recompensa" height="100" class="d-none">
                 </div>
                 <!-- Footer -->
                 <div class="modal-footer d-flex justify-content-center">

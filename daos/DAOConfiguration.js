@@ -36,11 +36,11 @@ class DAOConfiguration {
                         else {
                             // Construir objeto
                             let configuration = {
-                                id_user: rows[0].id_user,
-                                font_size: rows[0].font_size,
+                                idUser: rows[0].id_user,
+                                fontSize: rows[0].font_size,
                                 theme: rows[0].theme,
-                                time_preference: rows[0].time_preference,
-                                reward_type:  rows[0].reward_type,
+                                timePreference: rows[0].time_preference,
+                                rewardType:  rows[0].reward_type,
                             }
                             callback(null, configuration);
                         }
@@ -58,7 +58,7 @@ class DAOConfiguration {
                 callback(-1);
             } else {
                 let querySQL = "UPDATE configuration SET font_size = ?, theme = ?, time_preference = ?,reward_type = ? WHERE id_user = ?;";
-                connection.query(querySQL, [config.font_size, config.theme, config.time_preference, config.reward_type ,config.id_user], (error) => {
+                connection.query(querySQL, [config.fontSize, config.theme, config.timePreference, config.rewardType ,config.idUser], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1);

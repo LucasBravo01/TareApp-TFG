@@ -29,17 +29,17 @@ function routerConfig(conUse, conRem) {
     // Cambiar la configuración del usuario
     RouterUser.post("/guardarConfiguracion",
         // Campos de enums válidos
-        check("font_size", "5").custom((fontS) => {
+        check("fontSize", "5").custom((fontS) => {
             return (fontS === "grande" || fontS === "normal")
         }),
         check("theme", "6").custom((theme) => {
             return (theme === "alegre" || theme === "minimalista")
         }),
-        check("time_preference", "7").custom((timeP) => {
+        check("timePreference", "7").custom((timeP) => {
             return (timeP === "corto" || timeP === "largo")
         }),
-        check("reward", "17").custom((reward) => {
-            return (reward === "mensaje" || reward === "medalla")
+        check("rewardType", "17").custom((reward) => {
+            return (reward === "mensaje" || reward === "medalla" || reward === "imagen" || reward === "gif")
         }),
         conRem.unreadReminders,
         conUse.updateConfiguration

@@ -31,12 +31,12 @@ class DAOSubject {
                             let facility = {
                                 id: row.id,
                                 enable: row.enabled,
-                                id_teacher: row.id_teacher,
+                                idTeacher: row.id_teacher,
                                 name: row.name,
                                 grade: row.grade,
                                 color: row.color,
-                                subject_icon: row.subject_icon,
-                                subject_photo: row.subject_photo
+                                subjectIcon: row.subject_icon,
+                                subjectPhoto: row.subject_photo
                             }
                             subjects.push(facility);
                         });

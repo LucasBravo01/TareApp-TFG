@@ -33,9 +33,7 @@ async function subscribeToNotifications() {
     });
     // Envía la suscripción al servidor
     await sendSubscriptionToServer(subscription);
-    console.log('Suscripción exitosa');
   } catch (error) {
-    console.error('Error al suscribirse a notificaciones:', error);
   }
 }
 
@@ -49,7 +47,6 @@ async function sendSubscriptionToServer(subscription) {
       },
       body: JSON.stringify({ subscription })
     });
-    console.log(response);
     if (!response.ok) {
       showModal({ code: 500, title: "Error al activar las notificaciones", message: "Este dispositivo ya tienes las notificaciones activadas o se ha producido un error." }, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
     }
@@ -57,13 +54,13 @@ async function sendSubscriptionToServer(subscription) {
       showModal({ code: 200, title: "Notificaciones activadas", message: "A partir de ahora recibirás notificaciones en este dispositivo." }, $("#div-modal-response-header"), $("#img-modal-response"), $("#h1-modal-response"), $("#p-modal-response"), $("#button-modal-response-ok"), $("#button-modal-response"));
     }
   } catch (error) {
-    console.error('Error al enviar la suscripción al servidor:', error);
   }
 }
 
 // Mostrar el modal con respuesta/error
-function showModal(response, header, img, title, message, button, modal) {
+function showModal(response, header, img, title, message, button, modal, image) {
   // Título y mensaje
+  const bodyImage = $("#img-modal-body")
   title.text(response.title);
   message.text(response.message);
   // Success
@@ -71,6 +68,13 @@ function showModal(response, header, img, title, message, button, modal) {
     // Crear modal
     img.attr("src", "/images/modals/success.png");
     img.attr("alt", "Icono de éxito");
+    if (image) {
+      bodyImage.removeClass("d-none");
+      bodyImage.attr("src", image);
+    }
+    else {
+      bodyImage.addClass("d-none");
+    }
   }
   // Error
   else {
@@ -109,7 +113,9 @@ $(() => {
   }
 
   const user = $("body").data("user");
-  setConfiguration(user.configuration.font_size);
+  if(user) {
+    setConfiguration(user.configuration.fontSize);
+  }
 
   // Logout
   const buttonLogout = $("#a-logout");

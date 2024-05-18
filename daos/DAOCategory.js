@@ -30,8 +30,8 @@ class DAOCategory {
                         rows.forEach(row => {
                             let category = {
                                 name: row.name,
-                                category_icon: row.category_icon,
-                                category_photo: row.category_photo
+                                categoryIcon: row.category_icon,
+                                categoryPhoto: row.category_photo
                             }
                             categories.push(category);
                         });
