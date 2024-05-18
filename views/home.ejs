@@ -69,9 +69,9 @@
                                     <div class="card-task-calendar mb-2 <% if (t.subjectColor) { %><%= t.subjectColor %><% } else { %><%= t.categoryColor %><% } %>">
                                         <a href="/tareas/tarea/<%= t.id %>">
                                             <% if(session.currentUser.configuration.theme === "alegre") { %>
-                                                <div class="d-grid align-items-center" style="grid-template-columns: 10% 90%;">
+                                                <div class="d-grid align-items-center grid-columns-10-90">
                                                     <div class="d-flex justify-content-center">
-                                                        <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
+                                                        <span class="accordion-icon double-font"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                                     </div>
                                                     <div>
                                                         <span><%= t.title %></span>
@@ -96,7 +96,7 @@
         <!--VISTA SEMANAL-->
         <% } else if (homeInfo.week) { %>
             <!--FLECHAS Y SEMANA-->
-            <div class="d-grid mt-5" style="grid-template-columns: 5% 91% 4%;">
+            <div class="d-grid mt-5 grid-columns-5-91-4">
                 <div class="text-start">
                     <a id="a-previous-week" href="" class="arrow-button">
                         <img src="/images/<%= session.currentUser.configuration.theme %>/left_arrow.png" alt="Anterior" width="30"/>
@@ -127,7 +127,7 @@
                 </div>
                 
                 <% homeInfo.week.forEach(day => { %>
-                    <div class="d-grid" style="grid-template-columns: 100%;"> <!--COLUMNA DÍA-->
+                    <div class="d-grid grid-columns-100"> <!--COLUMNA DÍA-->
                         <% for(let hour = 0; hour < 24; hour++) { %>
                             <div class="div-hour">
                                 <% if (day.tasks[hour] && day.tasks[hour].length > 0) { %> 
@@ -135,7 +135,7 @@
                                         <div id="<%= hour %>">
                                             <div class="card-task-calendar azul">
                                                 <a href="/diaria/<%= day.date %>">
-                                                    <div class="d-grid align-items-center" style="grid-template-columns: 100%;">
+                                                    <div class="d-grid align-items-center grid-columns-100">
                                                         <div class="position-relative">
                                                             <span>Ver más</span>
                                                             <span class="position-absolute num-tasks top-0 start-100 translate-middle badge rounded-pill bg-danger notifications-badge" title="Correos no leídos">
@@ -154,7 +154,7 @@
                                                         <% if(session.currentUser.configuration.theme === "alegre") { %>
                                                             <div class="d-flex flex-column align-items-center">
                                                                 <div class="d-flex justify-content-center">
-                                                                    <span class="accordion-icon" style="font-size: 2rem;"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
+                                                                    <span class="accordion-icon double-font"><% if(t.subjectIcon){ %>   <%- t.subjectIcon %>  <% }else{ %>  <%- t.categoryIcon %>  <% }%></span>
                                                                 </div>
                                                                 <div>
                                                                     <span><%= t.title %></span>

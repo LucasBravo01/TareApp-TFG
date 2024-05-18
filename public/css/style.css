@@ -219,6 +219,34 @@ button {
     width: 9rem !important;
 }
 
+.grid-columns-25-75 {
+    grid-template-columns: 25% 75%;
+}
+
+.grid-columns-10-90 {
+    grid-template-columns: 10% 90%;
+}
+
+.grid-columns-5-91-4 {
+    grid-template-columns: 5% 91% 4%;
+}
+
+.grid-columns-100 {
+    grid-template-columns: 100%;
+}
+
+.double-font {
+    font-size: 2rem;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.display-none {
+    display: none;
+}
+
 /* --- RESPONSIVENESS --- */
 /* Monitores más largos */
 @media (max-width: 1919.98px) {
