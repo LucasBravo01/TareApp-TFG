@@ -52,7 +52,7 @@ CREATE TABLE subscription (
 );
 
 -- SesiónEstudio
-CREATE TABLE studySession (
+CREATE TABLE studysession (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name  VARCHAR(255) NOT NULL,
   id_user INT NOT NULL,
