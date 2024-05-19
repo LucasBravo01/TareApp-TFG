@@ -45,35 +45,41 @@ class ControllerStudySession {
         if(errors.isEmpty()) {
 
             if(req.body.longBrakeSlot !== null && req.body.numLongSlots === null) {
-                errorHandler.manageAJAXError("1", next);
+                errorHandler.manageAJAXError(1, next);
             }
-
-            let studySession = {
-                name: req.body.name,
-                idUser: req.session.currentUser.id,
-                studySlot: req.body.studySlot,
-                brakeSlot: req.body.brakeSlot,
-                longBrakeSlot: req.body.longBrakeSlot,
-                numSlots: req.body.numSlots,
-                numLongSlots: req.body.numLongSlots
-            }
-
-            this.daoStu.insertStudySession(studySession, (error) => {
-                if (error) {
-                    errorHandler.manageAJAXError(error, next);
-                } else {
-                    next({
-                        ajax: true,
-                        error: false,
-                        img: false,
-                        data: {
-                            code: 200,
-                            title: "Sesión de estudio creada con éxito.",
-                            message: "Enhorabuena se ha creado correctamente la sesión de estudio."
+            else {
+                if(req.body.numLongSlots !== "" && req.body.longBrakeSlot < 1) {
+                    errorHandler.manageAJAXError(19, next);
+                }
+                else {
+                    let studySession = {
+                        name: req.body.name,
+                        idUser: req.session.currentUser.id,
+                        studySlot: req.body.studySlot,
+                        breakSlot: req.body.breakSlot,
+                        longBrakeSlot: req.body.longBrakeSlot,
+                        numSlots: req.body.numSlots,
+                        numLongSlots: req.body.numLongSlots
+                    }
+        
+                    this.daoStu.insertStudySession(studySession, (error) => {
+                        if (error) {
+                            errorHandler.manageAJAXError(error, next);
+                        } else {
+                            next({
+                                ajax: true,
+                                error: false,
+                                img: false,
+                                data: {
+                                    code: 200,
+                                    title: "Sesión de estudio creada con éxito.",
+                                    message: "Enhorabuena se ha creado correctamente la sesión de estudio."
+                                }
+                            });
                         }
                     });
                 }
-            });
+            }
         }
         else {
             errorHandler.manageAJAXError(parseInt(errors.array()[0].msg), next);

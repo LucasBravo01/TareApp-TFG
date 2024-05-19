@@ -43,7 +43,7 @@ class DAOUser {
                                 lastName2: rows[0].last_name2,
                                 password: rows[0].password,
                                 hasProfilePic: (rows[0].photo ? true : false),
-                                rol: rows[0].userType,
+                                rol: rows[0].user_type,
                                 idParent: rows[0].id_parent
                             }
                             callback(null, user);
@@ -85,7 +85,7 @@ class DAOUser {
                                 lastName2: rows[0].last_name2,
                                 password: rows[0].password,
                                 hasProfilePic: (rows[0].photo ? true : false),
-                                rol: rows[0].userType,
+                                rol: rows[0].user_type,
                                 idParent: rows[0].id_parent
                             }
                             callback(null, user);

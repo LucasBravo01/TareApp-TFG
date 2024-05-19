@@ -54,7 +54,7 @@
                         <div id="div-collapse<%= i %>" class="accordion-collapse collapse" data-bs-parent="#div-accordion-study-session-list">
                             <div class="accordion-body d-flex flex-column">
                                 <span><strong>Tiempo de estudio:</strong> <%= s.studySlot %> minutos</span>
-                                <span><strong>Tiempo de descanso:</strong> <%= s.brakeSlot %> minutos</span>
+                                <span><strong>Tiempo de descanso:</strong> <%= s.breakSlot %> minutos</span>
                                 <span><strong>Número de periodos de estudio:</strong> <%= s.numSlots %> periodos</span>
                                 <span><strong>Tiempo de descanso largo:</strong> <%= s.longBrakeSlot %> minutos</span>
                                 <span><strong>Número de periodos para realizar un descanso largo:</strong> <%= s.numLongSlots %> periodos</span>
@@ -85,8 +85,8 @@
 
                 <!--PERIOCIDAD PERIODOS DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-number-long-brake-slots">Cada cuántos periodos se realiza uno largo</label>
-                    <input id="input-number-long-brake-slots" name="number-long-brake-slots" type="number" min="0" max="10" step="1" class="form-control">
+                    <label for="input-number-long-break-slots">Cada cuántos periodos se realiza uno largo</label>
+                    <input id="input-number-long-break-slots" name="number-long-break-slots" type="number" min="0" max="10" step="1" class="form-control">
                 </div>
             </div>
                 
@@ -99,14 +99,14 @@
 
                 <!--TIEMPO DE DESCANSO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-brake-slot">Duración periodo de descanso (minutos) <span class="text-danger"> *</span></label>
-                    <input id="input-brake-slot" name="brake-slot" type="number" min="1" max="90" step="5" class="form-control">
+                    <label for="input-break-slot">Duración periodo de descanso (minutos) <span class="text-danger"> *</span></label>
+                    <input id="input-break-slot" name="break-slot" type="number" min="1" max="90" step="5" class="form-control">
                 </div>
                     
                 <!--TIEMPO DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
-                    <label for="input-long-brake-slot">Duración periodo descanso largo (minutos)</label>
-                    <input id="input-long-brake-slot" name="long-brake-slot" type="number" min="0" max="90" step="5" class="form-control">
+                    <label for="input-long-break-slot">Duración periodo descanso largo (minutos)</label>
+                    <input id="input-long-break-slot" name="long-break-slot" type="number" min="0" max="90" step="5" class="form-control">
                 </div>
             </div>
 

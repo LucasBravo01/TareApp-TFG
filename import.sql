@@ -22,7 +22,7 @@ CREATE TABLE user (
   last_name2 VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   photo BLOB,
-  userType ENUM('alumno', 'padre', 'profesor') NOT NULL,
+  user_type ENUM('alumno', 'padre', 'profesor') NOT NULL,
   id_parent INT,
 
   CONSTRAINT UC_user  UNIQUE(access_user),
@@ -52,13 +52,13 @@ CREATE TABLE subscription (
 );
 
 -- SesiónEstudio
-CREATE TABLE studysession (
+CREATE TABLE study_session (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name  VARCHAR(255) NOT NULL,
   id_user INT NOT NULL,
   study_slot INT NOT NULL,
-  brake_slot INT NOT NULL,
-  long_brake_slot INT NOT NULL,
+  break_slot INT NOT NULL,
+  long_break_slot INT NOT NULL,
   num_slots INT NOT NULL,
   num_long_slots INT NOT NULL,
 
@@ -129,6 +129,7 @@ CREATE TABLE activity (
   description VARCHAR(255),
   reminder ENUM('10 minutos antes','1 hora antes','1 día antes', 'Desde 2 días antes', 'Desde 1 semana antes', 'No recordarmelo') NOT NULL,
   category VARCHAR(255) NOT NULL,
+  duration INT NOT NULL,
   id_subject INT,
 
   FOREIGN KEY (id_creator) REFERENCES user(id),
@@ -141,7 +142,6 @@ CREATE TABLE activity (
 CREATE TABLE event (
   id_activity INT NOT NULL PRIMARY KEY,
   recurrent INT NOT NULL,
-  duration INT NOT NULL,
 
   FOREIGN KEY (id_activity) REFERENCES activity(id)
 );
@@ -150,7 +150,6 @@ CREATE TABLE event (
 CREATE TABLE task (
   id_activity INT NOT NULL PRIMARY KEY,
   completed INT NOT NULL DEFAULT 0,
-  duration INT NOT NULL,
   id_event INT,
   id_reward INT NOT NULL,
 
@@ -179,7 +178,7 @@ CREATE TABLE reminder (
 -- ------ Insertar datos de prueba ------
 
 -- Usuario
-INSERT INTO user (access_user, first_name, last_name1, last_name2, password, userType) VALUES
+INSERT INTO user (access_user, first_name, last_name1, last_name2, password, user_type) VALUES
 ('clarar05', 'Clara', 'Rodríguez', 'Prieto', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe','alumno'),
 ('anamam20', 'Ana', 'Martínez', 'Valdés', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
 ('cacalv04', 'Carlos', 'Calvo', 'Martínez', '$2b$10$0HR20Vb0gg7DpWQLEVMGhu0.rUxneq2MEjMGuRziTohrvKPB7IANe', 'alumno'),
@@ -231,71 +230,72 @@ INSERT INTO reward (message, icon) VALUES
 ('¡Eres una estrella! Brillas como nunca, ¡continúa brillando!', 'star_medal');
 
 -- Actividad
-INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES
-(1, 1, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(1, 1, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(1, 1, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
-(1, 1, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
+INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, duration, id_subject) VALUES
+(1, 1, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', 1, NULL),
+(1, 1, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', 30, NULL),
+(1, 1, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', 60, NULL),
+(1, 1, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', 120, NULL),
 
-(2, 2, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(2, 2, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(2, 2, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
-(2, 2, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
+(2, 2, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', 1, NULL),
+(2, 2, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', 30, NULL),
+(2, 2, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', 60, NULL),
+(2, 2, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', 120, NULL),
 
-(3, 3, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(3, 3, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(3, 3, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
-(3, 3, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
+(3, 3, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', 1, NULL),
+(3, 3, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', 30, NULL),
+(3, 3, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', 60, NULL),
+(3, 3, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', 120, NULL),
 
-(4, 4, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(4, 4, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', NULL),
-(4, 4, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
-(4, 4, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', NULL),
+(4, 4, 'Tarea 1', '2024-04-27', '13:20:00', 'Primera tarea de prueba', 'Desde 2 días antes', 'Ocio', 1, NULL),
+(4, 4, 'Tarea 2', '2024-04-25', '13:20:00', 'Segunda tarea de prueba', 'Desde 2 días antes', 'Ocio', 30, NULL),
+(4, 4, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', 60, NULL),
+(4, 4, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', 120, NULL),
 
-(5, 5, 'Preparar desayuno', '2024-05-12', '09:15:00', 'Tostadas con mantequilla para papá, manzana para mamá y cereales para Alberto', '10 minutos antes', 'Casa', NULL),
-(5, 5, 'Ducharse', '2024-05-12', '09:40:00', 'Recuerda que hoy toca ducha corta', '10 minutos antes', 'Casa', NULL),
-(5, 5, 'Lavarse los dientes', '2024-05-12', '09:55:00', '', '10 minutos antes', 'Casa', NULL),
-(5, 5, 'Sacar a Tom', '2024-05-12', '10:10:00', 'Sacar a Tom a pasear al menos 20 minutos', '10 minutos antes', 'Casa', NULL),
-(5, 5, 'Acompañar a Alberto a casa de María', '2024-05-12', '12:00:00', '', '1 hora antes', 'Casa', NULL),
-(5, 5, 'Deberes Mates', '2024-05-13', '09:00:00', 'Ejercicios 2, 3, 5 y 6 del cuaderno', 'Desde 2 días antes', 'Escolar', 1),
-(5, 5, 'Deberes Historia', '2024-05-14', '11:00:00', 'Estudiar "El descubimiento de América" en 1492', 'Desde 2 días antes', 'Escolar', 3),
-(5, 5, 'Trabajo Ciencias', '2024-05-15', '15:00:00', 'Maqueta de volcán. Hablar con Dani y Gema para organizarse', 'Desde 1 semana antes', 'Escolar', 4),
-(5, 5, 'Cumpleaños Alberto', '2024-05-15', '20:00:00', 'Darle el regalo que tienes en el armario. Segundo cajón a la derecha', '1 día antes', 'Ocio', NULL),
-(5, 5, 'Llevar circular fútbol', '2024-05-16', '18:00:00', 'Circular para ir a Santander a jugar los play-offs', '1 día antes', 'Extraescolar', NULL);
+(5, 5, 'Preparar desayuno', '2024-05-12', '09:15:00', 'Tostadas con mantequilla para papá, manzana para mamá y cereales para Alberto', '10 minutos antes', 'Casa', 15, NULL),
+(5, 5, 'Ducharse', '2024-05-12', '09:40:00', 'Recuerda que hoy toca ducha corta', '10 minutos antes', 'Casa', 15, NULL),
+(5, 5, 'Lavarse los dientes', '2024-05-12', '09:55:00', '', '10 minutos antes', 'Casa', 5, NULL),
+(5, 5, 'Sacar a Tom', '2024-05-12', '10:10:00', 'Sacar a Tom a pasear al menos 20 minutos', '10 minutos antes', 'Casa', 20, NULL),
+(5, 5, 'Acompañar a Alberto a casa de María', '2024-05-12', '12:00:00', '', '1 hora antes', 'Casa', 45, NULL),
+(5, 5, 'Deberes Mates', '2024-05-13', '09:00:00', 'Ejercicios 2, 3, 5 y 6 del cuaderno', 'Desde 2 días antes', 'Escolar', 90, 1),
+(5, 5, 'Deberes Historia', '2024-05-14', '11:00:00', 'Estudiar "El descubimiento de América" en 1492', 'Desde 2 días antes', 'Escolar', 60, 3),
+(5, 5, 'Trabajo Ciencias', '2024-05-15', '15:00:00', 'Maqueta de volcán. Hablar con Dani y Gema para organizarse', 'Desde 1 semana antes', 'Escolar', 120, 4),
+(5, 5, 'Cumpleaños Alberto', '2024-05-15', '20:00:00', 'Darle el regalo que tienes en el armario. Segundo cajón a la derecha', '1 día antes', 'Ocio', 10, NULL),
+(5, 5, 'Llevar circular fútbol', '2024-05-16', '18:00:00', 'Circular para ir a Santander a jugar los play-offs', '1 día antes', 'Extraescolar', 5, NULL);
 
 -- Evento
 
 -- Tarea
-INSERT INTO task (id_activity, completed, duration, id_reward) VALUES
-(1, false, 1, 1),
-(2, false, 30, 1),
-(3, true, 60, 4),
-(4, true, 120, 4),
+INSERT INTO task (id_activity, completed, id_reward) VALUES
+(1, false, 1),
+(2, false, 1),
+(3, true, 4),
+(4, true, 4),
 
-(5, false, 1, 1),
-(6, false, 30, 1),
-(7, true, 60, 4),
-(8, true, 120, 4),
+(5, false, 1),
+(6, false, 1),
+(7, true, 4),
+(8, true, 4),
 
-(9, false, 1, 1),
-(10, false, 30, 1),
-(11, true, 60, 4),
-(12, true, 120, 4),
+(9, false, 1),
+(10, false, 1),
+(11, true, 4),
+(12, true, 4),
 
-(13, false, 1, 1),
-(14, false, 30, 1),
-(15, true, 60, 4),
-(16, true, 120, 4),
+(13, false, 1),
+(14, false, 1),
+(15, true, 4),
+(16, true, 4),
 
-(17, true, 15, 1),
-(18, true, 15, 2),
-(19, true, 5, 3),
-(20, true, 20, 4),
-(21, true, 45, 5),
-(22, true, 90, 1),
-(23, false, 60, 2),
-(24, false, 120, 3),
-(25, false, 5, 4);
+(17, true, 1),
+(18, true, 2),
+(19, true, 3),
+(20, true, 4),
+(21, true, 5),
+(22, true, 1),
+(23, false, 2),
+(24, false, 3),
+(25, false, 4),
+(26, false, 5);
 
 
 -- Recordatorio

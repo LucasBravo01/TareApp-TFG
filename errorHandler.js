@@ -118,6 +118,11 @@ function generateError(cod) {
             title = "Duración estimada no válida";
             message = "Asegúrate de que la duración estimada es mayor a 0.";
         } break;
+        case 19: {
+            code = 400;
+            title = "Tiempos no válidos";
+            message = "Asegúrate de que los tiempos de las sesiones sean positivos y mayores que 0.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";

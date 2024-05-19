@@ -48,9 +48,9 @@ class DAOTask {
                                 taskHasPic: rows[0].photo ? true : false,
                                 reminder: rows[0].reminder,
                                 category: rows[0].category,
+                                duration: rows[0].duration,
                                 idSubject: rows[0].id_subject,
                                 done: rows[0].completed,
-                                duration: rows[0].duration,
                                 idEvent: rows[0].id_event,
                                 idReward: rows[0].id_reward
                             }
@@ -69,8 +69,8 @@ class DAOTask {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "INSERT INTO task (id_activity, duration, id_reward) VALUES (?,?,?);";
-                connection.query(querySQL, [task.id, task.duration, task.reward], (error) => {
+                let querySQL = "INSERT INTO task (id_activity, id_reward) VALUES (?,?);";
+                connection.query(querySQL, [task.id, task.reward], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); 
@@ -89,8 +89,8 @@ class DAOTask {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "UPDATE task SET duration = ?, id_reward = ? WHERE id_activity = ?;";
-                connection.query(querySQL, [task.duration, task.reward, task.id], (error) => {
+                let querySQL = "UPDATE task SET id_reward = ? WHERE id_activity = ?;";
+                connection.query(querySQL, [task.reward, task.id], (error) => {
                     connection.release();
                     if (error) {
                         callback(-1); 

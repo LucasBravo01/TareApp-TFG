@@ -44,12 +44,12 @@ class DAOActivity {
                                 description: row.description,
                                 reminder: row.reminder,
                                 category: row.category,
+                                duration: row.duration,
                                 idSubject: row.id_subject,
 
                                 // Task
                                 idActivity: row.id_activity,
                                 completed: row.completed,
-                                duration: row.duration,
                                 idEvent: row.id_event,
                                 idReward: row.id_reward,
 
@@ -101,21 +101,20 @@ class DAOActivity {
     }
 
     // INSERTs
-    // Insertar recordatorio
+    // Insertar actividad
     insertActivity(form, callback) {
         this.pool.getConnection((error, connection) => {
             if (error) {
                 callback(-1);
             } else {
-                let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, id_subject) VALUES (?,?,?,?,?,?,?,?,?);";
-                connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.subject], (error, result) => {
+                let querySQL = "INSERT INTO activity (id_creator, id_receiver, title, date, time, description, reminder, category, duration, id_subject) VALUES (?,?,?,?,?,?,?,?,?,?);";
+                connection.query(querySQL, [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.duration, form.subject], (error, result) => {
                     connection.release();
                     if (error) {
                         callback(-1);
                     } else {
                         let task = {
                             id: result.insertId, // Aquí obtenemos el ID generado automáticamente
-                            duration: form.duration,
                             reward: form.reward
                         };
                         callback(null, task);
@@ -133,8 +132,8 @@ class DAOActivity {
                 callback(-1);
             } else {
                 const subject = form.subject ? form.subject : undefined;
-                const querySQL = "UPDATE activity SET id_creator = ?, id_receiver = ?, title = ?, date = ?, time = ?, description = ?, reminder = ?, category = ?, id_subject = ? WHERE id = ?;";
-                const queryParams = [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, subject, form.idTaskModify];
+                const querySQL = "UPDATE activity SET id_creator = ?, id_receiver = ?, title = ?, date = ?, time = ?, description = ?, reminder = ?, category = ?, duration = ?, id_subject = ? WHERE id = ?;";
+                const queryParams = [form.id, form.id, form.title, form.date, form.time, form.description, form.reminders, form.category, form.duration, subject, form.idTaskModify];
                 connection.query(querySQL, queryParams, (error, result) => {
                     connection.release();
                     if (error) {
@@ -142,7 +141,6 @@ class DAOActivity {
                     } else {
                         let task = {
                             id: form.idTaskModify,
-                            duration: form.duration,
                             reward: form.reward
                         };
                         callback(null, task);
