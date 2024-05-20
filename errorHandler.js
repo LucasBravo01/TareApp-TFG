@@ -118,6 +118,21 @@ function generateError(cod) {
             title = "Duración estimada no válida";
             message = "Asegúrate de que la duración estimada es mayor a 0.";
         } break;
+        case 19: {
+            code = 400;
+            title = "Tiempos no válidos";
+            message = "Asegúrate de que los tiempos de las sesiones sean positivos y mayores que 0.";
+        } break;
+        case 20: {
+            code = 400;
+            title = "Campos de periodo largo vacíos";
+            message = "Asegúrate de rellenar todos los campos de los periodos largos si quieres añadirlos a la sesión.";
+        } break;
+        case 21: {
+            code = 400;
+            title = "Periodos de descansos largos no válidos";
+            message = "Hay menos periodos que el número de cada cuantos haces un descanso largo.";
+        } break;
         default: {
             code = 500;
             title = "Error desconocido";

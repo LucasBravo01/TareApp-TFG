@@ -20,21 +20,22 @@ function routerConfig(conTas, conStu, conRem) {
         // Ninguno de los campos vacíos 
         check("name", "1").notEmpty(),
         check("studySlot", "1").notEmpty(),
-        check("brakeSlot", "1").notEmpty(),
+        check("breakSlot", "1").notEmpty(),
         check("numSlots", "1").notEmpty(),
         // Comprobar tipos correctos
         check("studySlot", "16").isNumeric(),
-        check("brakeSlot", "16").isNumeric(),
+        check("breakSlot", "16").isNumeric(),
         check("numSlots", "16").isNumeric(),
+        // Duración mayor a 0
+        check("studySlot", "19").custom((duration) => {
+            return (duration > 0)
+        }),
+        // Duración mayor a 0
+        check("breakSlot", "19").custom((duration) => {
+            return (duration > 0)
+        }),
         conRem.unreadReminders, 
         conStu.createStudySession);
-
-    // Marcar tarea como completada
-    RouterStudySession.post("/completarTarea",
-        check("id", "1").notEmpty(),
-        check("checkbox", "4").isNumeric(),
-        conTas.markTaskAsCompleted
-    );
 }
 
 module.exports = {
