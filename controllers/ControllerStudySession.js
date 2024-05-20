@@ -43,26 +43,29 @@ class ControllerStudySession {
     createStudySession(req, res, next) {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
-            if(req.body.longBreakSlot != 0 && req.body.numLongSlots == 0) {
+            let params = req.body;
+            params.numLongSlots = isNaN(params.numLongSlots) ? 0 : params.numLongSlots;
+            params.longBreakSlot = isNaN(params.longBreakSlot) ? 0 : params.longBreakSlot;
+            if(params.longBreakSlot != 0 && params.numLongSlots == 0) {
                 errorHandler.manageAJAXError(20, next);
             }
             else {
-                if(req.body.numLongSlots != 0 && req.body.longBreakSlot < 1) {
+                if(params.numLongSlots != 0 && params.longBreakSlot < 1) {
                     errorHandler.manageAJAXError(19, next);
                 }
                 else {
-                    if(req.body.numLongSlots >= req.body.numSlots) {
+                    if(params.numLongSlots >= params.numSlots) {
                         errorHandler.manageAJAXError(21, next);
                     }
                     else{
                         let studySession = {
-                            name: req.body.name,
+                            name: params.name,
                             idUser: req.session.currentUser.id,
-                            studySlot: req.body.studySlot,
-                            breakSlot: req.body.breakSlot,
-                            longBreakSlot: req.body.longBreakSlot,
-                            numSlots: req.body.numSlots,
-                            numLongSlots: req.body.numLongSlots
+                            studySlot: params.studySlot,
+                            breakSlot: params.breakSlot,
+                            longBreakSlot: params.longBreakSlot,
+                            numSlots: params.numSlots,
+                            numLongSlots: params.numLongSlots
                         }
             
                         this.daoStu.insertStudySession(studySession, (error) => {
