@@ -251,16 +251,16 @@ INSERT INTO activity (id_creator, id_receiver, title, date, time, description, r
 (4, 4, 'Tarea 3', '2024-04-20', '13:20:00', 'Tercera tarea de prueba', 'Desde 2 días antes', 'Casa', 60, NULL),
 (4, 4, 'Tarea 4', '2024-04-15', '13:20:00', 'Cuarta tarea de prueba', 'Desde 2 días antes', 'Casa', 120, NULL),
 
-(5, 5, 'Preparar desayuno', '2024-05-12', '09:15:00', 'Tostadas con mantequilla para papá, manzana para mamá y cereales para Alberto', '10 minutos antes', 'Casa', 15, NULL),
-(5, 5, 'Ducharse', '2024-05-12', '09:40:00', 'Recuerda que hoy toca ducha corta', '10 minutos antes', 'Casa', 15, NULL),
-(5, 5, 'Lavarse los dientes', '2024-05-12', '09:55:00', '', '10 minutos antes', 'Casa', 5, NULL),
-(5, 5, 'Sacar a Tom', '2024-05-12', '10:10:00', 'Sacar a Tom a pasear al menos 20 minutos', '10 minutos antes', 'Casa', 20, NULL),
-(5, 5, 'Acompañar a Alberto a casa de María', '2024-05-12', '12:00:00', '', '1 hora antes', 'Casa', 45, NULL),
-(5, 5, 'Deberes Mates', '2024-05-13', '09:00:00', 'Ejercicios 2, 3, 5 y 6 del cuaderno', 'Desde 2 días antes', 'Escolar', 90, 1),
-(5, 5, 'Deberes Historia', '2024-05-14', '11:00:00', 'Estudiar "El descubimiento de América" en 1492', 'Desde 2 días antes', 'Escolar', 60, 3),
-(5, 5, 'Trabajo Ciencias', '2024-05-15', '15:00:00', 'Maqueta de volcán. Hablar con Dani y Gema para organizarse', 'Desde 1 semana antes', 'Escolar', 120, 4),
-(5, 5, 'Cumpleaños Alberto', '2024-05-15', '20:00:00', 'Darle el regalo que tienes en el armario. Segundo cajón a la derecha', '1 día antes', 'Ocio', 10, NULL),
-(5, 5, 'Llevar circular fútbol', '2024-05-16', '18:00:00', 'Circular para ir a Santander a jugar los play-offs', '1 día antes', 'Extraescolar', 5, NULL);
+(5, 5, 'Preparar desayuno', '2024-05-26', '09:15:00', 'Tostadas con mantequilla para papá, manzana para mamá y cereales para Alberto', '10 minutos antes', 'Casa', 15, NULL),
+(5, 5, 'Ducharse', '2024-05-26', '09:40:00', 'Recuerda que hoy toca ducha corta', '10 minutos antes', 'Casa', 15, NULL),
+(5, 5, 'Lavarse los dientes', '2024-05-26', '09:55:00', '', '10 minutos antes', 'Casa', 5, NULL),
+(5, 5, 'Sacar a Tom', '2024-05-26', '10:10:00', 'Sacar a Tom a pasear al menos 20 minutos', '10 minutos antes', 'Casa', 20, NULL),
+(5, 5, 'Acompañar a Alberto a casa de María', '2024-05-26', '12:00:00', '', '1 hora antes', 'Casa', 45, NULL),
+(5, 5, 'Deberes Mates', '2024-05-27', '09:00:00', 'Ejercicios 2, 3, 5 y 6 del cuaderno', 'Desde 2 días antes', 'Escolar', 90, 1),
+(5, 5, 'Deberes Historia', '2024-05-28', '11:00:00', 'Estudiar "El descubimiento de América" en 1492', 'Desde 2 días antes', 'Escolar', 60, 3),
+(5, 5, 'Trabajo Ciencias', '2024-05-29', '15:00:00', 'Maqueta de volcán. Hablar con Dani y Gema para organizarse', 'Desde 1 semana antes', 'Escolar', 120, 4),
+(5, 5, 'Cumpleaños Alberto', '2024-05-29', '20:00:00', 'Darle el regalo que tienes en el armario. Segundo cajón a la derecha', '1 día antes', 'Ocio', 10, NULL),
+(5, 5, 'Llevar circular fútbol', '2024-05-30', '18:00:00', 'Circular para ir a Santander a jugar los play-offs', '1 día antes', 'Extraescolar', 5, NULL);
 
 -- Evento
 
@@ -336,24 +336,24 @@ INSERT INTO reminder (id_receiver, id_activity, message, sent_date) VALUES
 (4, 16, 'Mañana termina el plazo para la tarea "Tarea 4"¡A por ello, tú puedes!', '2024-04-14 08:00:00'),
 (4, 16, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Tarea 4"', '2024-04-13 08:00:00'),
 
-(5, 17, '¡Solo quedan 10 minutos para la tarea "Preparar desayuno"! ¡No te distraigas!', '2024-05-12 09:05:00'),
-(5, 18, '¡Solo quedan 10 minutos para la tarea "Ducharse"! ¡No te distraigas!', '2024-05-12 09:30:00'),
-(5, 19, '¡Solo quedan 10 minutos para la tarea "Lavarse los dientes"! ¡No te distraigas!', '2024-05-12 09:45:00'),
-(5, 20, '¡Solo quedan 10 minutos para la tarea "Sacar a Tom"! ¡No te distraigas!', '2024-05-12 10:00:00'),
-(5, 21, '¡Recuerda que en 1 hora tienes la tarea "Acompañar a Alberto a casa de María"! ¡No lo olvides!', '2024-05-12 11:00:00'),
-(5, 22, 'Mañana termina el plazo para la tarea "Deberes Mates"¡A por ello, tú puedes!', '2024-05-12 09:00:00'),
-(5, 22, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Deberes Mates"', '2024-05-11 09:00:00'),
-(5, 22, 'Mañana termina el plazo para la tarea "Deberes Historia"¡A por ello, tú puedes!', '2024-05-13 11:00:00'),
-(5, 22, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Deberes Historia"', '2024-05-12 11:00:00'),
-(5, 23, 'Mañana termina el plazo para la tarea "Trabajo Ciencias"¡A por ello, tú puedes!', '2024-05-14 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Trabajo Ciencias"', '2024-05-13 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 3 días para terminar la tarea "Trabajo Ciencias"', '2024-05-12 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 4 días para terminar la tarea "Trabajo Ciencias"', '2024-05-11 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 5 días para terminar la tarea "Trabajo Ciencias"', '2024-05-10 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 6 días para terminar la tarea "Trabajo Ciencias"', '2024-05-09 15:00:00'),
-(5, 23, '¡Ánimo! Aún te quedan 7 días para terminar la tarea "Trabajo Ciencias"', '2024-05-08 15:00:00'),
-(5, 24, 'Mañana termina el plazo para la tarea "Cumpleaños Alberto"¡A por ello, tú puedes!', '2024-05-14 20:00:00'),
-(5, 25, 'Mañana termina el plazo para la tarea "Llevar circular fútbol"¡A por ello, tú puedes!', '2024-05-15 18:00:00');
+(5, 17, '¡Solo quedan 10 minutos para la tarea "Preparar desayuno"! ¡No te distraigas!', '2024-05-26 09:05:00'),
+(5, 18, '¡Solo quedan 10 minutos para la tarea "Ducharse"! ¡No te distraigas!', '2024-05-26 09:30:00'),
+(5, 19, '¡Solo quedan 10 minutos para la tarea "Lavarse los dientes"! ¡No te distraigas!', '2024-05-26 09:45:00'),
+(5, 20, '¡Solo quedan 10 minutos para la tarea "Sacar a Tom"! ¡No te distraigas!', '2024-05-26 10:00:00'),
+(5, 21, '¡Recuerda que en 1 hora tienes la tarea "Acompañar a Alberto a casa de María"! ¡No lo olvides!', '2024-05-26 11:00:00'),
+(5, 22, 'Mañana termina el plazo para la tarea "Deberes Mates"¡A por ello, tú puedes!', '2024-05-26 09:00:00'),
+(5, 22, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Deberes Mates"', '2024-05-25 09:00:00'),
+(5, 22, 'Mañana termina el plazo para la tarea "Deberes Historia"¡A por ello, tú puedes!', '2024-05-27 11:00:00'),
+(5, 22, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Deberes Historia"', '2024-05-26 11:00:00'),
+(5, 23, 'Mañana termina el plazo para la tarea "Trabajo Ciencias"¡A por ello, tú puedes!', '2024-05-28 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 2 días para terminar la tarea "Trabajo Ciencias"', '2024-05-27 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 3 días para terminar la tarea "Trabajo Ciencias"', '2024-05-26 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 4 días para terminar la tarea "Trabajo Ciencias"', '2024-05-25 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 5 días para terminar la tarea "Trabajo Ciencias"', '2024-05-24 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 6 días para terminar la tarea "Trabajo Ciencias"', '2024-05-23 15:00:00'),
+(5, 23, '¡Ánimo! Aún te quedan 7 días para terminar la tarea "Trabajo Ciencias"', '2024-05-22 15:00:00'),
+(5, 24, 'Mañana termina el plazo para la tarea "Cumpleaños Alberto"¡A por ello, tú puedes!', '2024-05-28 20:00:00'),
+(5, 25, 'Mañana termina el plazo para la tarea "Llevar circular fútbol"¡A por ello, tú puedes!', '2024-05-29 18:00:00');
 
 -- ------ Añadir fotos ------
 

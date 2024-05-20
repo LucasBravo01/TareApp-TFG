@@ -43,41 +43,45 @@ class ControllerStudySession {
     createStudySession(req, res, next) {
         const errors = validationResult(req);
         if(errors.isEmpty()) {
-
-            if(req.body.longBrakeSlot !== null && req.body.numLongSlots === null) {
-                errorHandler.manageAJAXError(1, next);
+            if(req.body.longBreakSlot != 0 && req.body.numLongSlots == 0) {
+                errorHandler.manageAJAXError(20, next);
             }
             else {
-                if(req.body.numLongSlots !== "" && req.body.longBrakeSlot < 1) {
+                if(req.body.numLongSlots != 0 && req.body.longBreakSlot < 1) {
                     errorHandler.manageAJAXError(19, next);
                 }
                 else {
-                    let studySession = {
-                        name: req.body.name,
-                        idUser: req.session.currentUser.id,
-                        studySlot: req.body.studySlot,
-                        breakSlot: req.body.breakSlot,
-                        longBrakeSlot: req.body.longBrakeSlot,
-                        numSlots: req.body.numSlots,
-                        numLongSlots: req.body.numLongSlots
+                    if(req.body.numLongSlots >= req.body.numSlots) {
+                        errorHandler.manageAJAXError(21, next);
                     }
-        
-                    this.daoStu.insertStudySession(studySession, (error) => {
-                        if (error) {
-                            errorHandler.manageAJAXError(error, next);
-                        } else {
-                            next({
-                                ajax: true,
-                                error: false,
-                                img: false,
-                                data: {
-                                    code: 200,
-                                    title: "Sesión de estudio creada con éxito.",
-                                    message: "Enhorabuena se ha creado correctamente la sesión de estudio."
-                                }
-                            });
+                    else{
+                        let studySession = {
+                            name: req.body.name,
+                            idUser: req.session.currentUser.id,
+                            studySlot: req.body.studySlot,
+                            breakSlot: req.body.breakSlot,
+                            longBreakSlot: req.body.longBreakSlot,
+                            numSlots: req.body.numSlots,
+                            numLongSlots: req.body.numLongSlots
                         }
-                    });
+            
+                        this.daoStu.insertStudySession(studySession, (error) => {
+                            if (error) {
+                                errorHandler.manageAJAXError(error, next);
+                            } else {
+                                next({
+                                    ajax: true,
+                                    error: false,
+                                    img: false,
+                                    data: {
+                                        code: 200,
+                                        title: "Sesión de estudio creada con éxito.",
+                                        message: "Enhorabuena se ha creado correctamente la sesión de estudio."
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             }
         }

@@ -56,7 +56,7 @@
                                 <span><strong>Tiempo de estudio:</strong> <%= s.studySlot %> minutos</span>
                                 <span><strong>Tiempo de descanso:</strong> <%= s.breakSlot %> minutos</span>
                                 <span><strong>Número de periodos de estudio:</strong> <%= s.numSlots %> periodos</span>
-                                <span><strong>Tiempo de descanso largo:</strong> <%= s.longBrakeSlot %> minutos</span>
+                                <span><strong>Tiempo de descanso largo:</strong> <%= s.longBreakSlot %> minutos</span>
                                 <span><strong>Número de periodos para realizar un descanso largo:</strong> <%= s.numLongSlots %> periodos</span>
                                 <div class="mt-2 d-flex justify-content-center">
                                     <button type="button" class="button main-button button-startStudySession" data-studysession="<%= JSON.stringify(s) %>">Iniciar sesión de estudio</button>
@@ -94,25 +94,29 @@
                 <!--TIEMPO DE ESTUDIO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-study-slot">Duración periodo de estudio (minutos) <span class="text-danger"> *</span></label>
-                    <input id="input-study-slot" name="study-slot" type="number" min="1" max="90" step="5" class="form-control">
+                    <input id="input-study-slot" name="study-slot" type="number" min="1" max="90" step="1" class="form-control">
                 </div>
 
                 <!--TIEMPO DE DESCANSO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-break-slot">Duración periodo de descanso (minutos) <span class="text-danger"> *</span></label>
-                    <input id="input-break-slot" name="break-slot" type="number" min="1" max="90" step="5" class="form-control">
+                    <input id="input-break-slot" name="break-slot" type="number" min="1" max="90" step="1" class="form-control">
                 </div>
                     
                 <!--TIEMPO DE DESCANSO LARGO-->
                 <div class="col-lg-4 col-md-6 col-sm-6 col-10 text-center mt-3 d-flex flex-column justify-content-end align-items-center">
                     <label for="input-long-break-slot">Duración periodo descanso largo (minutos)</label>
-                    <input id="input-long-break-slot" name="long-break-slot" type="number" min="0" max="90" step="5" class="form-control">
+                    <input id="input-long-break-slot" name="long-break-slot" type="number" min="0" max="90" step="1" class="form-control">
                 </div>
             </div>
 
             <div class="row justify-content-center mt-3 mb-3">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-10 text-center mt-3 me-3">
                     <button id="button-sb-create-study-session" type="submit" class="button main-button">Iniciar y guardar sesión de estudio</button>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-sm-6 col-10 text-center mt-3 me-3">
+                    <button id="button-sb-start-study-session" type="" class="button main-button">Iniciar sesión de estudio sin guardar</button>
                 </div>
             </div>
         </form>    
